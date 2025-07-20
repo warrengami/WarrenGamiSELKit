@@ -2,6 +2,7 @@
   "name": "secure-toolkit-platform",
   "version": "1.0.0",
   "description": "A secure, code-based platform with no logins.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "generate-hash": "node utils/hash-generator.js"
