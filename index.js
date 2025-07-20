@@ -1,28 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WarrenGami SEL Toolkit - Access</title>
-    <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-    <div class="container">
-        <h1>WarrenGami SEL Toolkit</h1>
-        <p>Please enter the access code provided to your school.</p>
+// File: /index.js
 
-        <!-- The form that your auth.js script looks for -->
-        <form id="access-form">
-            <input type="text" id="access-code" placeholder="Enter access code" required>
-            
-            <!-- The error message will appear here -->
-            <div id="error-message"></div>
+const express = require('express');
+const path = require('path');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
-            <button type="submit">Unlock Toolkit</button>
-        </form>
-    </div>
+const app = express();
+const PORT = 3000;
 
-    <!-- This script makes the form work -->
-    <script src="auth.js"></script>
-</body>
-</html>
+// Hashed version of "WARRENGAMI2025"
+const ACCESS_CODE_HASH = '$2b$10$w.a9.yR7G0kY2J3p7dC9Auv2eYmI7jU9k.g3x.v8B.T1f.L6o.C5m';
+const JWT_SECRET = 'your_super_secret_and_long_random_string_for_security';
+
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public'))); // Serve files from 'public'
+
+app.post('/api/verify-code', async (req, res) => {
+    const { accessCode } = req.body;
+    if (!accessCode) {
+        return res.status(400).json({ message: 'Access code is required.' });
+    }
+    try {
+        const isMatch = await bcrypt.compare(accessCode, ACCESS_CODE_HASH);
+        if (isMatch) {
+            const token = jwt.sign({ user: 'WarrenGamiSchool', tier: 'Premium' }, JWT_SECRET, { expiresIn: '1h' });
+            res.status(200).json({ token });
+        } else {
+            res.status(401).json({ message: 'Invalid access code.' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Server error.' });
+    }
+});
+
+// For Vercel, we export the app instead of listening on a port
+module.exports = app;
