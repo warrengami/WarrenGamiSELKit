@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WarrenGami SEL - Teacher Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight-blue: #0f2c4d;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --white: #ffffff;
+            --soft-gray: #f7f9fc;
+            --border-color: #e0e6ed;
+            --tag-awareness: #ffc107;
+            --tag-management: #28a745;
+            --tag-social: #17a2b8;
+            --tag-relationship: #fd7e14;
+            --tag-decision: #6f42c1;
+        }
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            background-color: var(--soft-gray);
+            color: #333;
+            margin: 0;
+            padding: 2em;
+        }
+        main.container {
+            max-width: 1100px;
+            margin: auto;
+            background-color: var(--white);
+            padding: 2em 3em;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 4px solid var(--ice-blue);
+        }
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            font-size: 3em;
+            margin: 0;
+            font-weight: 700;
+        }
+        .header p {
+            font-size: 1.2em;
+            color: var(--sky-blue);
+            margin: 5px 0 0 0;
+            font-style: italic;
+        }
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            border-bottom: 2px solid var(--ice-blue);
+            padding-bottom: 10px;
+            margin-top: 40px;
+            font-size: 1.8em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        h3.resource-group-title {
+            font-family: 'Poppins', sans-serif;
+            color: var(--sky-blue);
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            padding-left: 5px;
+            border-bottom: 1px solid var(--ice-blue);
+        }
+
+        /* --- Quick Start Section --- */
+        .quick-start {
+            background-color: var(--soft-gray);
+            border: 1px dashed var(--sky-blue);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 40px;
+        }
+        .quick-start h2 {
+            margin-top: 0;
+            border: none;
+        }
+        .quick-start-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .quick-start-grid a {
+            text-decoration: none;
+            color: var(--white);
+            font-size: 1.2em;
+            font-weight: bold;
+            background-color: var(--sky-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(115, 189, 245, 0.4);
+        }
+        .quick-start-grid a:hover, .quick-start-grid a:focus {
+            background-color: var(--midnight-blue);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(15, 44, 77, 0.3);
+        }
+        .quick-start-grid .icon {
+            margin-right: 10px;
+            filter: brightness(0) invert(1);
+        }
+        
+        /* --- Search Bar --- */
+        .search-bar-wrapper {
+            position: relative;
+            width: 250px;
+        }
+        .search-bar {
+            width: 100%;
+            padding: 8px 12px;
+            padding-right: 30px; /* Space for clear button */
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-size: 0.9em;
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            box-sizing: border-box;
+        }
+        #clear-search {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+            font-weight: bold;
+            display: none; /* Hidden by default */
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        
+        .resource-list {
+            list-style: none;
+            padding: 0;
+        }
+        .resource-list li {
+            margin-bottom: 15px;
+        }
+        .resource-list a {
+            text-decoration: none;
+            color: var(--midnight-blue);
+            font-size: 1.1em;
+            background-color: var(--white);
+            display: flex;
+            align-items: center;
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+            overflow: hidden;
+            position: relative;
+        }
+        /* ACCESSIBILITY: Added :focus */
+        .resource-list a:hover, .resource-list a:focus {
+            background-color: var(--ice-blue);
+            border-color: var(--sky-blue);
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 15px rgba(0, 43, 92, 0.1);
+        }
+
+        .icon {
+            margin-right: 15px;
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            opacity: 0.7;
+        }
+        
+        .link-content { flex-grow: 1; }
+        .link-text { font-weight: bold; }
+        
+        /* --- SEL Tag Styling --- */
+        .sel-tag {
+            display: inline-block;
+            font-size: 0.75em;
+            font-weight: bold;
+            color: var(--midnight-blue);
+            padding: 3px 8px;
+            border-radius: 12px;
+            margin-left: 8px;
+            vertical-align: middle;
+            cursor: pointer; /* INTERACTIVITY: Make tags look clickable */
+            transition: transform 0.2s ease;
+        }
+        .sel-tag:hover, .sel-tag:focus {
+            transform: scale(1.1);
+        }
+        .sel-tag.self-awareness { background-color: var(--tag-awareness); }
+        .sel-tag.self-management { background-color: var(--tag-management); color: white;}
+        .sel-tag.social-awareness { background-color: var(--tag-social); color: white;}
+        .sel-tag.relationship-skills { background-color: var(--tag-relationship); color: white;}
+        .sel-tag.responsible-decision-making { background-color: var(--tag-decision); color: white;}
+
+
+        .description {
+            display: block;
+            font-size: 0.9em;
+            font-weight: normal;
+            margin-top: 4px;
+            color: #1b4a7e;
+            font-style: italic;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease-in;
+        }
+        /* ACCESSIBILITY: Added :focus */
+        .resource-list a:hover .description, .resource-list a:focus .description {
+            max-height: 5em;
+            opacity: 1;
+        }
+
+        #no-results-message {
+            display: none; /* Hidden by default */
+            text-align: center;
+            margin-top: 20px;
+            color: #777;
+            font-style: italic;
+        }
+
+        @media (max-width: 800px) {
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+            body { padding: 1em; }
+            main.container { padding: 1.5em; }
+            h2 { flex-direction: column; align-items: flex-start; }
+            .search-bar-wrapper { width: 100%; margin-top: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <header class="header">
+            <h1>Teacher Dashboard</h1>
+            <p>WarrenGami SEL: Where Play Meets Emotional Growth</p>
+        </header>
+
+        <section class="quick-start">
+            <h2>Quick Start</h2>
+            <div class="quick-start-grid">
+                <a href="Page 2 - Welcome to Your Interactive SEL Toolkit.html"><span class="icon">👋</span> Get Started with the Toolkit</a>
+                <a href="Emotions & Feelings Dice.html"><span class="icon">🖨️</span> Print Emotions Dice</a>
+                <a href="Blank Dice.html"><span class="icon">✍️</span> Create a Blank Dice</a>
+            </div>
+        </section>
+
+        <div class="resources-grid">
+            <section class="resource-section">
+                <h2>Toolkit Guide</h2>
+                <ul class="resource-list">
+                    <!-- Toolkit Guide items remain the same, but now with clickable tags -->
+                    <li><a href="Page 1 - Cover.html"><span class="icon">📖</span><div class="link-content"><span class="link-text">Page 1: Cover</span><div class="description">The front cover of the SEL Toolkit.</div></div></a></li>
+                    <li><a href="Page 2 - Welcome to Your Interactive SEL Toolkit.html"><span class="icon">👋</span><div class="link-content"><span class="link-text">Page 2: Welcome</span><div class="description">An introduction to the toolkit and SEL principles.</div></div></a></li>
+                    <li><a href="Page 3 - Discussion Dice How They Work.html"><span class="icon">🎲</span><div class="link-content"><span class="link-text">Page 3: How Dice Work</span><div class="description">Instructions and ideas for using the discussion dice.</div></div></a></li>
+                    <li><a href="Page 4 - Emotion Exploration Dice.html"><span class="icon">😊</span><div class="link-content"><span class="link-text">Page 4: Emotion Exploration</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Using dice to identify and understand emotions.</div></div></a></li>
+                    <li><a href="Page 5 - Social Scenarios Dice.html"><span class="icon">🤝</span><div class="link-content"><span class="link-text">Page 5: Social Scenarios</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Navigating social situations with dice prompts.</div></div></a></li>
+                    <li><a href="Page 6 - Family Connection Activities.html"><span class="icon">🏠</span><div class="link-content"><span class="link-text">Page 6: Family Connection</span><span class="sel-tag relationship-skills" data-tag="Relationship Skills">Relationship Skills</span><div class="description">Activities to involve families in the SEL process.</div></div></a></li>
+                    <li><a href="Page 7 - Assessment & Reflection Tools.html"><span class="icon">📊</span><div class="link-content"><span class="link-text">Page 7: Assessment & Reflection</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Tools for gauging progress and encouraging self-reflection.</div></div></a></li>
+                    <li><a href="Page 8 - Advanced SEL Concepts.html"><span class="icon">🧠</span><div class="link-content"><span class="link-text">Page 8: Advanced Concepts</span><div class="description">Exploring deeper SEL topics for older learners.</div></div></a></li>
+                    <li><a href="Page 9 - Integrating SEL Across the Curriculum.html"><span class="icon">📚</span><div class="link-content"><span class="link-text">Page 9: Curriculum Integration</span><div class="description">Tips for weaving SEL into academic subjects.</div></div></a></li>
+                    <li><a href="Page 10 - Digital Resources & Extensions.html"><span class="icon">💻</span><div class="link-content"><span class="link-text">Page 10: Digital Resources</span><div class="description">Links to supplementary online tools and apps.</div></div></a></li>
+                    <li><a href="Page 11 - Glossary & Index.html"><span class="icon">🔍</span><div class="link-content"><span class="link-text">Page 11: Glossary & Index</span><div class="description">Definitions of key terms and an index for easy navigation.</div></div></a></li>
+                </ul>
+            </section>
+            
+            <section class="resource-section">
+                <h2>
+                    <span>Printable Dice & Cards</span>
+                    <div class="search-bar-wrapper">
+                        <input type="text" id="resource-search" class="search-bar" placeholder="Filter printables...">
+                        <span id="clear-search">X</span>
+                    </div>
+                </h2>
+                <ul class="resource-list" id="printable-list">
+                    <!-- RESTRUCTURED: Grouped printables -->
+                    <h3 class="resource-group-title">Dice</h3>
+                    <li><a href="Emotions & Feelings Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Emotions & Feelings Dice</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Printable dice to identify and discuss emotions.</div></div></a></li>
+                    <li><a href="Empathy & Kindness Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Empathy & Kindness Dice</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Dice prompts about understanding others and showing kindness.</div></div></a></li>
+                    <li><a href="Friendship & Social Skills Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Friendship & Social Skills</span><span class="sel-tag relationship-skills" data-tag="Relationship Skills">Relationship Skills</span><div class="description">Prompts about making and being a good friend.</div></div></a></li>
+                    <li><a href="Coping Strategies Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Coping Strategies Dice</span><span class="sel-tag self-management" data-tag="Self-Management">Self-Management</span><div class="description">Dice with healthy strategies for managing stress.</div></div></a></li>
+                    <li><a href="Problem Solving Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Problem Solving Dice</span><span class="sel-tag responsible-decision-making" data-tag="Decision-Making">Decision-Making</span><div class="description">A tool to practice breaking down problems.</div></div></a></li>
+                    <li><a href="Self-Awareness Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Self-Awareness Dice</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Prompts to encourage introspection.</div></div></a></li>
+                    
+                    <h3 class="resource-group-title">Scenario Cards</h3>
+                    <li><a href="Scenario Card Instructions.html"><span class="icon">📄</span><div class="link-content"><span class="link-text">Scenario Card Instructions</span><div class="description">How-to guide for the printable scenario cards.</div></div></a></li>
+                    <li><a href="Scenario Cards 1.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (1-6)</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Printable cards with social scenarios 1 through 6.</div></div></a></li>
+                    <li><a href="Scenario Cards 2.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (7-12)</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Printable cards with social scenarios 7 through 12.</div></div></a></li>
+                    <li><a href="Scenario Cards 3.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (13-18)</span><span class="sel-tag relationship-skills" data-tag="Relationship Skills">Relationship Skills</span><div class="description">Printable cards with social scenarios 13 through 18.</div></div></a></li>
+                    <li><a href="Scenario Cards 4.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (19-24)</span><span class="sel-tag responsible-decision-making" data-tag="Decision-Making">Decision-Making</span><div class="description">Printable cards with social scenarios 19 through 24.</div></div></a></li>
+                    <li><a href="Scenario Cards 5.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (25-30)</span><span class="sel-tag self-management" data-tag="Self-Management">Self-Management</span><div class="description">Printable cards with social scenarios 25 through 30.</div></div></a></li>
+
+                    <h3 class="resource-group-title">Templates</h3>
+                    <li><a href="Blank Dice.html"><span class="icon">✍️</span><div class="link-content"><span class="link-text">Blank Dice Template</span><div class="description">A customizable template to create your own prompts.</div></div></a></li>
+                    <li><a href="Blank Scenario Cards.html"><span class="icon">✍️</span><div class="link-content"><span class="link-text">Blank Scenario Cards</span><div class="description">Create your own situations with these blank templates.</div></div></a></li>
+                    
+                    <!-- NEW: Message for when no results are found -->
+                    <li id="no-results-message"><p>No printables found matching your search.</p></li>
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <!-- BEST PRACTICE: Link to external JS file -->
+    <script src="dashboard.js"></script>
+</body>
+</html>

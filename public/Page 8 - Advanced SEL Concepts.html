@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>WarrenGami SEL Toolkit - Page 8: Advanced SEL Concepts (Interactive)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --midnight-blue: #002b5c;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --soft-gray: #e0e6ed;
+            --white: #ffffff;
+            /* --- Nav Bar Colors --- */
+            --nav-bg: #f8f9fa;
+            --nav-border: #dee2e6;
+            --nav-text: #212529;
+            --nav-primary-bg: #002b5c;
+            --nav-primary-hover: #00408a;
+            --nav-secondary-text: #002b5c;
+            --nav-secondary-hover: #73bdf5;
+            --nav-shadow: rgba(0, 0, 0, 0.1);
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            line-height: 1.4;
+            color: var(--midnight-blue);
+            background-color: #f0f4f8;
+            font-size: 12px;
+            padding-bottom: 80px; /* Space for new nav bar */
+        }
+        .page-container {
+            width: 148mm;
+            min-height: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--white);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .page-content {
+            flex: 1 0 auto;
+            padding: 10mm;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--sky-blue);
+            padding-bottom: 3px;
+            margin-top: 15px;
+            margin-bottom: 12px;
+        }
+        h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            margin: 0 0 10px 0;
+        }
+        h2 { font-size: 16px; color: var(--midnight-blue); margin: 0; }
+        h3 { font-size: 14px; }
+        h4 { font-size: 13px; }
+        p { font-size: 11px; margin: 0 0 10px 0; }
+
+        #dilemma-generator {
+            background-color: var(--soft-gray);
+            border-radius: 5px; padding: 12px; margin: 12px 0;
+        }
+        #dilemma-display {
+            background-color: var(--white); border-radius: 5px;
+            border: 2px solid var(--sky-blue); padding: 10px;
+            min-height: 40px; font-size: 11px;
+        }
+        #new-dilemma-btn {
+            display: block; width: 100%;
+            background-color: var(--midnight-blue); color: var(--white);
+            font-family: 'Poppins', sans-serif; font-size: 13px;
+            border: none; padding: 8px 12px; border-radius: 5px;
+            cursor: pointer; transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        #new-dilemma-btn:hover { background-color: var(--sky-blue); }
+
+        .analysis-framework {
+            background-color: transparent; padding: 0; margin: 12px 0;
+        }
+        .analysis-step {
+            border: 1px solid var(--soft-gray);
+            border-radius: 4px; margin-bottom: 5px; overflow: hidden;
+        }
+        .analysis-header {
+            background-color: var(--ice-blue); padding: 8px;
+            cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .analysis-header:hover { background-color: #bde0ff; }
+        .analysis-header:focus-visible { outline: 2px solid var(--midnight-blue); outline-offset: -1px; }
+        .analysis-header h4 { margin: 0; font-size: 12px; }
+        .analysis-header .toggle-icon { transition: transform 0.3s; }
+        
+        .analysis-content {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding: 0 12px; background-color: #f8fafd;
+        }
+        .analysis-step.active .analysis-header {
+            background-color: var(--midnight-blue); color: var(--white);
+        }
+        .analysis-step.active .analysis-content {
+            max-height: 300px; padding: 12px;
+        }
+        .analysis-step.active .toggle-icon { transform: rotate(180deg); }
+        
+        .values-checklist {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+        }
+        .values-checklist label {
+            font-size: 11px; display: flex; align-items: center;
+            cursor: pointer; padding: 2px;
+        }
+        .analysis-content textarea {
+            width: 100%; min-height: 50px; font-size: 11px; padding: 5px;
+            border-radius: 3px; border: 1px solid var(--soft-gray);
+            resize: vertical; box-sizing: border-box;
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+        }
+
+        .teacher-tip {
+            background-color: var(--soft-gray); border-radius: 5px;
+            padding: 0; margin: 12px 0; border-left: 3px solid var(--sky-blue);
+            transition: background-color 0.3s;
+        }
+        .teacher-tip.open { background-color: #d4dde6; }
+        .teacher-tip h4 {
+            margin: 0; padding: 10px; display: flex; align-items: center;
+            font-size: 12px; cursor: pointer; border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .teacher-tip h4:hover { background-color: var(--ice-blue); }
+        .teacher-tip h4:focus-visible { outline: 2px solid var(--midnight-blue); outline-offset: -1px; }
+        .teacher-tip h4:before { content: "★"; margin-right: 5px; }
+        .teacher-tip .tip-content {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding: 0 10px;
+        }
+        .teacher-tip.open .tip-content { max-height: 100px; padding: 0 10px 10px 10px; }
+        .teacher-tip h4 .toggle-icon { margin-left: auto; transition: transform 0.4s; }
+        .teacher-tip.open .toggle-icon { transform: rotate(180deg); }
+
+        .affirmation {
+            background-color: var(--sky-blue); color: var(--white);
+            padding: 10px; border-radius: 5px; margin: 12px 0;
+            font-style: italic; position: relative; font-size: 11px;
+        }
+        .affirmation:before {
+            content: '"'; font-size: 30px; position: absolute;
+            top: -10px; left: 5px; color: rgba(255,255,255,0.3);
+            font-family: serif;
+        }
+
+        .print-button {
+            background-color: var(--soft-gray); border: 1px solid var(--ice-blue);
+            color: var(--midnight-blue); padding: 5px 10px; border-radius: 15px;
+            cursor: pointer; font-size: 11px; font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .print-button:hover { background-color: var(--sky-blue); color: var(--white); }
+
+        .footer {
+            flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;
+            font-size: 9px; color: var(--midnight-blue);
+            border-top: 1px solid var(--soft-gray); padding: 10px;
+        }
+        .footer-logo { height: 12px; }
+        .page-number { font-family: 'Poppins', sans-serif; }
+        .footer-tagline { font-style: italic; color: var(--sky-blue); }
+
+        /* --- NEW NAVIGATION BAR STYLES --- */
+        .toolkit-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--nav-bg); display: flex;
+            justify-content: space-between; align-items: center;
+            padding: 0.75rem 1rem; box-shadow: 0 -2px 10px var(--nav-shadow);
+            border-top: 1px solid var(--nav-border); z-index: 1000; box-sizing: border-box;
+        }
+        .toolkit-nav a {
+            font-family: 'Poppins', sans-serif; text-decoration: none;
+            border-radius: 8px; transition: all 0.2s ease-in-out;
+            display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
+        }
+        .nav-button {
+            background-color: var(--nav-primary-bg); color: #ffffff; padding: 0.6rem 1rem;
+        }
+        .nav-button:hover, .nav-button:focus-visible {
+            background-color: var(--nav-primary-hover); transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--nav-shadow);
+        }
+        .nav-home-link {
+            color: var(--nav-secondary-text); font-size: 1rem; gap: 0.5rem;
+        }
+        .nav-home-link:hover, .nav-home-link:focus-visible {
+            color: var(--nav-secondary-hover); text-decoration: underline;
+        }
+        .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
+
+        @media print {
+            body { background-color: transparent; padding-bottom: 0 !important; }
+            .page-container { box-shadow: none; }
+            .toolkit-nav, .print-button, #new-dilemma-btn { display: none !important; }
+            .analysis-step .analysis-header, .teacher-tip h4 { cursor: default; }
+            .analysis-step.active .analysis-content, .analysis-content { max-height: none !important; padding: 12px !important; }
+            .teacher-tip.open .tip-content, .teacher-tip .tip-content { max-height: none !important; padding-top: 8px !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <main class="page-content">
+            <div class="page-header">
+                <h2>Advanced SEL Concepts</h2>
+                <button class="print-button" onclick="window.print()">🖨️ Print Page</button>
+            </div>
+            <p>For older students (Grades 6-8) or groups ready for deeper exploration into complex social and ethical situations.</p>
+
+            <section id="dilemma-generator">
+                <h3>Ethical Dilemma Generator</h3>
+                <div id="dilemma-display" aria-live="polite" aria-atomic="true"></div>
+                <button id="new-dilemma-btn" onclick="displayRandomDilemma()">Get a New Dilemma</button>
+            </section>
+
+            <section>
+                <h3>Ethical Analysis Framework</h3>
+                <div class="analysis-framework">
+                    <div class="analysis-step">
+                        <div class="analysis-header" onclick="toggleStep(this)" onkeydown="handleStepKeydown(event)" role="button" tabindex="0" aria-expanded="false" aria-controls="step1-content">
+                            <h4>1. Who is involved (stakeholders)?</h4><span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="analysis-content" id="step1-content">
+                            <textarea placeholder="List every person or group affected by this choice..."></textarea>
+                        </div>
+                    </div>
+                    <div class="analysis-step">
+                        <div class="analysis-header" onclick="toggleStep(this)" onkeydown="handleStepKeydown(event)" role="button" tabindex="0" aria-expanded="false" aria-controls="step2-content">
+                            <h4>2. What values are in conflict?</h4><span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="analysis-content" id="step2-content">
+                            <div class="values-checklist">
+                                <label><input type="checkbox"> Honesty</label>
+                                <label><input type="checkbox"> Loyalty</label>
+                                <label><input type="checkbox"> Fairness</label>
+                                <label><input type="checkbox"> Kindness</label>
+                                <label><input type="checkbox"> Safety</label>
+                                <label><input type="checkbox"> Responsibility</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="analysis-step">
+                        <div class="analysis-header" onclick="toggleStep(this)" onkeydown="handleStepKeydown(event)" role="button" tabindex="0" aria-expanded="false" aria-controls="step3-content">
+                            <h4>3. Brainstorm actions and outcomes</h4><span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="analysis-content" id="step3-content">
+                            <textarea placeholder="List at least two possible actions. For each one, what is a likely positive and negative outcome?"></textarea>
+                        </div>
+                    </div>
+                    <div class="analysis-step">
+                        <div class="analysis-header" onclick="toggleStep(this)" onkeydown="handleStepKeydown(event)" role="button" tabindex="0" aria-expanded="false" aria-controls="step4-content">
+                            <h4>4. Make a choice and justify it</h4><span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="analysis-content" id="step4-content">
+                            <textarea placeholder="Based on your analysis, what is the most responsible choice? Explain why, considering the stakeholders and values."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="teacher-tip">
+                <h4 onclick="toggleTip(this)" onkeydown="handleTipKeydown(event)" role="button" tabindex="0" aria-expanded="false" aria-controls="tip-content">Facilitation Tip <span class="toggle-icon">▼</span></h4>
+                <div class="tip-content" id="tip-content">
+                    <p>With advanced topics, focus on the thinking process, not just the "right" answer. Use phrases like, "What makes this a difficult choice?" and "What values are at play here?"</p>
+                </div>
+            </div>
+
+            <div class="affirmation">
+                "Integrity is doing the right thing, even when no one is watching."
+            </div>
+        </main>
+
+        <footer class="footer">
+            <span class="footer-tagline">Where Play Meets Emotional Growth</span>
+            <span class="page-number">8</span>
+            <img class="footer-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'><text x='0' y='15' font-family='Poppins' font-size='12' fill='%23002b5c'>WarrenGami</text></svg>"/>
+        </footer>
+    </div>
+    
+    <nav class="toolkit-nav" aria-label="Toolkit Paging">
+        <a href="Page 7 - Assessment & Reflection Tools.html" class="nav-button" aria-label="Go to Previous Page">⬅️ Previous</a>
+        <a href="(Table of Contents).html" class="nav-home-link" aria-label="Go to Table of Contents">
+            <span aria-hidden="true">🏠</span>
+            <span>Teacher Dashboard</span>
+        </a>
+        <a href="Page 9 - Integrating SEL Across the Curriculum.html" class="nav-button" aria-label="Go to Next Page">Next ➡️</a>
+    </nav>
+    
+    <script>
+        const dilemmas = [
+            "You see a friend cheating on a test. What are your options and what might happen?",
+            "Someone shares a hurtful online rumor about a classmate. What could you do?",
+            "A friend pressures you to do something you know is wrong. How do you respond?",
+            "You find a wallet full of money on the street. What are the responsible choices?",
+            "Your group of friends starts excluding someone on purpose. What's your role in this situation?",
+            "You hear an adult make a biased or unfair comment. What can you do or say?",
+            "You are the only one who knows your friend broke a school rule. They ask you to keep it a secret. What do you do?"
+        ];
+
+        const dilemmaDisplay = document.getElementById('dilemma-display');
+        const analysisSteps = document.querySelectorAll('.analysis-step');
+
+        function displayRandomDilemma() {
+            const randomIndex = Math.floor(Math.random() * dilemmas.length);
+            dilemmaDisplay.innerText = dilemmas[randomIndex];
+            
+            // Reset the framework
+            document.querySelectorAll('.analysis-content textarea').forEach(area => area.value = '');
+            document.querySelectorAll('.values-checklist input').forEach(box => box.checked = false);
+            analysisSteps.forEach(step => {
+                step.classList.remove('active');
+                step.querySelector('.analysis-header').setAttribute('aria-expanded', 'false');
+            });
+        }
+
+        function toggleStep(headerElement) {
+            const step = headerElement.closest('.analysis-step');
+            const isOpening = step.classList.toggle('active');
+            headerElement.setAttribute('aria-expanded', isOpening);
+        }
+
+        function handleStepKeydown(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleStep(event.currentTarget);
+            }
+        }
+
+        function toggleTip(headerElement) {
+            const tip = headerElement.closest('.teacher-tip');
+            const isOpening = tip.classList.toggle('open');
+            headerElement.setAttribute('aria-expanded', isOpening);
+        }
+
+        function handleTipKeydown(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleTip(event.currentTarget);
+            }
+        }
+
+        window.onload = displayRandomDilemma;
+    </script>
+</body>
+</html>

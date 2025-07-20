@@ -1,23 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WarrenGami SEL Toolkit - Access</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Toolkit</title>
 </head>
 <body>
-  <div class="container">
-    <h2>WarrenGami SEL Toolkit</h2>
-    <p>Please enter the access code provided to your school.</p>
-    <form id="access-form">
-      <input type="text" id="access-code" placeholder="Your School's Code" required>
-      <div id="error-message"></div>
-      <button type="submit">Unlock Toolkit</button>
-    </form>
-  </div>
-  <script src="auth.js"></script>
+    <div id="user-info"></div>
+    <button onclick="logout()">Log out</button>
+    <h1>Welcome to the SEL Toolkit</h1>
+    <ul class="toolkit-list">
+        <li><a href="Page 1 - Cover.html">Cover Page</a></li>
+        <li><a href="Page 2 - Welcome to Your Interactive SEL Toolkit.html">Welcome</a></li>
+    </ul>
+    <script src="auth.js"></script>
 </body>
 </html>

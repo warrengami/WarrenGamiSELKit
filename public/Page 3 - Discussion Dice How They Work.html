@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>WarrenGami SEL Toolkit - Page 3: Discussion Dice (Interactive)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --midnight-blue: #002b5c;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --soft-gray: #e0e6ed;
+            --white: #ffffff;
+            /* --- New Nav Bar Colors --- */
+            --nav-bg: #f8f9fa;
+            --nav-border: #dee2e6;
+            --nav-text: #212529;
+            --nav-primary-bg: #002b5c;
+            --nav-primary-hover: #00408a;
+            --nav-secondary-text: #002b5c;
+            --nav-secondary-hover: #73bdf5;
+            --nav-shadow: rgba(0, 0, 0, 0.1);
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            line-height: 1.4;
+            color: var(--midnight-blue);
+            background-color: #f0f4f8;
+            font-size: 12px;
+            padding-bottom: 80px; /* Space for new nav bar */
+        }
+        .page-container {
+            width: 148mm;
+            min-height: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--white);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .page-content {
+            flex: 1 0 auto;
+            padding: 10mm;
+        }
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--sky-blue);
+            padding-bottom: 3px;
+            margin-top: 15px;
+            margin-bottom: 12px;
+        }
+        h2, h3, h4 {
+            font-family: 'Poppins', sans-serif;
+            margin: 0 0 10px 0;
+        }
+        h2 {
+            font-size: 16px;
+            color: var(--midnight-blue);
+            margin: 0;
+        }
+        h3 { font-size: 14px; color: var(--midnight-blue); }
+        h4 { font-size: 13px; color: var(--midnight-blue); }
+        p { margin: 0 0 10px 0; font-size: 11px; }
+        ul, ol { padding-left: 15px; margin: 8px 0; font-size: 11px; }
+        li { margin-bottom: 5px; }
+        .two-column { display: flex; gap: 15px; align-items: flex-start; }
+        .two-column > div { flex: 1; }
+
+        /* --- MODIFICATION START: Interactive Checklist --- */
+        #assembly-checklist { list-style: none; padding-left: 0; }
+        #assembly-checklist li {
+            padding: 6px 8px;
+            border: 1px solid var(--soft-gray);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 30px;
+        }
+        #assembly-checklist li:hover {
+            background-color: var(--ice-blue);
+            border-color: var(--sky-blue);
+        }
+        #assembly-checklist li:before {
+            content: "⬜️";
+            position: absolute;
+            left: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 14px;
+        }
+        #assembly-checklist li.completed {
+            background-color: #f2f8f2;
+            color: #999;
+            text-decoration: line-through;
+            border-color: #d0d0d0;
+        }
+        #assembly-checklist li.completed:before { content: "✅"; }
+        /* --- MODIFICATION END --- */
+
+        /* --- MODIFICATION START: Collapsible Teacher Tip --- */
+        .teacher-tip {
+            background-color: var(--soft-gray);
+            border-radius: 5px;
+            padding: 0; /* Padding moved to h4 and content */
+            margin: 12px 0;
+            border-left: 3px solid var(--sky-blue);
+            transition: background-color 0.3s;
+        }
+        .teacher-tip.open { background-color: #d4dde6; }
+        .teacher-tip h4 {
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .teacher-tip h4:hover { background-color: var(--ice-blue); }
+        .teacher-tip h4:before { content: "★"; margin-right: 5px; }
+        .teacher-tip .tip-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out; padding: 0 10px; }
+        .teacher-tip.open .tip-content { max-height: 100px; padding: 0 10px 10px 10px; }
+        .teacher-tip h4 .toggle-icon { margin-left: auto; transition: transform 0.4s; }
+        .teacher-tip.open .toggle-icon { transform: rotate(180deg); }
+        /* --- MODIFICATION END --- */
+        
+        /* --- MODIFICATION START: Interactive Norm Cards --- */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .scenario-card {
+            background-color: var(--ice-blue);
+            border-radius: 5px;
+            padding: 8px;
+            border: 2px solid var(--ice-blue); /* Use border to show active state */
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.3s;
+        }
+        .scenario-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .scenario-card.active {
+            border-color: var(--midnight-blue); /* Strong border when active */
+            background-color: #e6f4ff;
+        }
+        .scenario-card h4 { margin-top: 0; font-size: 12px; }
+        .scenario-card p {
+            max-height: 0;
+            overflow: hidden;
+            margin-bottom: 0;
+            transition: max-height 0.4s ease-in-out, margin-top 0.4s ease-in-out;
+            margin-top: 0;
+        }
+        .scenario-card.active p { max-height: 100px; margin-top: 5px; }
+        .norm-icon {
+            display: inline-block;
+            width: 15px; height: 15px;
+            background-color: var(--sky-blue); color: var(--white);
+            border-radius: 50%; text-align: center; line-height: 15px;
+            margin-right: 3px; font-size: 9px;
+        }
+        /* --- MODIFICATION END --- */
+
+        /* Footer */
+        .footer {
+            flex-shrink: 0;
+            display: flex; justify-content: space-between; align-items: center;
+            font-size: 9px; color: var(--midnight-blue);
+            border-top: 1px solid var(--soft-gray); padding: 10px;
+        }
+        .footer-logo { height: 12px; }
+        .page-number { font-family: 'Poppins', sans-serif; }
+        .footer-tagline { font-style: italic; color: var(--sky-blue); }
+        
+        .print-button {
+            background-color: var(--soft-gray);
+            border: 1px solid var(--ice-blue);
+            color: var(--midnight-blue);
+            padding: 5px 10px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 11px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .print-button:hover {
+            background-color: var(--sky-blue);
+            color: var(--white);
+        }
+
+        /* --- NEW Navigation Bar Styles --- */
+        .toolkit-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--nav-bg); display: flex;
+            justify-content: space-between; align-items: center;
+            padding: 0.75rem 1rem; box-shadow: 0 -2px 10px var(--nav-shadow);
+            border-top: 1px solid var(--nav-border); z-index: 1000; box-sizing: border-box;
+        }
+        .toolkit-nav a {
+            font-family: 'Poppins', sans-serif; text-decoration: none;
+            border-radius: 8px; transition: all 0.2s ease-in-out;
+            display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
+        }
+        .nav-button {
+            background-color: var(--nav-primary-bg); color: #ffffff; padding: 0.6rem 1rem;
+        }
+        .nav-button:hover, .nav-button:focus-visible {
+            background-color: var(--nav-primary-hover); transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--nav-shadow);
+        }
+        .nav-home-link {
+            color: var(--nav-secondary-text); font-size: 1rem; gap: 0.5rem;
+        }
+        .nav-home-link:hover, .nav-home-link:focus-visible {
+            color: var(--nav-secondary-hover); text-decoration: underline;
+        }
+        .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
+
+
+        /* --- PRINT STYLES --- */
+        @media print {
+            body { background-color: transparent; padding-bottom: 0; }
+            .print-button, .toolkit-nav { display: none !important; }
+            .page-container {
+                width: 100%; min-height: 98vh; box-shadow: none;
+                display: flex; flex-direction: column;
+            }
+            .page-content { flex-grow: 1; padding: 10mm; }
+            .footer { flex-grow: 0; flex-shrink: 0; padding: 10mm; padding-top: 5px; }
+            
+            .teacher-tip .tip-content,
+            .scenario-card p {
+                max-height: none !important; overflow: visible !important;
+                display: block !important; padding-top: 8px !important;
+                margin-top: 5px !important;
+            }
+            #assembly-checklist li:before { content: "☐ "; }
+            #assembly-checklist li.completed:before { content: "☑ "; }
+            .teacher-tip, .scenario-card { page-break-inside: avoid; }
+            .scenario-card:hover { transform: none; box-shadow: none; }
+            .teacher-tip h4 .toggle-icon { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <main class="page-content">
+            <header class="page-header">
+                <h2>Discussion Dice: How They Work</h2>
+                <button class="print-button" onclick="window.print()">🖨️ Print Page</button>
+            </header>
+
+            <section class="two-column">
+                <div>
+                    <h3>Assembly Instructions</h3>
+                    <p style="font-size: 10px; font-style: italic;">Click each step to mark it as complete!</p>
+                    <!-- MODIFICATION: Added role and aria-checked for accessibility -->
+                    <ul id="assembly-checklist">
+                        <li onclick="toggleCheck(this)" role="checkbox" aria-checked="false">Print dice templates on cardstock</li>
+                        <li onclick="toggleCheck(this)" role="checkbox" aria-checked="false">Cut along outer solid lines</li>
+                        <li onclick="toggleCheck(this)" role="checkbox" aria-checked="false">Fold along dotted lines</li>
+                        <li onclick="toggleCheck(this)" role="checkbox" aria-checked="false">Apply glue to tabs</li>
+                        <li onclick="toggleCheck(this)" role="checkbox" aria-checked="false">Press tabs inside to form cube</li>
+                        <li onclick="toggleCheck(this)" role="checkbox"aria-checked="false">Let dry completely before use</li>
+                    </ul>
+                    <!-- MODIFICATION: Added ARIA attributes -->
+                    <div class="teacher-tip">
+                        <h4 onclick="toggleTip(this)" aria-expanded="false" aria-controls="tip-content-1">Durability Tip <span class="toggle-icon">▼</span></h4>
+                        <div class="tip-content" id="tip-content-1">
+                            <p>For longer-lasting dice, laminate the cardstock before folding or cover finished dice with clear packing tape.</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3>Implementation Strategies</h3>
+                    <ul>
+                        <li><strong>Morning Meeting:</strong> Roll one die for whole-group sharing</li>
+                        <li><strong>Small Groups:</strong> Each student rolls different category</li>
+                        <li><strong>Journaling:</strong> Silent reflection on rolled prompt</li>
+                        <li><strong>Exit Ticket:</strong> Respond to prompt before transition</li>
+                    </ul>
+                    <!-- MODIFICATION: Added ARIA attributes -->
+                    <div class="teacher-tip">
+                        <h4 onclick="toggleTip(this)" aria-expanded="false" aria-controls="tip-content-2">Differentiation Tip <span class="toggle-icon">▼</span></h4>
+                        <div class="tip-content" id="tip-content-2">
+                            <p>Have students whisper their answer to you first if they're nervous about sharing. Gradually build to whole-group participation.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h3>Discussion Norms</h3>
+                <p style="font-size: 10px; font-style: italic;">Click on a norm to see the description.</p>
+                <div class="scenario-grid">
+                    <!-- MODIFICATION: Added ARIA attributes and unique IDs -->
+                    <div class="scenario-card" onclick="toggleNorm(this)" aria-expanded="false" aria-controls="norm-desc-1">
+                        <h4><span class="norm-icon">1</span> Respectful Listening</h4>
+                        <p id="norm-desc-1">Eyes on speaker, hands and feet still, no interruptions</p>
+                    </div>
+                    <div class="scenario-card" onclick="toggleNorm(this)" aria-expanded="false" aria-controls="norm-desc-2">
+                        <h4><span class="norm-icon">2</span> Right to Pass</h4>
+                        <p id="norm-desc-2">Students may say "I pass" without explanation</p>
+                    </div>
+                    <div class="scenario-card" onclick="toggleNorm(this)" aria-expanded="false" aria-controls="norm-desc-3">
+                        <h4><span class="norm-icon">3</span> No Put-Downs</h4>
+                        <p id="norm-desc-3">Of self or others - we practice positive language</p>
+                    </div>
+                    <div class="scenario-card" onclick="toggleNorm(this)" aria-expanded="false" aria-controls="norm-desc-4">
+                        <h4><span class="norm-icon">4</span> Share the Air</h4>
+                        <p id="norm-desc-4">Encourage equal participation from all</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <footer class="footer">
+            <span class="footer-tagline">Where Play Meets Emotional Growth</span>
+            <span class="page-number">3</span>
+            <img class="footer-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'><text x='0' y='15' font-family='Poppins' font-size='12' fill='%23002b5c'>WarrenGami</text></svg>"/>
+        </footer>
+    </div>
+    
+    <nav class="toolkit-nav" aria-label="Toolkit Paging">
+        <a href="Page 2 - Welcome to Your Interactive SEL Toolkit.html" class="nav-button" aria-label="Go to Previous Page">⬅️ Previous</a>
+        <a href="(Table of Contents).html" class="nav-home-link" aria-label="Go to Table of Contents">
+            <span aria-hidden="true">🏠</span>
+            <span>Teacher Dashboard</span>
+        </a>
+        <a href="Page 4 - Emotion Exploration Dice.html" class="nav-button" aria-label="Go to Next Page">Next ➡️</a>
+    </nav>
+
+    <!-- MODIFICATION: Updated JavaScript to manage ARIA attributes -->
+    <script>
+       function toggleCheck(element) {
+           element.classList.toggle('completed');
+           const isChecked = element.getAttribute('aria-checked') === 'true';
+           element.setAttribute('aria-checked', !isChecked);
+       }
+       
+       function toggleTip(headerElement) {
+           const tip = headerElement.closest('.teacher-tip');
+           const isOpening = tip.classList.toggle('open');
+           headerElement.setAttribute('aria-expanded', isOpening);
+       }
+       
+       function toggleNorm(cardElement) {
+           const isOpening = cardElement.classList.toggle('active');
+           cardElement.setAttribute('aria-expanded', isOpening);
+       }
+    </script>
+</body>
+</html>

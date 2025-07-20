@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scenario Card Instructions (Interactive)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --midnight-blue: #002b5c;
+      --sky-blue: #73bdf5;
+      --ice-blue: #cfe9ff;
+      --soft-gray: #e0e6ed;
+      --white: #ffffff;
+      --purple: #b388ff;
+      --green: #4caf50;
+      --orange: #ffb300;
+      --red: #ef5350;
+      --pink: #e573d9;
+      /* --- Nav Bar Colors --- */
+      --nav-bg: #f8f9fa;
+      --nav-border: #dee2e6;
+      --nav-text: #212529;
+      --nav-primary-bg: #002b5c;
+      --nav-primary-hover: #00408a;
+      --nav-secondary-text: #002b5c;
+      --nav-secondary-hover: #73bdf5;
+      --nav-shadow: rgba(0, 0, 0, 0.1);
+    }
+    body {
+      font-family: 'Atkinson Hyperlegible', sans-serif;
+      background-color: var(--soft-gray);
+      color: var(--midnight-blue);
+      font-size: 12px;
+      margin: 0; padding: 0;
+      padding-bottom: 80px; /* Space for new nav bar */
+    }
+    .page {
+      width: 148mm; min-height: 210mm; height: auto;
+      margin: 20px auto; padding: 10mm;
+      box-sizing: border-box; position: relative;
+      background-color: var(--white);
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      padding-bottom: 40px; /* Space for footer */
+    }
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 2px solid var(--sky-blue);
+        padding-bottom: 3px;
+        margin-top: 15px;
+        margin-bottom: 12px;
+    }
+    h2, h3 { font-family: 'Poppins', sans-serif; margin-bottom: 10px; }
+    h2 { font-size: 16px; margin: 0; border: none; }
+    h3 { font-size: 14px; margin-top: 20px; }
+    ul { padding-left: 18px; margin-top: 8px; }
+    li { margin-bottom: 6px; font-size: 11px; }
+
+    #instructions-list li { list-style: none; padding-left: 25px; position: relative; cursor: pointer; }
+    #instructions-list li::before { content: "⬜️"; position: absolute; left: 0; top: 0; font-size: 16px; }
+    #instructions-list li.completed { text-decoration: line-through; color: #888; }
+    #instructions-list li.completed::before { content: "✅"; }
+
+    .accordion-item { border: 1px solid var(--soft-gray); border-radius: 4px; margin-bottom: 5px; overflow: hidden; }
+    .accordion-header { background-color: var(--ice-blue); padding: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .accordion-header h4 { font-family: 'Poppins', sans-serif; font-size: 12px; margin: 0; }
+    .accordion-header .toggle-icon { transition: transform 0.3s; }
+    .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out; padding: 0 12px; font-size: 11px; }
+    .accordion-item.active .accordion-content { max-height: 200px; padding: 12px; }
+    .accordion-item.active .toggle-icon { transform: rotate(180deg); }
+
+    .sel-key-item { display: flex; align-items: center; padding: 8px; border-radius: 4px; margin-bottom: 4px; cursor: pointer; transition: background-color 0.2s; }
+    .sel-key-item:hover { background-color: var(--soft-gray); }
+    .sel-key-icon { width: 12px; height: 12px; border-radius: 50%; margin-right: 10px; flex-shrink: 0; }
+    .sel-key-text { font-size: 11px; }
+    .purple { background-color: var(--purple); } .green { background-color: var(--green); }
+    .orange { background-color: var(--orange); } .red { background-color: var(--red); }
+    .pink { background-color: var(--pink); }
+
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+    .modal-overlay.visible { opacity: 1; visibility: visible; }
+    .modal-content { background-color: var(--white); padding: 20px; border-radius: 5px; width: 90%; max-width: 500px; position: relative; transform: scale(0.9); transition: transform 0.3s; }
+    .modal-overlay.visible .modal-content { transform: scale(1); }
+    .modal-close-btn { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--midnight-blue); }
+    #modal-title { margin-top: 0; font-size: 16px; }
+    #modal-body ul { list-style: none; padding-left: 0; }
+    #modal-body li { margin-bottom: 8px; }
+    #modal-body a { color: var(--midnight-blue); text-decoration: none; }
+    #modal-body a:hover { color: var(--sky-blue); text-decoration: underline; }
+    
+    .print-button {
+      background-color: var(--soft-gray); border: 1px solid var(--ice-blue);
+      color: var(--midnight-blue); padding: 5px 10px; border-radius: 15px; cursor: pointer;
+      font-size: 11px; font-family: 'Poppins', sans-serif; transition: all 0.3s ease;
+    }
+    .print-button:hover { background-color: var(--sky-blue); color: var(--white); }
+
+    .footer { position: absolute; bottom: 10mm; left: 10mm; right: 10mm; display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--midnight-blue); border-top: 1px solid var(--soft-gray); padding-top: 5px; }
+    .footer-logo { height: 12px; }
+    .page-number { font-family: 'Poppins', sans-serif; }
+    .footer-tagline { font-style: italic; color: var(--sky-blue); }
+
+    /* --- NEW NAVIGATION BAR STYLES --- */
+    .toolkit-nav {
+        position: fixed; bottom: 0; left: 0; width: 100%;
+        background-color: var(--nav-bg); display: flex;
+        justify-content: space-between; align-items: center;
+        padding: 0.75rem 1rem; box-shadow: 0 -2px 10px var(--nav-shadow);
+        border-top: 1px solid var(--nav-border); z-index: 1000; box-sizing: border-box;
+    }
+    .toolkit-nav a {
+        font-family: 'Poppins', sans-serif; text-decoration: none;
+        border-radius: 8px; transition: all 0.2s ease-in-out;
+        display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
+    }
+    .nav-button {
+        background-color: var(--nav-primary-bg); color: #ffffff; padding: 0.6rem 1rem;
+    }
+    .nav-button:hover, .nav-button:focus-visible {
+        background-color: var(--nav-primary-hover); transform: translateY(-2px);
+        box-shadow: 0 4px 8px var(--nav-shadow);
+    }
+    .nav-home-link {
+        color: var(--nav-secondary-text); font-size: 1rem; gap: 0.5rem;
+    }
+    .nav-home-link:hover, .nav-home-link:focus-visible {
+        color: var(--nav-secondary-hover); text-decoration: underline;
+    }
+    .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
+    
+    @media print {
+        body { background-color: var(--white); padding-bottom: 0; }
+        .page { margin: 0; box-shadow: none; border: none; }
+        .print-button, .toolkit-nav, .modal-overlay { display: none !important; }
+        #instructions-list li::before { content: "☐ "; }
+        #instructions-list li { cursor: default; }
+        .accordion-content { max-height: none !important; overflow: visible !important; padding: 12px !important; }
+        .accordion-header .toggle-icon { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="page-header">
+        <h2>Scenario Card Instructions</h2>
+        <button class="print-button" onclick="window.print()">🖨️ Print Page</button>
+    </div>
+
+    <h3>How to Print and Cut Cards</h3>
+    <ul id="instructions-list">
+      <li onclick="toggleCheck(this)">Print on card stock for durability.</li>
+      <li onclick="toggleCheck(this)">Use scissors or a paper cutter for clean edges.</li>
+      <li onclick="toggleCheck(this)">Laminate before cutting for extended use (optional).</li>
+      <li onclick="toggleCheck(this)">Store cards in labeled envelopes or boxes by theme.</li>
+    </ul>
+
+    <h3>Ways to Use</h3>
+    <div class="accordion">
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)"><h4>Icebreakers & Journaling</h4><span class="toggle-icon">▼</span></div>
+            <div class="accordion-content"><p>Use a single scenario card as a quick morning meeting icebreaker or as a daily writing prompt in an SEL journal.</p></div>
+        </div>
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)"><h4>Think-Pair-Share</h4><span class="toggle-icon">▼</span></div>
+            <div class="accordion-content"><p>Present a scenario. Give students quiet time to THINK, then have them PAIR with a partner to discuss their ideas, and finally SHARE key takeaways with the whole group.</p></div>
+        </div>
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion(this)"><h4>Skits & Role-Playing</h4><span class="toggle-icon">▼</span></div>
+            <div class="accordion-content"><p>In small groups, have students act out a scenario and explore different possible responses and outcomes. This is great for practicing communication and empathy.</p></div>
+        </div>
+    </div>
+
+    <h3>Scenario Card SEL Skills Key</h3>
+    <div class="sel-key">
+      <div class="sel-key-item" onclick="showSkillDetails('Self-Awareness', ['8', '12', '18', '20', '24', '26'])"><div class="sel-key-icon purple"></div><span class="sel-key-text"><b>Self-Awareness</b> – Recognizing your own feelings and reactions</span></div>
+      <div class="sel-key-item" onclick="showSkillDetails('Kindness', ['2', '6', '16', '25', '30'])"><div class="sel-key-icon green"></div><span class="sel-key-text"><b>Kindness</b> – Taking thoughtful, helpful action</span></div>
+      <div class="sel-key-item" onclick="showSkillDetails('Friendship', ['1', '4', '5', '10', '22'])"><div class="sel-key-icon orange"></div><span class="sel-key-text"><b>Friendship</b> – Building and maintaining positive relationships</span></div>
+      <div class="sel-key-item" onclick="showSkillDetails('Conflict Resolution', ['7', '13', '14', '15', '17', '21', '27', '28'])"><div class="sel-key-icon red"></div><span class="sel-key-text"><b>Conflict Resolution</b> – Solving problems peacefully and respectfully</span></div>
+      <div class="sel-key-item" onclick="showSkillDetails('Empathy', ['3', '9', '11', '19', '23', '29'])"><div class="sel-key-icon pink"></div><span class="sel-key-text"><b>Empathy</b> – Understanding and caring about others' feelings</span></div>
+    </div>
+
+    <footer class="footer">
+      <span class="footer-tagline">Where Play Meets Emotional Growth</span>
+      <span class="page-number">S1</span>
+      <img class="footer-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'><text x='0' y='15' font-family='Poppins' font-size='12' fill='%23002b5c'>WarrenGami</text></svg>"/>
+    </footer>
+  </main>
+
+  <div class="modal-overlay" id="skill-modal" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close-btn" onclick="closeModal()">×</button>
+        <h3 id="modal-title">Skill Details</h3>
+        <div id="modal-body"></div>
+    </div>
+  </div>
+
+   <nav class="toolkit-nav" aria-label="Toolkit Paging">
+       <a href="Blank Dice.html" class="nav-button" aria-label="Go to Previous Page">⬅️ Previous</a>
+       <a href="(Table of Contents).html" class="nav-home-link" aria-label="Go to Table of Contents">
+           <span aria-hidden="true">🏠</span>
+           <span>Teacher Dashboard</span>
+       </a>
+       <a href="Scenario Cards 1.html" class="nav-button" aria-label="Go to Next Page">Next ➡️</a>
+   </nav>
+
+   <script>
+       const scenarioData = {
+           '1': 'Your friend is excited to show you a new game, but you don\'t find it interesting. How can you respond kindly?', '2': 'You see a classmate drop their books. What are some kind things you could do?',
+           '3': 'A friend tells you they are sad because they didn\'t get invited to a party. What can you say to show you understand?', '4': 'You made plans with two different friends at the same time by accident. What do you do?',
+           '5': 'Your best friend wants to play a game you don\'t like. What are some compromises?', '6': 'What is one small, kind thing you can do for a teacher or staff member at school?',
+           '7': 'You and a friend both want to use the same swing at recess. How can you solve this peacefully?', '8': 'You feel frustrated because you don\'t understand the homework. What can you do?',
+           '9': 'A classmate is being teased by others. How might they be feeling?', '10': 'Your friend tells you a secret and asks you not to tell anyone. What is the responsible thing to do?',
+           '11': 'You see someone sitting alone at lunch. What might they be thinking or feeling?', '12': 'Think of a time you felt nervous. What did it feel like in your body?',
+           '13': 'Someone accidentally bumps into you and makes you drop your things. What do you do?', '14': 'You think the rules of a game are unfair to someone. What could you say?',
+           '15': 'Your friend is upset with you but won\'t say why. What are some options?', '16': 'Give a specific and genuine compliment to the person on your right.',
+           '17': 'Someone accuses you of doing something you didn\'t do. How do you respond calmly?', '18': 'What is one of your biggest strengths? How does it help you?',
+           '19': 'Your teammate made a mistake that cost your team the game. What could you say to them?', '20': 'What is a goal you have for yourself? What is one step you can take to reach it?',
+           '21': 'You hear your friends gossiping about someone else. What can you do?', '22': 'What are the three most important "ingredients" for a good friendship?',
+           '23': 'Your little sibling is upset because they can\'t do something you can. How can you show empathy?', '24': 'Describe a time you had to be brave. What did that feel like?',
+           '25': 'What does it mean to "share the air" in a group conversation?', '26': 'What is something that always makes you laugh?',
+           '27': 'You borrowed something from a friend and lost it. What do you do?', '28': 'Two of your friends are arguing. How could you help them find a solution?',
+           '29': 'A character in a book or movie made a bad choice. Why do you think they did it?', '30': 'How can you show you appreciate someone without using words?'
+       };
+
+       function toggleCheck(element) { element.classList.toggle('completed'); }
+
+       function toggleAccordion(headerElement) {
+            const item = headerElement.parentElement;
+            const allItems = document.querySelectorAll('.accordion-item');
+            allItems.forEach(i => {
+                if (i !== item && i.classList.contains('active')) { i.classList.remove('active'); }
+            });
+            item.classList.toggle('active');
+       }
+
+       const modal = document.getElementById('skill-modal');
+       const modalTitle = document.getElementById('modal-title');
+       const modalBody = document.getElementById('modal-body');
+
+       function showSkillDetails(skillName, cardNumbers) {
+           modalTitle.innerText = `Scenarios for: ${skillName}`;
+           let content = '<ul>';
+           cardNumbers.forEach(num => {
+               const scenarioText = scenarioData[num] || 'Scenario text not found.';
+               const pageNum = Math.ceil(parseInt(num) / 6);
+               content += `<li><a href="Scenario Cards ${pageNum}.html#card${num}"><strong>Card ${num}:</strong> ${scenarioText}</a></li>`;
+           });
+           content += '</ul>';
+           modalBody.innerHTML = content;
+           modal.classList.add('visible');
+       }
+
+       function closeModal() { modal.classList.remove('visible'); }
+     </script>
+</body>
+</html>

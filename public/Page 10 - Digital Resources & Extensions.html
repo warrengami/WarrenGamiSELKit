@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>WarrenGami SEL Toolkit - Page 10: Digital Resources (Interactive)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --midnight-blue: #002b5c;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --soft-gray: #e0e6ed;
+            --white: #ffffff;
+            /* --- Nav Bar Colors --- */
+            --nav-bg: #f8f9fa;
+            --nav-border: #dee2e6;
+            --nav-text: #212529;
+            --nav-primary-bg: #002b5c;
+            --nav-primary-hover: #00408a;
+            --nav-secondary-text: #002b5c;
+            --nav-secondary-hover: #73bdf5;
+            --nav-shadow: rgba(0, 0, 0, 0.1);
+        }
+        html, body {
+            height: 100%; margin: 0; padding: 0;
+        }
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            line-height: 1.4; color: var(--midnight-blue);
+            background-color: #f0f4f8; font-size: 12px;
+            padding-bottom: 80px; /* Space for new nav bar */
+        }
+        .page-container {
+            width: 148mm; min-height: 100%; margin: 0 auto;
+            display: flex; flex-direction: column;
+            background-color: var(--white);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .page-content { flex: 1 0 auto; padding: 10mm; }
+        .page-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--sky-blue); padding-bottom: 3px;
+            margin-top: 15px; margin-bottom: 12px;
+        }
+        h2, h4 {
+            font-family: 'Poppins', sans-serif; margin: 0 0 10px 0;
+        }
+        h2 { font-size: 16px; color: var(--midnight-blue); margin: 0; }
+        h4 { font-size: 13px; }
+        p { margin: 0 0 10px 0; font-size: 11px; }
+
+        .digital-resource {
+            display: flex; align-items: center; margin-bottom: 15px;
+            background-color: var(--ice-blue); border-radius: 5px;
+            padding: 10px; border: 1px solid var(--sky-blue);
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .digital-resource:hover {
+            transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0, 43, 92, 0.1);
+        }
+        .digital-resource:focus-visible {
+            outline: 2px solid var(--midnight-blue); outline-offset: 2px;
+        }
+        .qr-code-container {
+            width: 25mm; height: 25mm; padding: 4px; box-sizing: border-box;
+            border: 1px solid var(--sky-blue); background-color: var(--white);
+            margin-right: 12px; flex-shrink: 0;
+        }
+        .qr-code-container img { width: 100%; height: 100%; display: block; }
+        .resource-info { flex: 1; }
+        .resource-info p { font-size: 10px; margin-bottom: 8px; }
+        .copy-link-btn {
+            background-color: var(--midnight-blue); color: var(--white);
+            font-family: 'Poppins', sans-serif; border: none;
+            border-radius: 3px; padding: 3px 8px; cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .copy-link-btn:hover { background-color: var(--sky-blue); }
+        .copy-link-btn:focus-visible { outline: 1px solid var(--white); outline-offset: -1px; }
+
+        .print-button {
+             background-color: var(--soft-gray); border: 1px solid var(--ice-blue);
+             color: var(--midnight-blue); padding: 5px 10px; border-radius: 15px;
+             font-size: 11px; cursor: pointer;
+        }
+        .print-button:hover { background-color: var(--sky-blue); color: var(--white); }
+
+        .teacher-tip {
+            background-color: var(--soft-gray); border-radius: 5px;
+            padding: 0; margin: 12px 0; border-left: 3px solid var(--sky-blue);
+        }
+        .teacher-tip.open { background-color: #d4dde6; }
+        .teacher-tip h4 {
+            margin: 0; padding: 10px; display: flex; align-items: center;
+            font-size: 12px; cursor: pointer;
+        }
+        .teacher-tip h4:hover { background-color: var(--ice-blue); }
+        .teacher-tip h4:focus-visible { outline: 2px solid var(--midnight-blue); outline-offset: -1px; }
+        .teacher-tip h4:before { content: "★"; margin-right: 5px; }
+        .teacher-tip .tip-content {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding: 0 10px;
+        }
+        .teacher-tip.open .tip-content { max-height: 100px; padding: 0 10px 10px 10px; }
+        .teacher-tip h4 .toggle-icon { margin-left: auto; transition: transform 0.4s; }
+        .teacher-tip.open .toggle-icon { transform: rotate(180deg); }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); display: flex;
+            align-items: center; justify-content: center;
+            z-index: 2000; opacity: 0; visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .modal-overlay.visible { opacity: 1; visibility: visible; }
+        .modal-content {
+            background-color: var(--white); padding: 20px; border-radius: 5px;
+            width: 90%; max-width: 600px; position: relative;
+            transform: scale(0.9); transition: transform 0.3s;
+        }
+        .modal-overlay.visible .modal-content { transform: scale(1); }
+        .modal-close-btn {
+            position: absolute; top: 10px; right: 10px; background: none;
+            border: none; font-size: 24px; cursor: pointer; color: var(--midnight-blue);
+        }
+        .modal-close-btn:focus-visible { outline: 2px solid var(--midnight-blue); border-radius: 50%; }
+        #modal-title { margin-bottom: 15px; border-bottom: 1px solid var(--soft-gray); padding-bottom: 8px; }
+        #modal-body iframe { width: 100%; height: 315px; border: none; }
+        #modal-body img { max-width: 100%; max-height: 70vh; display: block; margin: 0 auto; }
+
+        .footer {
+            flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;
+            font-size: 9px; color: var(--midnight-blue);
+            border-top: 1px solid var(--soft-gray); padding: 10px;
+        }
+        .footer-logo { height: 12px; }
+        .page-number { font-family: 'Poppins', sans-serif; }
+        .footer-tagline { font-style: italic; color: var(--sky-blue); }
+
+        /* --- NEW NAVIGATION BAR STYLES --- */
+        .toolkit-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--nav-bg); display: flex;
+            justify-content: space-between; align-items: center;
+            padding: 0.75rem 1rem; box-shadow: 0 -2px 10px var(--nav-shadow);
+            border-top: 1px solid var(--nav-border); z-index: 1000; box-sizing: border-box;
+        }
+        .toolkit-nav a {
+            font-family: 'Poppins', sans-serif; text-decoration: none;
+            border-radius: 8px; transition: all 0.2s ease-in-out;
+            display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
+        }
+        .nav-button {
+            background-color: var(--nav-primary-bg); color: #ffffff; padding: 0.6rem 1rem;
+        }
+        .nav-button:hover, .nav-button:focus-visible {
+            background-color: var(--nav-primary-hover); transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--nav-shadow);
+        }
+        .nav-home-link {
+            color: var(--nav-secondary-text); font-size: 1rem; gap: 0.5rem;
+        }
+        .nav-home-link:hover, .nav-home-link:focus-visible {
+            color: var(--nav-secondary-hover); text-decoration: underline;
+        }
+        .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
+
+        @media print {
+            body { padding-bottom: 0 !important; }
+            .page-container { box-shadow: none; }
+            .print-button, .toolkit-nav { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <main class="page-content">
+            <header>
+                 <div class="page-header">
+                    <h2>Digital Resources & Extensions</h2>
+                    <button class="print-button" onclick="window.print()">🖨️ Print Page</button>
+                </div>
+                <p>Click a resource to preview it, or scan the QR code with a phone or tablet.</p>
+            </header>
+            
+            <section>
+                <div class="digital-resource" role="button" tabindex="0" data-type="image" data-url="https://feelingswheel.com/feelings-wheel.jpg" data-title="Online Feelings Wheel" onclick="handleCardClick(this, event)" onkeydown="handleCardKeydown(event)">
+                    <div class="qr-code-container"><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://feelingswheel.com/feelings-wheel.jpg&qzone=1" alt="QR Code for Feelings Wheel"/></div>
+                    <div class="resource-info">
+                        <h4>Online Feelings Wheel</h4>
+                        <p>A tool to help students explore and identify a wide range of emotions.</p>
+                        <button class="copy-link-btn" aria-label="Copy link for Online Feelings Wheel" onclick="copyLink(event, 'https://feelingswheel.com/feelings-wheel.jpg')">Copy Link</button>
+                    </div>
+                </div>
+                <div class="digital-resource" role="link" tabindex="0" data-type="external" data-url="https://youtube.com/@warrengami?si=_qSF7Xca-qOCH7uh" data-title="WarrenGami YouTube Channel" onclick="handleCardClick(this, event)" onkeydown="handleCardKeydown(event)">
+                    <div class="qr-code-container"><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://youtube.com/@warrengami?si=_qSF7Xca-qOCH7uh&qzone=1" alt="QR Code for WarrenGami YouTube"/></div>
+                    <div class="resource-info">
+                        <h4>WarrenGami YouTube Channel</h4>
+                        <p>Mindfulness Origami Tutorials to help students practice focus, patience, and self-regulation.</p>
+                        <button class="copy-link-btn" aria-label="Copy link for WarrenGami YouTube Channel" onclick="copyLink(event, 'https://youtube.com/@warrengami?si=_qSF7Xca-qOCH7uh')">Copy Link</button>
+                    </div>
+                </div>
+                <div class="digital-resource" role="button" tabindex="0" data-type="link" data-url="https://www.linkedin.com/newsletters/more-than-a-mission-statement-7350577094021537793" data-title="More Than a Mission Statement Newsletter" onclick="handleCardClick(this, event)" onkeydown="handleCardKeydown(event)">
+                     <div class="qr-code-container"><img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://www.linkedin.com/newsletters/more-than-a-mission-statement-7350577094021537793&qzone=1" alt="QR Code for Newsletter"/></div>
+                     <div class="resource-info">
+                        <h4>More Than A Mission Statement</h4>
+                        <p>Designing school culture that reflects who we are, and who we serve.</p>
+                        <button class="copy-link-btn" aria-label="Copy link for More Than a Mission Statement Newsletter" onclick="copyLink(event, 'https://www.linkedin.com/newsletters/more-than-a-mission-statement-7350577094021537793')">Copy Link</button>
+                    </div>
+                </div>
+            </section>
+
+            <aside class="teacher-tip">
+                <h4 onclick="toggleTip(this)" onkeydown="handleTipKeydown(event)" role="button" tabindex="0" aria-expanded="false" aria-controls="tip-content">Tech Tip <span class="toggle-icon">▼</span></h4>
+                <div class="tip-content" id="tip-content">
+                    <p>Project the digital tools onto your whiteboard for whole-class activities. Students can also access them independently on classroom devices during center time or for extension activities.</p>
+                </div>
+            </aside>
+        </main>
+        <footer class="footer">
+            <span class="footer-tagline">Where Play Meets Emotional Growth</span>
+            <span class="page-number">10</span>
+            <img class="footer-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'><text x='0' y='15' font-family='Poppins' font-size='12' fill='%23002b5c'>WarrenGami</text></svg>"/>
+        </footer>
+    </div>
+    
+    <div class="modal-overlay" id="resource-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" style="display: none;">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closeModal()" aria-label="Close dialog">×</button>
+            <h4 id="modal-title">Resource Preview</h4>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+     <nav class="toolkit-nav" aria-label="Toolkit Paging">
+        <a href="Page 9 - Integrating SEL Across the Curriculum.html" class="nav-button" aria-label="Go to Previous Page">⬅️ Previous</a>
+        <a href="(Table of Contents).html" class="nav-home-link" aria-label="Go to Table of Contents">
+            <span aria-hidden="true">🏠</span>
+            <span>Teacher Dashboard</span>
+        </a>
+        <a href="Page 11 - Glossary & Index.html" class="nav-button" aria-label="Go to Next Page">Next ➡️</a>
+     </nav>
+     <script>
+            const modal = document.getElementById('resource-modal');
+            const modalTitle = document.getElementById('modal-title');
+            const modalBody = document.getElementById('modal-body');
+            let lastFocusedElement;
+
+            function openModal(type, url, title) {
+                lastFocusedElement = document.activeElement;
+                modalTitle.innerText = title;
+                let content = '';
+                switch(type) {
+                    case 'image': content = `<img src="${url}" alt="${title}">`; break;
+                    case 'link': content = `<p>This resource can be opened in a new tab.</p><br><a href="${url}" target="_blank" class="copy-link-btn" style="font-size: 14px; padding: 8px 15px;">Visit Site</a>`; break;
+                }
+                modalBody.innerHTML = content;
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('visible'), 10);
+                
+                const focusableElements = modal.querySelectorAll('button, [href]');
+                focusableElements[0].focus();
+                
+                modal.addEventListener('keydown', trapFocus);
+            }
+
+            function closeModal() {
+                modal.classList.remove('visible');
+                modal.removeEventListener('keydown', trapFocus);
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                    modalBody.innerHTML = '';
+                    if (lastFocusedElement) lastFocusedElement.focus();
+                }, 300);
+            }
+             
+            function trapFocus(event) {
+                if (event.key === 'Escape') closeModal();
+                if (event.key !== 'Tab') return;
+                
+                const focusableElements = Array.from(modal.querySelectorAll('button, [href]'));
+                const firstElement = focusableElements[0];
+                const lastElement = focusableElements[focusableElements.length - 1];
+
+                if (event.shiftKey) { // Shift + Tab
+                    if (document.activeElement === firstElement) {
+                        lastElement.focus();
+                        event.preventDefault();
+                    }
+                } else { // Tab
+                    if (document.activeElement === lastElement) {
+                        firstElement.focus();
+                        event.preventDefault();
+                    }
+                }
+            }
+
+            function handleCardClick(card, event) {
+                if (event.target.classList.contains('copy-link-btn')) return;
+                const type = card.dataset.type;
+                const url = card.dataset.url;
+                const title = card.dataset.title;
+                if (type === 'external') {
+                    window.open(url, '_blank');
+                } else {
+                    openModal(type, url, title);
+                }
+            }
+
+            function handleCardKeydown(event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    handleCardClick(event.currentTarget, event);
+                }
+            }
+
+            function copyLink(event, url) {
+                event.stopPropagation();
+                navigator.clipboard.writeText(url).then(() => {
+                    const button = event.target;
+                    const originalText = button.innerText;
+                    button.innerText = 'Copied!';
+                    setTimeout(() => { button.innerText = originalText; }, 2000);
+                });
+            }
+
+            function toggleTip(headerElement) {
+                const tip = headerElement.closest('.teacher-tip');
+                const isOpening = tip.classList.toggle('open');
+                headerElement.setAttribute('aria-expanded', isOpening);
+            }
+             
+            function handleTipKeydown(event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    toggleTip(event.currentTarget);
+                }
+            }
+         </script>
+ </body>
+ </html>

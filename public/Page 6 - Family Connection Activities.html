@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>WarrenGami SEL Toolkit - Page 6: Family Connection (Interactive)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --midnight-blue: #002b5c;
+      --sky-blue: #73bdf5;
+      --ice-blue: #cfe9ff;
+      --soft-gray: #e0e6ed;
+      --white: #ffffff;
+      /* --- Nav Bar Colors --- */
+      --nav-bg: #f8f9fa;
+      --nav-border: #dee2e6;
+      --nav-text: #212529;
+      --nav-primary-bg: #002b5c;
+      --nav-primary-hover: #00408a;
+      --nav-secondary-text: #002b5c;
+      --nav-secondary-hover: #73bdf5;
+      --nav-shadow: rgba(0, 0, 0, 0.1);
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Atkinson Hyperlegible', sans-serif;
+      line-height: 1.4;
+      color: var(--midnight-blue);
+      background-color: #f0f4f8;
+      font-size: 12px;
+      padding-bottom: 80px; /* Space for new nav bar */
+    }
+    .page-container {
+      width: 148mm;
+      min-height: 100%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--white);
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .page-content {
+      flex: 1 0 auto;
+      padding: 10mm;
+    }
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--sky-blue);
+      padding-bottom: 3px;
+      margin-top: 15px;
+      margin-bottom: 12px;
+    }
+    h2, h3, h4 {
+      font-family: 'Poppins', sans-serif;
+      margin: 0 0 10px 0;
+    }
+    h2 {
+      font-size: 16px;
+      color: var(--midnight-blue);
+      margin: 0;
+    }
+    h3 { font-size: 14px; }
+    h4 { font-size: 13px; }
+    p { font-size: 11px; margin: 0 0 10px 0; }
+
+    #activity-generator {
+      background-color: var(--soft-gray);
+      border-radius: 5px;
+      padding: 12px;
+      margin: 12px 0;
+      text-align: center;
+    }
+    #activity-display {
+      background-color: var(--white);
+      border-radius: 5px;
+      border: 2px solid var(--sky-blue);
+      padding: 10px;
+      min-height: 60px;
+    }
+    #activity-display h4 { margin: 0; font-size: 13px; }
+    #activity-display p { margin: 5px 0 0 0; font-size: 11px; }
+
+    #new-activity-btn {
+      background-color: var(--midnight-blue);
+      color: var(--white);
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin-top: 10px;
+    }
+    #new-activity-btn:hover {
+      background-color: var(--sky-blue);
+    }
+
+    .practice-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 12px 0;
+    }
+    .flip-card {
+      background-color: transparent;
+      perspective: 1000px;
+      min-height: 100px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .flip-card:focus-visible {
+      outline: 2px solid var(--midnight-blue);
+      outline-offset: 2px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+    .flip-card-front {
+      background-color: var(--ice-blue);
+      border: 1px solid var(--sky-blue);
+    }
+    .flip-card-front h4 {
+      margin: 0;
+      font-size: 12px;
+    }
+    .flip-card-back {
+      background-color: var(--ice-blue);
+      border: 1px solid var(--sky-blue);
+      transform: rotateY(180deg);
+      align-items: flex-start;
+    }
+    .flip-card-back ul {
+      font-size: 10px;
+      padding-left: 15px;
+      text-align: left;
+      margin: 0;
+    }
+    .flip-card-back li {
+      margin-bottom: 4px;
+    }
+
+    .teacher-tip {
+      background-color: var(--soft-gray); border-radius: 5px;
+      padding: 0; margin: 12px 0;
+      border-left: 3px solid var(--sky-blue);
+      transition: background-color 0.3s;
+    }
+    .teacher-tip.open { background-color: #d4dde6; }
+    .teacher-tip h4 {
+      margin: 0; padding: 10px; display: flex;
+      align-items: center; font-size: 12px; cursor: pointer;
+      border-radius: 5px; transition: background-color 0.3s;
+    }
+    .teacher-tip h4:hover { background-color: var(--ice-blue); }
+    .teacher-tip h4:focus-visible { outline: 2px solid var(--midnight-blue); outline-offset: -1px; }
+    .teacher-tip h4:before { content: "★"; margin-right: 5px; }
+    .teacher-tip .tip-content {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+      padding: 0 10px;
+    }
+    .teacher-tip.open .tip-content {
+        max-height: 100px; padding: 0 10px 10px 10px;
+    }
+    .teacher-tip h4 .toggle-icon {
+        margin-left: auto; transition: transform 0.4s;
+    }
+    .teacher-tip.open .toggle-icon { transform: rotate(180deg); }
+
+    .print-button {
+      background-color: var(--soft-gray);
+      border: 1px solid var(--ice-blue);
+      color: var(--midnight-blue);
+      padding: 5px 10px;
+      border-radius: 15px;
+      cursor: pointer;
+      font-size: 11px;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s ease;
+    }
+    .print-button:hover {
+        background-color: var(--sky-blue);
+        color: var(--white);
+    }
+
+    .footer {
+      flex-shrink: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9px;
+      color: var(--midnight-blue);
+      border-top: 1px solid var(--soft-gray);
+      padding: 10px;
+    }
+    .footer-logo { height: 12px; }
+    .page-number { font-family: 'Poppins', sans-serif; }
+    .footer-tagline { font-style: italic; color: var(--sky-blue); }
+
+    /* --- NEW NAVIGATION BAR STYLES --- */
+    .toolkit-nav {
+        position: fixed; bottom: 0; left: 0; width: 100%;
+        background-color: var(--nav-bg); display: flex;
+        justify-content: space-between; align-items: center;
+        padding: 0.75rem 1rem; box-shadow: 0 -2px 10px var(--nav-shadow);
+        border-top: 1px solid var(--nav-border); z-index: 1000; box-sizing: border-box;
+    }
+    .toolkit-nav a {
+        font-family: 'Poppins', sans-serif; text-decoration: none;
+        border-radius: 8px; transition: all 0.2s ease-in-out;
+        display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
+    }
+    .nav-button {
+        background-color: var(--nav-primary-bg); color: #ffffff; padding: 0.6rem 1rem;
+    }
+    .nav-button:hover, .nav-button:focus-visible {
+        background-color: var(--nav-primary-hover); transform: translateY(-2px);
+        box-shadow: 0 4px 8px var(--nav-shadow);
+    }
+    .nav-home-link {
+        color: var(--nav-secondary-text); font-size: 1rem; gap: 0.5rem;
+    }
+    .nav-home-link:hover, .nav-home-link:focus-visible {
+        color: var(--nav-secondary-hover); text-decoration: underline;
+    }
+    .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
+
+
+    @media print {
+      body { padding-bottom: 0; }
+      .print-button, .toolkit-nav { display: none !important; }
+      .flip-card { cursor: default; }
+      .flip-card .flip-card-inner { transform: none !important; }
+      .flip-card-front { display: none !important; }
+      .flip-card-back {
+        position: relative; transform: none !important;
+        border: 1px solid var(--soft-gray);
+      }
+      .teacher-tip .tip-content {
+        max-height: none !important; overflow: visible !important; padding-top: 8px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <main class="page-content">
+      <div class="page-header">
+        <h2>Family Connection Activities</h2>
+        <button class="print-button" onclick="window.print()">🖨️ Print Page</button>
+      </div>
+      <p>Extension activities to reinforce SEL concepts at home and build school-family partnerships.</p>
+
+      <section id="activity-generator">
+        <h3>Try a Conversation Starter!</h3>
+        <div id="activity-display" aria-live="polite" aria-atomic="true">
+          <h4>Click the button to get an idea!</h4>
+          <p>A fun activity will appear here.</p>
+        </div>
+        <button id="new-activity-btn" onclick="displayRandomActivity()">Get New Activity</button>
+      </section>
+
+      <section>
+        <h3>Home Practice Ideas</h3>
+        <p style="font-size: 10px; font-style: italic;">Click or press Enter on a card below to flip it.</p>
+        <div class="practice-grid">
+          <div class="flip-card" role="button" tabindex="0" aria-pressed="false" onclick="flipCard(this)" onkeydown="handleCardKeydown(event)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front" aria-hidden="true"><h4>Mindfulness Moments</h4></div>
+              <div class="flip-card-back">
+                <ul>
+                  <li>Practice belly breathing together before meals</li>
+                  <li>Share daily gratitude at bedtime</li>
+                  <li>Take mindful walks noticing senses</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" role="button" tabindex="0" aria-pressed="false" onclick="flipCard(this)" onkeydown="handleCardKeydown(event)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front" aria-hidden="true"><h4>Connection Rituals</h4></div>
+              <div class="flip-card-back">
+                <ul>
+                  <li>Weekly family meetings to check in</li>
+                  <li>Create an "appreciation notes" jar</li>
+                  <li>Establish tech-free conversation times</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" role="button" tabindex="0" aria-pressed="false" onclick="flipCard(this)" onkeydown="handleCardKeydown(event)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front" aria-hidden="true"><h4>Problem-Solving Together</h4></div>
+              <div class="flip-card-back">
+                <ul>
+                  <li>Tackle a family issue (e.g., chores) using a problem-solving framework</li>
+                  <li>Create a 'calm down corner' at home</li>
+                  <li>Role-play a tough conversation</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="flip-card" role="button" tabindex="0" aria-pressed="false" onclick="flipCard(this)" onkeydown="handleCardKeydown(event)">
+            <div class="flip-card-inner">
+              <div class="flip-card-front" aria-hidden="true"><h4>Building Empathy</h4></div>
+              <div class="flip-card-back">
+                <ul>
+                  <li>Volunteer or do a kindness project</li>
+                  <li>Read stories from diverse perspectives</li>
+                  <li>Ask, "How do you think they felt?"</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="teacher-tip">
+        <h4 onclick="toggleTip(this)" onkeydown="handleTipKeydown(event)" role="button" tabindex="0" aria-expanded="false" aria-controls="tip-content-1">Implementation Tip <span class="toggle-icon">▼</span></h4>
+        <div class="tip-content" id="tip-content-1">
+          <p>Send home 1-2 activities monthly with student reflections. Consider creating a family SEL newsletter featuring student work.</p>
+        </div>
+      </div>
+
+    </main>
+
+    <footer class="footer">
+      <span class="footer-tagline">Where Play Meets Emotional Growth</span>
+      <span class="page-number">6</span>
+      <img class="footer-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'><text x='0' y='15' font-family='Poppins' font-size='12' fill='%23002b5c'>WarrenGami</text></svg>"/>
+    </footer>
+  </div>
+     <nav class="toolkit-nav" aria-label="Toolkit Paging">
+        <a href="Page 5 - Social Scenarios Dice.html" class="nav-button" aria-label="Go to Previous Page">⬅️ Previous</a>
+        <a href="(Table of Contents).html" class="nav-home-link" aria-label="Go to Table of Contents">
+            <span aria-hidden="true">🏠</span>
+            <span>Teacher Dashboard</span>
+        </a>
+        <a href="Page 7 - Assessment & Reflection Tools.html" class="nav-button" aria-label="Go to Next Page">Next ➡️</a>
+     </nav>
+     <script>
+         const activities = [
+           { title: "Emotion Charades (Younger)", description: "Take turns acting out different emotions while others guess. Discuss what each emotion feels like." },
+           { title: "Kindness Spotting (Younger)", description: "At the end of the day, have everyone share one example of kindness they saw or did." },
+           { title: "Feelings Faces (Younger)", description: "Draw faces for different emotions. Talk about a time you felt that way." },
+           { title: "Rose, Thorn, Bud (All Ages)", description: "Share one good thing (rose), one challenge (thorn), and one thing you're looking forward to (bud)." },
+           { title: "Problem-Solving Practice (Older)", description: "Share a small, real-life challenge you're facing (like misplacing keys) and brainstorm solutions together." },
+           { title: "Media Analysis (Older)", description: "While watching a show, pause and discuss how a character handled a tough situation or a strong emotion." },
+           { title: "Goal Setting (Older)", description: "Share one personal goal for the week and how the family can support each other in achieving it." },
+           { title: "Digital Citizenship Chat (Older)", description: "Talk about one example of responsible and respectful online behavior you saw this week." }
+         ];
+
+         const activityTitleEl = document.querySelector('#activity-display h4');
+         const activityDescEl = document.querySelector('#activity-display p');
+
+         function displayRandomActivity() {
+           const randomIndex = Math.floor(Math.random() * activities.length);
+           const activity = activities[randomIndex];
+           activityTitleEl.innerText = activity.title;
+           activityDescEl.innerText = activity.description;
+         }
+
+         function flipCard(cardElement) {
+            const isFlipped = cardElement.classList.toggle('flipped');
+            cardElement.setAttribute('aria-pressed', isFlipped);
+         }
+
+         function handleCardKeydown(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                flipCard(event.currentTarget);
+            }
+         }
+
+         function toggleTip(headerElement) {
+           const tip = headerElement.closest('.teacher-tip');
+           const isOpening = tip.classList.toggle('open');
+           headerElement.setAttribute('aria-expanded', isOpening);
+         }
+
+         function handleTipKeydown(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleTip(event.currentTarget);
+            }
+         }
+
+         window.onload = displayRandomActivity;
+       </script>
+     </body>
+     </html>

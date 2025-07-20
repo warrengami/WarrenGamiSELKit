@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>WarrenGami SEL Toolkit - Page 5: Social Scenarios (Interactive)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --midnight-blue: #002b5c;
+      --sky-blue: #73bdf5;
+      --ice-blue: #cfe9ff;
+      --soft-gray: #e0e6ed;
+      --white: #ffffff;
+      --highlight-yellow: #fffde7;
+      --nav-bg: #f8f9fa;
+      --nav-border: #dee2e6;
+      --nav-text: #212529;
+      --nav-primary-bg: #002b5c;
+      --nav-primary-hover: #00408a;
+      --nav-secondary-text: #002b5c;
+      --nav-secondary-hover: #73bdf5;
+      --nav-shadow: rgba(0, 0, 0, 0.1);
+    }
+    html, body {
+      height: 100%; margin: 0; padding: 0;
+    }
+    body {
+      font-family: 'Atkinson Hyperlegible', sans-serif; line-height: 1.4;
+      color: var(--midnight-blue); background-color: #f0f4f8; font-size: 12px;
+      padding-bottom: 80px;
+    }
+    .page-container {
+      width: 148mm; min-height: 100%; margin: 0 auto;
+      display: flex; flex-direction: column;
+      background-color: var(--white); box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .page-content { flex: 1 0 auto; padding: 10mm; }
+    .page-header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 2px solid var(--sky-blue); padding-bottom: 3px;
+      margin-top: 15px; margin-bottom: 12px;
+    }
+    .header-buttons { display: flex; gap: 8px; }
+    h2, h3, h4 {
+      font-family: 'Poppins', sans-serif; margin: 0 0 10px 0;
+    }
+    h2 { font-size: 16px; color: var(--midnight-blue); margin: 0; }
+    h3 { font-size: 14px; }
+    h4 { font-size: 13px; }
+    p { font-size: 11px; margin: 0 0 10px 0; }
+
+    #scenario-generator {
+      background-color: var(--soft-gray); border-radius: 5px;
+      padding: 12px; margin: 12px 0;
+    }
+    #current-scenario {
+      background-color: var(--white); border-radius: 5px;
+      border: 2px solid var(--sky-blue); padding: 10px; min-height: 50px;
+    }
+    #current-scenario h4 { margin: 0; font-size: 13px; }
+    #current-scenario p { margin: 5px 0 0 0; font-size: 11px; }
+    #new-scenario-btn {
+      display: block; width: 100%; background-color: var(--midnight-blue); color: var(--white);
+      font-family: 'Poppins', sans-serif; font-size: 13px; border: none; padding: 8px 12px;
+      border-radius: 5px; cursor: pointer; transition: background-color 0.3s; margin-top: 10px;
+    }
+    #new-scenario-btn:hover { background-color: var(--sky-blue); }
+
+    #discussion-framework { margin: 12px 0; }
+    .framework-step { border: 1px solid var(--soft-gray); border-radius: 4px; margin-bottom: 5px; overflow: hidden; }
+    .framework-header {
+      background-color: var(--ice-blue); padding: 8px; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .framework-header h4 { margin: 0; font-size: 12px; }
+    .framework-header .toggle-icon { transition: transform 0.3s; }
+    .framework-content {
+      max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+      padding: 0 8px; background-color: #f8fafd;
+    }
+    .framework-content p { font-size: 10px; border-left: 2px solid var(--sky-blue); padding-left: 8px; margin: 8px 0; }
+    .framework-step.active .framework-header { background-color: var(--midnight-blue); color: var(--white); }
+    .framework-step.active .framework-content { max-height: 200px; padding: 8px; }
+    .framework-step.active .toggle-icon { transform: rotate(180deg); }
+
+    .teacher-notes {
+        background-color: var(--soft-gray); border-radius: 5px;
+        padding: 0; margin: 12px 0; border-left: 3px solid var(--sky-blue);
+    }
+    .teacher-notes h4 { margin: 0; padding: 10px; display: flex; align-items: center; font-size: 12px; cursor: pointer; }
+    .teacher-notes h4:before { content: "✎"; margin-right: 5px; }
+    .notes-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out; padding: 0 10px; }
+    .teacher-notes.open .notes-content { max-height: 200px; padding: 0 10px 10px 10px; }
+    .teacher-notes h4 .toggle-icon { margin-left: auto; transition: transform 0.4s; }
+    .teacher-notes.open .toggle-icon { transform: rotate(180deg); }
+    #teacher-notes-page5 { width: 100%; box-sizing: border-box; min-height: 100px; border: 1px solid var(--ice-blue); padding: 5px; }
+
+    .affirmation { background-color: var(--sky-blue); color: var(--white); padding: 10px; border-radius: 5px; margin: 12px 0; font-style: italic; }
+    .print-button, .classroom-button {
+      background-color: var(--soft-gray); border: 1px solid var(--ice-blue); color: var(--midnight-blue);
+      padding: 5px 10px; border-radius: 15px; cursor: pointer; font-size: 11px; font-family: 'Poppins', sans-serif;
+    }
+    .footer { flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--midnight-blue); border-top: 1px solid var(--soft-gray); padding: 10px; }
+    .footer-logo { height: 12px; }
+    .page-number { font-family: 'Poppins', sans-serif; }
+    .footer-tagline { font-style: italic; color: var(--sky-blue); }
+
+    .toolkit-nav { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--nav-bg); display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; box-shadow: 0 -2px 10px var(--nav-shadow); border-top: 1px solid var(--nav-border); z-index: 1000; box-sizing: border-box; }
+    .toolkit-nav a { font-family: 'Poppins', sans-serif; text-decoration: none; border-radius: 8px; transition: all 0.2s ease-in-out; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; }
+    .nav-button { background-color: var(--nav-primary-bg); color: #ffffff; padding: 0.6rem 1rem; }
+    .nav-button:hover, .nav-button:focus-visible { background-color: var(--nav-primary-hover); transform: translateY(-2px); box-shadow: 0 4px 8px var(--nav-shadow); }
+    .nav-home-link { color: var(--nav-secondary-text); font-size: 1rem; gap: 0.5rem; }
+    .nav-home-link:hover, .nav-home-link:focus-visible { color: var(--nav-secondary-hover); text-decoration: underline; }
+    .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
+
+    /* --- CLASSROOM MODE STYLES --- */
+    #classroom-display { display: none; }
+    body.classroom-view { background-color: var(--white); overflow: hidden; }
+    body.classroom-view .page-container,
+    body.classroom-view .toolkit-nav { display: none !important; }
+    body.classroom-view #classroom-display {
+        display: flex; flex-direction: column; align-items: center;
+        justify-content: flex-start; text-align: center;
+        width: 100%; height: 100vh; padding: 2rem; box-sizing: border-box;
+    }
+    .classroom-header {
+        width: 100%; text-align: center; position: relative;
+        border-bottom: 2px solid var(--sky-blue); padding-bottom: 10px; margin-bottom: 1rem;
+    }
+    .classroom-header h2 { font-size: 2.5rem; color: var(--midnight-blue); margin-bottom: 0; }
+    #exit-mode-btn {
+        position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); font-size: 1rem;
+        background: var(--soft-gray); color: var(--midnight-blue); border: 1px solid var(--ice-blue);
+        padding: 8px 16px; border-radius: 8px; cursor: pointer;
+    }
+    .classroom-content { display: flex; flex-direction: column; align-items: center; gap: 1rem; width: 100%; }
+    #classroom-scenario-display {
+      background-color: var(--soft-gray); border-radius: 8px; padding: 1.5rem;
+      width: 90%; max-width: 1000px; transition: opacity 0.3s ease-in-out;
+    }
+    #classroom-scenario-display h3 { font-size: 2rem; color: var(--midnight-blue); margin-bottom: 0.5rem; }
+    #classroom-scenario-display p { font-size: 1.5rem; line-height: 1.4; }
+    #classroom-scenario-btn {
+        font-size: 1.2rem; padding: 0.8rem 1.5rem; border-radius: 8px; background-color: var(--midnight-blue);
+        color: var(--white); font-family: 'Poppins', sans-serif; border: none; cursor: pointer; margin-top: 1rem;
+    }
+    #classroom-discussion-framework { width: 90%; max-width: 1000px; margin-top: 1rem; }
+    #classroom-discussion-framework .framework-header h4 { font-size: 1.2rem; }
+    #classroom-discussion-framework .framework-content p { font-size: 1rem; }
+
+    @media print {
+      body { padding-bottom: 0; }
+      .print-button, .classroom-button, .toolkit-nav, .teacher-notes, #classroom-display { display: none !important; }
+      .framework-step.active .framework-content, .framework-content { max-height: none !important; padding: 8px !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Standard Page View -->
+  <div class="page-container">
+    <main class="page-content">
+      <div class="page-header">
+        <h2>Social Scenarios Dice</h2>
+        <div class="header-buttons">
+            <button class="classroom-button" onclick="enterClassroomMode()">🖥️ Classroom Mode</button>
+            <button class="print-button" onclick="window.print()">🖨️ Print Page</button>
+        </div>
+      </div>
+      <p>Develops perspective-taking and problem-solving skills through hypothetical social situations.</p>
+      <section id="scenario-generator">
+        <div id="current-scenario" aria-live="polite" aria-atomic="true">
+          <h4 id="scenario-title">Loading Scenario...</h4>
+          <p id="scenario-description"></p>
+        </div>
+        <button id="new-scenario-btn" onclick="displayRandomScenario(false)" aria-label="Get a new random scenario">Get a New Scenario</button>
+      </section>
+      <section>
+        <h3>Discussion Framework</h3>
+        <div id="discussion-framework">
+          <div class="framework-step"><div class="framework-header" onclick="toggleStep(this)"><h4>1. Identify the Problem</h4><span class="toggle-icon">▼</span></div><div class="framework-content"><p>What's the core issue? Who is affected? Are there different perspectives?</p></div></div>
+          <div class="framework-step"><div class="framework-header" onclick="toggleStep(this)"><h4>2. Brainstorm Options</h4><span class="toggle-icon">▼</span></div><div class="framework-content"><p>Generate multiple possible responses without judgment. Think creatively!</p></div></div>
+          <div class="framework-step"><div class="framework-header" onclick="toggleStep(this)"><h4>3. Evaluate Consequences</h4><span class="toggle-icon">▼</span></div><div class="framework-content"><p>For each option: How might others feel? What might happen next?</p></div></div>
+          <div class="framework-step"><div class="framework-header" onclick="toggleStep(this)"><h4>4. Choose a Strategy</h4><span class="toggle-icon">▼</span></div><div class="framework-content"><p>Select the most respectful, constructive approach. Role-play if time allows.</p></div></div>
+        </div>
+      </section>
+      <div class="affirmation">"Every interaction is an opportunity to practice kindness."</div>
+      <section class="teacher-notes">
+          <h4 onclick="toggleAccordion(this)" aria-expanded="false">My Classroom Notes <span class="toggle-icon">▼</span></h4>
+          <div class="notes-content">
+              <textarea id="teacher-notes-page5" placeholder="Ideas for next time, student responses, etc. Notes are saved automatically."></textarea>
+          </div>
+      </section>
+    </main>
+    <footer class="footer">
+      <span class="footer-tagline">Where Play Meets Emotional Growth</span>
+      <span class="page-number">5</span>
+      <img class="footer-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'><text x='0' y='15' font-family='Poppins' font-size='12' fill='%23002b5c'>WarrenGami</text></svg>"/>
+    </footer>
+  </div>
+
+  <nav class="toolkit-nav" aria-label="Toolkit Paging">
+    <a href="Page 4 - Emotion Exploration Dice.html" class="nav-button" aria-label="Go to Previous Page">⬅️ Previous</a>
+    <a href="(Table of Contents).html" class="nav-home-link" aria-label="Go to Teacher Dashboard">
+        <span aria-hidden="true">🏠</span>
+        <span>Teacher Dashboard</span>
+    </a>
+    <a href="Page 6 - Family Connection Activities.html" class="nav-button" aria-label="Go to Next Page">Next ➡️</a>
+  </nav>
+
+  <!-- Fullscreen Classroom View -->
+  <div id="classroom-display">
+    <header class="classroom-header">
+      <h2>Social Scenarios</h2>
+      <button id="exit-mode-btn" onclick="exitClassroomMode()">Exit Mode</button>
+    </header>
+    <div class="classroom-content">
+        <div id="classroom-scenario-display">
+            <h3 id="classroom-scenario-title"></h3>
+            <p id="classroom-scenario-description"></p>
+        </div>
+        <button id="classroom-scenario-btn" onclick="displayRandomScenario(true)">Get a New Scenario</button>
+        <div id="classroom-discussion-framework">
+            <div class="framework-step"><div class="framework-header" onclick="toggleStep(this)"><h4>1. Identify the Problem</h4><span class="toggle-icon">▼</span></div><div class="framework-content"><p>What's the core issue? Who is affected? Are there different perspectives?</p></div></div>
+            <div class="framework-step"><div class="framework-header" onclick="toggleStep(this)"><h4>2. Brainstorm Options</h4><span class="toggle-icon">▼</span></div><div class="framework-content"><p>Generate multiple possible responses without judgment. Think creatively!</p></div></div>
+            <div class="framework-step"><div class="framework-header" onclick="toggleStep(this)"><h4>3. Evaluate Consequences</h4><span class="toggle-icon">▼</span></div><div class="framework-content"><p>For each option: How might others feel? What might happen next?</p></div></div>
+            <div class="framework-step"><div class="framework-header" onclick="toggleStep(this)"><h4>4. Choose a Strategy</h4><span class="toggle-icon">▼</span></div><div class="framework-content"><p>Select the most respectful, constructive approach. Role-play if time allows.</p></div></div>
+        </div>
+    </div>
+  </div>
+
+     <script>
+         const scenarios = [
+           { title: "Overheard Comment", description: "You hear someone say unkind things about your friend. What could you do?" },
+           { title: "Group Work Challenge", description: "Your partner isn't doing their share of the work. How might you respond?" },
+           { title: "Lunchroom Dilemma", description: "A classmate sits alone every day. What are some options?" },
+           { title: "Accidental Offense", description: "You hurt someone's feelings without meaning to. What steps could you take?" },
+           { title: "Borrowed Item", description: "You borrowed something from a friend and accidentally broke it. What do you do?" },
+           { title: "Winning and Losing", description: "You won a game, but your friend is a sore loser and gets upset. How do you handle it?" },
+           { title: "Joining In", description: "Your friends start making fun of a new student's clothes. They look at you, expecting you to join in. What could you do or say?" },
+           { title: "Feeling Left Out", description: "You find out that several of your friends were invited to a birthday party, but you weren't. How could you handle these feelings?" }
+         ];
+         let currentScenarioIndex = -1;
+
+         // --- Element Cache ---
+         const pageElements = {
+             title: document.getElementById('scenario-title'),
+             description: document.getElementById('scenario-description'),
+             notesTextArea: document.getElementById('teacher-notes-page5')
+         };
+         const classroomElements = {
+             display: document.getElementById('classroom-scenario-display'),
+             title: document.getElementById('classroom-scenario-title'),
+             description: document.getElementById('classroom-scenario-description')
+         };
+
+         // --- Core Functions ---
+         function displayRandomScenario(isClassroom) {
+           const newIndex = Math.floor(Math.random() * scenarios.length);
+           currentScenarioIndex = newIndex; // Update current index
+           const scenario = scenarios[newIndex];
+
+           if (isClassroom) {
+             classroomElements.display.style.opacity = '0';
+             setTimeout(() => {
+                classroomElements.title.innerText = scenario.title;
+                classroomElements.description.innerText = scenario.description;
+                classroomElements.display.style.opacity = '1';
+             }, 300); // Match timeout with CSS transition
+           } else {
+             pageElements.title.innerText = scenario.title;
+             pageElements.description.innerText = scenario.description;
+           }
+         }
+
+         function updateClassroomView() {
+            if(currentScenarioIndex < 0) { // No scenario selected yet
+                displayRandomScenario(true);
+            } else {
+                const scenario = scenarios[currentScenarioIndex];
+                classroomElements.title.innerText = scenario.title;
+                classroomElements.description.innerText = scenario.description;
+            }
+         }
+
+         // --- View Toggling ---
+         function enterClassroomMode() {
+             document.body.classList.add('classroom-view');
+             updateClassroomView();
+         }
+         function exitClassroomMode() {
+             document.body.classList.remove('classroom-view');
+         }
+
+         // --- Accordion Helpers ---
+         function toggleStep(headerElement) {
+           const step = headerElement.parentElement;
+           const wasActive = step.classList.contains('active');
+           // Close all others when one is opened
+           document.querySelectorAll('.framework-step').forEach(s => s.classList.remove('active'));
+           if (!wasActive) {
+              step.classList.add('active');
+           }
+         }
+         function toggleAccordion(headerElement) {
+            const section = headerElement.closest('.teacher-notes');
+            if(section) {
+                const isOpening = section.classList.toggle('open');
+                headerElement.setAttribute('aria-expanded', isOpening);
+            }
+         }
+
+         // --- LocalStorage & Init ---
+         window.addEventListener('load', () => {
+             displayRandomScenario(false);
+             const savedNotes = localStorage.getItem('teacher-notes-page5');
+             if (savedNotes) pageElements.notesTextArea.value = savedNotes;
+         });
+         pageElements.notesTextArea.addEventListener('input', () => {
+             localStorage.setItem('teacher-notes-page5', pageElements.notesTextArea.value);
+         });
+
+       </script>
+     </body>
+     </html>

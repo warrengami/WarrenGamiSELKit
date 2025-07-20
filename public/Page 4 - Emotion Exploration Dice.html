@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>WarrenGami SEL Toolkit - Page 4: Emotion Exploration (Interactive)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --midnight-blue: #002b5c;
+      --sky-blue: #73bdf5;
+      --ice-blue: #cfe9ff;
+      --soft-gray: #e0e6ed;
+      --white: #ffffff;
+      --highlight-yellow: #fffde7;
+      --nav-bg: #f8f9fa;
+      --nav-border: #dee2e6;
+      --nav-text: #212529;
+      --nav-primary-bg: #002b5c;
+      --nav-primary-hover: #00408a;
+      --nav-secondary-text: #002b5c;
+      --nav-secondary-hover: #73bdf5;
+      --nav-shadow: rgba(0, 0, 0, 0.1);
+    }
+    html, body {
+      height: 100%; margin: 0; padding: 0;
+    }
+    body {
+      font-family: 'Atkinson Hyperlegible', sans-serif; line-height: 1.4;
+      color: var(--midnight-blue); background-color: #f0f4f8; font-size: 12px;
+      padding-bottom: 80px; /* Space for new nav bar */
+    }
+    .page-container {
+      width: 148mm; min-height: 100%; margin: 0 auto;
+      display: flex; flex-direction: column;
+      background-color: var(--white); box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    .page-content { flex: 1 0 auto; padding: 10mm; }
+    .page-header {
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 2px solid var(--sky-blue); padding-bottom: 3px;
+      margin-top: 15px; margin-bottom: 12px;
+    }
+    .header-buttons { display: flex; gap: 8px; }
+    h2, h3, h4 {
+      font-family: 'Poppins', sans-serif; margin: 0 0 10px 0;
+    }
+    h2 { font-size: 16px; color: var(--midnight-blue); margin: 0; }
+    h3 { font-size: 14px; }
+    h4 { font-size: 13px; }
+    p { font-size: 11px; margin: 0 0 10px 0; }
+
+    .dice-roller {
+      display: flex; align-items: center; gap: 15px;
+      background: var(--soft-gray); padding: 10px;
+      border-radius: 5px; margin-bottom: 12px;
+    }
+    #dice-display-page {
+      width: 50px; height: 50px; background-color: var(--white);
+      border: 2px solid var(--sky-blue); border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px; font-weight: bold; font-family: 'Poppins', sans-serif;
+    }
+    #roll-button-page {
+      background-color: var(--midnight-blue); color: var(--white);
+      font-family: 'Poppins', sans-serif; font-size: 14px;
+      border: none; padding: 10px 15px; border-radius: 5px;
+      cursor: pointer; transition: background-color 0.3s;
+    }
+    #roll-button-page:disabled { background-color: #a9a9a9; cursor: not-allowed; }
+
+    .prompt-table {
+      width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 10px;
+    }
+    .prompt-table th { background-color: var(--midnight-blue); color: var(--white); padding: 5px; text-align: left; }
+    .prompt-table td { padding: 5px; border-bottom: 1px solid var(--soft-gray); }
+    .prompt-table tbody tr { transition: background-color 0.3s; cursor: pointer; }
+    .prompt-table tbody tr.highlighted { background-color: var(--sky-blue) !important; color: var(--white); font-weight: bold; }
+
+    .teacher-tip, .teacher-notes {
+        background-color: var(--soft-gray); border-radius: 5px; padding: 0; margin: 12px 0;
+        border-left: 3px solid var(--sky-blue);
+    }
+    .teacher-tip h4, .teacher-notes h4 { margin: 0; padding: 10px; display: flex; align-items: center; font-size: 12px; cursor: pointer; }
+    .teacher-tip h4:before { content: "★"; margin-right: 5px; }
+    .teacher-notes h4:before { content: "✎"; margin-right: 5px; }
+    .tip-content, .notes-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out; padding: 0 10px; }
+    .teacher-tip.open .tip-content, .teacher-notes.open .notes-content { max-height: 200px; padding: 0 10px 10px 10px; }
+    .teacher-tip h4 .toggle-icon, .teacher-notes h4 .toggle-icon { margin-left: auto; transition: transform 0.4s; }
+    .teacher-tip.open .toggle-icon, .teacher-notes.open .toggle-icon { transform: rotate(180deg); }
+    #teacher-notes-page4 { width: 100%; box-sizing: border-box; min-height: 100px; border: 1px solid var(--ice-blue); padding: 5px; }
+    #journal-entry { width: 100%; box-sizing: border-box; border: 1px solid var(--soft-gray); padding: 10px; margin: 12px 0; min-height: 60mm; resize: vertical; }
+    .print-button, .classroom-button { background-color: var(--soft-gray); border: 1px solid var(--ice-blue); color: var(--midnight-blue); padding: 5px 10px; border-radius: 15px; cursor: pointer; font-size: 11px; font-family: 'Poppins', sans-serif; }
+    
+    .footer {
+      flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;
+      font-size: 9px; color: var(--midnight-blue);
+      border-top: 1px solid var(--soft-gray); padding: 10px;
+    }
+    .footer-logo { height: 12px; }
+    .page-number { font-family: 'Poppins', sans-serif; }
+    .footer-tagline { font-style: italic; color: var(--sky-blue); }
+
+    .toolkit-nav {
+        position: fixed; bottom: 0; left: 0; width: 100%;
+        background-color: var(--nav-bg); display: flex;
+        justify-content: space-between; align-items: center;
+        padding: 0.75rem 1rem; box-shadow: 0 -2px 10px var(--nav-shadow);
+        border-top: 1px solid var(--nav-border); z-index: 1000;
+        box-sizing: border-box;
+    }
+    .toolkit-nav a { font-family: 'Poppins', sans-serif; text-decoration: none; border-radius: 8px; transition: all 0.2s ease-in-out; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; }
+    .nav-button { background-color: var(--nav-primary-bg); color: #ffffff; padding: 0.6rem 1rem; }
+    .nav-button:hover, .nav-button:focus-visible { background-color: var(--nav-primary-hover); transform: translateY(-2px); box-shadow: 0 4px 8px var(--nav-shadow); }
+    .nav-home-link { color: var(--nav-secondary-text); font-size: 1rem; gap: 0.5rem; }
+    .nav-home-link:hover, .nav-home-link:focus-visible { color: var(--nav-secondary-hover); text-decoration: underline; }
+    .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
+
+    /* --- CLASSROOM MODE & DICE ANIMATION --- */
+    #classroom-display { display: none; }
+    body.classroom-view { background-color: var(--white); overflow: hidden; }
+    body.classroom-view .page-container,
+    body.classroom-view .toolkit-nav { display: none !important; }
+
+    body.classroom-view #classroom-display {
+        display: flex; flex-direction: column; align-items: center;
+        width: 100%; height: 100vh; padding: 2rem; box-sizing: border-box;
+    }
+    .classroom-header { width: 100%; text-align: center; position: relative; border-bottom: 2px solid var(--sky-blue); padding-bottom: 10px; margin-bottom: 2rem; }
+    .classroom-header h2 { font-size: 2.5rem; }
+    #exit-mode-btn { position: absolute; top: 50%; right: 1rem; transform: translateY(-50%); font-size: 1rem; padding: 8px 16px; border-radius: 8px; cursor: pointer; background: var(--soft-gray); border: 1px solid var(--ice-blue); }
+    
+    #active-prompt-display {
+        background: var(--highlight-yellow); border: 2px solid var(--sky-blue); border-radius: 8px;
+        padding: 1.5rem; width: 80%; max-width: 900px; text-align: center;
+        transition: opacity 0.3s ease;
+    }
+    #active-prompt-display h3 { font-size: 2rem; }
+    #active-prompt-display p { font-size: 1.2rem; }
+    #classroom-roll-button { font-size: 1.5rem; padding: 1rem 1.5rem; border-radius: 8px; margin-top: 2rem; background-color: var(--midnight-blue); color: var(--white); border: none; cursor: pointer; }
+    #classroom-roll-button:disabled { background-color: #a9a9a9; }
+
+    #dice-animation-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background-color: rgba(255, 255, 255, 0.9);
+        display: flex; justify-content: center; align-items: center;
+        z-index: 2000;
+        opacity: 0; visibility: hidden;
+        transition: opacity 0.3s, visibility 0.3s;
+    }
+    #dice-animation-overlay.visible { opacity: 1; visibility: visible; }
+    
+    .dice-container { perspective: 1000px; }
+    .dice {
+        width: 150px; height: 150px;
+        position: relative;
+        transform-style: preserve-3d;
+    }
+    .dice.rolling { animation: tumble 2s cubic-bezier(.57,-0.44,.47,1.44); }
+    .face {
+        position: absolute; width: 150px; height: 150px;
+        background: var(--white); border: 3px solid var(--midnight-blue);
+        border-radius: 10px;
+        font-size: 80px; font-family: 'Poppins', sans-serif;
+        display: flex; justify-content: center; align-items: center;
+        color: var(--midnight-blue);
+    }
+    .front  { transform: translateZ(75px); }
+    .back   { transform: rotateY(180deg) translateZ(75px); }
+    .right  { transform: rotateY(90deg) translateZ(75px); }
+    .left   { transform: rotateY(-90deg) translateZ(75px); }
+    .top    { transform: rotateX(90deg) translateZ(75px); }
+    .bottom { transform: rotateX(-90deg) translateZ(75px); }
+
+    @keyframes tumble {
+        0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+        100% { transform: rotateX(1440deg) rotateY(1080deg) rotateZ(720deg); }
+    }
+    
+    @media print {
+      body { padding-bottom: 0; }
+      .print-button, .classroom-button, .toolkit-nav, .teacher-notes, #classroom-display, #dice-animation-overlay { display: none !important; }
+      .teacher-tip .tip-content { max-height: none !important; overflow: visible !important; }
+      #journal-entry { border: 1px solid #ccc; background-image: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Standard Page View -->
+  <div class="page-container">
+    <main class="page-content">
+      <div class="page-header">
+        <h2>Emotion Exploration Dice</h2>
+        <div class="header-buttons">
+          <button class="classroom-button" onclick="enterClassroomMode()">🖥️ Classroom Mode</button>
+          <button class="print-button" onclick="window.print()">🖨️ Print Page</button>
+        </div>
+      </div>
+      <p>Helps students identify and articulate feelings in themselves and others. Builds emotional vocabulary and self-awareness.</p>
+      <section class="dice-roller">
+        <div id="dice-display-page" aria-live="polite">?</div>
+        <button id="roll-button-page" onclick="rollDice(false)" aria-label="Roll the dice and select a random prompt">Roll the Dice!</button>
+      </section>
+      <section>
+        <h3>Discussion Prompts</h3>
+        <table class="prompt-table">
+          <thead><tr><th>Face</th><th>Prompt</th><th>Extension</th></tr></thead>
+          <tbody id="prompt-list-page">
+            <tr data-face="1"><td>1</td><td>What emotion is easiest for you to recognize in others? How can you tell?</td><td>Practice facial expressions for that emotion</td></tr>
+            <tr data-face="2"><td>2</td><td>Describe a time you felt proud. Where did you feel it in your body?</td><td>Draw where emotions live in the body</td></tr>
+            <tr data-face="3"><td>3</td><td>What's a helpful strategy when you feel frustrated?</td><td>Create class list of coping strategies</td></tr>
+            <tr data-face="4"><td>4</td><td>How can you tell when a friend is feeling sad?</td><td>Role-play comforting responses</td></tr>
+            <tr data-face="5"><td>5</td><td>Name an emotion that's hard for you. What makes it difficult?</td><td>Brainstorm ways to manage that emotion</td></tr>
+            <tr data-face="6"><td>6</td><td>What helps you calm down when you're anxious?</td><td>Practice one strategy together</td></tr>
+          </tbody>
+        </table>
+      </section>
+      <div class="teacher-tip">
+        <h4 onclick="toggleAccordion(this)" aria-expanded="false">Scaffolding Tip <span class="toggle-icon">▼</span></h4>
+        <div class="tip-content"><p>For younger students or those with limited emotional vocabulary, provide visual emotion cards or a feelings wheel as reference during discussions.</p></div>
+      </div>
+      <section>
+        <h3>Journal Reflection</h3>
+        <textarea id="journal-entry" placeholder="Your selected prompt and reflection will appear here..."></textarea>
+      </section>
+      <section class="teacher-notes">
+        <h4 onclick="toggleAccordion(this)" aria-expanded="false">My Classroom Notes <span class="toggle-icon">▼</span></h4>
+        <div class="notes-content"><textarea id="teacher-notes-page4" placeholder="Ideas for next time, student responses, etc. Notes are saved automatically."></textarea></div>
+      </section>
+    </main>
+    <footer class="footer">
+      <span class="footer-tagline">Where Play Meets Emotional Growth</span>
+      <span class="page-number">4</span>
+      <img class="footer-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'><text x='0' y='15' font-family='Poppins' font-size='12' fill='%23002b5c'>WarrenGami</text></svg>"/>
+    </footer>
+  </div>
+  
+  <nav class="toolkit-nav" aria-label="Toolkit Paging">
+     <a href="Page 3 - Discussion Dice How They Work.html" class="nav-button" aria-label="Go to Previous Page">⬅️ Previous</a>
+     <a href="(Table of Contents).html" class="nav-home-link" aria-label="Go to Teacher Dashboard">
+         <span aria-hidden="true">🏠</span>
+         <span>Teacher Dashboard</span>
+     </a>
+     <a href="Page 5 - Social Scenarios Dice.html" class="nav-button" aria-label="Go to Next Page">Next ➡️</a>
+  </nav>
+
+  <!-- Fullscreen Classroom View -->
+  <div id="classroom-display">
+    <header class="classroom-header">
+      <h2>Emotion Exploration Dice</h2>
+      <button id="exit-mode-btn" onclick="exitClassroomMode()">Exit Mode</button>
+    </header>
+    <div id="active-prompt-display">
+      <h3 id="active-prompt-text">Welcome!</h3>
+      <p id="active-extension-text">Click the button below to roll the dice and get a discussion prompt.</p>
+    </div>
+    <button id="classroom-roll-button" onclick="rollDice(true)">Roll the Dice!</button>
+  </div>
+
+  <!-- Dice Roll Animation Overlay -->
+  <div id="dice-animation-overlay">
+      <div class="dice-container">
+          <div class="dice" id="animated-dice">
+              <div class="face front">1</div><div class="face back">6</div><div class="face right">4</div>
+              <div class="face left">3</div><div class="face top">5</div><div class="face bottom">2</div>
+          </div>
+      </div>
+  </div>
+     
+     <script>
+        // --- Element Cache ---
+        const pageElements = {
+            diceDisplay: document.getElementById('dice-display-page'),
+            journalEntry: document.getElementById('journal-entry'),
+            tableRows: document.querySelectorAll('#prompt-list-page tr'),
+            notesTextArea: document.getElementById('teacher-notes-page4'),
+            rollBtn: document.getElementById('roll-button-page')
+        };
+        const classroomElements = {
+            rollBtn: document.getElementById('classroom-roll-button'),
+            promptText: document.getElementById('active-prompt-text'),
+            extensionText: document.getElementById('active-extension-text'),
+            animationOverlay: document.getElementById('dice-animation-overlay'),
+            animatedDice: document.getElementById('animated-dice')
+        };
+        let currentFace = 1;
+
+        // --- Core Functions ---
+        function selectPrompt(face) {
+          currentFace = face;
+          const promptRow = document.querySelector(`#prompt-list-page tr[data-face="${face}"]`);
+          if (!promptRow) return;
+
+          const promptText = promptRow.cells[1].innerText;
+          const extensionText = promptRow.cells[2].innerText;
+          
+          // Update classroom display data
+          classroomElements.promptText.innerText = promptText;
+          classroomElements.extensionText.innerText = `Extension: ${extensionText}`;
+          
+          // Update page elements
+          pageElements.diceDisplay.innerText = face;
+          pageElements.journalEntry.value = `Prompt: ${promptText}\nExtension Idea: ${extensionText}\n\nMy Reflection:\n`;
+          pageElements.tableRows.forEach(row => row.classList.remove('highlighted'));
+          promptRow.classList.add('highlighted');
+        }
+
+        function rollDice(isClassroom) {
+          const rollBtn = isClassroom ? classroomElements.rollBtn : pageElements.rollBtn;
+          if(rollBtn.disabled) return;
+          rollBtn.disabled = true;
+          
+          const finalFace = Math.floor(Math.random() * 6) + 1;
+
+          if (isClassroom) {
+            classroomElements.animationOverlay.classList.add('visible');
+            classroomElements.animatedDice.classList.add('rolling');
+            
+            setTimeout(() => {
+                classroomElements.animatedDice.classList.remove('rolling');
+                switch(finalFace) {
+                    case 1: classroomElements.animatedDice.style.transform = 'rotateX(0deg) rotateY(0deg)'; break;
+                    case 6: classroomElements.animatedDice.style.transform = 'rotateX(0deg) rotateY(180deg)'; break;
+                    case 4: classroomElements.animatedDice.style.transform = 'rotateY(90deg)'; break;
+                    case 3: classroomElements.animatedDice.style.transform = 'rotateY(-90deg)'; break;
+                    case 5: classroomElements.animatedDice.style.transform = 'rotateX(90deg)'; break;
+                    case 2: classroomElements.animatedDice.style.transform = 'rotateX(-90deg)'; break;
+                }
+                
+                setTimeout(() => {
+                    classroomElements.animationOverlay.classList.remove('visible');
+                    selectPrompt(finalFace);
+                    rollBtn.disabled = false;
+                }, 800); // Pause on result
+            }, 2000); // Animation duration
+          } else {
+            selectPrompt(finalFace);
+            rollBtn.disabled = false;
+          }
+        }
+
+        // --- View Toggling ---
+        function enterClassroomMode() {
+            document.body.classList.add('classroom-view');
+            selectPrompt(currentFace); // Ensure classroom view shows the current prompt
+        }
+        function exitClassroomMode() {
+            document.body.classList.remove('classroom-view');
+        }
+
+        // --- Page-Specific Helpers ---
+        function toggleAccordion(headerElement) {
+          const section = headerElement.closest('.teacher-tip, .teacher-notes');
+          if (section) {
+              const isOpening = section.classList.toggle('open');
+              headerElement.setAttribute('aria-expanded', isOpening);
+          }
+        }
+        document.querySelectorAll('#prompt-list-page tr').forEach(row => {
+            row.addEventListener('click', () => selectPrompt(parseInt(row.dataset.face)));
+        });
+
+        // --- LocalStorage & Init ---
+        window.addEventListener('load', () => {
+            selectPrompt(1); // Start with a default prompt
+            const savedNotes = localStorage.getItem('teacher-notes-page4');
+            if (savedNotes) pageElements.notesTextArea.value = savedNotes;
+        });
+        pageElements.notesTextArea.addEventListener('input', () => {
+            localStorage.setItem('teacher-notes-page4', pageElements.notesTextArea.value);
+        });
+
+      </script>
+    </body>
+    </html>

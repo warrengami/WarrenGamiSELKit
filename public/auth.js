@@ -1,17 +1,14 @@
-
 // This script runs on every page to manage authentication state.
 
 const TOKEN_KEY = 'toolkit_access_token';
 const LOGIN_PAGE = '/index.html';
 const PROTECTED_PAGE = '/toolkit.html';
 
-// Function to handle logging out
 function logout() {
     sessionStorage.removeItem(TOKEN_KEY);
     window.location.href = LOGIN_PAGE;
 }
 
-// Function to get the token payload (user data)
 function getUserData() {
     const token = sessionStorage.getItem(TOKEN_KEY);
     if (!token) return null;

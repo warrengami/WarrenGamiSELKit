@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>WarrenGami SEL Toolkit - Page 9: Academic Integration (Interactive)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --midnight-blue: #002b5c;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --soft-gray: #e0e6ed;
+            --white: #ffffff;
+            /* --- Nav Bar Colors --- */
+            --nav-bg: #f8f9fa;
+            --nav-border: #dee2e6;
+            --nav-text: #212529;
+            --nav-primary-bg: #002b5c;
+            --nav-primary-hover: #00408a;
+            --nav-secondary-text: #002b5c;
+            --nav-secondary-hover: #73bdf5;
+            --nav-shadow: rgba(0, 0, 0, 0.1);
+        }
+        html, body {
+            height: 100%; margin: 0; padding: 0;
+        }
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            line-height: 1.4; color: var(--midnight-blue);
+            background-color: #f0f4f8; font-size: 12px;
+            padding-bottom: 80px; /* Space for new nav bar */
+        }
+        .page-container {
+            width: 148mm; min-height: 100%; margin: 0 auto;
+            display: flex; flex-direction: column;
+            background-color: var(--white);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .page-content { flex: 1 0 auto; padding: 10mm; }
+        .page-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--sky-blue); padding-bottom: 3px;
+            margin-top: 15px; margin-bottom: 12px;
+        }
+        h2, h3, h4 {
+            font-family: 'Poppins', sans-serif; margin: 0 0 10px 0;
+        }
+        h2 { font-size: 16px; color: var(--midnight-blue); margin: 0; }
+        h3 { font-size: 14px; }
+        h4 { font-size: 13px; }
+        p { margin: 0 0 10px 0; font-size: 11px; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+
+        #filter-container {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px;
+        }
+        .filter-btn {
+            background-color: var(--soft-gray); border: 1px solid var(--ice-blue);
+            color: var(--midnight-blue); padding: 5px 10px; border-radius: 15px;
+            cursor: pointer; font-size: 11px; transition: all 0.3s ease;
+        }
+        .filter-btn:hover { background-color: var(--sky-blue); color: var(--white); }
+        .filter-btn:focus-visible { outline: 2px solid var(--midnight-blue); outline-offset: 1px; }
+        .filter-btn[aria-checked="true"] {
+            background-color: var(--midnight-blue); color: var(--white); font-weight: bold;
+        }
+
+        #idea-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+        }
+        .idea-card {
+            background-color: var(--ice-blue); border-radius: 5px; padding: 10px;
+            border-left: 3px solid var(--sky-blue); transition: all 0.4s ease;
+            overflow: hidden;
+        }
+        .idea-card h4 { margin: 0 0 5px 0; font-size: 12px; }
+        .idea-card p { margin: 0; font-size: 10px; line-height: 1.3; }
+        .idea-card.hidden {
+            transform: scale(0.9); opacity: 0; max-height: 0;
+            padding-top: 0; padding-bottom: 0; margin-bottom: -10px; border-width: 0;
+        }
+
+        .teacher-tip {
+            background-color: var(--soft-gray); border-radius: 5px;
+            padding: 0; margin: 12px 0; border-left: 3px solid var(--sky-blue);
+        }
+        .teacher-tip.open { background-color: #d4dde6; }
+        .teacher-tip h4 {
+            margin: 0; padding: 10px; display: flex; align-items: center;
+            font-size: 12px; cursor: pointer;
+        }
+        .teacher-tip h4:hover { background-color: var(--ice-blue); }
+        .teacher-tip h4:focus-visible { outline: 2px solid var(--midnight-blue); outline-offset: -1px; }
+        .teacher-tip h4:before { content: "★"; margin-right: 5px; }
+        .teacher-tip .tip-content {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding: 0 10px;
+        }
+        .teacher-tip.open .tip-content { max-height: 100px; padding: 0 10px 10px 10px; }
+        .teacher-tip h4 .toggle-icon { margin-left: auto; transition: transform 0.4s; }
+        .teacher-tip.open .toggle-icon { transform: rotate(180deg); }
+
+        .print-button {
+            background-color: var(--soft-gray); border: 1px solid var(--ice-blue);
+            color: var(--midnight-blue); padding: 5px 10px; border-radius: 15px;
+            cursor: pointer; font-size: 11px; font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .print-button:hover { background-color: var(--sky-blue); color: var(--white); }
+
+        .footer {
+            flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;
+            font-size: 9px; color: var(--midnight-blue);
+            border-top: 1px solid var(--soft-gray); padding: 10px;
+        }
+        .footer-logo { height: 12px; }
+        .page-number { font-family: 'Poppins', sans-serif; }
+        .footer-tagline { font-style: italic; color: var(--sky-blue); }
+
+        /* --- NEW NAVIGATION BAR STYLES --- */
+        .toolkit-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--nav-bg); display: flex;
+            justify-content: space-between; align-items: center;
+            padding: 0.75rem 1rem; box-shadow: 0 -2px 10px var(--nav-shadow);
+            border-top: 1px solid var(--nav-border); z-index: 1000; box-sizing: border-box;
+        }
+        .toolkit-nav a {
+            font-family: 'Poppins', sans-serif; text-decoration: none;
+            border-radius: 8px; transition: all 0.2s ease-in-out;
+            display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
+        }
+        .nav-button {
+            background-color: var(--nav-primary-bg); color: #ffffff; padding: 0.6rem 1rem;
+        }
+        .nav-button:hover, .nav-button:focus-visible {
+            background-color: var(--nav-primary-hover); transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--nav-shadow);
+        }
+        .nav-home-link {
+            color: var(--nav-secondary-text); font-size: 1rem; gap: 0.5rem;
+        }
+        .nav-home-link:hover, .nav-home-link:focus-visible {
+            color: var(--nav-secondary-hover); text-decoration: underline;
+        }
+        .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
+
+        @media print {
+            body { padding-bottom: 0 !important; }
+            .page-container { box-shadow: none; }
+            #filter-container, .toolkit-nav, .print-button, .teacher-tip h4 { cursor: default; }
+            .teacher-tip .tip-content { max-height: none !important; }
+            .idea-card.hidden { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <main class="page-content">
+            <header>
+                <div class="page-header">
+                    <h2>Integrating SEL Across the Curriculum</h2>
+                    <button class="print-button" onclick="window.print()">🖨️ Print Page</button>
+                </div>
+                <p>Weave social-emotional learning into your daily academic instruction to reinforce skills in context.</p>
+            </header>
+
+            <section>
+                <h3>Filter by Subject:</h3>
+                <div id="filter-container" role="radiogroup" aria-label="Filter SEL ideas by subject">
+                    <button class="filter-btn" role="radio" data-subject="all" onclick="filterIdeas(this)" onkeydown="handleFilterKeydown(event)">All Subjects</button>
+                    <button class="filter-btn" role="radio" data-subject="literacy" onclick="filterIdeas(this)" onkeydown="handleFilterKeydown(event)">Literacy/ELA</button>
+                    <button class="filter-btn" role="radio" data-subject="history" onclick="filterIdeas(this)" onkeydown="handleFilterKeydown(event)">History</button>
+                    <button class="filter-btn" role="radio" data-subject="math-science" onclick="filterIdeas(this)" onkeydown="handleFilterKeydown(event)">Math/Science</button>
+                    <button class="filter-btn" role="radio" data-subject="arts" onclick="filterIdeas(this)" onkeydown="handleFilterKeydown(event)">The Arts</button>
+                </div>
+                <div id="filter-status" class="sr-only" aria-live="polite"></div>
+
+                <div id="idea-grid">
+                    <div class="idea-card" data-subject="literacy"><h4>Character Analysis</h4><p>Use dice prompts to discuss characters' feelings, motivations, and decisions.</p></div>
+                    <div class="idea-card" data-subject="literacy"><h4>Author's Purpose & Empathy</h4><p>Analyze why an author made a character act a certain way to make the reader feel an emotion.</p></div>
+                    <div class="idea-card" data-subject="literacy"><h4>Perspective Writing</h4><p>Have students rewrite a scene from a different character's point of view.</p></div>
+                    <div class="idea-card" data-subject="literacy"><h4>Structured Debate</h4><p>Use discussion norms (p. 3) for structured debates on topics from a novel or article.</p></div>
+                    <div class="idea-card" data-subject="history"><h4>Historical Empathy</h4><p>Discuss the perspectives and feelings of different groups during historical events.</p></div>
+                    <div class="idea-card" data-subject="history"><h4>Civic Dialogue</h4><p>Use the discussion norms for respectful debates on historical or current events.</p></div>
+                    <div class="idea-card" data-subject="history"><h4>Analyzing Primary Sources</h4><p>When reading historical letters or diaries, identify the emotions and perspectives of the writer.</p></div>
+                    <div class="idea-card" data-subject="math-science"><h4>Group Work Norms</h4><p>Apply scenario card strategies to lab groups or collaborative math problems.</p></div>
+                    <div class="idea-card" data-subject="math-science"><h4>Growth Mindset</h4><p>Discuss frustration and perseverance when facing challenging multi-step problems.</p></div>
+                    <div class="idea-card" data-subject="math-science"><h4>Data Storytelling</h4><p>Use charts and data to tell a human story. "What do these numbers tell us about people's lives?"</p></div>
+                    <div class="idea-card" data-subject="arts"><h4>Emotion Wheels</h4><p>In Visual Arts, create color wheels or drawings to represent different feelings.</p></div>
+                    <div class="idea-card" data-subject="arts"><h4>Role-Playing Prompts</h4><p>In Drama, use scenario cards as prompts for role-playing and improvisational skits.</p></div>
+                    <div class="idea-card" data-subject="arts"><h4>Music & Mood</h4><p>Play different musical pieces and have students describe or draw the emotions they evoke.</p></div>
+                </div>
+            </section>
+
+            <div class="teacher-tip">
+                <h4 onclick="toggleTip(this)" onkeydown="handleTipKeydown(event)" role="button" tabindex="0" aria-expanded="false" aria-controls="tip-content">Cross-Curricular Connection <span class="toggle-icon">▼</span></h4>
+                <div class="tip-content" id="tip-content">
+                    <p>Start each lesson with a quick SEL check-in using one dice prompt. This takes only 2 minutes and sets a positive tone for learning in any subject.</p>
+                </div>
+            </div>
+        </main>
+        <footer class="footer">
+            <span class="footer-tagline">Where Play Meets Emotional Growth</span>
+            <span class="page-number">9</span>
+            <img class="footer-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'><text x='0' y='15' font-family='Poppins' font-size='12' fill='%23002b5c'>WarrenGami</text></svg>"/>
+        </footer>
+    </div>
+     <nav class="toolkit-nav" aria-label="Toolkit Paging">
+        <a href="Page 8 - Advanced SEL Concepts.html" class="nav-button" aria-label="Go to Previous Page">⬅️ Previous</a>
+        <a href="(Table of Contents).html" class="nav-home-link" aria-label="Go to Table of Contents">
+            <span aria-hidden="true">🏠</span>
+            <span>Teacher Dashboard</span>
+        </a>
+        <a href="Page 10 - Digital Resources & Extensions.html" class="nav-button" aria-label="Go to Next Page">Next ➡️</a>
+     </nav>
+     <script>
+            const filterContainer = document.getElementById('filter-container');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const ideaCards = document.querySelectorAll('.idea-card');
+            const filterStatus = document.getElementById('filter-status');
+
+            function setActiveFilter(button) {
+                const subject = button.dataset.subject;
+                let visibleCount = 0;
+
+                // Update ARIA states for all buttons
+                filterButtons.forEach(btn => {
+                    const isSelected = btn === button;
+                    btn.setAttribute('aria-checked', isSelected);
+                    btn.setAttribute('tabindex', isSelected ? '0' : '-1');
+                });
+                
+                // Show or hide cards and count visible ones
+                ideaCards.forEach(card => {
+                    const cardSubject = card.dataset.subject;
+                    const isMatch = subject === 'all' || cardSubject.includes(subject);
+                    card.classList.toggle('hidden', !isMatch);
+                    if (isMatch) visibleCount++;
+                });
+
+                // Update live region status
+                const subjectText = button.textContent;
+                filterStatus.textContent = `Showing ${visibleCount} ideas for ${subjectText}.`;
+            }
+
+            function filterIdeas(button) {
+                setActiveFilter(button);
+            }
+
+            function handleFilterKeydown(event) {
+                const { key, target } = event;
+                if (key !== 'ArrowRight' && key !== 'ArrowLeft') return;
+
+                event.preventDefault();
+                const current = Array.from(filterButtons).indexOf(target);
+                let next;
+
+                if (key === 'ArrowRight') {
+                    next = current < filterButtons.length - 1 ? current + 1 : 0;
+                } else if (key === 'ArrowLeft') {
+                    next = current > 0 ? current - 1 : filterButtons.length - 1;
+                }
+                
+                filterButtons[next].focus();
+                setActiveFilter(filterButtons[next]);
+            }
+
+            function toggleTip(headerElement) {
+                const tip = headerElement.closest('.teacher-tip');
+                const isOpening = tip.classList.toggle('open');
+                headerElement.setAttribute('aria-expanded', isOpening);
+            }
+
+            function handleTipKeydown(event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    toggleTip(event.currentTarget);
+                }
+            }
+
+            window.onload = () => {
+                const initialButton = filterButtons[0];
+                setActiveFilter(initialButton);
+            };
+        </script>
+ </body>
+ </html>
