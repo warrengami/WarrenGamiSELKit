@@ -1,0 +1,14 @@
+
+{
+  "name": "secure-toolkit-platform",
+  "version": "1.0.0",
+  "description": "A secure, code-based platform with no logins.",
+  "main": "index.js",
+  "scripts": {
+    "generate-hash": "node utils/hash-generator.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

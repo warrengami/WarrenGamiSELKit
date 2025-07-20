@@ -1,0 +1,73 @@
+
+:root {
+    --midnight-blue: #002b5c;
+    --sky-blue: #73bdf5;
+    --ice-blue: #cfe9ff;
+    --soft-gray: #f0f4f8;
+    --white: #ffffff;
+    --red: #ef5350;
+}
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--soft-gray);
+    color: var(--midnight-blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.container {
+    background-color: var(--white);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+h1, h2 {
+    font-family: "Poppins", sans-serif;
+    color: var(--midnight-blue);
+}
+p {
+    color: #555;
+}
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    box-sizing: border-box;
+    border: 1px solid var(--ice-blue);
+    border-radius: 4px;
+    font-size: 16px;
+}
+input[type="text"]:focus {
+    outline: none;
+    border-color: var(--sky-blue);
+    box-shadow: 0 0 5px var(--ice-blue);
+}
+button {
+    background-color: var(--midnight-blue);
+    color: var(--white);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+button:hover {
+    background-color: var(--sky-blue);
+}
+#error-message {
+    color: var(--red);
+    margin-top: 15px;
+    font-weight: bold;
+    min-height: 20px;
+}
+.logout-btn {
+    margin-top: 20px;
+    background-color: var(--red);
+}
