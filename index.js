@@ -10,7 +10,8 @@ const PORT = 3000;
 
 // Hashed version of "WARRENGAMI2025"
 const ACCESS_CODE_HASH = '$2b$10$w.a9.yR7G0kY2J3p7dC9Auv2eYmI7jU9k.g3x.v8B.T1f.L6o.C5m';
-const JWT_SECRET = 'your_super_secret_and_long_random_string_for_security';
+// AFTER
+const JWT_SECRET = process.env.JWT_SECRET;
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public'))); // Serve files from 'public'

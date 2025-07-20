@@ -2,7 +2,7 @@
 
 const TOKEN_KEY = 'toolkit_access_token';
 const LOGIN_PAGE = 'index.html'; // Correct path for the login page
-const PROTECTED_PAGE = 'toolkit.html'; // Correct path for the protected page
+const PROTECTED_PAGE = '(Table of Contents).html'; // Correct path for the protected page
 
 /**
  * Removes the user's token and redirects them to the login page.
@@ -110,7 +110,7 @@ function displayUserData(userData) {
     const userInfoDiv = document.getElementById('user-info');
     if (userInfoDiv && userData) {
         userInfoDiv.innerHTML = `
-            <p><strong>School:</strong> ${userData.school}</p>
+            <p><strong>School:</strong> ${userData.user}</p>
             <p><strong>Subscription:</strong> ${userData.tier} Tier</p>
         `;
     }
