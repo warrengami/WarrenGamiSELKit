@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>WarrenGami SEL Toolkit - Page 11: Glossary & Index (Interactive)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --midnight-blue: #002b5c;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --soft-gray: #e0e6ed;
+            --white: #ffffff;
+            /* --- Nav Bar Colors --- */
+            --nav-bg: #f8f9fa;
+            --nav-border: #dee2e6;
+            --nav-text: #212529;
+            --nav-primary-bg: #002b5c;
+            --nav-primary-hover: #00408a;
+            --nav-secondary-text: #002b5c;
+            --nav-secondary-hover: #73bdf5;
+            --nav-shadow: rgba(0, 0, 0, 0.1);
+        }
+        html, body {
+            height: 100%; margin: 0; padding: 0;
+        }
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            line-height: 1.4; color: var(--midnight-blue);
+            background-color: #f0f4f8; font-size: 12px;
+            padding-bottom: 80px; /* Space for new nav bar */
+        }
+        .page-container {
+            width: 148mm; min-height: 100%; margin: 0 auto;
+            display: flex; flex-direction: column;
+            background-color: var(--white);
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .page-content { flex: 1 0 auto; padding: 10mm; }
+        .page-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--sky-blue); padding-bottom: 3px;
+            margin-top: 15px; margin-bottom: 12px;
+        }
+        h2, h3, h4 {
+            font-family: 'Poppins', sans-serif; margin: 0 0 10px 0;
+        }
+        h2 { font-size: 16px; color: var(--midnight-blue); margin: 0; }
+        h3 { font-size: 14px; }
+        h4 { font-size: 13px; }
+        p { font-size: 11px; margin: 0 0 10px 0; }
+        ul { padding-left: 18px; margin: 8px 0; font-size: 11px; }
+        li { margin-bottom: 5px; }
+        .two-column { display: flex; gap: 15px; align-items: flex-start; }
+        .two-column > div { flex: 1; }
+
+        .glossary-item { border-bottom: 1px solid var(--soft-gray); margin-bottom: 2px; }
+        .glossary-header { margin: 0; }
+        .glossary-btn {
+            background-color: var(--ice-blue); padding: 6px 8px; cursor: pointer;
+            display: flex; justify-content: space-between; align-items: center;
+            width: 100%; border: none; text-align: left;
+            font-family: 'Poppins', sans-serif; font-weight: bold;
+            color: var(--midnight-blue); font-size: 12px;
+            transition: background-color 0.3s;
+        }
+        .glossary-btn:hover { background-color: #bde0ff; }
+        .glossary-btn:focus-visible { outline: 2px solid var(--midnight-blue); outline-offset: -1px; }
+        .glossary-btn .toggle-icon { transition: transform 0.3s; }
+        .glossary-content {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            padding: 0 8px; font-size: 10px; background-color: #f8fafd;
+        }
+        .glossary-content p { font-size: 10px; padding: 8px 0; margin: 0; }
+        .glossary-item[data-state="open"] .glossary-btn { background-color: var(--midnight-blue); color: var(--white); }
+        .glossary-item[data-state="open"] .glossary-content { max-height: 100px; padding: 0 8px; }
+        .glossary-item[data-state="open"] .toggle-icon { transform: rotate(180deg); }
+
+        .index-columns { columns: 2; column-gap: 15px; }
+        .index-columns ul { margin-top: 0; }
+        .index-columns li a { text-decoration: none; color: var(--midnight-blue); border-radius: 2px; }
+        .index-columns li a:hover { text-decoration: underline; color: var(--sky-blue); }
+        .index-columns li a:focus-visible { outline: 2px solid var(--midnight-blue); }
+
+        #notes-area {
+            width: 100%; box-sizing: border-box; border: 1px solid var(--soft-gray);
+            padding: 10px; margin: 12px 0; background-color: var(--white);
+            background-image: linear-gradient(var(--ice-blue) 1px, transparent 1px);
+            background-size: 100% 1.4em; line-height: 1.4em;
+            font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 11px;
+            color: var(--midnight-blue); min-height: 40mm; resize: vertical; border-radius: 3px;
+        }
+        #notes-area:focus-visible { outline: 2px solid var(--midnight-blue); }
+
+        .print-button {
+            background-color: var(--soft-gray); border: 1px solid var(--ice-blue);
+            color: var(--midnight-blue); padding: 5px 10px; border-radius: 15px;
+            cursor: pointer; font-size: 11px; font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .print-button:hover { background-color: var(--sky-blue); color: var(--white); }
+
+        .footer {
+            flex-shrink: 0; display: flex; justify-content: space-between; align-items: center;
+            font-size: 9px; color: var(--midnight-blue);
+            border-top: 1px solid var(--soft-gray); padding: 10px;
+        }
+        .footer-logo { height: 12px; }
+        .page-number { font-family: 'Poppins', sans-serif; }
+        .footer-tagline { font-style: italic; color: var(--sky-blue); }
+
+        /* --- NEW NAVIGATION BAR STYLES --- */
+        .toolkit-nav {
+            position: fixed; bottom: 0; left: 0; width: 100%;
+            background-color: var(--nav-bg); display: flex;
+            justify-content: space-between; align-items: center;
+            padding: 0.75rem 1rem; box-shadow: 0 -2px 10px var(--nav-shadow);
+            border-top: 1px solid var(--nav-border); z-index: 1000; box-sizing: border-box;
+        }
+        .toolkit-nav a {
+            font-family: 'Poppins', sans-serif; text-decoration: none;
+            border-radius: 8px; transition: all 0.2s ease-in-out;
+            display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
+        }
+        .nav-button {
+            background-color: var(--nav-primary-bg); color: #ffffff; padding: 0.6rem 1rem;
+        }
+        .nav-button:hover, .nav-button:focus-visible {
+            background-color: var(--nav-primary-hover); transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--nav-shadow);
+        }
+        .nav-home-link {
+            color: var(--nav-secondary-text); font-size: 1rem; gap: 0.5rem;
+        }
+        .nav-home-link:hover, .nav-home-link:focus-visible {
+            color: var(--nav-secondary-hover); text-decoration: underline;
+        }
+        .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
+
+        @media print {
+            body { padding-bottom: 0 !important; }
+            .page-container { box-shadow: none; }
+            .print-button, .toolkit-nav, .glossary-btn { cursor: default; }
+            .glossary-item[data-state="open"] .glossary-content, .glossary-content { max-height: none !important; padding: 0 8px !important; }
+            .glossary-header .toggle-icon { display: none; }
+            #notes-area { resize: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <main class="page-content">
+            <header class="page-header">
+                <h2>Glossary & Index</h2>
+                <button class="print-button" onclick="window.print()">🖨️ Print Page</button>
+            </header>
+
+            <section class="two-column">
+                <div id="glossary">
+                    <h3>Glossary of SEL Terms</h3>
+                    <div class="glossary-item" data-state="closed">
+                        <h4 class="glossary-header"><button class="glossary-btn" aria-expanded="false" aria-controls="g-item-1">Conflict Resolution <span class="toggle-icon">▼</span></button></h4>
+                        <div class="glossary-content" id="g-item-1"><p>The process of finding a peaceful solution to a disagreement.</p></div>
+                    </div>
+                    <div class="glossary-item" data-state="closed">
+                        <h4 class="glossary-header"><button class="glossary-btn" aria-expanded="false" aria-controls="g-item-2">Empathy <span class="toggle-icon">▼</span></button></h4>
+                        <div class="glossary-content" id="g-item-2"><p>The ability to understand and share the feelings of another person.</p></div>
+                    </div>
+                    <div class="glossary-item" data-state="closed">
+                        <h4 class="glossary-header"><button class="glossary-btn" aria-expanded="false" aria-controls="g-item-3">Growth Mindset <span class="toggle-icon">▼</span></button></h4>
+                        <div class="glossary-content" id="g-item-3"><p>The belief that abilities can be developed through dedication and hard work.</p></div>
+                    </div>
+                    <div class="glossary-item" data-state="closed">
+                        <h4 class="glossary-header"><button class="glossary-btn" aria-expanded="false" aria-controls="g-item-4">Mindfulness <span class="toggle-icon">▼</span></button></h4>
+                        <div class="glossary-content" id="g-item-4"><p>Paying attention to the present moment without judgment.</p></div>
+                    </div>
+                    <div class="glossary-item" data-state="closed">
+                        <h4 class="glossary-header"><button class="glossary-btn" aria-expanded="false" aria-controls="g-item-5">Resilience <span class="toggle-icon">▼</span></button></h4>
+                        <div class="glossary-content" id="g-item-5"><p>The capacity to recover quickly from difficulties; toughness.</p></div>
+                    </div>
+                     <div class="glossary-item" data-state="closed">
+                        <h4 class="glossary-header"><button class="glossary-btn" aria-expanded="false" aria-controls="g-item-6">Responsible Decision-Making <span class="toggle-icon">▼</span></button></h4>
+                        <div class="glossary-content" id="g-item-6"><p>Making caring and constructive choices about personal behavior.</p></div>
+                    </div>
+                    <div class="glossary-item" data-state="closed">
+                        <h4 class="glossary-header"><button class="glossary-btn" aria-expanded="false" aria-controls="g-item-7">Self-Awareness <span class="toggle-icon">▼</span></button></h4>
+                        <div class="glossary-content" id="g-item-7"><p>The ability to accurately recognize one's own emotions, thoughts, and values.</p></div>
+                    </div>
+                    <div class="glossary-item" data-state="closed">
+                        <h4 class="glossary-header"><button class="glossary-btn" aria-expanded="false" aria-controls="g-item-8">Self-Regulation <span class="toggle-icon">▼</span></button></h4>
+                        <div class="glossary-content" id="g-item-8"><p>The ability to manage your emotions and behavior to meet situational demands.</p></div>
+                    </div>
+                     <div class="glossary-item" data-state="closed">
+                        <h4 class="glossary-header"><button class="glossary-btn" aria-expanded="false" aria-controls="g-item-9">Social Awareness <span class="toggle-icon">▼</span></button></h4>
+                        <div class="glossary-content" id="g-item-9"><p>The ability to take the perspective of and empathize with others from diverse backgrounds.</p></div>
+                    </div>
+                </div>
+                <div>
+                    <h3>Index</h3>
+                    <div class="index-columns">
+                        <ul>
+                            <li><a href="Page 9 - Integrating SEL Across the Curriculum.html">Academic Integration (9)</a></li>
+                            <li><a href="Page 8 - Advanced SEL Concepts.html">Advanced Concepts (8)</a></li>
+                            <li><a href="Page 5 - Social Scenarios Dice.html">Affirmations (5, 8)</a></li>
+                            <li><a href="Page 7 - Assessment & Reflection Tools.html">Assessment (7)</a></li>
+                            <li><a href="Page 2 - Welcome to Your Interactive SEL Toolkit.html">CASEL Competencies (2)</a></li>
+                            <li><a href="Page 7 - Assessment & Reflection Tools.html">Celebration Ideas (7)</a></li>
+                            <li><a href="Page 10 - Digital Resources & Extensions.html">Digital Resources (10)</a></li>
+                            <li><a href="Page 3 - Discussion Dice How They Work.html">Discussion Norms (3)</a></li>
+                            <li><a href="Page 6 - Family Connection Activities.html">Family Connection (6)</a></li>
+                            <li><a href="#glossary">Glossary (11)</a></li>
+                            <li><a href="Page 4 - Emotion Exploration Dice.html">Journaling (4, 7)</a></li>
+                            <li><a href="Page 5 - Social Scenarios Dice.html">Scenarios (5, 8)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <h3>My Notes & Ideas</h3>
+            <textarea id="notes-area" placeholder="Use this space for your own notes, ideas, or reflections..."></textarea>
+        </main>
+        <footer class="footer">
+            <span class="footer-tagline">Where Play Meets Emotional Growth</span>
+            <span class="page-number">11</span>
+            <img class="footer-logo" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'><text x='0' y='15' font-family='Poppins' font-size='12' fill='%23002b5c'>WarrenGami</text></svg>"/>
+        </footer>
+    </div>
+     <nav class="toolkit-nav" aria-label="Toolkit Paging">
+        <a href="Page 10 - Digital Resources & Extensions.html" class="nav-button" aria-label="Go to Previous Page">⬅️ Previous</a>
+        <a href="(Table of Contents).html" class="nav-home-link" aria-label="Go to Table of Contents">
+            <span aria-hidden="true">🏠</span>
+            <span>Teacher Dashboard</span>
+        </a>
+        <a href="Emotions & Feelings Dice.html" class="nav-button" aria-label="Go to Next Page">Next ➡️</a>
+     </nav>
+     <script>
+        document.querySelectorAll('.glossary-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.closest('.glossary-item');
+                const currentState = item.getAttribute('data-state');
+                const newState = currentState === 'closed' ? 'open' : 'closed';
+                item.setAttribute('data-state', newState);
+                button.setAttribute('aria-expanded', newState === 'open');
+            });
+        });
+     </script>
+ </body>
+ </html>

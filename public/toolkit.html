@@ -3,12 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <title>WarrenGami SEL Toolkit</title>
+  <!-- Links to the same style.css for a consistent look -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h1>📚 WarrenGami SEL Toolkit</h1>
+    <!-- This div will be populated by auth.js with user info -->
+    <div id="user-info"></div>
+
+    <!-- The logout button, which calls the function in auth.js -->
+    <button onclick="logout()" class="logout-btn">Log out</button>
+
+    <h1>Welcome to the SEL Toolkit</h1>
     <p>Click on a resource to open it:</p>
+
+    <!-- The full list of your toolkit resources -->
     <ul class="toolkit-list">
       <li><a href="(Table of Contents).html">Table of Contents</a></li>
       <li><a href="Page 1 - Cover.html">Cover</a></li>
@@ -36,5 +45,9 @@
       <li><a href="Page 11 - Glossary & Index.html">Glossary & Index</a></li>
     </ul>
   </div>
+
+  <!-- This script is necessary for the logout button and to display user info -->
+  <script src="auth.js"></script>
 </body>
-</html>
+</html>```
+
