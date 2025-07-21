@@ -1,3 +1,5 @@
+require('dotenv').config(); // Add this line to the top
+
 const express = require('express');
 const path = require('path');
 const bcrypt = require('bcrypt');
