@@ -1,5 +1,5 @@
 // File: classroom.js
-// Updated logic for the interactive Classroom Hub.
+// Updated logic for the interactive Classroom Hub with new features.
 
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
@@ -35,40 +35,59 @@ document.addEventListener('DOMContentLoaded', () => {
             const scriptContent = doc.querySelector('script:not([src])')?.innerHTML;
             const promptsMatch = scriptContent.match(/const prompts = (\[[^\]]*\]);/s);
             if (!promptsMatch) throw new Error('Could not find prompts array in the resource file.');
-            const prompts = eval(promptsMatch[1]);
+            const allPrompts = eval(promptsMatch[1]);
+            let currentPrompts = allPrompts.slice(0, 6);
             
             // Build 3D dice HTML
             mainContentEl.innerHTML = `
                 <div class="dice-scene">
                     <div class="dice" id="interactive-dice">
-                        ${prompts.slice(0, 6).map((prompt, i) => `<div class="face face-${i + 1}">${prompt}</div>`).join('')}
+                        ${currentPrompts.map((prompt, i) => `<div class="face face-${i + 1}">${prompt}</div>`).join('')}
                     </div>
                 </div>
                 <div id="prompt-result"></div>
             `;
             
-            // Add control button
+            // --- ADDED: Control buttons for dice ---
             const rollBtn = document.createElement('button');
             rollBtn.textContent = '🎲 Roll the Dice';
             controlPanelEl.appendChild(rollBtn);
+
+            const randomizeBtn = document.createElement('button');
+            randomizeBtn.textContent = '🔄 Randomize Prompts';
+            controlPanelEl.appendChild(randomizeBtn);
             
             const dice = document.getElementById('interactive-dice');
             const promptResultEl = document.getElementById('prompt-result');
 
+            // Roll button functionality
             rollBtn.addEventListener('click', () => {
                 if (rollBtn.disabled) return;
                 rollBtn.disabled = true;
-                promptResultEl.textContent = ''; // Clear previous result
+                randomizeBtn.disabled = true;
+                promptResultEl.textContent = '';
                 
                 const randomFace = Math.floor(Math.random() * 6) + 1;
-                dice.className = 'dice rolling'; // Start animation
+                dice.className = 'dice rolling';
                 
                 setTimeout(() => {
-                    dice.className = `dice show-${randomFace}`; // Stop at the chosen face
-                    const chosenPrompt = prompts[randomFace - 1];
+                    dice.className = `dice show-${randomFace}`;
+                    const chosenPrompt = currentPrompts[randomFace - 1];
                     promptResultEl.textContent = chosenPrompt;
                     rollBtn.disabled = false;
-                }, 1500); // Duration of the roll animation
+                    randomizeBtn.disabled = false;
+                }, 1500);
+            });
+
+            // --- ADDED: Randomize button functionality ---
+            randomizeBtn.addEventListener('click', () => {
+                const shuffled = [...allPrompts].sort(() => 0.5 - Math.random());
+                currentPrompts = shuffled.slice(0, 6);
+                const faces = dice.querySelectorAll('.face');
+                faces.forEach((face, i) => {
+                    face.textContent = currentPrompts[i];
+                });
+                promptResultEl.textContent = 'Prompts have been updated!';
             });
 
         } catch (error) {
@@ -87,21 +106,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 const front = card.querySelector('.card-front');
                 const back = card.querySelector('.card-back');
                 if(front && back) {
+                    // --- ADDED: Detect background color class ---
+                    const colorClassMatch = front.className.match(/bg-\w+/);
+                    const colorClass = colorClassMatch ? colorClassMatch[0] : '';
+
                     scenarios.push({
                         title: front.querySelector('.card-title')?.textContent || '',
                         text: front.querySelector('.card-text')?.textContent || '',
-                        questions: back.querySelector('.guiding-questions')?.innerHTML || ''
+                        questions: back.querySelector('.guiding-questions')?.innerHTML || '',
+                        bgColorClass: colorClass // Store the class
                     });
                 }
             });
 
-            if (scenarios.length === 0) { // Handle blank cards
-                 scenarios.push({ title: 'Blank Card', text: 'Use this for your own scenario.', questions: '<li>What is the problem?</li><li>What are some solutions?</li>'});
+            if (scenarios.length === 0) {
+                 scenarios.push({ title: 'Blank Card', text: 'Use this for your own scenario.', questions: '<li>What is the problem?</li><li>What are some solutions?</li>', bgColorClass: ''});
             }
 
-            let deck = [...scenarios];
+            let deck = [...scenarios].sort(() => 0.5 - Math.random()); // Shuffle initially
 
-            // Build card deck HTML
             mainContentEl.innerHTML = `
                 <div class="deck-container">
                     <div class="card-deck" id="card-deck">
@@ -113,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             `;
             
-            // Add control button
             const drawBtn = document.createElement('button');
             drawBtn.textContent = 'Shuffle & Draw Card';
             controlPanelEl.appendChild(drawBtn);
@@ -124,9 +146,10 @@ document.addEventListener('DOMContentLoaded', () => {
             drawBtn.addEventListener('click', () => {
                 if (drawBtn.disabled) return;
                 
-                if (deck.length === 0) { // Reshuffle if deck is empty
+                if (deck.length === 0) {
                     deck = [...scenarios].sort(() => 0.5 - Math.random());
-                    drawnCardWrapper.innerHTML = '<p>Deck reshuffled!</p>';
+                    drawnCardWrapper.innerHTML = '<p style="font-size: 1.5em; text-align: center;">Deck reshuffled!</p>';
+                    drawBtn.textContent = 'Shuffle & Draw Card';
                     return;
                 }
 
@@ -135,15 +158,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 setTimeout(() => {
                     deckEl.classList.remove('shuffling');
-                    const drawn = deck.pop(); // Draw card from the end
+                    const drawn = deck.pop();
                     
+                    // --- UPDATED: Apply the color class to both front and back ---
                     drawnCardWrapper.innerHTML = `
                         <div class="drawn-card" id="current-card">
-                            <div class="card-front">
+                            <div class="card-front ${drawn.bgColorClass}">
                                 <div class="card-title">${drawn.title}</div>
                                 <p class="card-text">${drawn.text}</p>
                             </div>
-                            <div class="card-back">
+                            <div class="card-back ${drawn.bgColorClass}">
                                 <div class="card-title">Guiding Questions</div>
                                 <ul class="guiding-questions">${drawn.questions}</ul>
                             </div>
