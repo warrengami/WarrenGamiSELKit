@@ -6,6 +6,7 @@
     <title>WarrenGami SEL - Teacher Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* ... (all existing styles remain the same) ... */
         :root {
             --midnight-blue: #0f2c4d;
             --sky-blue: #73bdf5;
@@ -73,8 +74,6 @@
             padding-left: 5px;
             border-bottom: 1px solid var(--ice-blue);
         }
-
-        /* --- Quick Start & Feedback Section Styling --- */
         .quick-start, .feedback-section {
             background-color: var(--soft-gray);
             border: 1px dashed var(--sky-blue);
@@ -129,8 +128,6 @@
              font-size: 0.9em;
              font-style: italic;
         }
-        
-        /* --- Search Bar --- */
         .search-bar-wrapper {
             position: relative;
             width: 250px;
@@ -138,7 +135,7 @@
         .search-bar {
             width: 100%;
             padding: 8px 12px;
-            padding-right: 30px; /* Space for clear button */
+            padding-right: 30px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
             font-size: 0.9em;
@@ -153,15 +150,13 @@
             cursor: pointer;
             color: #999;
             font-weight: bold;
-            display: none; /* Hidden by default */
+            display: none;
         }
-
         .resources-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 40px;
         }
-        
         .resource-list {
             list-style: none;
             padding: 0;
@@ -184,14 +179,12 @@
             overflow: hidden;
             position: relative;
         }
-        /* ACCESSIBILITY: Added :focus */
         .resource-list a:hover, .resource-list a:focus {
             background-color: var(--ice-blue);
             border-color: var(--sky-blue);
             transform: translateY(-3px) scale(1.02);
             box-shadow: 0 8px 15px rgba(0, 43, 92, 0.1);
         }
-
         .icon {
             margin-right: 15px;
             flex-shrink: 0;
@@ -199,11 +192,8 @@
             height: 24px;
             opacity: 0.7;
         }
-        
         .link-content { flex-grow: 1; }
         .link-text { font-weight: bold; }
-        
-        /* --- SEL Tag Styling --- */
         .sel-tag {
             display: inline-block;
             font-size: 0.75em;
@@ -213,7 +203,7 @@
             border-radius: 12px;
             margin-left: 8px;
             vertical-align: middle;
-            cursor: pointer; /* INTERACTIVITY: Make tags look clickable */
+            cursor: pointer;
             transition: transform 0.2s ease;
         }
         .sel-tag:hover, .sel-tag:focus {
@@ -224,8 +214,6 @@
         .sel-tag.social-awareness { background-color: var(--tag-social); color: white;}
         .sel-tag.relationship-skills { background-color: var(--tag-relationship); color: white;}
         .sel-tag.responsible-decision-making { background-color: var(--tag-decision); color: white;}
-
-
         .description {
             display: block;
             font-size: 0.9em;
@@ -238,18 +226,57 @@
             overflow: hidden;
             transition: max-height 0.4s ease-out, opacity 0.3s ease-in;
         }
-        /* ACCESSIBILITY: Added :focus */
         .resource-list a:hover .description, .resource-list a:focus .description {
             max-height: 5em;
             opacity: 1;
         }
-
         #no-results-message {
-            display: none; /* Hidden by default */
+            display: none;
             text-align: center;
             margin-top: 20px;
             color: #777;
             font-style: italic;
+        }
+        .favorite-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: #ccc;
+            margin-left: auto;
+            padding: 0 10px;
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .favorite-btn:hover {
+            color: var(--tag-awareness);
+            transform: scale(1.2);
+        }
+        .favorite-btn.is-favorite {
+            color: var(--tag-awareness);
+        }
+        /* --- NEW STYLES for Project Button --- */
+        .project-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0 5px;
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+        }
+        .project-btn .icon {
+            margin: 0;
+            width: 20px;
+            height: 20px;
+            opacity: 0.5;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .project-btn:hover .icon, .project-btn:focus .icon {
+            opacity: 1;
+            transform: scale(1.1);
         }
 
         @media (max-width: 800px) {
@@ -265,6 +292,7 @@
 </head>
 <body>
     <main class="container">
+        <!-- (header, quick start, feedback sections remain the same) -->
         <header class="header">
             <h1>Teacher Dashboard</h1>
             <p>WarrenGami SEL: Where Play Meets Emotional Growth</p>
@@ -279,7 +307,6 @@
             </div>
         </section>
 
-        <!-- USER FEEDBACK LOOP SECTION -->
         <section class="feedback-section">
             <h2>Share Your Ideas!</h2>
             <p>Have an idea for a new prompt, a feature, or a topic you'd like to see? Let us know! We build this toolkit <em>with</em> our community of educators.</p>
@@ -296,7 +323,7 @@
             <section class="resource-section">
                 <h2>Toolkit Guide</h2>
                 <ul class="resource-list">
-                    <!-- Toolkit Guide items remain the same -->
+                    <!-- This section is unchanged -->
                     <li><a href="Page 1 - Cover.html"><span class="icon">📖</span><div class="link-content"><span class="link-text">Page 1: Cover</span><div class="description">The front cover of the SEL Toolkit.</div></div></a></li>
                     <li><a href="Page 2 - Welcome to Your Interactive SEL Toolkit.html"><span class="icon">👋</span><div class="link-content"><span class="link-text">Page 2: Welcome</span><div class="description">An introduction to the toolkit and SEL principles.</div></div></a></li>
                     <li><a href="Page 3 - Discussion Dice How They Work.html"><span class="icon">🎲</span><div class="link-content"><span class="link-text">Page 3: How Dice Work</span><div class="description">Instructions and ideas for using the discussion dice.</div></div></a></li>
@@ -319,27 +346,28 @@
                         <span id="clear-search">X</span>
                     </div>
                 </h2>
+                <div id="favorites-container"></div>
                 <ul class="resource-list" id="printable-list">
-                    <!-- Printable items remain the same -->
+                    
                     <h3 class="resource-group-title">Dice</h3>
-                    <li><a href="Emotions & Feelings Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Emotions & Feelings Dice</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Printable dice to identify and discuss emotions.</div></div></a></li>
-                    <li><a href="Empathy & Kindness Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Empathy & Kindness Dice</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Dice prompts about understanding others and showing kindness.</div></div></a></li>
-                    <li><a href="Friendship & Social Skills Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Friendship & Social Skills</span><span class="sel-tag relationship-skills" data-tag="Relationship Skills">Relationship Skills</span><div class="description">Prompts about making and being a good friend.</div></div></a></li>
-                    <li><a href="Coping Strategies Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Coping Strategies Dice</span><span class="sel-tag self-management" data-tag="Self-Management">Self-Management</span><div class="description">Dice with healthy strategies for managing stress.</div></div></a></li>
-                    <li><a href="Problem Solving Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Problem Solving Dice</span><span class="sel-tag responsible-decision-making" data-tag="Decision-Making">Decision-Making</span><div class="description">A tool to practice breaking down problems.</div></div></a></li>
-                    <li><a href="Self-Awareness Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Self-Awareness Dice</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Prompts to encourage introspection.</div></div></a></li>
+                    <li data-type="dice"><a href="Emotions & Feelings Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Emotions & Feelings Dice</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Printable dice to identify and discuss emotions.</div></div></a></li>
+                    <li data-type="dice"><a href="Empathy & Kindness Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Empathy & Kindness Dice</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Dice prompts about understanding others and showing kindness.</div></div></a></li>
+                    <li data-type="dice"><a href="Friendship & Social Skills Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Friendship & Social Skills</span><span class="sel-tag relationship-skills" data-tag="Relationship Skills">Relationship Skills</span><div class="description">Prompts about making and being a good friend.</div></div></a></li>
+                    <li data-type="dice"><a href="Coping Strategies Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Coping Strategies Dice</span><span class="sel-tag self-management" data-tag="Self-Management">Self-Management</span><div class="description">Dice with healthy strategies for managing stress.</div></div></a></li>
+                    <li data-type="dice"><a href="Problem Solving Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Problem Solving Dice</span><span class="sel-tag responsible-decision-making" data-tag="Decision-Making">Decision-Making</span><div class="description">A tool to practice breaking down problems.</div></div></a></li>
+                    <li data-type="dice"><a href="Self-Awareness Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Self-Awareness Dice</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Prompts to encourage introspection.</div></div></a></li>
                     
                     <h3 class="resource-group-title">Scenario Cards</h3>
                     <li><a href="Scenario Card Instructions.html"><span class="icon">📄</span><div class="link-content"><span class="link-text">Scenario Card Instructions</span><div class="description">How-to guide for the printable scenario cards.</div></div></a></li>
-                    <li><a href="Scenario Cards 1.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (1-6)</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Printable cards with social scenarios 1 through 6.</div></div></a></li>
-                    <li><a href="Scenario Cards 2.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (7-12)</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Printable cards with social scenarios 7 through 12.</div></div></a></li>
-                    <li><a href="Scenario Cards 3.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (13-18)</span><span class="sel-tag relationship-skills" data-tag="Relationship Skills">Relationship Skills</span><div class="description">Printable cards with social scenarios 13 through 18.</div></div></a></li>
-                    <li><a href="Scenario Cards 4.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (19-24)</span><span class="sel-tag responsible-decision-making" data-tag="Decision-Making">Decision-Making</span><div class="description">Printable cards with social scenarios 19 through 24.</div></div></a></li>
-                    <li><a href="Scenario Cards 5.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (25-30)</span><span class="sel-tag self-management" data-tag="Self-Management">Self-Management</span><div class="description">Printable cards with social scenarios 25 through 30.</div></div></a>
+                    <li data-type="scenarios"><a href="Scenario Cards 1.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (1-6)</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Printable cards with social scenarios 1 through 6.</div></div></a></li>
+                    <li data-type="scenarios"><a href="Scenario Cards 2.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (7-12)</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Printable cards with social scenarios 7 through 12.</div></div></a></li>
+                    <li data-type="scenarios"><a href="Scenario Cards 3.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (13-18)</span><span class="sel-tag relationship-skills" data-tag="Relationship Skills">Relationship Skills</span><div class="description">Printable cards with social scenarios 13 through 18.</div></div></a></li>
+                    <li data-type="scenarios"><a href="Scenario Cards 4.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (19-24)</span><span class="sel-tag responsible-decision-making" data-tag="Decision-Making">Decision-Making</span><div class="description">Printable cards with social scenarios 19 through 24.</div></div></a></li>
+                    <li data-type="scenarios"><a href="Scenario Cards 5.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards (25-30)</span><span class="sel-tag self-management" data-tag="Self-Management">Self-Management</span><div class="description">Printable cards with social scenarios 25 through 30.</div></div></a>
 
                     <h3 class="resource-group-title">Templates</h3>
-                    <li><a href="Blank Dice.html"><span class="icon">✍️</span><div class="link-content"><span class="link-text">Blank Dice Template</span><div class="description">A customizable template to create your own prompts.</div></div></a></li>
-                    <li><a href="Blank Scenario Cards.html"><span class="icon">✍️</span><div class="link-content"><span class="link-text">Blank Scenario Cards</span><div class="description">Create your own situations with these blank templates.</div></div></a></li>
+                    <li data-type="dice"><a href="Blank Dice.html"><span class="icon">✍️</span><div class="link-content"><span class="link-text">Blank Dice Template</span><div class="description">A customizable template to create your own prompts.</div></div></a></li>
+                    <li data-type="scenarios"><a href="Blank Scenario Cards.html"><span class="icon">✍️</span><div class="link-content"><span class="link-text">Blank Scenario Cards</span><div class="description">Create your own situations with these blank templates.</div></div></a></li>
                     
                     <li id="no-results-message"><p>No printables found matching your search.</p></li>
                 </ul>

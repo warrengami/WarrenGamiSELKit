@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom Mode - WarrenGami SEL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight-blue: #002b5c;
+            --sky-blue: #73bdf5;
+            --white: #ffffff;
+        }
+        /* Base styles for the clean classroom view */
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            background-color: var(--white);
+            color: var(--midnight-blue);
+            display: flex;
+            flex-direction: column;
+            padding: 2em;
+            box-sizing: border-box;
+            height: 100vh;
+            margin: 0;
+        }
+        .classroom-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--sky-blue);
+            padding-bottom: 15px;
+            margin-bottom: 2rem;
+            flex-shrink: 0;
+        }
+        .classroom-header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2.5em;
+            margin: 0;
+        }
+        #exit-btn {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--midnight-blue);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        #exit-btn:hover {
+            background-color: var(--sky-blue);
+        }
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            overflow: auto; /* Allows scrolling for larger content */
+        }
+        #content-display {
+            width: 100%;
+            max-width: 900px;
+        }
+        .control-panel {
+            margin-top: 2rem;
+            flex-shrink: 0;
+        }
+        .control-panel button {
+             background-color: var(--midnight-blue);
+             color: var(--white);
+             font-family: 'Poppins', sans-serif;
+             border: none;
+             padding: 12px 25px;
+             border-radius: 5px;
+             cursor: pointer;
+             font-size: 1.2rem;
+        }
+         .control-panel button:hover {
+            background-color: var(--sky-blue);
+        }
+    </style>
+</head>
+<body>
+    <header class="classroom-header">
+        <h1 id="resource-title">Loading Resource...</h1>
+        <button id="exit-btn" onclick="window.close()">Close</button>
+    </header>
+
+    <main>
+        <div id="content-display">
+            <!-- Resource content will be dynamically injected here by classroom.js -->
+        </div>
+        <div id="control-panel" class="control-panel">
+            <!-- Controls like 'Randomize' will be added here -->
+        </div>
+    </main>
+
+    <script src="classroom.js"></script>
+</body>
+</html>
