@@ -10,11 +10,12 @@
             --midnight-blue: #002b5c;
             --sky-blue: #73bdf5;
             --white: #ffffff;
+            --soft-gray: #e0e6ed;
+            --highlight-yellow: #fffde7;
         }
-        /* Base styles for the clean classroom view */
         body {
             font-family: 'Atkinson Hyperlegible', sans-serif;
-            background-color: var(--white);
+            background-color: var(--soft-gray);
             color: var(--midnight-blue);
             display: flex;
             flex-direction: column;
@@ -22,6 +23,7 @@
             box-sizing: border-box;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
         .classroom-header {
             width: 100%;
@@ -50,9 +52,7 @@
             font-weight: bold;
             transition: background-color 0.3s;
         }
-        #exit-btn:hover {
-            background-color: var(--sky-blue);
-        }
+        #exit-btn:hover { background-color: var(--sky-blue); }
         main {
             flex-grow: 1;
             display: flex;
@@ -60,11 +60,7 @@
             align-items: center;
             justify-content: center;
             width: 100%;
-            overflow: auto; /* Allows scrolling for larger content */
-        }
-        #content-display {
-            width: 100%;
-            max-width: 900px;
+            position: relative;
         }
         .control-panel {
             margin-top: 2rem;
@@ -80,9 +76,134 @@
              cursor: pointer;
              font-size: 1.2rem;
         }
-         .control-panel button:hover {
-            background-color: var(--sky-blue);
+         .control-panel button:hover { background-color: var(--sky-blue); }
+         .control-panel button:disabled { background-color: #999; cursor: not-allowed; }
+
+        /* --- 3D DICE STYLES --- */
+        .dice-scene {
+            width: 200px;
+            height: 200px;
+            perspective: 800px;
+            margin-bottom: 20px;
         }
+        .dice {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s ease-out;
+        }
+        .dice.rolling {
+            animation: tumble 1.5s ease-out;
+        }
+        .dice .face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border: 3px solid var(--midnight-blue);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            line-height: 1.3;
+        }
+        .face.face-1 { transform: rotateY(0deg) translateZ(100px); }
+        .face.face-2 { transform: rotateY(90deg) translateZ(100px); }
+        .face.face-3 { transform: rotateY(180deg) translateZ(100px); }
+        .face.face-4 { transform: rotateY(-90deg) translateZ(100px); }
+        .face.face-5 { transform: rotateX(90deg) translateZ(100px); }
+        .face.face-6 { transform: rotateX(-90deg) translateZ(100px); }
+
+        .dice.show-1 { transform: rotateY(0deg); }
+        .dice.show-2 { transform: rotateY(-90deg); }
+        .dice.show-3 { transform: rotateY(-180deg); }
+        .dice.show-4 { transform: rotateY(90deg); }
+        .dice.show-5 { transform: rotateX(-90deg); }
+        .dice.show-6 { transform: rotateX(90deg); }
+        
+        #prompt-result {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            height: 3em; /* Reserve space */
+        }
+        @keyframes tumble {
+            from { transform: rotateX(0deg) rotateY(0deg); }
+            to { transform: rotateX(1080deg) rotateY(720deg); }
+        }
+
+        /* --- SCENARIO CARD DECK STYLES --- */
+        .deck-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+        }
+        .card-deck, .drawn-card-wrapper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .drawn-card-wrapper {
+             perspective: 1000px;
+        }
+        .card-deck .card-back-design {
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            background-color: var(--ice-blue);
+            border: 2px solid var(--midnight-blue);
+            border-radius: 15px;
+            transition: transform 0.5s ease-out;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        .card-deck.shuffling .card-back-design:nth-child(1) { animation: shuffle-1 0.4s ease-in-out; }
+        .card-deck.shuffling .card-back-design:nth-child(2) { animation: shuffle-2 0.4s ease-in-out; }
+        .card-deck .card-back-design:nth-child(1) { transform: rotate(-3deg); }
+        .card-deck .card-back-design:nth-child(2) { transform: rotate(2deg) translateY(-5px); }
+        .card-deck .card-back-design:nth-child(3) { transform: rotate(-1deg) translateY(5px); }
+
+        .drawn-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            cursor: pointer;
+        }
+        .drawn-card.flipped { transform: rotateY(180deg); }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .card-front { background-color: var(--highlight-yellow); border: 2px solid var(--midnight-blue); }
+        .card-back { background-color: var(--ice-blue); border: 2px solid var(--midnight-blue); transform: rotateY(180deg); }
+        
+        .card-title { font-family: 'Poppins', sans-serif; font-size: 1.8em; font-weight: bold; margin-bottom: 15px; }
+        .card-text { font-size: 1.5em; }
+        .guiding-questions { text-align: left; font-size: 1.2em; list-style: square; }
+
+        @keyframes shuffle-1 { 0% {transform: translateX(0) rotate(-3deg);} 50% {transform: translateX(-20px) rotate(-8deg);} 100% {transform: translateX(0) rotate(-3deg);} }
+        @keyframes shuffle-2 { 0% {transform: translateX(0) rotate(2deg);} 50% {transform: translateX(20px) rotate(8deg);} 100% {transform: translateX(0) rotate(2deg);} }
     </style>
 </head>
 <body>
@@ -91,14 +212,13 @@
         <button id="exit-btn" onclick="window.close()">Close</button>
     </header>
 
-    <main>
-        <div id="content-display">
-            <!-- Resource content will be dynamically injected here by classroom.js -->
-        </div>
-        <div id="control-panel" class="control-panel">
-            <!-- Controls like 'Randomize' will be added here -->
-        </div>
+    <main id="main-content">
+        <!-- Content injected here will be either the dice or the cards -->
     </main>
+
+    <div id="control-panel" class="control-panel">
+        <!-- Controls injected here -->
+    </div>
 
     <script src="classroom.js"></script>
 </body>
