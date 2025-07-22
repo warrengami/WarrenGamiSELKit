@@ -224,7 +224,7 @@
 
         @media print {
             body { padding-bottom: 0; }
-            .print-button, .toolkit-nav, #new-celebration-btn, #celebration-generator { display: none !important; }
+            .print-button, .toolkit-nav, #new-celebration-btn, #celebration-generator, #generate-student-version-btn { display: none !important; }
             .teacher-tip .tip-content { max-height: none !important; overflow: visible !important; padding-top: 8px !important; }
             .teacher-tip h4 .toggle-icon, .teacher-tip h4 { cursor: default; }
             .rating-stars .star { font-size: 16px; -webkit-text-stroke: 1px var(--midnight-blue); }
@@ -243,8 +243,11 @@
             <p>Monitor student growth in SEL competencies and reflect on implementation effectiveness.</p>
 
             <section class="assessment-section">
-                <h3>Student Self-Assessment</h3>
-                <p style="margin-bottom: 4px;">Use your Arrow Keys or click the stars to rate your skills (1 = needs work, 5 = very strong):</p>
+                 <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px;">
+                    <h3 style="margin: 0;">Student Self-Assessment</h3>
+                    <button id="generate-student-version-btn" class="print-button" style="font-size: 11px;">✉️ Generate Shareable Student Version</button>
+                </div>
+                <p style="margin-bottom: 4px; margin-top: 8px;">Use your Arrow Keys or click the stars to rate your skills (1 = needs work, 5 = very strong):</p>
                 <table class="prompt-table">
                     <thead><tr><th scope="col">Skill</th><th scope="col">Beginning</th><th scope="col">Now</th></tr></thead>
                     <tbody>
@@ -349,7 +352,10 @@
                     totalNow += nowRating;
                 });
                 const growth = totalNow - totalBeginning;
-                document.getElementById('growth-score').innerText = (growth >= 0 ? '+' : '') + growth;
+                const growthEl = document.getElementById('growth-score');
+                if (growthEl) { // Check if the element exists
+                    growthEl.innerText = (growth >= 0 ? '+' : '') + growth;
+                }
             }
 
             function toggleTip(headerElement) {
@@ -381,10 +387,205 @@
                 celebrationTitleEl.innerText = celebration.title;
                 celebrationDescEl.innerText = celebration.description;
             }
+
+            function generateStudentPage() {
+                // BUG FIX: Generate the table HTML from scratch to avoid duplicating stars.
+                let studentTableRowsHTML = '';
+                document.querySelectorAll('.prompt-table tbody tr[data-skill-label]').forEach(row => {
+                    const skillLabel = row.dataset.skillLabel;
+                    // Use textContent to get the clean label text without any other elements.
+                    const skillText = row.querySelector('th[scope="row"]').textContent;
+                    studentTableRowsHTML += `
+                        <tr data-skill-label="${skillLabel}">
+                            <th scope="row">${skillText}</th>
+                            <td><div class="rating-stars" data-col="beginning" onkeydown="handleStarKeydown(event)"></div></td>
+                            <td><div class="rating-stars" data-col="now" onkeydown="handleStarKeydown(event)"></div></td>
+                        </tr>`;
+                });
+
+                // Add the specific "Total Growth Score" row for the student view, matching the image.
+                studentTableRowsHTML += `
+                    <tr>
+                        <th scope="row">Total Growth Score:</th>
+                        <td colspan="2" style="text-align:center;"><span id="growth-score">-</span></td>
+                    </tr>`;
+
+                const studentTableHTML = `
+                <table class="prompt-table">
+                    <thead><tr><th scope="col">Skill</th><th scope="col">Beginning</th><th scope="col">Now</th></tr></thead>
+                    <tbody>
+                        ${studentTableRowsHTML}
+                    </tbody>
+                </table>`;
+                
+                // Now, create the full student page with the clean, generated table.
+                const studentHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student SEL Self-Assessment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --midnight-blue: #002b5c; --sky-blue: #73bdf5; --ice-blue: #cfe9ff;
+            --soft-gray: #e0e6ed; --white: #ffffff; --star-gold: #ffc107;
+        }
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif; line-height: 1.4; color: var(--midnight-blue);
+            background-color: #f0f4f8; font-size: 14px; padding: 20px;
+        }
+        .container { max-width: 700px; margin: 0 auto; background: var(--white); padding: 25px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+        h1, h2 { font-family: 'Poppins', sans-serif; }
+        h1 { font-size: 22px; } h2 { font-size: 18px; }
+        .assessment-section, .summary-section { background-color: var(--soft-gray); border-radius: 5px; padding: 15px; margin: 15px 0; }
+        .prompt-table { width: 100%; border-collapse: collapse; font-size: 13px; background-color: var(--white); border-radius: 5px; overflow: hidden; }
+        .prompt-table th { background-color: var(--midnight-blue); color: var(--white); padding: 10px; text-align: left; }
+        .prompt-table td { padding: 10px; border-bottom: 1px solid var(--soft-gray); text-align: center; vertical-align: middle; }
+        .prompt-table th[scope="row"] { text-align: left; background-color: var(--ice-blue); color: var(--midnight-blue); font-weight: bold; }
+        .prompt-table tr:last-child td, .prompt-table tr:last-child th { border-bottom: none; background-color: var(--ice-blue) !important; }
+        .prompt-table tr:nth-child(even) td { background-color: #f8fbff; }
+        .rating-stars { display: flex; justify-content: center; gap: 3px; }
+        .rating-stars:focus-visible { outline: 2px solid var(--midnight-blue); outline-offset: 1px; }
+        .rating-stars .star { cursor: pointer; font-size: 24px; color: transparent; -webkit-text-stroke: 1px var(--sky-blue); transition: all 0.2s; }
+        .rating-stars .star.selected { color: var(--star-gold); -webkit-text-stroke: 0; }
+        .rating-stars:hover .star { color: var(--star-gold); -webkit-text-stroke: 0; }
+        .rating-stars .star:hover ~ .star { color: transparent; -webkit-text-stroke: 1px var(--sky-blue); }
+        #growth-score { font-size: 16px; font-weight: bold; color: var(--midnight-blue); }
+        #student-name { width: 100%; padding: 8px; font-size: 14px; border: 2px solid var(--sky-blue); border-radius: 4px; margin-bottom: 15px; box-sizing: border-box; }
+        .button { background-color: var(--midnight-blue); color: var(--white); font-family: 'Poppins', sans-serif; font-size: 15px; border: none; padding: 10px 18px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; margin-top: 10px; }
+        .button:hover { background-color: var(--sky-blue); }
+        #summary-output { width: 100%; min-height: 200px; margin-top: 10px; font-family: monospace; font-size: 12px; white-space: pre; background: #fdfdfd; border: 1px solid var(--sky-blue); border-radius: 4px; padding: 10px; }
+        #copy-instructions { font-size: 12px; font-style: italic; color: #555; display: none; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>My SEL Skills Self-Assessment</h1>
+        <p>Hello! Please enter your name and then rate your skills below. The "Beginning" column is for how you felt at the start of the term, and "Now" is for how you feel today. When you're done, click the 'Create Summary' button at the bottom.</p>
+        
+        <input type="text" id="student-name" placeholder="Enter your full name here">
+
+        <section class="assessment-section">
+            <h2>My Skills Rating</h2>
+            <p style="font-size:12px;">Use your Arrow Keys or click the stars to rate your skills (1 = needs work, 5 = very strong):</p>
+            ${studentTableHTML}
+        </section>
+
+        <section class="summary-section">
+            <h2>Create Your Summary</h2>
+            <p>After rating all your skills, click this button to create a summary.</p>
+            <button class="button" onclick="generateSummary()">Create Summary for Teacher</button>
+            <p id="copy-instructions">Great! Now, please copy all the text from the box below and send it to your teacher in an email.</p>
+            <textarea id="summary-output" readonly placeholder="Your summary will appear here..."></textarea>
+        </section>
+    </div>
+
+    <script>
+        function setRating(container, value) {
+            const newValue = Math.max(0, Math.min(5, value));
+            container.setAttribute('aria-valuenow', newValue);
+            const stars = container.querySelectorAll('.star');
+            stars.forEach(star => {
+                star.classList.toggle('selected', parseInt(star.dataset.value) <= newValue);
+            });
+            calculateGrowth();
+        }
+        function handleStarKeydown(event) {
+            const container = event.currentTarget;
+            let currentValue = parseInt(container.getAttribute('aria-valuenow'));
+            if (event.key === 'ArrowRight') { event.preventDefault(); setRating(container, currentValue + 1); }
+            else if (event.key === 'ArrowLeft') { event.preventDefault(); setRating(container, currentValue - 1); }
+        }
+        function calculateGrowth() {
+            let totalBeginning = 0, totalNow = 0;
+            document.querySelectorAll('tbody tr[data-skill-label]').forEach(row => {
+                totalBeginning += parseInt(row.querySelector('[data-col="beginning"]').getAttribute('aria-valuenow')) || 0;
+                totalNow += parseInt(row.querySelector('[data-col="now"]').getAttribute('aria-valuenow')) || 0;
+            });
+            const growth = totalNow - totalBeginning;
+            const growthEl = document.getElementById('growth-score');
+            if (growthEl) {
+                growthEl.innerText = (growth >= 0 ? '+' : '') + growth;
+            }
+        }
+        window.onload = () => {
+            document.querySelectorAll('.rating-stars').forEach(container => {
+                const tr = container.closest('tr');
+                if (!tr) return;
+                const skillLabel = tr.dataset.skillLabel;
+                const timeLabel = container.dataset.col;
+                container.setAttribute('role', 'slider'); container.setAttribute('tabindex', '0');
+                container.setAttribute('aria-valuemin', '0'); container.setAttribute('aria-valuemax', '5');
+                container.setAttribute('aria-label', \`Rating for \${skillLabel} (\${timeLabel})\`);
+                container.setAttribute('aria-valuenow', 0);
+                for (let i = 1; i <= 5; i++) {
+                    const star = document.createElement('span');
+                    star.className = 'star'; star.innerText = '★'; star.dataset.value = i;
+                    star.onclick = (event) => {
+                        event.stopPropagation();
+                        const currentValue = parseInt(container.getAttribute('aria-valuenow'));
+                        const clickedValue = parseInt(star.dataset.value);
+                        setRating(container, currentValue === clickedValue ? 0 : clickedValue);
+                    };
+                    container.appendChild(star);
+                }
+            });
+            calculateGrowth();
+        };
+
+        function generateSummary() {
+            const studentName = document.getElementById('student-name').value;
+            if (!studentName) {
+                alert('Please enter your name before creating the summary.');
+                document.getElementById('student-name').focus();
+                return;
+            }
+            let summary = \`SEL Self-Assessment Summary\\n\`;
+            summary += \`Student: \${studentName}\\n\`;
+            summary += \`Date: \${new Date().toLocaleDateString()}\\n\`;
+            summary += \`=====================================\\n\`;
+            document.querySelectorAll('tbody tr[data-skill-label]').forEach(row => {
+                const skill = row.dataset.skillLabel;
+                const beginning = row.querySelector('[data-col="beginning"]').getAttribute('aria-valuenow') || '0';
+                const now = row.querySelector('[data-col="now"]').getAttribute('aria-valuenow') || '0';
+                summary += \`\\n\${skill}:\\n\`;
+                summary += \`  - Beginning Rating: \${beginning} / 5\\n\`;
+                summary += \`  - Current Rating:   \${now} / 5\\n\`;
+            });
+            summary += \`\\n=====================================\\n\`;
+            const growth = document.getElementById('growth-score').innerText;
+            summary += \`Total Growth Score: \${growth}\\n\`;
+            
+            const output = document.getElementById('summary-output');
+            output.value = summary;
+            output.focus();
+            output.select();
+            document.getElementById('copy-instructions').style.display = 'block';
+        }
+    <\/script>
+</body>
+</html>
+                `;
+
+                const blob = new Blob([studentHTML], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'student-self-assessment.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
             
             window.onload = () => {
                 const ratingContainers = document.querySelectorAll('.rating-stars');
                 ratingContainers.forEach(container => {
+                    // Make sure this only runs if the container is empty, to avoid any potential duplication.
+                    if (container.children.length > 0) return;
+
                     const skillLabel = container.closest('tr').dataset.skillLabel;
                     const timeLabel = container.dataset.col;
                     container.setAttribute('role', 'slider');
@@ -410,6 +611,8 @@
                 });
                 displayRandomCelebration();
                 calculateGrowth();
+
+                document.getElementById('generate-student-version-btn').addEventListener('click', generateStudentPage);
             };
         </script>
  </body>
