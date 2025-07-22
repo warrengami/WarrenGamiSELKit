@@ -12,24 +12,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- FAVORITES FUNCTIONALITY ---
     const favorites = new Set(JSON.parse(localStorage.getItem('selToolkitFavorites')) || []);
     const favoritesContainer = document.createElement('div');
-    favoritesContainer.id = 'favorites-container'; // Assign a persistent ID
+    favoritesContainer.id = 'favorites-container';
     printableList.parentNode.insertBefore(favoritesContainer, printableList);
-
+    
     function updateFavoritesList() {
         if (favorites.size === 0) {
-            favoritesContainer.innerHTML = ''; // Clear it completely if no favorites
+            favoritesContainer.innerHTML = '';
             return;
         }
-
-        // Build the list structure freshly every time
         favoritesContainer.innerHTML = '<h3 class="resource-group-title">My Favorites ★</h3><ul class="resource-list" id="favorites-list"></ul>';
-        const favoritesList = document.getElementById('favorites-list'); // Get the fresh reference HERE
+        const favoritesList = document.getElementById('favorites-list');
 
         listItems.forEach(item => {
             const link = item.querySelector('a');
             if (link && favorites.has(link.getAttribute('href'))) {
                 const clone = item.cloneNode(true);
-                // The clone already has the buttons from addActionButtons, we just update the state
                 const favButton = clone.querySelector('.favorite-btn');
                 if (favButton) {
                     favButton.textContent = '★';
@@ -76,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // This function adds all interactive buttons to the list items
     function addActionButtons() {
         listItems.forEach(item => {
             const link = item.querySelector('a');
@@ -84,19 +80,27 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const resourceType = item.dataset.type;
             
-            // Add Project Button if the item is projectable
+            // Add Project Button if projectable
             if (resourceType) {
                 const href = link.getAttribute('href');
-                const projectButton = document.createElement('a');
+                // CHANGED: Create a <button> instead of an <a>
+                const projectButton = document.createElement('button');
                 projectButton.className = 'project-btn';
-                projectButton.href = `classroom.html?type=${resourceType}&file=${encodeURIComponent(href)}`;
                 projectButton.setAttribute('aria-label', 'Project this resource');
-                projectButton.setAttribute('target', '_blank');
-                projectButton.innerHTML = `<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzBmMmM0ZCI+PHBhdGggZD0iTTAgMGgyNHYyNEgwVjB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTIwIDRINHYxMmgxNlY0em0wIDE0SDRWNWgtMnYxNGMwIDEuMS45IDIgMiAyaDE0VjE8em0tMTAuNS04NUw4IDdoMi41VjUuNWgxVjdMOEw5LjUgOC41eiIvPjwvc3ZnPg==" class="icon" alt="Projector icon">`;
+                
+                // Set the onclick action to open the classroom hub in a new tab
+                const classroomUrl = `classroom.html?type=${resourceType}&file=${encodeURIComponent(href)}`;
+                projectButton.onclick = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.open(classroomUrl, '_blank');
+                };
+                
+                projectButton.innerHTML = `<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzBmMmM0ZCI+PHBhdGggZD0iTTAgMGgyNHYyNEgwVjB6IiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTIwIDRINHYxMmgxNlY0em0wIDE0SDRWNWgtMnYxNGMwIDEuMS45IDIgMiAyaDE0VjE4em0tMTAuNS04NUw4IDdoMi41VjUuNWgxVjdMOEw5LjUgOC41eiIvPjwvc3ZnPg==" class="icon" alt="Projector icon">`;
                 link.appendChild(projectButton);
             }
 
-            // Add Favorite Button to every item
+            // Add Favorite Button
             const favButton = document.createElement('button');
             favButton.className = 'favorite-btn';
             favButton.textContent = '☆';
@@ -113,15 +117,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Attach delegated listeners to the persistent containers
     printableList.addEventListener('click', e => {
-        const favButton = e.target.closest('.favorite-btn');
-        if (favButton) {
+        const targetButton = e.target.closest('.favorite-btn, .project-btn');
+        if (!targetButton) return;
+        
+        if (targetButton.classList.contains('favorite-btn')) {
             toggleFavorite(e);
         }
     });
     favoritesContainer.addEventListener('click', e => {
-        const favButton = e.target.closest('.favorite-btn');
-        if (favButton) {
+        const targetButton = e.target.closest('.favorite-btn, .project-btn');
+         if (!targetButton) return;
+
+        if (targetButton.classList.contains('favorite-btn')) {
             toggleFavorite(e);
+        } else if (targetButton.classList.contains('project-btn')) {
+            // Since this is a clone, we handle its click directly
+            e.preventDefault();
+            e.stopPropagation();
+            const link = targetButton.closest('a');
+            const href = link.getAttribute('href');
+            const resourceType = link.parentElement.dataset.type;
+            const classroomUrl = `classroom.html?type=${resourceType}&file=${encodeURIComponent(href)}`;
+            window.open(classroomUrl, '_blank');
         }
     });
 
@@ -146,16 +163,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
-        updateFavoritesList(); // Re-run favorites to only show matching favorited items
+        updateFavoritesList();
     }
 
     searchInput.addEventListener('input', filterResources);
-
     clearSearchBtn.addEventListener('click', () => {
         searchInput.value = '';
         filterResources();
     });
-
     selTags.forEach(tag => {
         tag.addEventListener('click', () => {
             searchInput.value = tag.dataset.tag;
