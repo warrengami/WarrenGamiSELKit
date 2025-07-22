@@ -74,24 +74,24 @@
             border-bottom: 1px solid var(--ice-blue);
         }
 
-        /* --- Quick Start Section --- */
-        .quick-start {
+        /* --- Quick Start & Downloads Section --- */
+        .quick-start, .downloads-section {
             background-color: var(--soft-gray);
             border: 1px dashed var(--sky-blue);
             border-radius: 10px;
             padding: 25px;
             margin-bottom: 40px;
         }
-        .quick-start h2 {
+        .quick-start h2, .downloads-section h2 {
             margin-top: 0;
             border: none;
         }
-        .quick-start-grid {
+        .quick-start-grid, .downloads-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
         }
-        .quick-start-grid a {
+        .quick-start-grid a, .downloads-grid a {
             text-decoration: none;
             color: var(--white);
             font-size: 1.2em;
@@ -105,14 +105,22 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(115, 189, 245, 0.4);
         }
-        .quick-start-grid a:hover, .quick-start-grid a:focus {
+        .quick-start-grid a:hover, .quick-start-grid a:focus,
+        .downloads-grid a:hover, .downloads-grid a:focus {
             background-color: var(--midnight-blue);
             transform: translateY(-5px);
             box-shadow: 0 8px 15px rgba(15, 44, 77, 0.3);
         }
-        .quick-start-grid .icon {
+        .quick-start-grid .icon, .downloads-grid .icon {
             margin-right: 10px;
             filter: brightness(0) invert(1);
+        }
+        .downloads-section p {
+            text-align: center;
+            color: var(--midnight-blue);
+            margin-top: -10px;
+            margin-bottom: 25px;
+            font-style: italic;
         }
         
         /* --- Search Bar --- */
@@ -261,6 +269,17 @@
                 <a href="Page 2 - Welcome to Your Interactive SEL Toolkit.html"><span class="icon">👋</span> Get Started with the Toolkit</a>
                 <a href="Emotions & Feelings Dice.html"><span class="icon">🖨️</span> Print Emotions Dice</a>
                 <a href="Blank Dice.html"><span class="icon">✍️</span> Create a Blank Dice</a>
+            </div>
+        </section>
+
+        <!-- NEWLY ADDED DOWNLOADS SECTION -->
+        <section class="downloads-section">
+            <h2>Offline Resources & Downloads</h2>
+            <p>Download bundled, print-ready PDF packages for offline classroom use.</p>
+            <div class="downloads-grid">
+                <a href="#"><span class="icon">📥</span> Complete Printable Dice Pack</a>
+                <a href="#"><span class="icon">📥</span> Complete Scenario Cards Pack</a>
+                <a href="#"><span class="icon">📥</span> All Templates Pack</a>
             </div>
         </section>
 
