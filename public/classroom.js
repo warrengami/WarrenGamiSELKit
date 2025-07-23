@@ -33,8 +33,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Extract prompts
             const scriptContent = doc.querySelector('script:not([src])')?.innerHTML;
-            const promptsMatch = scriptContent.match(/const prompts = (\[[^\]]*\]);/s);
+            if (!scriptContent) throw new Error('Could not find script content in the resource file.');
+            
+            // Look for prompts array in multiple formats
+            let promptsMatch = scriptContent.match(/const prompts = (\[[\s\S]*?\]);/);
+            if (!promptsMatch) {
+                // Try alternative format
+                promptsMatch = scriptContent.match(/const prompts\s*=\s*(\[[\s\S]*?\]);/);
+            }
             if (!promptsMatch) throw new Error('Could not find prompts array in the resource file.');
+            
             const allPrompts = eval(promptsMatch[1]);
             let currentPrompts = allPrompts.slice(0, 6);
             
@@ -102,18 +110,25 @@ document.addEventListener('DOMContentLoaded', () => {
             titleEl.textContent = doc.querySelector('title')?.textContent.replace('(Interactive)', '').trim() || 'Scenario Cards';
 
             let scenarios = [];
-            doc.querySelectorAll('.scenario-card-container').forEach(card => {
+            const cardContainers = doc.querySelectorAll('.scenario-card-container');
+            
+            cardContainers.forEach((card, index) => {
                 const front = card.querySelector('.card-front');
                 const back = card.querySelector('.card-back');
+                
                 if(front && back) {
                     // --- ADDED: Detect background color class ---
                     const colorClassMatch = front.className.match(/bg-\w+/);
                     const colorClass = colorClassMatch ? colorClassMatch[0] : '';
 
+                    const title = front.querySelector('.card-title')?.textContent || '';
+                    const text = front.querySelector('.card-text')?.textContent || '';
+                    const questions = back.querySelector('.guiding-questions')?.innerHTML || '';
+
                     scenarios.push({
-                        title: front.querySelector('.card-title')?.textContent || '',
-                        text: front.querySelector('.card-text')?.textContent || '',
-                        questions: back.querySelector('.guiding-questions')?.innerHTML || '',
+                        title: title,
+                        text: text,
+                        questions: questions,
                         bgColorClass: colorClass // Store the class
                     });
                 }
