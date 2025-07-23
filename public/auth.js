@@ -2,7 +2,7 @@
 
 const TOKEN_KEY = 'toolkit_access_token';
 const LOGIN_PAGE = 'index.html'; // Correct path for the login page
-const PROTECTED_PAGE = '(Table of Contents).html'; // Correct path for the protected page
+const PROTECTED_PAGE = 'dashboard.html'; // Updated path for the dashboard
 
 /**
  * Removes the user's token and redirects them to the login page.
@@ -164,7 +164,7 @@ function createGlobalHeader(userData) {
         <div id="global-header" class="global-header">
             <div class="header-left">
                 <div class="brand">WarrenGami SEL Toolkit</div>
-                <a href="(Table of Contents).html" class="dashboard-link">🏠 Teacher Dashboard</a>
+                <a href="dashboard.html" class="dashboard-link">🏠 Teacher Dashboard</a>
             </div>
             <div class="header-right">
                 <div class="user-info">

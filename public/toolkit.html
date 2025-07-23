@@ -1,53 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>WarrenGami SEL Toolkit</title>
-  <!-- Links to the same style.css for a consistent look -->
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WarrenGami SEL Toolkit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            color: #0f2c4d;
+        }
+        .loading::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid #73bdf5;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- This div will be populated by auth.js with user info -->
-    <div id="user-info"></div>
+    <div id="loading" class="loading">
+        Loading WarrenGami SEL Toolkit...
+    </div>
 
-    <!-- The logout button, which calls the function in auth.js -->
-    <button onclick="logout()" class="logout-btn">Log out</button>
+    <script>
+        // URL routing configuration
+        const routes = {
+            'dashboard': 'dashboard.html',
+            'welcome': 'Page 2 - Welcome to Your Interactive SEL Toolkit.html',
+            'cover': 'Page 1 - Cover.html',
+            'dice-guide': 'Page 3 - Discussion Dice How They Work.html',
+            'emotion-exploration': 'Page 4 - Emotion Exploration Dice.html',
+            'social-scenarios': 'Page 5 - Social Scenarios Dice.html',
+            'family-connection': 'Page 6 - Family Connection Activities.html',
+            'assessment': 'Page 7 - Assessment & Reflection Tools.html',
+            'advanced-concepts': 'Page 8 - Advanced SEL Concepts.html',
+            'curriculum-integration': 'Page 9 - Integrating SEL Across the Curriculum.html',
+            'digital-resources': 'Page 10 - Digital Resources & Extensions.html',
+            'glossary': 'Page 11 - Glossary & Index.html',
+            'emotions-dice': 'Emotions & Feelings Dice.html',
+            'empathy-dice': 'Empathy & Kindness Dice.html',
+            'friendship-dice': 'Friendship & Social Skills Dice.html',
+            'coping-dice': 'Coping Strategies Dice.html',
+            'problem-solving-dice': 'Problem Solving Dice.html',
+            'self-awareness-dice': 'Self-Awareness Dice.html',
+            'blank-dice': 'Blank Dice.html',
+            'scenario-instructions': 'Scenario Card Instructions.html',
+            'scenarios-1': 'Scenario Cards 1.html',
+            'scenarios-2': 'Scenario Cards 2.html',
+            'scenarios-3': 'Scenario Cards 3.html',
+            'scenarios-4': 'Scenario Cards 4.html',
+            'scenarios-5': 'Scenario Cards 5.html',
+            'blank-scenarios': 'Blank Scenario Cards.html',
+            'classroom': 'classroom.html'
+        };
 
-    <h1>Welcome to the SEL Toolkit</h1>
-    <p>Click on a resource to open it:</p>
+        // Parse URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                view: params.get('view'),
+                page: params.get('page'),
+                type: params.get('type')
+            };
+        }
 
-    <!-- The full list of your toolkit resources -->
-    <ul class="toolkit-list">
-      <li><a href="(Table of Contents).html">Table of Contents</a></li>
-      <li><a href="Page 1 - Cover.html">Cover</a></li>
-      <li><a href="Page 2 - Welcome to Your Interactive SEL Toolkit.html">Welcome</a></li>
-      <li><a href="Page 3 - Discussion Dice How They Work.html">Discussion Dice - Overview</a></li>
-      <li><a href="Page 4 - Emotion Exploration Dice.html">Emotion Exploration Dice</a></li>
-      <li><a href="Page 5 - Social Scenarios Dice.html">Social Scenarios Dice</a></li>
-      <li><a href="Blank Dice.html">Blank Dice</a></li>
-      <li><a href="Coping Strategies Dice.html">Coping Strategies Dice</a></li>
-      <li><a href="Empathy & Kindness Dice.html">Empathy & Kindness Dice</a></li>
-      <li><a href="Friendship & Social Skills Dice.html">Friendship & Social Skills Dice</a></li>
-      <li><a href="Self-Awareness Dice.html">Self-Awareness Dice</a></li>
-      <li><a href="Scenario Cards 1.html">Scenario Cards 1</a></li>
-      <li><a href="Scenario Cards 2.html">Scenario Cards 2</a></li>
-      <li><a href="Scenario Cards 3.html">Scenario Cards 3</a></li>
-      <li><a href="Scenario Cards 4.html">Scenario Cards 4</a></li>
-      <li><a href="Scenario Cards 5.html">Scenario Cards 5</a></li>
-      <li><a href="Scenario Card Instructions.html">Scenario Card Instructions</a></li>
-      <li><a href="Problem Solving Dice.html">Problem Solving Dice</a></li>
-      <li><a href="Page 6 - Family Connection Activities.html">Family Connection Activities</a></li>
-      <li><a href="Page 7 - Assessment & Reflection Tools.html">Assessment & Reflection</a></li>
-      <li><a href="Page 8 - Advanced SEL Concepts.html">Advanced SEL Concepts</a></li>
-      <li><a href="Page 9 - Integrating SEL Across the Curriculum.html">Integrating SEL Across Curriculum</a></li>
-      <li><a href="Page 10 - Digital Resources & Extensions.html">Digital Resources & Extensions</a></li>
-      <li><a href="Page 11 - Glossary & Index.html">Glossary & Index</a></li>
-    </ul>
-  </div>
+        // Route to the appropriate page
+        function routeToPage() {
+            const params = getUrlParams();
+            let targetPage = null;
 
-  <!-- This script is necessary for the logout button and to display user info -->
-  <script src="auth.js"></script>
+            if (params.view === 'dashboard') {
+                targetPage = 'dashboard.html';
+            } else if (params.view === 'guide') {
+                // Handle guide pages
+                const pageMap = {
+                    '1': 'cover',
+                    '2': 'welcome',
+                    '3': 'dice-guide',
+                    '4': 'emotion-exploration',
+                    '5': 'social-scenarios',
+                    '6': 'family-connection',
+                    '7': 'assessment',
+                    '8': 'advanced-concepts',
+                    '9': 'curriculum-integration',
+                    '10': 'digital-resources',
+                    '11': 'glossary'
+                };
+                const pageKey = pageMap[params.page];
+                targetPage = routes[pageKey];
+            } else if (params.view === 'dice') {
+                // Handle dice pages
+                const diceMap = {
+                    'emotions': 'emotions-dice',
+                    'empathy': 'empathy-dice',
+                    'friendship': 'friendship-dice',
+                    'coping': 'coping-dice',
+                    'problem-solving': 'problem-solving-dice',
+                    'self-awareness': 'self-awareness-dice',
+                    'blank': 'blank-dice'
+                };
+                const diceKey = diceMap[params.type];
+                targetPage = routes[diceKey];
+            } else if (params.view === 'scenarios') {
+                // Handle scenario pages
+                if (params.page) {
+                    targetPage = routes[`scenarios-${params.page}`];
+                } else {
+                    targetPage = routes['scenario-instructions'];
+                }
+            } else if (params.view === 'scenarios-blank') {
+                targetPage = routes['blank-scenarios'];
+            } else if (params.view === 'classroom') {
+                targetPage = routes['classroom'];
+            }
+
+            // Default to dashboard if no valid route
+            if (!targetPage) {
+                targetPage = 'dashboard.html';
+            }
+
+            // Redirect to the actual page
+            window.location.href = targetPage;
+        }
+
+        // Initialize routing
+        document.addEventListener('DOMContentLoaded', () => {
+            routeToPage();
+        });
+    </script>
+    <script src="auth.js"></script>
 </body>
-</html>```
+</html>
 
