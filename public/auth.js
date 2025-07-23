@@ -38,6 +38,150 @@ function getUserData() {
 }
 
 /**
+ * Creates and injects the global navigation header
+ * @param {object} userData The decoded user data from the JWT
+ */
+function createGlobalHeader(userData) {
+    // Don't create header on login page
+    if (window.location.pathname.includes(LOGIN_PAGE)) {
+        return;
+    }
+
+    // Remove any existing global header
+    const existingHeader = document.getElementById('global-header');
+    if (existingHeader) {
+        existingHeader.remove();
+    }
+
+    // Create header styles
+    const headerStyles = `
+        <style id="global-header-styles">
+            .global-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                background: linear-gradient(135deg, #002b5c 0%, #00408a 100%);
+                color: white;
+                padding: 12px 20px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+                z-index: 1000;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                font-family: 'Poppins', sans-serif;
+                font-size: 14px;
+            }
+            .global-header .header-left {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+            .global-header .header-right {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+            .global-header .brand {
+                font-weight: 700;
+                font-size: 16px;
+                color: #73bdf5;
+            }
+            .global-header .dashboard-link {
+                color: white;
+                text-decoration: none;
+                padding: 6px 12px;
+                border-radius: 6px;
+                background-color: rgba(255,255,255,0.1);
+                transition: background-color 0.3s;
+                font-size: 13px;
+            }
+            .global-header .dashboard-link:hover {
+                background-color: rgba(255,255,255,0.2);
+            }
+            .global-header .user-info {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                font-size: 12px;
+                opacity: 0.9;
+            }
+            .global-header .user-info span {
+                background-color: rgba(255,255,255,0.1);
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 11px;
+            }
+            .global-header .logout-btn {
+                background-color: #ef5350;
+                color: white;
+                border: none;
+                padding: 6px 12px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 12px;
+                font-weight: 600;
+                transition: background-color 0.3s;
+            }
+            .global-header .logout-btn:hover {
+                background-color: #d32f2f;
+            }
+            /* Adjust body padding to account for fixed header */
+            body {
+                padding-top: 60px !important;
+            }
+            /* Hide existing bottom navigation on pages that have it */
+            .toolkit-nav {
+                display: none !important;
+            }
+            /* Adjust page container for pages that use it */
+            .page-container {
+                margin-top: 0 !important;
+            }
+            @media (max-width: 768px) {
+                .global-header {
+                    padding: 10px 15px;
+                    font-size: 12px;
+                }
+                .global-header .brand {
+                    font-size: 14px;
+                }
+                .global-header .user-info {
+                    flex-direction: column;
+                    gap: 5px;
+                    align-items: flex-end;
+                }
+                .global-header .user-info span {
+                    font-size: 10px;
+                    padding: 2px 6px;
+                }
+            }
+        </style>
+    `;
+
+    // Create header HTML
+    const headerHTML = `
+        <div id="global-header" class="global-header">
+            <div class="header-left">
+                <div class="brand">WarrenGami SEL Toolkit</div>
+                <a href="(Table of Contents).html" class="dashboard-link">🏠 Teacher Dashboard</a>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span>🏫 ${userData.user}</span>
+                    <span>⭐ ${userData.tier} Tier</span>
+                </div>
+                <button class="logout-btn" onclick="logout()">Log out</button>
+            </div>
+        </div>
+    `;
+
+    // Inject styles and header
+    document.head.insertAdjacentHTML('beforeend', headerStyles);
+    document.body.insertAdjacentHTML('afterbegin', headerHTML);
+}
+
+/**
  * This is the main logic that runs when any page loads.
  * It handles routing and page protection.
  */
@@ -60,7 +204,8 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = LOGIN_PAGE; // Correct: Protect pages by sending unauth users to login.
             return;
         }
-        // If they are logged in, display their data.
+        // If they are logged in, create the global header and display their data.
+        createGlobalHeader(userData);
         displayUserData(userData);
     }
 });
