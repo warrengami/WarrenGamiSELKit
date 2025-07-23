@@ -79,16 +79,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!link) return;
             
             const resourceType = item.dataset.type;
+            const href = link.getAttribute('href'); // Get the href to check the filename
             
-            // Add Project Button if projectable
-            if (resourceType) {
-                const href = link.getAttribute('href');
-                // CHANGED: Create a <button> instead of an <a>
+            // Add Project Button if projectable AND the filename does NOT include "Blank"
+            if (resourceType && !href.includes('Blank')) {
                 const projectButton = document.createElement('button');
                 projectButton.className = 'project-btn';
                 projectButton.setAttribute('aria-label', 'Project this resource');
                 
-                // Set the onclick action to open the classroom hub in a new tab
                 const classroomUrl = `classroom.html?type=${resourceType}&file=${encodeURIComponent(href)}`;
                 projectButton.onclick = (e) => {
                     e.preventDefault();
@@ -131,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (targetButton.classList.contains('favorite-btn')) {
             toggleFavorite(e);
         } else if (targetButton.classList.contains('project-btn')) {
-            // Since this is a clone, we handle its click directly
             e.preventDefault();
             e.stopPropagation();
             const link = targetButton.closest('a');
