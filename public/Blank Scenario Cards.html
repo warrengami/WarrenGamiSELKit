@@ -146,9 +146,36 @@
             color: var(--nav-secondary-text); font-size: 1rem; gap: 0.5rem;
         }
         .nav-home-link:hover, .nav-home-link:focus-visible {
-            color: var(--nav-secondary-hover); text-decoration: underline;
+            color: var(--nav-secondary-hover); 
+            text-decoration: underline;
         }
-        .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
+        .toolkit-nav a:focus-visible { 
+            outline: 2px solid var(--nav-primary-hover); 
+            outline-offset: 2px; 
+        }
+
+        /* Saved indicator styles */
+        .saved-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--sky-blue);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .saved-indicator.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
         @media print {
             body { background-color: transparent; padding: 0; padding-bottom: 0; }
@@ -171,12 +198,18 @@
         <header>
             <h2>Blank Scenario Cards</h2>
             <h3>Click the text to create your own scenarios.</h3>
+            <p style="text-align: center; font-size: 12px; color: #666; margin-top: 10px;">
+                💾 Your scenarios are automatically saved in your browser
+            </p>
         </header>
 
         <div class="controls">
             <button class="control-btn" onclick="clearCards()">🧹 Clear Cards</button>
             <button class="control-btn" onclick="window.print()">🖨️ Print Cards</button>
         </div>
+        
+        <!-- Saved indicator -->
+        <div id="saved-indicator" class="saved-indicator">💾 Saved!</div>
 
         <section>
             <div class="card-container">
@@ -230,6 +263,19 @@
     </nav>
     
     <script>
+        const STORAGE_KEY = 'selToolkit-blankScenarioCards';
+        let saveTimeout;
+
+        function showSavedIndicator() {
+            const indicator = document.getElementById('saved-indicator');
+            indicator.classList.add('show');
+            
+            // Hide after 2 seconds
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 2000);
+        }
+
         function flipCard(cardContainer) {
             if (document.activeElement.isContentEditable) { return; }
             cardContainer.classList.toggle('flipped');
@@ -237,7 +283,43 @@
 
         function clearCards() {
             document.querySelectorAll('[contenteditable="true"]').forEach(el => { el.innerHTML = ''; });
+            saveCards(); // Save the cleared state
         }
+
+        function saveCards() {
+            const editableElements = document.querySelectorAll('[contenteditable="true"]');
+            const cardData = Array.from(editableElements).map(el => el.innerHTML);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(cardData));
+            
+            // Show saved indicator with debouncing
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(showSavedIndicator, 500);
+        }
+
+        function loadCards() {
+            const savedData = localStorage.getItem(STORAGE_KEY);
+            if (savedData) {
+                const cardData = JSON.parse(savedData);
+                const editableElements = document.querySelectorAll('[contenteditable="true"]');
+                
+                editableElements.forEach((el, index) => {
+                    if (cardData[index]) {
+                        el.innerHTML = cardData[index];
+                    }
+                });
+            }
+        }
+
+        // Attach event listeners to all editable elements
+        document.addEventListener('DOMContentLoaded', () => {
+            const editableElements = document.querySelectorAll('[contenteditable="true"]');
+            editableElements.forEach(el => {
+                el.addEventListener('input', saveCards);
+            });
+            
+            // Load saved data
+            loadCards();
+        });
     </script>
     <script src="auth.js"></script>
      <!-- TIDIO CHATBOT SCRIPT -->

@@ -131,6 +131,29 @@
         }
         .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
 
+        /* Saved indicator styles */
+        .saved-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--sky-blue);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        .saved-indicator.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         @media print {
             body { background: transparent; padding-bottom: 0; }
             .page { margin: 0; padding: 0; box-shadow: none; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
@@ -146,12 +169,18 @@
         <header>
             <h2>Blank Dice Template</h2>
             <h3>Click the text to create your own, then print!</h3>
+            <p style="text-align: center; font-size: 12px; color: #666; margin-top: 10px;">
+                💾 Your prompts are automatically saved in your browser
+            </p>
         </header>
         
         <div class="controls">
             <button class="control-btn" onclick="clearPrompts()">🧹 Clear All Prompts</button>
             <button class="control-btn" onclick="window.print()">🖨️ Print Dice</button>
         </div>
+        
+        <!-- Saved indicator -->
+        <div id="saved-indicator" class="saved-indicator">💾 Saved!</div>
 
         <section class="dice-template-container">
             <div class="dice-net">
@@ -178,6 +207,17 @@
      <script>
         const STORAGE_KEY = 'selToolkit-blankDicePrompts';
         const promptElements = document.querySelectorAll('.dice-face .prompt');
+        let saveTimeout;
+
+        function showSavedIndicator() {
+            const indicator = document.getElementById('saved-indicator');
+            indicator.classList.add('show');
+            
+            // Hide after 2 seconds
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 2000);
+        }
 
         function clearPrompts() {
             promptElements.forEach(face => { face.innerHTML = ''; });
@@ -187,6 +227,10 @@
         function savePrompts() {
             const prompts = Array.from(promptElements).map(el => el.innerText);
             localStorage.setItem(STORAGE_KEY, JSON.stringify(prompts));
+            
+            // Show saved indicator with debouncing
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(showSavedIndicator, 500);
         }
 
         function loadPrompts() {
