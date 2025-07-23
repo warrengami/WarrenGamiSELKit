@@ -174,11 +174,40 @@
         <a href="Scenario Card Instructions.html" class="nav-button" aria-label="Go to Next Page">Next ➡️</a>
     </nav>
     
+     <!-- START: Updated Script for Saving/Loading Prompts -->
      <script>
+        const STORAGE_KEY = 'selToolkit-blankDicePrompts';
+        const promptElements = document.querySelectorAll('.dice-face .prompt');
+
         function clearPrompts() {
-            document.querySelectorAll('.dice-face .prompt').forEach(face => { face.innerHTML = ''; });
+            promptElements.forEach(face => { face.innerHTML = ''; });
+            savePrompts(); // Save the cleared state
         }
+
+        function savePrompts() {
+            const prompts = Array.from(promptElements).map(el => el.innerText);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(prompts));
+        }
+
+        function loadPrompts() {
+            const savedPrompts = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            if (savedPrompts && savedPrompts.length === promptElements.length) {
+                promptElements.forEach((el, index) => {
+                    el.innerText = savedPrompts[index];
+                });
+            }
+        }
+
+        // Attach event listeners
+        promptElements.forEach(el => {
+            el.addEventListener('input', savePrompts);
+        });
+
+        // Load prompts when the page is ready
+        document.addEventListener('DOMContentLoaded', loadPrompts);
      </script>
+     <!-- END: Updated Script -->
+
      <!-- TIDIO CHATBOT SCRIPT -->
      <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>
 
