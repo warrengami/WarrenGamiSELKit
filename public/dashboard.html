@@ -110,6 +110,54 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 15px rgba(15, 44, 77, 0.3);
         }
+
+        /* Classroom Section Styles */
+        .classroom-section {
+            background: linear-gradient(135deg, var(--highlight-yellow) 0%, #fff8dc 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid var(--sky-blue);
+        }
+        .classroom-section h2 {
+            color: var(--midnight-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+        .classroom-section p {
+            color: var(--midnight-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        .classroom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .classroom-grid a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background-color: var(--white);
+            color: var(--midnight-blue);
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            border: 2px solid var(--sky-blue);
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        .classroom-grid a:hover {
+            background-color: var(--sky-blue);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(115, 189, 245, 0.3);
+        }
+        .classroom-grid a:focus-visible {
+            outline: 2px solid var(--sky-blue);
+            outline-offset: 2px;
+        }
         .quick-start-grid .icon, .feedback-grid .icon {
             margin-right: 10px;
             filter: brightness(0) invert(1);
@@ -305,6 +353,17 @@
                 <a href="toolkit.html?view=guide&page=2"><span class="icon">👋</span> Get Started with the Toolkit</a>
                 <a href="toolkit.html?view=dice&type=emotions"><span class="icon">🖨️</span> Print Emotions Dice</a>
                 <a href="toolkit.html?view=dice&type=blank"><span class="icon">✍️</span> Create a Blank Dice</a>
+            </div>
+        </section>
+
+        <section class="classroom-section">
+            <h2>🖥️ Classroom Mode</h2>
+            <p>Project interactive dice and scenario cards on your classroom screen for engaging group activities.</p>
+            <div class="classroom-grid">
+                <a href="classroom.html?type=dice&file=Emotions%20%26%20Feelings%20Dice.html" target="_blank"><span class="icon">🎲</span> Emotions Dice</a>
+                <a href="classroom.html?type=dice&file=Empathy%20%26%20Kindness%20Dice.html" target="_blank"><span class="icon">🎲</span> Empathy Dice</a>
+                <a href="classroom.html?type=scenarios&file=Scenario%20Cards%201.html" target="_blank"><span class="icon">📄</span> Scenario Cards 1</a>
+                <a href="classroom.html?type=scenarios&file=Scenario%20Cards%202.html" target="_blank"><span class="icon">📄</span> Scenario Cards 2</a>
             </div>
         </section>
 
