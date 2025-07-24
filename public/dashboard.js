@@ -125,11 +125,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewSelBtn = document.getElementById('view-sel-data');
     if (startSelBtn) {
         startSelBtn.onclick = function() {
+            alert('Start Collecting SEL Data button clicked');
             window.open('self-assessment.html', '_blank');
         };
     }
     if (viewSelBtn) {
         viewSelBtn.onclick = function() {
+            alert('View/Export SEL Data button clicked');
             window.open('sel-data.html', '_blank');
         };
     }
