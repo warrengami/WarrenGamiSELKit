@@ -138,27 +138,100 @@
             margin-right: 10px;
             filter: brightness(0) invert(1);
         }
-        .feedback-section p {
-            text-align: center;
+        .feedback-section {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border: 2px solid var(--sky-blue);
+            box-shadow: 0 4px 15px rgba(115, 189, 245, 0.1);
+        }
+        .feedback-section h2 {
             color: var(--midnight-blue);
-            margin-top: -10px;
-            margin-bottom: 25px;
-            font-style: normal;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        .feedback-intro {
+            color: var(--midnight-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            text-align: center;
             line-height: 1.6;
         }
-        .feedback-section .shout-out-note {
-             margin-top: 25px;
-             margin-bottom: -5px;
-             font-size: 0.9em;
-             font-style: italic;
+        .feedback-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
         }
-        .search-bar-wrapper {
-            position: relative;
-            width: 250px;
+        .feedback-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--midnight-blue);
+            border: 2px solid var(--sky-blue);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(115, 189, 245, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
         }
-        .search-bar {
-            width: 100%;
-            padding: 8px 12px;
+        .feedback-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(115, 189, 245, 0.3);
+            border-color: var(--midnight-blue);
+        }
+        .feedback-card .icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        .feedback-content h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--midnight-blue);
+            font-size: 1.2rem;
+        }
+        .feedback-content p {
+            margin: 0;
+            color: var(--midnight-blue);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        .community-highlight {
+            background: linear-gradient(135deg, var(--highlight-yellow) 0%, #fff8dc 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 2px solid var(--sky-blue);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .highlight-icon {
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+        .highlight-content h4 {
+            margin: 0 0 0.5rem 0;
+            color: var(--midnight-blue);
+            font-size: 1.3rem;
+        }
+        .highlight-content p {
+            margin: 0;
+            color: var(--midnight-blue);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        @media (max-width: 768px) {
+            .feedback-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .community-highlight {
+                flex-direction: column;
+                text-align: center;
+            }
+        }            padding: 8px 12px;
             padding-right: 30px;
             border-radius: 8px;
             border: 1px solid var(--border-color);
@@ -322,16 +395,40 @@
             <p>WarrenGami SEL: Where Play Meets Emotional Growth</p>
             <div id="user-info"></div>
         </header>
-            <h2>Share Your Ideas!</h2>
-            <p>Have an idea for a new prompt, a feature, or a topic you'd like to see? Let us know! We build this toolkit <em>with</em> our community of educators.</p>
+        <section class="feedback-section">
+            <h2>💡 Share Your Ideas!</h2>
+            <p class="feedback-intro">Have an idea for a new prompt, a feature, or a topic you'd like to see? We build this toolkit <em>with</em> our community of educators and love hearing from teachers like you!</p>
             <div class="feedback-grid">
-                <a href="mailto:wcharleston96@gmail.com?subject=WarrenGami%20SEL%20Toolkit%20Suggestion&body=Hi%20Team,%0A%0AI'd%20like%20to%20suggest%20the%20following:%0A%0A[Describe%20your%20idea%20for%20a%20new%20prompt,%20feature,%20or%20topic]%0A%0AThanks!%0A(Optional:%20Your%20Name%20and%20School)">
-                   <span class="icon">💡</span> Suggest a Prompt or Feature
+                <a href="mailto:wcharleston96@gmail.com?subject=WarrenGami%20SEL%20Toolkit%20Suggestion&body=Hi%20Team,%0A%0AI'd%20like%20to%20suggest%20the%20following:%0A%0A[Describe%20your%20idea%20for%20a%20new%20prompt,%20feature,%20or%20topic]%0A%0AThanks!%0A(Optional:%20Your%20Name%20and%20School)" class="feedback-card">
+                   <span class="icon">💡</span>
+                   <div class="feedback-content">
+                       <h3>Suggest a Prompt or Feature</h3>
+                       <p>Share your ideas for new dice prompts, scenario cards, or toolkit features</p>
+                   </div>
+               </a>
+               <a href="mailto:wcharleston96@gmail.com?subject=WarrenGami%20SEL%20Toolkit%20Feedback&body=Hi%20Team,%0A%0AI%20have%20some%20feedback%20about%20the%20toolkit:%0A%0A[Share%20your%20experience,%20suggestions%20for%20improvement,%20or%20questions]%0A%0AThanks!%0A(Optional:%20Your%20Name%20and%20School)" class="feedback-card">
+                   <span class="icon">📝</span>
+                   <div class="feedback-content">
+                       <h3>Share Your Experience</h3>
+                       <p>Tell us how you're using the toolkit and what could be improved</p>
+                   </div>
+               </a>
+               <a href="mailto:wcharleston96@gmail.com?subject=WarrenGami%20SEL%20Toolkit%20Success%20Story&body=Hi%20Team,%0A%0AI%20wanted%20to%20share%20a%20success%20story:%0A%0A[Describe%20how%20the%20toolkit%20helped%20your%20students%20or%20classroom]%0A%0AThanks!%0A(Optional:%20Your%20Name%20and%20School)" class="feedback-card">
+                   <span class="icon">🌟</span>
+                   <div class="feedback-content">
+                       <h3>Share a Success Story</h3>
+                       <p>Inspire others with stories of how the toolkit made a difference</p>
+                   </div>
                </a>
             </div>
-            <p class="shout-out-note"><strong>Community Spotlight:</strong> If we add your suggestion, we'd love to give you and your school a shout-out (with your permission, of course)!</p>
+            <div class="community-highlight">
+                <div class="highlight-icon">🏆</div>
+                <div class="highlight-content">
+                    <h4>Community Spotlight</h4>
+                    <p>If we add your suggestion, we'd love to give you and your school a shout-out (with your permission, of course)! Your ideas help make this toolkit better for everyone.</p>
+                </div>
+            </div>
         </section>
-
 
         <div class="resources-grid">
             <section class="resource-section">
