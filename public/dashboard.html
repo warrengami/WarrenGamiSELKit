@@ -475,7 +475,7 @@
 
         <section class="classroom-section">
             <h2>🖥️ Classroom Mode</h2>
-            <p>Project interactive dice and scenario cards on your classroom screen for engaging group activities.</p>
+            <p>Browse interactive dice and scenario cards available for classroom projection.</p>
             
             <div class="carousel-container">
                 <button class="carousel-btn prev-btn" onclick="moveCarousel(-1)">❮</button>
@@ -488,9 +488,7 @@
                                 <h3>Emotions & Feelings Dice</h3>
                             </div>
                             <p class="card-description">Interactive dice prompts about emotions and feelings</p>
-                            <button class="project-btn" onclick="openClassroom('dice', 'Emotions%20%26%20Feelings%20Dice.html')">
-                                🖥️ Project in Classroom
-                            </button>
+
                         </div>
                     </div>
                     
@@ -501,9 +499,7 @@
                                 <h3>Empathy & Kindness Dice</h3>
                             </div>
                             <p class="card-description">Dice prompts about understanding others and showing kindness</p>
-                            <button class="project-btn" onclick="openClassroom('dice', 'Empathy%20%26%20Kindness%20Dice.html')">
-                                🖥️ Project in Classroom
-                            </button>
+
                         </div>
                     </div>
                     
@@ -514,9 +510,7 @@
                                 <h3>Friendship & Social Skills Dice</h3>
                             </div>
                             <p class="card-description">Prompts about making and being a good friend</p>
-                            <button class="project-btn" onclick="openClassroom('dice', 'Friendship%20%26%20Social%20Skills%20Dice.html')">
-                                🖥️ Project in Classroom
-                            </button>
+
                         </div>
                     </div>
                     
@@ -527,9 +521,7 @@
                                 <h3>Coping Strategies Dice</h3>
                             </div>
                             <p class="card-description">Dice with healthy strategies for managing stress</p>
-                            <button class="project-btn" onclick="openClassroom('dice', 'Coping%20Strategies%20Dice.html')">
-                                🖥️ Project in Classroom
-                            </button>
+
                         </div>
                     </div>
                     
@@ -540,9 +532,7 @@
                                 <h3>Problem Solving Dice</h3>
                             </div>
                             <p class="card-description">A tool to practice breaking down problems</p>
-                            <button class="project-btn" onclick="openClassroom('dice', 'Problem%20Solving%20Dice.html')">
-                                🖥️ Project in Classroom
-                            </button>
+
                         </div>
                     </div>
                     
@@ -553,9 +543,7 @@
                                 <h3>Self-Awareness Dice</h3>
                             </div>
                             <p class="card-description">Prompts to encourage introspection</p>
-                            <button class="project-btn" onclick="openClassroom('dice', 'Self-Awareness%20Dice.html')">
-                                🖥️ Project in Classroom
-                            </button>
+
                         </div>
                     </div>
                     
@@ -566,9 +554,7 @@
                                 <h3>Scenario Cards 1</h3>
                             </div>
                             <p class="card-description">Social scenarios 1-6 for group discussions</p>
-                            <button class="project-btn" onclick="openClassroom('scenarios', 'Scenario%20Cards%201.html')">
-                                🖥️ Project in Classroom
-                            </button>
+
                         </div>
                     </div>
                     
@@ -579,9 +565,7 @@
                                 <h3>Scenario Cards 2</h3>
                             </div>
                             <p class="card-description">Social scenarios 7-12 for group discussions</p>
-                            <button class="project-btn" onclick="openClassroom('scenarios', 'Scenario%20Cards%202.html')">
-                                🖥️ Project in Classroom
-                            </button>
+
                         </div>
                     </div>
                     
@@ -592,9 +576,7 @@
                                 <h3>Scenario Cards 3</h3>
                             </div>
                             <p class="card-description">Social scenarios 13-18 for group discussions</p>
-                            <button class="project-btn" onclick="openClassroom('scenarios', 'Scenario%20Cards%203.html')">
-                                🖥️ Project in Classroom
-                            </button>
+
                         </div>
                     </div>
                     
@@ -605,9 +587,7 @@
                                 <h3>Scenario Cards 4</h3>
                             </div>
                             <p class="card-description">Social scenarios 19-24 for group discussions</p>
-                            <button class="project-btn" onclick="openClassroom('scenarios', 'Scenario%20Cards%204.html')">
-                                🖥️ Project in Classroom
-                            </button>
+
                         </div>
                     </div>
                     
@@ -618,9 +598,7 @@
                                 <h3>Scenario Cards 5</h3>
                             </div>
                             <p class="card-description">Social scenarios 25-30 for group discussions</p>
-                            <button class="project-btn" onclick="openClassroom('scenarios', 'Scenario%20Cards%205.html')">
-                                🖥️ Project in Classroom
-                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -748,10 +726,7 @@
             });
         }
         
-        function openClassroom(type, file) {
-            const url = `classroom.html?type=${type}&file=${file}`;
-            window.open(url, '_blank');
-        }
+
         
         // Auto-advance carousel every 5 seconds
         setInterval(() => {
