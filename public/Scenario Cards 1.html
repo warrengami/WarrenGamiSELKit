@@ -24,6 +24,8 @@
             --nav-secondary-text: #002b5c;
             --nav-secondary-hover: #73bdf5;
             --nav-shadow: rgba(0, 0, 0, 0.1);
+            --focus-outline: 3px solid var(--sky-blue);
+            --focus-offset: 2px;
         }
         body {
             font-family: 'Atkinson Hyperlegible', sans-serif;
@@ -63,7 +65,11 @@
             cursor: pointer;
             transition: background-color: 0.3s;
         }
-        .control-btn:hover { background-color: var(--sky-blue); }
+        .control-btn:hover, .control-btn:focus {
+            background-color: var(--sky-blue);
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
+        }
 
         .card-container {
             display: grid;
@@ -74,6 +80,10 @@
             perspective: 1000px;
             min-height: 220px;
             cursor: pointer;
+        }
+        .scenario-card-container:focus {
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
         }
         .scenario-card-inner {
             position: relative;
@@ -100,127 +110,286 @@
         }
         .card-back {
             transform: rotateY(180deg);
-            align-items: center;
         }
         .card-title {
             font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            font-size: 20px;
-            margin-bottom: 15px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--midnight-blue);
         }
-        .card-text { font-size: 18px; }
+        .card-text {
+            margin: 0;
+            line-height: 1.4;
+        }
         .guiding-questions {
-            font-size: 14px;
+            margin: 10px 0 0 0;
+            padding-left: 20px;
             text-align: left;
-            padding-left: 1.2em;
         }
-        .guiding-questions li { margin-bottom: 8px; }
-
+        .guiding-questions li {
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
         .bg-yellow { background-color: var(--yellow); }
         .bg-green { background-color: var(--green); }
         .bg-pink { background-color: var(--pink); }
 
-        /* --- NEW NAVIGATION BAR STYLES --- */
+        /* Navigation styles */
         .toolkit-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background-color: var(--nav-bg); display: flex;
-            justify-content: space-between; align-items: center;
-            padding: 0.75rem 1rem; box-shadow: 0 -2px 10px var(--nav-shadow);
-            border-top: 1px solid var(--nav-border); z-index: 1000; box-sizing: border-box;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            border-top: 1px solid var(--nav-border);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px var(--nav-shadow);
+            z-index: 1000;
         }
-        .toolkit-nav a {
-            font-family: 'Poppins', sans-serif; text-decoration: none;
-            border-radius: 8px; transition: all 0.2s ease-in-out;
-            display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
+        .nav-button, .nav-home-link {
+            text-decoration: none;
+            color: var(--nav-text);
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-        .nav-button {
-            background-color: var(--nav-primary-bg); color: #ffffff; padding: 0.6rem 1rem;
-        }
-        .nav-button:hover, .nav-button:focus-visible {
-            background-color: var(--nav-primary-hover); transform: translateY(-2px);
-            box-shadow: 0 4px 8px var(--nav-shadow);
+        .nav-button:hover, .nav-button:focus,
+        .nav-home-link:hover, .nav-home-link:focus {
+            background-color: var(--nav-primary-bg);
+            color: var(--white);
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
         }
         .nav-home-link {
-            color: var(--nav-secondary-text); font-size: 1rem; gap: 0.5rem;
+            background-color: var(--nav-primary-bg);
+            color: var(--white);
         }
-        .nav-home-link:hover, .nav-home-link:focus-visible {
-            color: var(--nav-secondary-hover); text-decoration: underline;
+        .nav-home-link:hover, .nav-home-link:focus {
+            background-color: var(--nav-primary-hover);
         }
-        .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
+
+        /* Skip to main content link for screen readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--midnight-blue);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+        }
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        /* Enhanced focus styles for all interactive elements */
+        button:focus,
+        input:focus,
+        select:focus,
+        textarea:focus,
+        a:focus {
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --focus-outline: 3px solid #000;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Screen reader only class */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
 
         @media print {
-            body { background-color: transparent; padding: 0; padding-bottom: 0; }
-            .page { margin: 0; max-width: 100%; }
-            .controls, .toolkit-nav, h2, h3 { display: none !important; }
-            .card-container { display: block; }
-            .scenario-card-container {
-                perspective: unset; min-height: unset; cursor: default;
-                page-break-inside: avoid; margin: 0 auto 15mm auto; max-width: 320px;
-            }
-            .scenario-card-inner { position: static; transform: none !important; height: auto; }
-            .card-front, .card-back { position: static; transform: none; min-height: 180px; height: auto; display: flex !important; }
-            .card-front { margin-bottom: 5mm; }
-            .bg-yellow, .bg-green, .bg-pink { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .toolkit-nav, .controls { display: none; }
+            body { padding: 0; }
+            .page { max-width: none; }
         }
     </style>
 </head>
 <body>
-    <main class="page">
-        <header>
-            <h2>Scenario Cards</h2>
-            <h3>Click a card to flip it over for guiding questions.</h3>
-        </header>
-
-        <div class="controls">
-            <button onclick="window.open('classroom.html?type=scenarios&file=Scenario%20Cards%201.html', '_blank')" class="control-btn" aria-label="Project in Classroom Mode">🖥️ Project</button>
-            <button class="control-btn" onclick="window.print()">🖨️ Print Cards</button>
-        </div>
-
-        <section>
-            <div class="card-container">
-                <div class="scenario-card-container" id="card1" onclick="flipCard(this)">
-                    <div class="scenario-card-inner">
-                        <div class="card-front bg-yellow"><div class="card-title">Scenario 1</div><p class="card-text">Jordan loses a game and gets upset. What could Alex do to be a good friend?</p></div>
-                        <div class="card-back bg-yellow"><div class="card-title">Guiding Questions</div><ul class="guiding-questions"><li>How do you think Jordan is feeling?</li><li>What's one thing Alex could say?</li><li>What's something Alex should NOT do?</li></ul></div>
-                    </div>
-                </div>
-                <div class="scenario-card-container" id="card2" onclick="flipCard(this)">
-                    <div class="scenario-card-inner">
-                        <div class="card-front bg-green"><div class="card-title">Scenario 2</div><p class="card-text">A classmate forgets their lunch. What are some kind ways to help?</p></div>
-                         <div class="card-back bg-green"><div class="card-title">Guiding Questions</div><ul class="guiding-questions"><li>Why is it important to help others?</li><li>What could you do if you didn't have extra food to share?</li></ul></div>
-                    </div>
-                </div>
-                <div class="scenario-card-container" id="card3" onclick="flipCard(this)">
-                     <div class="scenario-card-inner">
-                        <div class="card-front bg-pink"><div class="card-title">Scenario 3</div><p class="card-text">You see someone sitting alone at recess. What could you do?</p></div>
-                        <div class="card-back bg-pink"><div class="card-title">Guiding Questions</div><ul class="guiding-questions"><li>How might that person be feeling?</li><li>What's a simple, low-pressure way to invite them to play?</li></ul></div>
-                    </div>
-                </div>
-                <div class="scenario-card-container" id="card4" onclick="flipCard(this)">
-                     <div class="scenario-card-inner">
-                        <div class="card-front bg-yellow"><div class="card-title">Scenario 4</div><p class="card-text">Your friend is nervous about a presentation. How can you support them?</p></div>
-                        <div class="card-back bg-yellow"><div class="card-title">Guiding Questions</div><ul class="guiding-questions"><li>What are some encouraging words you could say beforehand?</li><li>How can you be a good audience member for them?</li></ul></div>
-                    </div>
-                </div>
-                <div class="scenario-card-container" id="card5" onclick="flipCard(this)">
-                    <div class="scenario-card-inner">
-                        <div class="card-front bg-yellow"><div class="card-title">Scenario 5</div><p class="card-text">You and your friend both want the same toy. What's a fair way to solve it?</p></div>
-                        <div class="card-back bg-yellow"><div class="card-title">Guiding Questions</div><ul class="guiding-questions"><li>What does "compromise" mean?</li><li>Can you brainstorm two different fair solutions?</li></ul></div>
-                    </div>
-                </div>
-                <div class="scenario-card-container" id="card6" onclick="flipCard(this)">
-                    <div class="scenario-card-inner">
-                        <div class="card-front bg-green"><div class="card-title">Scenario 6</div><p class="card-text">Someone accidentally bumps into you in the hallway. What's the kind thing to do?</p></div>
-                        <div class="card-back bg-green"><div class="card-title">Guiding Questions</div><ul class="guiding-questions"><li>Why is it better to be kind than to get angry in this situation?</li><li>What could you say to show it's okay?</li></ul></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+    <!-- Skip to main content link for screen readers -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     
-    <nav class="toolkit-nav" aria-label="Toolkit Paging">
+    <div class="page">
+        <main id="main-content" role="main">
+            <header role="banner">
+                <h1>Scenario Cards</h1>
+                <h2>Social Scenarios for Discussion</h2>
+                <h3>Click or press Enter/Space to flip each card and see guiding questions</h3>
+            </header>
+
+            <section role="region" aria-labelledby="controls-heading">
+                <div class="controls" id="controls-heading">
+                    <button class="control-btn" onclick="window.print()" aria-label="Print scenario cards">🖨️ Print Cards</button>
+                </div>
+            </section>
+
+            <section class="card-container" role="region" aria-label="Scenario Cards">
+                <div class="scenario-card-container" id="card1" 
+                     onclick="flipCard(this)" 
+                     onkeydown="handleCardKeydown(event, this)"
+                     role="button" 
+                     tabindex="0" 
+                     aria-label="Scenario 1 - Click to flip card"
+                     aria-expanded="false">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-yellow">
+                            <div class="card-title">Scenario 1</div>
+                            <p class="card-text">A classmate asks to borrow your pencil, but you only have one. What do you do?</p>
+                        </div>
+                        <div class="card-back bg-yellow">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How can you be helpful while also taking care of yourself?</li>
+                                <li>What are some other ways you could help your classmate?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="scenario-card-container" id="card2" 
+                     onclick="flipCard(this)" 
+                     onkeydown="handleCardKeydown(event, this)"
+                     role="button" 
+                     tabindex="0" 
+                     aria-label="Scenario 2 - Click to flip card"
+                     aria-expanded="false">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-green">
+                            <div class="card-title">Scenario 2</div>
+                            <p class="card-text">You see someone sitting alone at lunch. How can you include them?</p>
+                        </div>
+                        <div class="card-back bg-green">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>What might make someone feel welcome?</li>
+                                <li>How does it feel to be included?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="scenario-card-container" id="card3" 
+                     onclick="flipCard(this)" 
+                     onkeydown="handleCardKeydown(event, this)"
+                     role="button" 
+                     tabindex="0" 
+                     aria-label="Scenario 3 - Click to flip card"
+                     aria-expanded="false">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-pink">
+                            <div class="card-title">Scenario 3</div>
+                            <p class="card-text">A friend tells you a secret. What should you do?</p>
+                        </div>
+                        <div class="card-back bg-pink">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>When is it okay to share someone's secret?</li>
+                                <li>How do you show someone you can be trusted?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="scenario-card-container" id="card4" 
+                     onclick="flipCard(this)" 
+                     onkeydown="handleCardKeydown(event, this)"
+                     role="button" 
+                     tabindex="0" 
+                     aria-label="Scenario 4 - Click to flip card"
+                     aria-expanded="false">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-yellow">
+                            <div class="card-title">Scenario 4</div>
+                            <p class="card-text">You accidentally break something that belongs to someone else. What do you do?</p>
+                        </div>
+                        <div class="card-back bg-yellow">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>Why is it important to tell the truth?</li>
+                                <li>How can you make things right?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="scenario-card-container" id="card5" 
+                     onclick="flipCard(this)" 
+                     onkeydown="handleCardKeydown(event, this)"
+                     role="button" 
+                     tabindex="0" 
+                     aria-label="Scenario 5 - Click to flip card"
+                     aria-expanded="false">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-green">
+                            <div class="card-title">Scenario 5</div>
+                            <p class="card-text">You disagree with a friend about which game to play. How do you solve this?</p>
+                        </div>
+                        <div class="card-back bg-green">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How can you compromise?</li>
+                                <li>What makes a good solution for everyone?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="scenario-card-container" id="card6" 
+                     onclick="flipCard(this)" 
+                     onkeydown="handleCardKeydown(event, this)"
+                     role="button" 
+                     tabindex="0" 
+                     aria-label="Scenario 6 - Click to flip card"
+                     aria-expanded="false">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-green">
+                            <div class="card-title">Scenario 6</div>
+                            <p class="card-text">Someone accidentally bumps into you in the hallway. What's the kind thing to do?</p>
+                        </div>
+                        <div class="card-back bg-green">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>Why is it better to be kind than to get angry in this situation?</li>
+                                <li>What could you say to show it's okay?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <nav class="toolkit-nav" aria-label="Toolkit Navigation">
         <a href="Scenario Card Instructions.html" class="nav-button" aria-label="Go to Previous Page">⬅️ Previous</a>
-        <a href="dashboard.html" class="nav-home-link" aria-label="Go to Table of Contents">
+        <a href="dashboard.html" class="nav-home-link" aria-label="Go to Teacher Dashboard">
             <span aria-hidden="true">🏠</span>
             <span>Teacher Dashboard</span>
         </a>
@@ -229,7 +398,39 @@
     
     <script>
         function flipCard(cardContainer) {
-            cardContainer.classList.toggle('flipped');
+            const isFlipped = cardContainer.classList.toggle('flipped');
+            cardContainer.setAttribute('aria-expanded', isFlipped);
+            
+            // Announce the state change to screen readers
+            const cardTitle = cardContainer.querySelector('.card-title').textContent;
+            const status = isFlipped ? 'flipped' : 'unflipped';
+            announceToScreenReader(`${cardTitle} card ${status}`);
+        }
+        
+        function handleCardKeydown(event, cardContainer) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault(); // Prevent page scroll on spacebar press
+                flipCard(cardContainer);
+            }
+        }
+        
+        function announceToScreenReader(message) {
+            // Create a live region for screen reader announcements
+            let liveRegion = document.getElementById('sr-live-region');
+            if (!liveRegion) {
+                liveRegion = document.createElement('div');
+                liveRegion.id = 'sr-live-region';
+                liveRegion.setAttribute('aria-live', 'polite');
+                liveRegion.setAttribute('aria-atomic', 'true');
+                liveRegion.className = 'sr-only';
+                document.body.appendChild(liveRegion);
+            }
+            liveRegion.textContent = message;
+            
+            // Clear the message after a short delay
+            setTimeout(() => {
+                liveRegion.textContent = '';
+            }, 1000);
         }
     </script>
     <script src="auth.js"></script>

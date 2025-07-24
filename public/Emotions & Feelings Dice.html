@@ -9,13 +9,12 @@
         :root {
             --midnight-blue: #002b5c;
             --sky-blue: #73bdf5;
-            --ice-blue: #cfe9ff;
             --soft-gray: #e0e6ed;
             --white: #ffffff;
             --border-color: #333;
-            --face-size: 35mm;
-            --tab-size: 8mm;
-            /* --- Nav Bar Colors --- */
+            --focus-outline: 3px solid var(--sky-blue);
+            --focus-offset: 2px;
+            /* Navigation colors */
             --nav-bg: #f8f9fa;
             --nav-border: #dee2e6;
             --nav-text: #212529;
@@ -27,167 +26,380 @@
         }
         body {
             font-family: 'Atkinson Hyperlegible', sans-serif;
-            line-height: 1.4; color: var(--border-color);
-            margin: 0; padding: 0; background-color: var(--soft-gray);
-            font-size: 12px;
-            padding-bottom: 80px; /* Space for new nav bar */
+            line-height: 1.5; color: var(--border-color);
+            margin: 0; padding: 20px;
+            background-color: var(--soft-gray);
+            font-size: 16px;
+            padding-bottom: 80px;
         }
         .page {
-            width: 148mm;
-            min-height: 210mm; height: auto;
-            margin: 20px auto; padding: 10mm;
-            box-sizing: border-box; position: relative;
-            background-color: var(--white);
-            box-shadow: 0 0 15px rgba(0,0,0,0.1);
-            display: flex; flex-direction: column;
+            max-width: 8.5in;
+            margin: 0 auto;
+            box-sizing: border-box;
         }
         h2, h3 {
-            font-family: 'Poppins', sans-serif; margin: 0 0 10px 0;
-            color: var(--midnight-blue); text-align: center;
+            font-family: 'Poppins', sans-serif;
+            margin: 0 0 10px 0;
+            color: var(--midnight-blue);
+            text-align: center;
         }
         h2 { font-size: 24px; margin-bottom: 5px; }
         h3 { font-size: 14px; font-weight: normal; color: #555; margin-bottom: 20px; }
 
         .controls {
-            display: flex; justify-content: center; gap: 10px; margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
         }
         .control-btn {
-            background-color: var(--midnight-blue); color: var(--white);
-            font-family: 'Poppins', sans-serif; border: none; padding: 8px 15px;
-            border-radius: 5px; cursor: pointer; transition: background-color 0.3s;
+            background-color: var(--midnight-blue);
+            color: var(--white);
+            font-family: 'Poppins', sans-serif;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color: 0.3s;
         }
-        .control-btn:hover { background-color: var(--sky-blue); }
+        .control-btn:hover, .control-btn:focus {
+            background-color: var(--sky-blue);
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
+        }
 
         .dice-template-container {
-            display: flex; justify-content: center; align-items: center;
-            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
         }
-        
         .dice-net {
             display: grid;
-            grid-template-columns: repeat(3, var(--face-size));
-            grid-template-rows: repeat(4, var(--face-size));
-            justify-content: center;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 600px;
+            margin: 0 auto;
         }
         .dice-face {
-            width: var(--face-size); height: var(--face-size);
-            border: 1px solid var(--border-color);
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; padding: 5px; box-sizing: border-box;
-            font-size: 10px; background-color: var(--white);
+            background: var(--white);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.3;
             position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .dice-face .prompt { min-height: 1.2em; cursor: text; padding: 2px; }
-        .dice-face .prompt:focus { outline: 1px dashed var(--sky-blue); background-color: #f0f8ff; }
-        
+        .dice-face:hover, .dice-face:focus {
+            background-color: var(--sky-blue);
+            color: var(--white);
+            transform: translateY(-2px);
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
+        }
+        .dice-face .prompt {
+            margin: 0;
+            font-weight: 500;
+        }
         .tab {
             position: absolute;
-            background-color: var(--soft-gray);
-            border: 1px solid var(--border-color);
-            box-sizing: border-box;
+            width: 20px;
+            height: 20px;
+            background: var(--white);
+            border: 2px solid var(--border-color);
         }
-        .tab-top { top: calc(-1 * var(--tab-size)); left: 0; width: 100%; height: var(--tab-size); border-bottom: none; clip-path: polygon(15% 0, 85% 0, 100% 100%, 0% 100%); }
-        .tab-bottom { bottom: calc(-1 * var(--tab-size)); left: 0; width: 100%; height: var(--tab-size); border-top: none; clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%); }
-        .tab-left { left: calc(-1 * var(--tab-size)); top: 0; width: var(--tab-size); height: 100%; border-right: none; clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 85%); }
-        .tab-right { right: calc(-1 * var(--tab-size)); top: 0; width: var(--tab-size); height: 100%; border-left: none; clip-path: polygon(0 0, 100% 15%, 100% 85%, 0 100%); }
-        
-        .face-1 { grid-column: 2; grid-row: 1; }
-        .face-2 { grid-column: 1; grid-row: 2; }
-        .face-3 { grid-column: 2; grid-row: 2; }
-        .face-4 { grid-column: 3; grid-row: 2; }
-        .face-5 { grid-column: 2; grid-row: 3; }
-        .face-6 { grid-column: 2; grid-row: 4; }
+        .tab-top { top: -10px; left: 50%; transform: translateX(-50%); }
+        .tab-bottom { bottom: -10px; left: 50%; transform: translateX(-50%); }
+        .tab-left { left: -10px; top: 50%; transform: translateY(-50%); }
+        .tab-right { right: -10px; top: 50%; transform: translateY(-50%); }
 
-        /* --- NEW NAVIGATION BAR STYLES --- */
+        /* Navigation styles */
         .toolkit-nav {
-            position: fixed; bottom: 0; left: 0; width: 100%;
-            background-color: var(--nav-bg); display: flex;
-            justify-content: space-between; align-items: center;
-            padding: 0.75rem 1rem; box-shadow: 0 -2px 10px var(--nav-shadow);
-            border-top: 1px solid var(--nav-border); z-index: 1000; box-sizing: border-box;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            border-top: 1px solid var(--nav-border);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px var(--nav-shadow);
+            z-index: 1000;
         }
-        .toolkit-nav a {
-            font-family: 'Poppins', sans-serif; text-decoration: none;
-            border-radius: 8px; transition: all 0.2s ease-in-out;
-            display: inline-flex; align-items: center; justify-content: center; font-weight: 600;
+        .nav-button, .nav-home-link {
+            text-decoration: none;
+            color: var(--nav-text);
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
-        .nav-button {
-            background-color: var(--nav-primary-bg); color: #ffffff; padding: 0.6rem 1rem;
-        }
-        .nav-button:hover, .nav-button:focus-visible {
-            background-color: var(--nav-primary-hover); transform: translateY(-2px);
-            box-shadow: 0 4px 8px var(--nav-shadow);
+        .nav-button:hover, .nav-button:focus,
+        .nav-home-link:hover, .nav-home-link:focus {
+            background-color: var(--nav-primary-bg);
+            color: var(--white);
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
         }
         .nav-home-link {
-            color: var(--nav-secondary-text); font-size: 1rem; gap: 0.5rem;
+            background-color: var(--nav-primary-bg);
+            color: var(--white);
         }
-        .nav-home-link:hover, .nav-home-link:focus-visible {
-            color: var(--nav-secondary-hover); text-decoration: underline;
+        .nav-home-link:hover, .nav-home-link:focus {
+            background-color: var(--nav-primary-hover);
         }
-        .toolkit-nav a:focus-visible { outline: 2px solid var(--nav-primary-hover); outline-offset: 2px; }
+
+        /* Skip to main content link for screen readers */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--midnight-blue);
+            color: white;
+            padding: 8px;
+            text-decoration: none;
+            border-radius: 4px;
+            z-index: 1000;
+        }
+        .skip-link:focus {
+            top: 6px;
+        }
+
+        /* Enhanced focus styles for all interactive elements */
+        button:focus,
+        input:focus,
+        select:focus,
+        textarea:focus,
+        a:focus {
+            outline: var(--focus-outline);
+            outline-offset: var(--focus-offset);
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            :root {
+                --focus-outline: 3px solid #000;
+            }
+        }
+
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Screen reader only class */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
 
         @media print {
-            body { background: transparent; padding-bottom: 0; }
-            .page { margin: 0; padding: 0; box-shadow: none; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
-            header, .controls, .toolkit-nav { display: none; }
-            .dice-template-container { flex: none; }
-            .tab { background-color: var(--soft-gray) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            .toolkit-nav, .controls { display: none; }
+            body { padding: 0; }
+            .page { max-width: none; }
+            .dice-face { page-break-inside: avoid; }
         }
     </style>
 </head>
 <body>
+    <!-- Skip to main content link for screen readers -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
     <div class="page">
-        <header>
-            <h2>Emotions & Feelings Dice</h2>
-            <h3>Click the text to edit prompts, then print!</h3>
-        </header>
-        
-        <div class="controls">
-            <button class="control-btn" onclick="randomizePrompts()">🎲 Randomize Prompts</button>
-            <button onclick="window.open('classroom.html?type=dice&file=Emotions%20%26%20Feelings%20Dice.html', '_blank')" class="control-btn" aria-label="Project in Classroom Mode">🖥️ Project</button>
-            <button class="control-btn" onclick="window.print()">🖨️ Print Dice</button>
-        </div>
+        <main id="main-content" role="main">
+            <header role="banner">
+                <h1>Emotions & Feelings Dice</h1>
+                <h2>Interactive Dice for Emotional Exploration</h2>
+                <h3>Click or press Enter/Space on each face to edit the prompts</h3>
+            </header>
 
-        <section class="dice-template-container">
-            <div class="dice-net">
-                <div class="dice-face face-1"><div class="prompt" contenteditable="true">How can you tell how someone is feeling by looking at their face?</div><div class="tab tab-top"></div></div>
-                <div class="dice-face face-2"><div class="prompt" contenteditable="true">What makes you feel worried or anxious?</div><div class="tab tab-left"></div><div class="tab tab-top"></div><div class="tab tab-bottom"></div></div>
-                <div class="dice-face face-3"><div class="prompt" contenteditable="true">How are you feeling right now?</div></div>
-                <div class="dice-face face-4"><div class="prompt" contenteditable="true">When do you feel most calm and peaceful?</div><div class="tab tab-right"></div><div class="tab tab-top"></div><div class="tab tab-bottom"></div></div>
-                <div class="dice-face face-5"><div class="prompt" contenteditable="true">What's a kind way to respond if a friend is sad?</div><div class="tab tab-bottom"></div></div>
-                <div class="dice-face face-6"><div class="prompt" contenteditable="true">Describe a time you felt really happy.</div></div>
-            </div>
-        </section>
+            <section role="region" aria-labelledby="controls-heading">
+                <div class="controls" id="controls-heading">
+                    <button class="control-btn" onclick="randomizePrompts()" aria-label="Randomize dice prompts">🎲 Randomize Prompts</button>
+                    <button class="control-btn" onclick="window.print()" aria-label="Print dice template">🖨️ Print Dice</button>
+                </div>
+            </section>
+
+            <section class="dice-template-container" role="region" aria-label="Dice Template">
+                <div class="dice-net" role="grid" aria-label="Dice faces">
+                    <div class="dice-face face-1" 
+                         role="gridcell" 
+                         tabindex="0" 
+                         aria-label="Dice face 1 - Click to edit prompt"
+                         onkeydown="handleDiceFaceKeydown(event, this)">
+                        <div class="prompt" contenteditable="true" role="textbox" aria-label="Prompt for face 1">How can you tell how someone is feeling by looking at their face?</div>
+                        <div class="tab tab-top" aria-hidden="true"></div>
+                    </div>
+                    <div class="dice-face face-2" 
+                         role="gridcell" 
+                         tabindex="0" 
+                         aria-label="Dice face 2 - Click to edit prompt"
+                         onkeydown="handleDiceFaceKeydown(event, this)">
+                        <div class="prompt" contenteditable="true" role="textbox" aria-label="Prompt for face 2">What makes you feel worried or anxious?</div>
+                        <div class="tab tab-left" aria-hidden="true"></div>
+                        <div class="tab tab-top" aria-hidden="true"></div>
+                        <div class="tab tab-bottom" aria-hidden="true"></div>
+                    </div>
+                    <div class="dice-face face-3" 
+                         role="gridcell" 
+                         tabindex="0" 
+                         aria-label="Dice face 3 - Click to edit prompt"
+                         onkeydown="handleDiceFaceKeydown(event, this)">
+                        <div class="prompt" contenteditable="true" role="textbox" aria-label="Prompt for face 3">How are you feeling right now?</div>
+                    </div>
+                    <div class="dice-face face-4" 
+                         role="gridcell" 
+                         tabindex="0" 
+                         aria-label="Dice face 4 - Click to edit prompt"
+                         onkeydown="handleDiceFaceKeydown(event, this)">
+                        <div class="prompt" contenteditable="true" role="textbox" aria-label="Prompt for face 4">When do you feel most calm and peaceful?</div>
+                        <div class="tab tab-right" aria-hidden="true"></div>
+                        <div class="tab tab-top" aria-hidden="true"></div>
+                        <div class="tab tab-bottom" aria-hidden="true"></div>
+                    </div>
+                    <div class="dice-face face-5" 
+                         role="gridcell" 
+                         tabindex="0" 
+                         aria-label="Dice face 5 - Click to edit prompt"
+                         onkeydown="handleDiceFaceKeydown(event, this)">
+                        <div class="prompt" contenteditable="true" role="textbox" aria-label="Prompt for face 5">What's a kind way to respond if a friend is sad?</div>
+                        <div class="tab tab-bottom" aria-hidden="true"></div>
+                    </div>
+                    <div class="dice-face face-6" 
+                         role="gridcell" 
+                         tabindex="0" 
+                         aria-label="Dice face 6 - Click to edit prompt"
+                         onkeydown="handleDiceFaceKeydown(event, this)">
+                        <div class="prompt" contenteditable="true" role="textbox" aria-label="Prompt for face 6">Describe a time you felt really happy.</div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-
-    <nav class="toolkit-nav" aria-label="Toolkit Paging">
+    
+    <nav class="toolkit-nav" aria-label="Toolkit Navigation">
         <a href="Page 11 - Glossary & Index.html" class="nav-button" aria-label="Go to Previous Page">⬅️ Previous</a>
-        <a href="dashboard.html" class="nav-home-link" aria-label="Go to Table of Contents">
+        <a href="dashboard.html" class="nav-home-link" aria-label="Go to Teacher Dashboard">
             <span aria-hidden="true">🏠</span>
             <span>Teacher Dashboard</span>
         </a>
         <a href="Empathy & Kindness Dice.html" class="nav-button" aria-label="Go to Next Page">Next ➡️</a>
     </nav>
     
-     <script src="auth.js"></script>
-     <script>
+    <script>
         const prompts = [
-            "How are you feeling right now?", "Describe a time you felt really happy.", "What emotion did you feel this morning?", "What makes you feel worried or anxious?",
-            "Show us your excited face. What excites you?", "When do you feel most calm and peaceful?", "What does 'frustrated' feel like in your body?",
-            "Share a time you felt proud of yourself.", "What's a kind way to respond if a friend is sad?", "Name an emotion that can be tricky to handle.",
-            "How can you tell how someone is feeling by looking at their face?", "What is something you can do to cheer yourself up?"
+            "How can you tell how someone is feeling by looking at their face?",
+            "What makes you feel worried or anxious?",
+            "How are you feeling right now?",
+            "When do you feel most calm and peaceful?",
+            "What's a kind way to respond if a friend is sad?",
+            "Describe a time you felt really happy."
         ];
 
         function randomizePrompts() {
-            const faces = document.querySelectorAll('.dice-face .prompt');
-            const shuffledPrompts = [...prompts].sort(() => 0.5 - Math.random());
-            faces.forEach((face, index) => {
-                if (index < shuffledPrompts.length) { face.innerText = shuffledPrompts[index]; }
+            const shuffledPrompts = [...prompts].sort(() => Math.random() - 0.5);
+            const promptElements = document.querySelectorAll('.dice-face .prompt');
+            
+            promptElements.forEach((element, index) => {
+                element.textContent = shuffledPrompts[index];
+                // Announce the change to screen readers
+                announceToScreenReader(`Face ${index + 1} updated with new prompt`);
             });
+            
+            // Announce completion to screen readers
+            announceToScreenReader('All dice prompts have been randomized');
         }
-     </script>
+        
+        function handleDiceFaceKeydown(event, diceFace) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault(); // Prevent page scroll on spacebar press
+                const promptElement = diceFace.querySelector('.prompt');
+                promptElement.focus();
+                // Place cursor at the end of the text
+                const range = document.createRange();
+                const selection = window.getSelection();
+                range.selectNodeContents(promptElement);
+                range.collapse(false);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            }
+        }
+        
+        function announceToScreenReader(message) {
+            // Create a live region for screen reader announcements
+            let liveRegion = document.getElementById('sr-live-region');
+            if (!liveRegion) {
+                liveRegion = document.createElement('div');
+                liveRegion.id = 'sr-live-region';
+                liveRegion.setAttribute('aria-live', 'polite');
+                liveRegion.setAttribute('aria-atomic', 'true');
+                liveRegion.className = 'sr-only';
+                document.body.appendChild(liveRegion);
+            }
+            liveRegion.textContent = message;
+            
+            // Clear the message after a short delay
+            setTimeout(() => {
+                liveRegion.textContent = '';
+            }, 1000);
+        }
+        
+        // Add keyboard navigation for the dice faces
+        document.addEventListener('keydown', function(event) {
+            const diceFaces = document.querySelectorAll('.dice-face');
+            const currentIndex = Array.from(diceFaces).findIndex(face => face === document.activeElement);
+            
+            if (currentIndex === -1) return;
+            
+            let nextIndex = currentIndex;
+            
+            switch(event.key) {
+                case 'ArrowRight':
+                    nextIndex = (currentIndex + 1) % diceFaces.length;
+                    break;
+                case 'ArrowLeft':
+                    nextIndex = (currentIndex - 1 + diceFaces.length) % diceFaces.length;
+                    break;
+                case 'ArrowUp':
+                    nextIndex = (currentIndex - 3 + diceFaces.length) % diceFaces.length;
+                    break;
+                case 'ArrowDown':
+                    nextIndex = (currentIndex + 3) % diceFaces.length;
+                    break;
+                default:
+                    return;
+            }
+            
+            event.preventDefault();
+            diceFaces[nextIndex].focus();
+        });
+    </script>
+    <script src="auth.js"></script>
      <!-- TIDIO CHATBOT SCRIPT -->
-     <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>
+    <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>
 
- </body>
- </html>
+</body>
+</html>
