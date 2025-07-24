@@ -215,6 +215,27 @@
             outline-offset: 2px;
         }
         
+        /* Collapsible Classroom Section */
+        .classroom-content {
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+            max-height: 1000px;
+        }
+        
+        .classroom-content.collapsed {
+            max-height: 0;
+        }
+        
+        #classroom-toggle {
+            transition: transform 0.3s ease;
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
+        
+        .classroom-section h2.collapsed #classroom-toggle {
+            transform: rotate(-90deg);
+        }
+        
         @media (max-width: 768px) {
             .classroom-grid {
                 grid-template-columns: 1fr;
@@ -427,12 +448,12 @@
                 <a href="toolkit.html?view=guide&page=2"><span class="icon">👋</span> Get Started with the Toolkit</a>
                 <a href="toolkit.html?view=dice&type=emotions"><span class="icon">🖨️</span> Print Emotions Dice</a>
                 <a href="toolkit.html?view=dice&type=blank"><span class="icon">✍️</span> Create a Blank Dice</a>
-            </div>
+            </div></div>
         </section>
 
         <section class="classroom-section">
-            <h2>🖥️ Classroom Mode</h2>
-            <p>Browse interactive dice and scenario cards available for classroom projection.</p>
+            <h2 onclick="toggleClassroomSection()" style="cursor: pointer;">🖥️ Classroom Mode <span id="classroom-toggle">▼</span></h2>
+            <p>Browse interactive dice and scenario cards available for classroom projection.</p><div id="classroom-content" class="classroom-content">
             
             <div class="classroom-grid">
                 <!-- Dice Resources -->
@@ -440,124 +461,124 @@
                     <div class="card-header">
                         <span class="card-icon">🎲</span>
                         <h3>Emotions & Feelings Dice</h3>
-                    </div>
+                    </div></div>
                     <p class="card-description">Interactive dice prompts about emotions and feelings</p>
                     <button class="classroom-btn" onclick="openClassroom("dice", "Emotions%20%26%20Feelings%20Dice.html")">
                         🖥️ Project in Classroom
                     </button>
-                </div>
+                </div></div>
                 
                 <div class="classroom-card dice-card">
                     <div class="card-header">
                         <span class="card-icon">🎲</span>
                         <h3>Empathy & Kindness Dice</h3>
-                    </div>
+                    </div></div>
                     <p class="card-description">Dice prompts about understanding others and showing kindness</p>
                     <button class="classroom-btn" onclick="openClassroom("dice", "Empathy%20%26%20Kindness%20Dice.html")">
                         🖥️ Project in Classroom
                     </button>
-                </div>
+                </div></div>
                 
                 <div class="classroom-card dice-card">
                     <div class="card-header">
                         <span class="card-icon">🎲</span>
                         <h3>Friendship & Social Skills Dice</h3>
-                    </div>
+                    </div></div>
                     <p class="card-description">Prompts about making and being a good friend</p>
                     <button class="classroom-btn" onclick="openClassroom("dice", "Friendship%20%26%20Social%20Skills%20Dice.html")">
                         🖥️ Project in Classroom
                     </button>
-                </div>
+                </div></div>
                 
                 <div class="classroom-card dice-card">
                     <div class="card-header">
                         <span class="card-icon">🎲</span>
                         <h3>Coping Strategies Dice</h3>
-                    </div>
+                    </div></div>
                     <p class="card-description">Dice with healthy strategies for managing stress</p>
                     <button class="classroom-btn" onclick="openClassroom("dice", "Coping%20Strategies%20Dice.html")">
                         🖥️ Project in Classroom
                     </button>
-                </div>
+                </div></div>
                 
                 <div class="classroom-card dice-card">
                     <div class="card-header">
                         <span class="card-icon">🎲</span>
                         <h3>Problem Solving Dice</h3>
-                    </div>
+                    </div></div>
                     <p class="card-description">A tool to practice breaking down problems</p>
                     <button class="classroom-btn" onclick="openClassroom("dice", "Problem%20Solving%20Dice.html")">
                         🖥️ Project in Classroom
                     </button>
-                </div>
+                </div></div>
                 
                 <div class="classroom-card dice-card">
                     <div class="card-header">
                         <span class="card-icon">🎲</span>
                         <h3>Self-Awareness Dice</h3>
-                    </div>
+                    </div></div>
                     <p class="card-description">Prompts to encourage introspection</p>
                     <button class="classroom-btn" onclick="openClassroom("dice", "Self-Awareness%20Dice.html")">
                         🖥️ Project in Classroom
                     </button>
-                </div>
+                </div></div>
                 
                 <!-- Scenario Card Resources -->
                 <div class="classroom-card scenario-card">
                     <div class="card-header">
                         <span class="card-icon">📄</span>
                         <h3>Scenario Cards 1</h3>
-                    </div>
+                    </div></div>
                     <p class="card-description">Social scenarios 1-6 for group discussions</p>
                     <button class="classroom-btn" onclick="openClassroom("scenarios", "Scenario%20Cards%201.html")">
                         🖥️ Project in Classroom
                     </button>
-                </div>
+                </div></div>
                 
                 <div class="classroom-card scenario-card">
                     <div class="card-header">
                         <span class="card-icon">📄</span>
                         <h3>Scenario Cards 2</h3>
-                    </div>
+                    </div></div>
                     <p class="card-description">Social scenarios 7-12 for group discussions</p>
                     <button class="classroom-btn" onclick="openClassroom("scenarios", "Scenario%20Cards%202.html")">
                         🖥️ Project in Classroom
                     </button>
-                </div>
+                </div></div>
                 
                 <div class="classroom-card scenario-card">
                     <div class="card-header">
                         <span class="card-icon">📄</span>
                         <h3>Scenario Cards 3</h3>
-                    </div>
+                    </div></div>
                     <p class="card-description">Social scenarios 13-18 for group discussions</p>
                     <button class="classroom-btn" onclick="openClassroom("scenarios", "Scenario%20Cards%203.html")">
                         🖥️ Project in Classroom
                     </button>
-                </div>
+                </div></div>
                 
                 <div class="classroom-card scenario-card">
                     <div class="card-header">
                         <span class="card-icon">📄</span>
                         <h3>Scenario Cards 4</h3>
-                    </div>
+                    </div></div>
                     <p class="card-description">Social scenarios 19-24 for group discussions</p>
                     <button class="classroom-btn" onclick="openClassroom("scenarios", "Scenario%20Cards%204.html")">
                         🖥️ Project in Classroom
                     </button>
-                </div>
+                </div></div>
                 
                 <div class="classroom-card scenario-card">
                     <div class="card-header">
                         <span class="card-icon">📄</span>
                         <h3>Scenario Cards 5</h3>
-                    </div>
+                    </div></div>
                     <p class="card-description">Social scenarios 25-30 for group discussions</p>
                     <button class="classroom-btn" onclick="openClassroom("scenarios", "Scenario%20Cards%205.html")">
                         🖥️ Project in Classroom
                     </button>
-                </div>
-            </div>
+                </div></div>
+            </div></div>
         <section class="feedback-section">
             <h2>Share Your Ideas!</h2>
             <p>Have an idea for a new prompt, a feature, or a topic you'd like to see? Let us know! We build this toolkit <em>with</em> our community of educators.</p>
@@ -565,7 +586,7 @@
                 <a href="mailto:wcharleston96@gmail.com?subject=WarrenGami%20SEL%20Toolkit%20Suggestion&body=Hi%20Team,%0A%0AI'd%20like%20to%20suggest%20the%20following:%0A%0A[Describe%20your%20idea%20for%20a%20new%20prompt,%20feature,%20or%20topic]%0A%0AThanks!%0A(Optional:%20Your%20Name%20and%20School)">
                    <span class="icon">💡</span> Suggest a Prompt or Feature
                </a>
-            </div>
+            </div></div>
             <p class="shout-out-note"><strong>Community Spotlight:</strong> If we add your suggestion, we'd love to give you and your school a shout-out (with your permission, of course)!</p>
         </section>
 
@@ -595,7 +616,7 @@
                     <div class="search-bar-wrapper">
                         <input type="text" id="resource-search" class="search-bar" placeholder="Filter printables...">
                         <span id="clear-search">X</span>
-                    </div>
+                    </div></div>
                 </h2>
                 <div id="favorites-container"></div>
                 <ul class="resource-list" id="printable-list">
@@ -641,6 +662,22 @@
                 currentSlide = totalSlides - 1;
             } else if (currentSlide >= totalSlides) {
                 currentSlide = 0;
+        function toggleClassroomSection() {
+            const content = document.getElementById("classroom-content");
+            const header = document.querySelector(".classroom-section h2");
+            const toggle = document.getElementById("classroom-toggle");
+            
+            if (content.classList.contains("collapsed")) {
+                content.classList.remove("collapsed");
+                header.classList.remove("collapsed");
+                toggle.textContent = "▼";
+            } else {
+                content.classList.add("collapsed");
+                header.classList.add("collapsed");
+                toggle.textContent = "▶";
+            }
+        }
+        
         function openClassroom(type, file) {
             const url = `classroom.html?type=${type}&file=${file}`;
             window.open(url, "_blank");
