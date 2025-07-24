@@ -26,7 +26,12 @@
     <a href="dashboard.html" style="display:inline-block;margin-bottom:1em;font-weight:bold;">← Back to Dashboard</a>
     <h1>📝 My Observation Log</h1>
     <form id="observation-form">
-        <input type="text" id="student-name-log" placeholder="Student Name" required>
+        <select id="student-name-log" required>
+            <option value="">Select Student</option>
+            <!-- Populated by log.js -->
+            <option value="__other__">Other...</option>
+        </select>
+        <input type="text" id="student-name-log-other" placeholder="Enter student name" style="display:none;" autocomplete="off">
         <select id="competency-log">
             <option>Self-Awareness</option>
             <option>Self-Management</option>

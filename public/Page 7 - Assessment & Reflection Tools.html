@@ -286,19 +286,26 @@
                 <!-- Remove the old submit button and status span -->
             </section>
 
+            <!-- Pillar 2: Student Reflection and Goal-Setting -->
             <section class="reflection-section">
-                <h3>Teacher Implementation Reflection</h3>
-                <textarea id="teacher-reflection" placeholder="Guiding Prompts:
-- What went well this month?
-- Which students showed significant growth?
-- Which SEL competency needs more focus?
-- An unexpected success or challenge was..."></textarea>
-                <div class="teacher-tip">
-                    <h4 onclick="toggleTip(this)" onkeydown="handleTipKeydown(event)" role="button" tabindex="0" aria-expanded="false" aria-controls="tip-content-1">Data Collection Tip <span class="toggle-icon">▼</span></h4>
-                    <div class="tip-content" id="tip-content-1">
-                        <p>Have students complete self-assessments quarterly. Track class averages to identify areas needing more focus. Note qualitative changes in classroom climate.</p>
-                    </div>
-                </div>
+                <h3>My Reflection</h3>
+                <label for="reflection-proud">The skill I am most proud of improving is...</label>
+                <textarea id="reflection-proud" rows="2" style="width:100%;margin-bottom:1em;"></textarea>
+                <label for="reflection-success">One time I successfully used one of these skills was when...</label>
+                <textarea id="reflection-success" rows="2" style="width:100%;margin-bottom:1em;"></textarea>
+                <h3>My Next Step</h3>
+                <label for="goal-skill">What is one SEL skill you want to focus on practicing?</label>
+                <select id="goal-skill" style="width:100%;margin-bottom:1em;">
+                    <option value="">- Select a skill -</option>
+                    <option>Naming my emotions</option>
+                    <option>Calming myself down</option>
+                    <option>Understanding others' feelings</option>
+                    <option>Solving conflicts peacefully</option>
+                </select>
+                <label for="goal-strategy">One small way I can practice this is by...</label>
+                <textarea id="goal-strategy" rows="2" style="width:100%;margin-bottom:1em;"></textarea>
+                <button id="submit-assessment-btn" class="sel-data-btn" style="margin-top:1em;">Submit My Reflection</button>
+                <span id="submit-status" style="margin-left:1em;color:#27ae60;"></span>
             </section>
 
             <section id="celebration-generator">
@@ -621,7 +628,91 @@
 
                 document.getElementById('generate-student-version-btn').addEventListener('click', generateStudentPage);
             };
-        </script>
+
+    // Pillar 2: Submission logic
+    function getRating(skill, col) {
+        const row = document.querySelector(`tr[data-skill-label="${skill}"]`);
+        if (!row) return '';
+        const container = row.querySelector(`[data-col="${col}"]`);
+        return container ? (container.getAttribute('aria-valuenow') || '') : '';
+    }
+
+    function submitStudentAssessment() {
+        const status = document.getElementById('submit-status');
+        const btn = document.getElementById('submit-assessment-btn');
+        status.textContent = '';
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
+
+        // Get Google Form link
+        const gformLink = localStorage.getItem('selToolkit-gformLink');
+        if (!gformLink) {
+            status.textContent = 'Error: Data Hub is not set up. Please ask your teacher.';
+            status.style.color = '#e74c3c';
+            btn.disabled = false;
+            btn.textContent = 'Submit My Reflection';
+            return;
+        }
+
+        // Gather data
+        const name = document.getElementById('student-name').value.trim();
+        if (!name) {
+            status.textContent = 'Please enter your name.';
+            status.style.color = '#e74c3c';
+            btn.disabled = false;
+            btn.textContent = 'Submit My Reflection';
+            document.getElementById('student-name').focus();
+            return;
+        }
+        const date = new Date().toISOString().slice(0,10);
+        const skills = [
+            "Naming my emotions",
+            "Calming myself down",
+            "Understanding others' feelings",
+            "Solving conflicts peacefully"
+        ];
+        let params = new URLSearchParams();
+        params.append('entry.NAME', name); // Replace with real entry IDs below
+        params.append('entry.DATE', date);
+        // Ratings
+        skills.forEach(skill => {
+            params.append(`entry.${skill.replace(/\s/g,'_').replace(/'/g,'')}_beginning`, getRating(skill, 'beginning'));
+            params.append(`entry.${skill.replace(/\s/g,'_').replace(/'/g,'')}_now`, getRating(skill, 'now'));
+        });
+        params.append('entry.TOTAL_GROWTH', document.getElementById('growth-score').innerText);
+        // Reflection
+        params.append('entry.PROUD', document.getElementById('reflection-proud').value.trim());
+        params.append('entry.SUCCESS', document.getElementById('reflection-success').value.trim());
+        // Goal
+        params.append('entry.GOAL_SKILL', document.getElementById('goal-skill').value);
+        params.append('entry.GOAL_STRATEGY', document.getElementById('goal-strategy').value.trim());
+
+        // TODO: Replace entry.NAME, entry.DATE, etc. with actual Google Form entry IDs
+        // Example: params.append('entry.123456789', name);
+
+        // Build final URL
+        let url = gformLink.split('/viewform')[0] + '/formResponse?' + params.toString();
+        fetch(url, { method: 'POST', mode: 'no-cors' })
+            .then(() => {
+                status.textContent = '✅ Submitted!';
+                status.style.color = '#27ae60';
+                btn.textContent = 'Submitted!';
+                setTimeout(()=>{
+                    status.textContent = '';
+                    btn.textContent = 'Submit My Reflection';
+                    btn.disabled = false;
+                }, 3000);
+                // Optionally clear form fields
+            })
+            .catch(() => {
+                status.textContent = 'Submission failed. Please try again.';
+                status.style.color = '#e74c3c';
+                btn.disabled = false;
+                btn.textContent = 'Submit My Reflection';
+            });
+    }
+    document.getElementById('submit-assessment-btn').onclick = submitStudentAssessment;
+    </script>
         <!-- Remove the old Google Form JS logic for submit-assessment -->
         <script src="auth.js"></script>
         <!-- TIDIO CHATBOT SCRIPT -->
