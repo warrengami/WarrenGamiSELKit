@@ -297,6 +297,26 @@
             opacity: 1;
             transform: scale(1.1);
         }
+        .sel-data-btn {
+            background: linear-gradient(90deg, #73bdf5 0%, #0f2c4d 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8em 2em;
+            font-size: 1.15em;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(115,189,245,0.10);
+            margin-bottom: 0.5em;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        .sel-data-btn:hover, .sel-data-btn:focus {
+            background: linear-gradient(90deg, #0f2c4d 0%, #73bdf5 100%);
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 18px rgba(15,44,77,0.12);
+        }
 
         @media (max-width: 800px) {
             .resources-grid {
@@ -321,8 +341,8 @@
         <!-- SEL Data Collection Section -->
         <section class="settings-section" style="margin-bottom:2em;">
             <h2>SEL Data Collection</h2>
-            <button id="start-sel-data" style="margin-right:1em;">Start Collecting SEL Data</button>
-            <button id="view-sel-data">View/Export SEL Data</button>
+            <button id="start-sel-data" class="sel-data-btn" style="margin-right:1em;">Start Collecting SEL Data</button>
+            <button id="view-sel-data" class="sel-data-btn">View/Export SEL Data</button>
         </section>
 
         <div class="resources-grid">
