@@ -84,11 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     favoritesContainer.addEventListener('click', e => {
         const targetButton = e.target.closest('.favorite-btn');
-         if (!targetButton) return;
+        if (!targetButton) return;
 
         if (targetButton.classList.contains('favorite-btn')) {
             toggleFavorite(e);
         }
+    });
 
     // --- SEARCH AND FILTER FUNCTIONALITY ---
     function filterResources() {
