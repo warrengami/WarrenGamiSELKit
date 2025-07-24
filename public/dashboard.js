@@ -120,21 +120,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Data Hub Setup logic
-    const gformInput = document.getElementById('gform-link-input');
-    const saveBtn = document.getElementById('save-gform-link');
-    const statusSpan = document.getElementById('link-save-status');
-    if (gformInput && saveBtn) {
-        // Load saved link if exists
-        const saved = localStorage.getItem('selToolkit-gformLink');
-        if (saved) gformInput.value = saved;
-        saveBtn.onclick = function() {
-            const link = gformInput.value.trim();
-            if (link) {
-                localStorage.setItem('selToolkit-gformLink', link);
-                statusSpan.textContent = 'Saved!';
-                setTimeout(()=>{statusSpan.textContent='';}, 2000);
-            }
+    // SEL Data Collection buttons
+    const startSelBtn = document.getElementById('start-sel-data');
+    const viewSelBtn = document.getElementById('view-sel-data');
+    if (startSelBtn) {
+        startSelBtn.onclick = function() {
+            window.open('self-assessment.html', '_blank');
+        };
+    }
+    if (viewSelBtn) {
+        viewSelBtn.onclick = function() {
+            window.open('sel-data.html', '_blank');
         };
     }
 });
