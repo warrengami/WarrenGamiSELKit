@@ -21,6 +21,8 @@
     <a href="dashboard.html" style="display:inline-block;margin-bottom:1em;font-weight:bold;">← Back to Dashboard</a>
     <h1>SEL Data Review & Export</h1>
     <button id="export-csv">Export to CSV</button>
+    <button id="clear-data" style="background:#e74c3c;margin-left:1em;">Clear All Data</button>
+    <span id="clear-msg" style="color:#27ae60;margin-left:1em;"></span>
     <table id="sel-data-table">
         <thead>
             <tr>
@@ -56,6 +58,14 @@ document.getElementById('export-csv').onclick = function() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+};
+document.getElementById('clear-data').onclick = function() {
+    if (confirm('Are you sure you want to permanently delete ALL SEL self-assessment data?')) {
+        localStorage.removeItem('selToolkit-selData');
+        renderTable();
+        document.getElementById('clear-msg').textContent = 'All data cleared.';
+        setTimeout(()=>{document.getElementById('clear-msg').textContent='';}, 3000);
+    }
 };
 renderTable();
 </script>
