@@ -247,6 +247,11 @@
                     <h3 style="margin: 0;">Student Self-Assessment</h3>
                     <button id="generate-student-version-btn" class="print-button" style="font-size: 11px;">✉️ Generate Shareable Student Version</button>
                 </div>
+                <!-- Add Student Name input at the top of the assessment section -->
+                <div style="margin-bottom:1em;">
+                    <label for="student-name" style="font-weight:bold;">Student Name:</label>
+                    <input type="text" id="student-name" placeholder="Enter your name" style="margin-left:1em;">
+                </div>
                 <p style="margin-bottom: 4px; margin-top: 8px;">Use your Arrow Keys or click the stars to rate your skills (1 = needs work, 5 = very strong):</p>
                 <table class="prompt-table">
                     <thead><tr><th scope="col">Skill</th><th scope="col">Beginning</th><th scope="col">Now</th></tr></thead>
@@ -277,6 +282,8 @@
                         </tr>
                     </tbody>
                 </table>
+                <button id="submit-assessment">Submit to Teacher</button>
+                <span id="submit-status" style="margin-left:1em;color:green;"></span>
             </section>
 
             <section class="reflection-section">
@@ -615,6 +622,31 @@
                 document.getElementById('generate-student-version-btn').addEventListener('click', generateStudentPage);
             };
         </script>
+        <script>
+document.getElementById('submit-assessment').onclick = async function() {
+    const gformLink = localStorage.getItem('selToolkit-gformLink');
+    if (!gformLink) {
+        alert('Teacher has not set up the Google Form link.');
+        return;
+    }
+    // Collect all assessment data
+    const studentName = document.getElementById('student-name').value;
+    // TODO: Collect all other assessment fields by their IDs or names
+    // Example: const namingEmotionsBegin = ...
+    // You must update this section to match your actual input IDs/names
+    // For demonstration, we'll use dummy data:
+    const params = new URLSearchParams();
+    // You must update these entry IDs to match your Google Form's entry IDs
+    params.append('entry.123456', studentName); // Student Name
+    // params.append('entry.234567', namingEmotionsBegin);
+    // ... add all other fields ...
+    // Build the submission URL
+    const submitUrl = gformLink.split('/viewform')[0] + '/formResponse?' + params.toString();
+    await fetch(submitUrl, { method: 'POST', mode: 'no-cors' });
+    document.getElementById('submit-status').textContent = '✅ Submitted Successfully!';
+    setTimeout(()=>{document.getElementById('submit-status').textContent='';}, 3000);
+};
+</script>
      <script src="auth.js"></script>
      <!-- TIDIO CHATBOT SCRIPT -->
      <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>

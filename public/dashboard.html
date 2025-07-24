@@ -318,9 +318,19 @@
             <div id="user-info"></div>
         </header>
 
+        <!-- Data Hub Setup Section -->
+        <section class="settings-section" style="margin-bottom:2em;">
+            <h2>Data Hub Setup (One-Time)</h2>
+            <p>Paste your Google Form's pre-filled link here to automatically collect student assessments.</p>
+            <input type="url" id="gform-link-input" placeholder="Paste Google Form link here..." style="width:60%;max-width:400px;">
+            <button id="save-gform-link">Save Link</button>
+            <span id="link-save-status"></span>
+        </section>
+
         <div class="resources-grid">
         <section class="feedback-section">
                 <h2>Toolkit Guide</h2>
+                <a href="log.html" class="observation-log-link" style="display:inline-block;margin-bottom:1em;font-weight:bold;">📝 My Observation Log</a>
                 <ul class="resource-list">
                     <!-- This section is unchanged -->
                     <li><a href="toolkit.html?view=guide&page=1"><span class="icon">📖</span><div class="link-content"><span class="link-text">Page 1: Cover</span><div class="description">The front cover of the SEL Toolkit.</div></div></a></li>
