@@ -59,4 +59,26 @@ document.addEventListener('DOMContentLoaded', () => {
             window.open('sel-data.html', '_blank');
         };
     }
+
+    // SEL Data Hub Setup logic
+    const gformInput = document.getElementById('gform-link-input');
+    const saveBtn = document.getElementById('save-gform-link');
+    const statusSpan = document.getElementById('link-save-status');
+    if (gformInput && saveBtn && statusSpan) {
+        // Load saved link if present
+        const savedLink = localStorage.getItem('selToolkit-gformLink');
+        if (savedLink) gformInput.value = savedLink;
+        saveBtn.onclick = function() {
+            const link = gformInput.value.trim();
+            if (!link || !/^https:\/\//.test(link)) {
+                statusSpan.textContent = 'Please enter a valid Google Form pre-filled link.';
+                statusSpan.style.color = '#e74c3c';
+                return;
+            }
+            localStorage.setItem('selToolkit-gformLink', link);
+            statusSpan.textContent = 'Link saved! Data Hub is now active.';
+            statusSpan.style.color = '#27ae60';
+            setTimeout(()=>{statusSpan.textContent='';}, 3000);
+        };
+    }
 });
