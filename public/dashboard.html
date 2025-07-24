@@ -139,66 +139,46 @@
             filter: brightness(0) invert(1);
         }
         .feedback-section {
-            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-            border: 2px solid var(--sky-blue);
-            box-shadow: 0 4px 15px rgba(115, 189, 245, 0.1);
+            background: var(--soft-gray);
+            border: 1px solid var(--sky-blue);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
         }
         .feedback-section h2 {
             color: var(--midnight-blue);
-            margin-bottom: 1rem;
-            font-size: 1.8rem;
-            text-align: center;
+            margin-bottom: 0.5rem;
+            font-size: 1.4rem;
         }
         .feedback-intro {
             color: var(--midnight-blue);
-            margin-bottom: 1.5rem;
-            font-size: 1.1rem;
-            text-align: center;
-            line-height: 1.6;
+            margin-bottom: 1rem;
+            font-size: 1rem;
         }
         .feedback-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .feedback-card {
-            background: var(--white);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-decoration: none;
-            color: var(--midnight-blue);
-            border: 2px solid var(--sky-blue);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(115, 189, 245, 0.2);
             display: flex;
+            justify-content: center;
+        }
+        .feedback-simple {
+            background: var(--sky-blue);
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            display: inline-flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
         }
-        .feedback-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(115, 189, 245, 0.3);
-            border-color: var(--midnight-blue);
+        .feedback-simple:hover {
+            background: var(--midnight-blue);
+            transform: translateY(-2px);
         }
-        .feedback-card .icon {
-            font-size: 2rem;
-            flex-shrink: 0;
-        }
-        .feedback-content h3 {
-            margin: 0 0 0.5rem 0;
-            color: var(--midnight-blue);
+        .feedback-simple .icon {
             font-size: 1.2rem;
-        }
-        .feedback-content p {
-            margin: 0;
-            color: var(--midnight-blue);
-            font-size: 0.95rem;
-            line-height: 1.4;
-        }
-        .community-highlight {
+        }        .community-highlight {
             background: linear-gradient(135deg, var(--highlight-yellow) 0%, #fff8dc 100%);
             border-radius: 12px;
             padding: 1.5rem;
@@ -323,16 +303,14 @@
             overflow: hidden;
             transition: max-height 0.4s ease-out, opacity 0.3s ease-in;
         }
-        .resource-list a:hover .description, .resource-list a:focus .description {
-            max-height: 5em;
-            opacity: 1;
-        }
-        #no-results-message {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-            color: #777;
-            font-style: italic;
+            <h2>💡 Share Your Ideas!</h2>
+            <p class="feedback-intro">Have an idea for a new prompt, a feature, or a topic you'd like to see? Let us know!</p>
+            <div class="feedback-grid">
+                <a href="mailto:wcharleston96@gmail.com?subject=WarrenGami%20SEL%20Toolkit%20Suggestion&body=Hi%20Team,%0A%0AI'd%20like%20to%20suggest%20the%20following:%0A%0A[Describe%20your%20idea%20for%20a%20new%20prompt,%20feature,%20or%20topic]%0A%0AThanks!%0A(Optional:%20Your%20Name%20and%20School)" class="feedback-simple">
+                   <span class="icon">💡</span> Share Your Ideas
+               </a>
+            </div>
+        </section>            font-style: italic;
         }
         .favorite-btn {
             background: none;
