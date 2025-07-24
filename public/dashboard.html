@@ -140,35 +140,57 @@
         }
         .feedback-section {
             background: var(--white);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 1rem;
-            margin: 1rem 0;
+            border: 2px dashed var(--sky-blue);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
         }
         .feedback-section h2 {
             color: var(--midnight-blue);
-            margin-bottom: 0.5rem;
-            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            font-weight: bold;
         }
         .feedback-intro {
             color: var(--midnight-blue);
-            margin-bottom: 0.75rem;
-            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
         .feedback-grid {
             display: flex;
             justify-content: center;
+            margin-bottom: 1.5rem;
         }
         .feedback-simple {
             background: var(--sky-blue);
             color: var(--white);
             text-decoration: none;
-            padding: 0.5rem 1rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            font-weight: 500;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
             display: inline-flex;
             align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            min-width: 300px;
+            justify-content: center;
+        }
+        .feedback-simple:hover {
+            background: var(--midnight-blue);
+            transform: translateY(-2px);
+        }
+        .feedback-simple .icon {
+            font-size: 1.3rem;
+            filter: brightness(0) invert(1);
+        }
+        .community-highlight {
+            color: var(--midnight-blue);
+            font-size: 1rem;
+            text-align: center;
+            margin: 0;
+        }            align-items: center;
             gap: 0.5rem;
             transition: all 0.3s ease;
         }
@@ -352,10 +374,21 @@
                 </ul>
             </section>
             
+        <section class="feedback-section">
+            <h2>Share Your Ideas!</h2>
+            <p class="feedback-intro">Have an idea for a new prompt, a feature, or a topic you'd like to see? Let us know! We build this toolkit <em>with</em> our community of educators.</p>
+            <div class="feedback-grid">
+                <a href="mailto:wcharleston96@gmail.com?subject=WarrenGami%20SEL%20Toolkit%20Suggestion&body=Hi%20Team,%0A%0AI'd%20like%20to%20suggest%20the%20following:%0A%0A[Describe%20your%20idea%20for%20a%20new%20prompt,%20feature,%20or%20topic]%0A%0AThanks!%0A(Optional:%20Your%20Name%20and%20School)" class="feedback-simple">
+                   <span class="icon">💡</span> Suggest a Prompt or Feature
+               </a>
+            </div>
+            <p class="community-highlight"><strong>Community Spotlight:</strong> If we add your suggestion, we'd love to give you and your school a shout-out (with your permission, of course)!</p>
+        </section>
+        
             <section class="resource-section">
-            <section class="resource-section">
-                <h2>Toolkit Guide</h2>
-                <ul class="resource-list">
+        <section class="feedback-section">
+            <h2>Share Your Ideas!</h2>
+            <p class="feedback-intro">Have an idea for a new prompt, a feature, or a topic you'd like to see? Let us know! We build this toolkit <em>with</em> our community of educators.</p>
                     <li><a href="toolkit.html?view=guide&page=1"><div class="link-content"><span class="link-text">Page 1: Cover</span><div class="description">The front cover of the SEL Toolkit.</div></div></a></li>
                     <li><a href="toolkit.html?view=guide&page=2"><div class="link-content"><span class="link-text">Page 2: Welcome</span><div class="description">An introduction to the toolkit and SEL principles.</div></div></a></li>
                     <li><a href="toolkit.html?view=guide&page=3"><div class="link-content"><span class="link-text">Page 3: How Dice Work</span><div class="description">Instructions and ideas for using the discussion dice.</div></div></a></li>
