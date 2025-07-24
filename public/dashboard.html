@@ -128,65 +128,7 @@
             text-align: center;
             margin: 0;
         }
-        /* Carousel Styles */
-        .carousel-container {
-            position: relative;
-            max-width: 100%;
-            margin: 0 auto;
-            overflow: hidden;
-        }
-        
-        .carousel-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        
-        .carousel-slide {
-            min-width: 300px;
-            padding: 0 10px;
-            flex-shrink: 0;
-        }
-        
-        .resource-card {
-            background: var(--white);
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 2px solid var(--sky-blue);
-            height: 200px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.3s ease;
-        }
-        
-        .resource-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(115, 189, 245, 0.3);
-        }
-        
-            justify-content: center;
-            gap: 8px;
-            margin-top: 1.5rem;
-        }
-        
-        .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--soft-gray);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .dot.active {
-            background: var(--sky-blue);
-            transform: scale(1.2);
-        }
-        
-        .dot:hover {
-            background: var(--sky-blue);
-        }
+
         .quick-start-grid .icon, .feedback-grid .icon {
             margin-right: 10px;
             filter: brightness(0) invert(1);
@@ -376,38 +318,9 @@
             <div id="user-info"></div>
         </header>
 
-        <section class="classroom-section">
-            <h2>🖥️ Classroom Mode</h2>
-            <p>Browse interactive dice and scenario cards available for classroom projection.</p>
-            
-            <div class="carousel-container">
-                <button class="carousel-btn prev-btn" onclick="moveCarousel(-1)">❮</button>
-                
-                <div class="carousel-track">
-                    <div class="carousel-slide">
-                <span class="dot active" onclick="goToSlide(0)"></span>
-                <span class="dot" onclick="goToSlide(1)"></span>
-                <span class="dot" onclick="goToSlide(2)"></span>
-                <span class="dot" onclick="goToSlide(3)"></span>
-                <span class="dot" onclick="goToSlide(4)"></span>
-                <span class="dot" onclick="goToSlide(5)"></span>
-                <span class="dot" onclick="goToSlide(6)"></span>
-                <span class="dot" onclick="goToSlide(7)"></span>
-                <span class="dot" onclick="goToSlide(8)"></span>
-                <span class="dot" onclick="goToSlide(9)"></span>
-            </div>
-        </section>
 
-        <section class="feedback-section">
-            <h2>Share Your Ideas!</h2>
-            <p>Have an idea for a new prompt, a feature, or a topic you'd like to see? Let us know! We build this toolkit <em>with</em> our community of educators.</p>
-            <div class="feedback-grid">
-                <a href="mailto:wcharleston96@gmail.com?subject=WarrenGami%20SEL%20Toolkit%20Suggestion&body=Hi%20Team,%0A%0AI'd%20like%20to%20suggest%20the%20following:%0A%0A[Describe%20your%20idea%20for%20a%20new%20prompt,%20feature,%20or%20topic]%0A%0AThanks!%0A(Optional:%20Your%20Name%20and%20School)">
-                   <span class="icon">💡</span> Suggest a Prompt or Feature
-               </a>
-            </div>
-            <p class="shout-out-note"><strong>Community Spotlight:</strong> If we add your suggestion, we'd love to give you and your school a shout-out (with your permission, of course)!</p>
-        </section>
+
+
 
 
         <div class="resources-grid">
@@ -469,48 +382,7 @@
     <script src="auth.js"></script>
     <script src="dashboard.js"></script>
     
-    <!-- Carousel and Classroom Mode JavaScript -->
-    <script>
-        let currentSlide = 0;
-        const totalSlides = 10; // Total number of slides (6 dice + 4 scenario cards)
-        
-        function moveCarousel(direction) {
-            currentSlide += direction;
-            
-            if (currentSlide < 0) {
-                currentSlide = totalSlides - 1;
-            } else if (currentSlide >= totalSlides) {
-                currentSlide = 0;
-            }
-            
-            updateCarousel();
-        }
-        
-        function goToSlide(slideIndex) {
-            currentSlide = slideIndex;
-            updateCarousel();
-        }
-        
-        function updateCarousel() {
-            const track = document.querySelector('.carousel-track');
-            const dots = document.querySelectorAll('.dot');
-            
-            // Update track position
-            track.style.transform = `translateX(-${currentSlide * 320}px)`;
-            
-            // Update active dot
-            dots.forEach((dot, index) => {
-                dot.classList.toggle('active', index === currentSlide);
-            });
-        }
-        
 
-        
-        // Auto-advance carousel every 5 seconds
-        setInterval(() => {
-            moveCarousel(1);
-        }, 5000);
-    </script>
     
     <!-- TIDIO CHATBOT SCRIPT -->
     <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>
