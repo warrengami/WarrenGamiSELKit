@@ -73,26 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    function addActionButtons() {
-        listItems.forEach(item => {
-            const link = item.querySelector('a');
-            if (!link) return;
-            
-            // Add Favorite Button only
-            const favButton = document.createElement('button');
-            favButton.className = 'favorite-btn';
-            favButton.textContent = '☆';
-            favButton.setAttribute('aria-label', 'Toggle Favorite');
-            favButton.setAttribute('aria-pressed', 'false');
-            link.appendChild(favButton);
-        });
-    }
-    
-    // --- INITIALIZATION ---
-    addActionButtons();
-    updateOriginalFavoriteState();
-    updateFavoritesList();
-
     // Attach delegated listeners to the persistent containers
     printableList.addEventListener('click', e => {
         const targetButton = e.target.closest('.favorite-btn');
@@ -109,26 +89,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (targetButton.classList.contains('favorite-btn')) {
             toggleFavorite(e);
         }
-    });
 
     // --- SEARCH AND FILTER FUNCTIONALITY ---
     function filterResources() {
-        const query = searchInput.value.toLowerCase().trim();
-        let visibleCount = 0;
-
-        clearSearchBtn.style.display = query ? 'block' : 'none';
-
-        listItems.forEach(item => {
-            const text = item.textContent.toLowerCase();
-            const tags = Array.from(item.querySelectorAll('.sel-tag')).map(tag => tag.dataset.tag.toLowerCase());
-            const matchesQuery = text.includes(query) || tags.some(tag => tag.includes(query));
-
-            if (matchesQuery) {
-                item.style.display = '';
-                visibleCount++;
-            } else {
-                item.style.display = 'none';
-            }
         });
 
         noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
