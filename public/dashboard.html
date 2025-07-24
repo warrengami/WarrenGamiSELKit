@@ -139,21 +139,21 @@
             filter: brightness(0) invert(1);
         }
         .feedback-section {
-            background: var(--soft-gray);
-            border: 1px solid var(--sky-blue);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
         }
         .feedback-section h2 {
             color: var(--midnight-blue);
             margin-bottom: 0.5rem;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
         }
         .feedback-intro {
             color: var(--midnight-blue);
-            margin-bottom: 1rem;
-            font-size: 1rem;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
         }
         .feedback-grid {
             display: flex;
@@ -163,9 +163,9 @@
             background: var(--sky-blue);
             color: var(--white);
             text-decoration: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
             font-weight: 500;
             display: inline-flex;
             align-items: center;
@@ -174,40 +174,19 @@
         }
         .feedback-simple:hover {
             background: var(--midnight-blue);
+            transform: translateY(-1px);
+        }
+        .feedback-simple .icon {
+            font-size: 1rem;
+        }            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .feedback-simple:hover {
+            background: var(--midnight-blue);
             transform: translateY(-2px);
         }
         .feedback-simple .icon {
-            font-size: 1.2rem;
-        }        .community-highlight {
-            background: linear-gradient(135deg, var(--highlight-yellow) 0%, #fff8dc 100%);
-            border-radius: 12px;
-            padding: 1.5rem;
-            border: 2px solid var(--sky-blue);
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .highlight-icon {
-            font-size: 2.5rem;
-            flex-shrink: 0;
-        }
-        .highlight-content h4 {
-            margin: 0 0 0.5rem 0;
-            color: var(--midnight-blue);
-            font-size: 1.3rem;
-        }
-        .highlight-content p {
-            margin: 0;
-            color: var(--midnight-blue);
-            font-size: 1rem;
-            line-height: 1.5;
-        }
-        @media (max-width: 768px) {
-            .feedback-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            .community-highlight {
                 flex-direction: column;
                 text-align: center;
             }
@@ -374,50 +353,6 @@
             <div id="user-info"></div>
         </header>
         <section class="feedback-section">
-            <h2>💡 Share Your Ideas!</h2>
-            <p class="feedback-intro">Have an idea for a new prompt, a feature, or a topic you'd like to see? We build this toolkit <em>with</em> our community of educators and love hearing from teachers like you!</p>
-            <div class="feedback-grid">
-                <a href="mailto:wcharleston96@gmail.com?subject=WarrenGami%20SEL%20Toolkit%20Suggestion&body=Hi%20Team,%0A%0AI'd%20like%20to%20suggest%20the%20following:%0A%0A[Describe%20your%20idea%20for%20a%20new%20prompt,%20feature,%20or%20topic]%0A%0AThanks!%0A(Optional:%20Your%20Name%20and%20School)" class="feedback-card">
-                   <span class="icon">💡</span>
-                   <div class="feedback-content">
-                       <h3>Suggest a Prompt or Feature</h3>
-                       <p>Share your ideas for new dice prompts, scenario cards, or toolkit features</p>
-                   </div>
-               </a>
-               <a href="mailto:wcharleston96@gmail.com?subject=WarrenGami%20SEL%20Toolkit%20Feedback&body=Hi%20Team,%0A%0AI%20have%20some%20feedback%20about%20the%20toolkit:%0A%0A[Share%20your%20experience,%20suggestions%20for%20improvement,%20or%20questions]%0A%0AThanks!%0A(Optional:%20Your%20Name%20and%20School)" class="feedback-card">
-                   <span class="icon">📝</span>
-                   <div class="feedback-content">
-                       <h3>Share Your Experience</h3>
-                       <p>Tell us how you're using the toolkit and what could be improved</p>
-                   </div>
-               </a>
-               <a href="mailto:wcharleston96@gmail.com?subject=WarrenGami%20SEL%20Toolkit%20Success%20Story&body=Hi%20Team,%0A%0AI%20wanted%20to%20share%20a%20success%20story:%0A%0A[Describe%20how%20the%20toolkit%20helped%20your%20students%20or%20classroom]%0A%0AThanks!%0A(Optional:%20Your%20Name%20and%20School)" class="feedback-card">
-                   <span class="icon">🌟</span>
-                   <div class="feedback-content">
-                       <h3>Share a Success Story</h3>
-                       <p>Inspire others with stories of how the toolkit made a difference</p>
-                   </div>
-               </a>
-            </div>
-            <div class="community-highlight">
-                <div class="highlight-icon">🏆</div>
-                <div class="highlight-content">
-                    <h4>Community Spotlight</h4>
-                    <p>If we add your suggestion, we'd love to give you and your school a shout-out (with your permission, of course)! Your ideas help make this toolkit better for everyone.</p>
-                </div>
-            </div>
-        </section>
-
-        <div class="resources-grid">
-            <section class="resource-section">
-                <h2>Toolkit Guide</h2>
-                <ul class="resource-list">
-                    <!-- This section is unchanged -->
-                    <li><a href="toolkit.html?view=guide&page=1"><span class="icon">📖</span><div class="link-content"><span class="link-text">Page 1: Cover</span><div class="description">The front cover of the SEL Toolkit.</div></div></a></li>
-                    <li><a href="toolkit.html?view=guide&page=2"><span class="icon">👋</span><div class="link-content"><span class="link-text">Page 2: Welcome</span><div class="description">An introduction to the toolkit and SEL principles.</div></div></a></li>
-                    <li><a href="toolkit.html?view=guide&page=3"><span class="icon">🎲</span><div class="link-content"><span class="link-text">Page 3: How Dice Work</span><div class="description">Instructions and ideas for using the discussion dice.</div></div></a></li>
-                    <li><a href="toolkit.html?view=guide&page=4"><span class="icon">😊</span><div class="link-content"><span class="link-text">Page 4: Emotion Exploration</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Using dice to identify and understand emotions.</div></div></a></li>
-                    <li><a href="toolkit.html?view=guide&page=5"><span class="icon">🤝</span><div class="link-content"><span class="link-text">Page 5: Social Scenarios</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Navigating social situations with dice prompts.</div></div></a></li>
                     <li><a href="toolkit.html?view=guide&page=6"><span class="icon">🏠</span><div class="link-content"><span class="link-text">Page 6: Family Connection</span><span class="sel-tag relationship-skills" data-tag="Relationship Skills">Relationship Skills</span><div class="description">Activities to involve families in the SEL process.</div></div></a></li>
                     <li><a href="toolkit.html?view=guide&page=7"><span class="icon">📊</span><div class="link-content"><span class="link-text">Page 7: Assessment & Reflection</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Tools for gauging progress and encouraging self-reflection.</div></div></a></li>
                     <li><a href="toolkit.html?view=guide&page=8"><span class="icon">🧠</span><div class="link-content"><span class="link-text">Page 8: Advanced Concepts</span><div class="description">Exploring deeper SEL topics for older learners.</div></div></a></li>
