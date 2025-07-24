@@ -131,28 +131,38 @@
         }
 
         /* Carousel Styles */
-        /* Classroom Grid Styles */
-        .classroom-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 1.5rem;
+        .carousel-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
         }
         
-        .classroom-card {
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .carousel-slide {
+            min-width: 300px;
+            padding: 0 10px;
+            flex-shrink: 0;
+        }
+        
+        .resource-card {
             background: var(--white);
             border-radius: 15px;
             padding: 1.5rem;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             border: 2px solid var(--sky-blue);
-            transition: all 0.3s ease;
+            height: 200px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            min-height: 200px;
+            transition: all 0.3s ease;
         }
         
-        .classroom-card:hover {
+        .resource-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(115, 189, 245, 0.3);
         }
@@ -191,7 +201,7 @@
             flex-grow: 1;
         }
         
-        .classroom-btn {
+        .project-btn {
             background: linear-gradient(135deg, var(--sky-blue) 0%, var(--midnight-blue) 100%);
             color: var(--white);
             border: none;
@@ -202,30 +212,63 @@
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
-            margin-top: auto;
         }
         
-        .classroom-btn:hover {
+        .project-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(115, 189, 245, 0.4);
         }
         
-        .classroom-btn:focus {
-            outline: 2px solid var(--sky-blue);
-            outline-offset: 2px;
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--midnight-blue);
+            color: var(--white);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        @media (max-width: 768px) {
-            .classroom-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .classroom-card {
-                min-height: 180px;
-                padding: 1.25rem;
-            }
-        }            background: var(--sky-blue);
+        .carousel-btn:hover {
+            background: var(--sky-blue);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .prev-btn {
+            left: -20px;
+        }
+        
+        .next-btn {
+            right: -20px;
+        }
+        
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 1.5rem;
+        }
+        
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--soft-gray);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .dot.active {
+            background: var(--sky-blue);
             transform: scale(1.2);
         }
         
@@ -434,130 +477,149 @@
             <h2>🖥️ Classroom Mode</h2>
             <p>Browse interactive dice and scenario cards available for classroom projection.</p>
             
-            <div class="classroom-grid">
-                <!-- Dice Resources -->
-                <div class="classroom-card dice-card">
-                    <div class="card-header">
-                        <span class="card-icon">🎲</span>
-                        <h3>Emotions & Feelings Dice</h3>
+            <div class="carousel-container">
+                <button class="carousel-btn prev-btn" onclick="moveCarousel(-1)">❮</button>
+                
+                <div class="carousel-track">
+                    <div class="carousel-slide">
+                        <div class="resource-card dice-card">
+                            <div class="card-header">
+                                <span class="card-icon">🎲</span>
+                                <h3>Emotions & Feelings Dice</h3>
+                            </div>
+                            <p class="card-description">Interactive dice prompts about emotions and feelings</p>
+
+                        </div>
                     </div>
-                    <p class="card-description">Interactive dice prompts about emotions and feelings</p>
-                    <button class="classroom-btn" onclick="openClassroom("dice", "Emotions%20%26%20Feelings%20Dice.html")">
-                        🖥️ Project in Classroom
-                    </button>
+                    
+                    <div class="carousel-slide">
+                        <div class="resource-card dice-card">
+                            <div class="card-header">
+                                <span class="card-icon">🎲</span>
+                                <h3>Empathy & Kindness Dice</h3>
+                            </div>
+                            <p class="card-description">Dice prompts about understanding others and showing kindness</p>
+
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="resource-card dice-card">
+                            <div class="card-header">
+                                <span class="card-icon">🎲</span>
+                                <h3>Friendship & Social Skills Dice</h3>
+                            </div>
+                            <p class="card-description">Prompts about making and being a good friend</p>
+
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="resource-card dice-card">
+                            <div class="card-header">
+                                <span class="card-icon">🎲</span>
+                                <h3>Coping Strategies Dice</h3>
+                            </div>
+                            <p class="card-description">Dice with healthy strategies for managing stress</p>
+
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="resource-card dice-card">
+                            <div class="card-header">
+                                <span class="card-icon">🎲</span>
+                                <h3>Problem Solving Dice</h3>
+                            </div>
+                            <p class="card-description">A tool to practice breaking down problems</p>
+
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="resource-card dice-card">
+                            <div class="card-header">
+                                <span class="card-icon">🎲</span>
+                                <h3>Self-Awareness Dice</h3>
+                            </div>
+                            <p class="card-description">Prompts to encourage introspection</p>
+
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="resource-card scenario-card">
+                            <div class="card-header">
+                                <span class="card-icon">📄</span>
+                                <h3>Scenario Cards 1</h3>
+                            </div>
+                            <p class="card-description">Social scenarios 1-6 for group discussions</p>
+
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="resource-card scenario-card">
+                            <div class="card-header">
+                                <span class="card-icon">📄</span>
+                                <h3>Scenario Cards 2</h3>
+                            </div>
+                            <p class="card-description">Social scenarios 7-12 for group discussions</p>
+
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="resource-card scenario-card">
+                            <div class="card-header">
+                                <span class="card-icon">📄</span>
+                                <h3>Scenario Cards 3</h3>
+                            </div>
+                            <p class="card-description">Social scenarios 13-18 for group discussions</p>
+
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="resource-card scenario-card">
+                            <div class="card-header">
+                                <span class="card-icon">📄</span>
+                                <h3>Scenario Cards 4</h3>
+                            </div>
+                            <p class="card-description">Social scenarios 19-24 for group discussions</p>
+
+                        </div>
+                    </div>
+                    
+                    <div class="carousel-slide">
+                        <div class="resource-card scenario-card">
+                            <div class="card-header">
+                                <span class="card-icon">📄</span>
+                                <h3>Scenario Cards 5</h3>
+                            </div>
+                            <p class="card-description">Social scenarios 25-30 for group discussions</p>
+
+                        </div>
+                    </div>
                 </div>
                 
-                <div class="classroom-card dice-card">
-                    <div class="card-header">
-                        <span class="card-icon">🎲</span>
-                        <h3>Empathy & Kindness Dice</h3>
-                    </div>
-                    <p class="card-description">Dice prompts about understanding others and showing kindness</p>
-                    <button class="classroom-btn" onclick="openClassroom("dice", "Empathy%20%26%20Kindness%20Dice.html")">
-                        🖥️ Project in Classroom
-                    </button>
-                </div>
-                
-                <div class="classroom-card dice-card">
-                    <div class="card-header">
-                        <span class="card-icon">🎲</span>
-                        <h3>Friendship & Social Skills Dice</h3>
-                    </div>
-                    <p class="card-description">Prompts about making and being a good friend</p>
-                    <button class="classroom-btn" onclick="openClassroom("dice", "Friendship%20%26%20Social%20Skills%20Dice.html")">
-                        🖥️ Project in Classroom
-                    </button>
-                </div>
-                
-                <div class="classroom-card dice-card">
-                    <div class="card-header">
-                        <span class="card-icon">🎲</span>
-                        <h3>Coping Strategies Dice</h3>
-                    </div>
-                    <p class="card-description">Dice with healthy strategies for managing stress</p>
-                    <button class="classroom-btn" onclick="openClassroom("dice", "Coping%20Strategies%20Dice.html")">
-                        🖥️ Project in Classroom
-                    </button>
-                </div>
-                
-                <div class="classroom-card dice-card">
-                    <div class="card-header">
-                        <span class="card-icon">🎲</span>
-                        <h3>Problem Solving Dice</h3>
-                    </div>
-                    <p class="card-description">A tool to practice breaking down problems</p>
-                    <button class="classroom-btn" onclick="openClassroom("dice", "Problem%20Solving%20Dice.html")">
-                        🖥️ Project in Classroom
-                    </button>
-                </div>
-                
-                <div class="classroom-card dice-card">
-                    <div class="card-header">
-                        <span class="card-icon">🎲</span>
-                        <h3>Self-Awareness Dice</h3>
-                    </div>
-                    <p class="card-description">Prompts to encourage introspection</p>
-                    <button class="classroom-btn" onclick="openClassroom("dice", "Self-Awareness%20Dice.html")">
-                        🖥️ Project in Classroom
-                    </button>
-                </div>
-                
-                <!-- Scenario Card Resources -->
-                <div class="classroom-card scenario-card">
-                    <div class="card-header">
-                        <span class="card-icon">📄</span>
-                        <h3>Scenario Cards 1</h3>
-                    </div>
-                    <p class="card-description">Social scenarios 1-6 for group discussions</p>
-                    <button class="classroom-btn" onclick="openClassroom("scenarios", "Scenario%20Cards%201.html")">
-                        🖥️ Project in Classroom
-                    </button>
-                </div>
-                
-                <div class="classroom-card scenario-card">
-                    <div class="card-header">
-                        <span class="card-icon">📄</span>
-                        <h3>Scenario Cards 2</h3>
-                    </div>
-                    <p class="card-description">Social scenarios 7-12 for group discussions</p>
-                    <button class="classroom-btn" onclick="openClassroom("scenarios", "Scenario%20Cards%202.html")">
-                        🖥️ Project in Classroom
-                    </button>
-                </div>
-                
-                <div class="classroom-card scenario-card">
-                    <div class="card-header">
-                        <span class="card-icon">📄</span>
-                        <h3>Scenario Cards 3</h3>
-                    </div>
-                    <p class="card-description">Social scenarios 13-18 for group discussions</p>
-                    <button class="classroom-btn" onclick="openClassroom("scenarios", "Scenario%20Cards%203.html")">
-                        🖥️ Project in Classroom
-                    </button>
-                </div>
-                
-                <div class="classroom-card scenario-card">
-                    <div class="card-header">
-                        <span class="card-icon">📄</span>
-                        <h3>Scenario Cards 4</h3>
-                    </div>
-                    <p class="card-description">Social scenarios 19-24 for group discussions</p>
-                    <button class="classroom-btn" onclick="openClassroom("scenarios", "Scenario%20Cards%204.html")">
-                        🖥️ Project in Classroom
-                    </button>
-                </div>
-                
-                <div class="classroom-card scenario-card">
-                    <div class="card-header">
-                        <span class="card-icon">📄</span>
-                        <h3>Scenario Cards 5</h3>
-                    </div>
-                    <p class="card-description">Social scenarios 25-30 for group discussions</p>
-                    <button class="classroom-btn" onclick="openClassroom("scenarios", "Scenario%20Cards%205.html")">
-                        🖥️ Project in Classroom
-                    </button>
-                </div>
+                <button class="carousel-btn next-btn" onclick="moveCarousel(1)">❯</button>
             </div>
+            
+            <div class="carousel-dots">
+                <span class="dot active" onclick="goToSlide(0)"></span>
+                <span class="dot" onclick="goToSlide(1)"></span>
+                <span class="dot" onclick="goToSlide(2)"></span>
+                <span class="dot" onclick="goToSlide(3)"></span>
+                <span class="dot" onclick="goToSlide(4)"></span>
+                <span class="dot" onclick="goToSlide(5)"></span>
+                <span class="dot" onclick="goToSlide(6)"></span>
+                <span class="dot" onclick="goToSlide(7)"></span>
+                <span class="dot" onclick="goToSlide(8)"></span>
+                <span class="dot" onclick="goToSlide(9)"></span>
+            </div>
+        </section>
+
         <section class="feedback-section">
             <h2>Share Your Ideas!</h2>
             <p>Have an idea for a new prompt, a feature, or a topic you'd like to see? Let us know! We build this toolkit <em>with</em> our community of educators.</p>
@@ -641,10 +703,31 @@
                 currentSlide = totalSlides - 1;
             } else if (currentSlide >= totalSlides) {
                 currentSlide = 0;
-        function openClassroom(type, file) {
-            const url = `classroom.html?type=${type}&file=${file}`;
-            window.open(url, "_blank");
+            }
+            
+            updateCarousel();
         }
+        
+        function goToSlide(slideIndex) {
+            currentSlide = slideIndex;
+            updateCarousel();
+        }
+        
+        function updateCarousel() {
+            const track = document.querySelector('.carousel-track');
+            const dots = document.querySelectorAll('.dot');
+            
+            // Update track position
+            track.style.transform = `translateX(-${currentSlide * 320}px)`;
+            
+            // Update active dot
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSlide);
+            });
+        }
+        
+
+        
         // Auto-advance carousel every 5 seconds
         setInterval(() => {
             moveCarousel(1);
