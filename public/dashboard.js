@@ -70,12 +70,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         // Build a pattern for all possible keys except the current one
                         const otherKeys = allKeys.filter(k => !keys.includes(k)).map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
                         const stopPattern = otherKeys.length > 0 ? `(?=^(${otherKeys.join('|')})\\s*:|\\n\\n|$)` : '(?=\\n\\n|$)';
-                        const regex = new RegExp(
-                            '^' + cleanKey + '\\s*:?\\s*(?:\\n|\\r|\\r\\n)+([\s\S]*?)' + stopPattern,
-                            'im'
-                        );
-                        const match = text.match(regex);
-                        if (match) return match[1].trim();
+                        // Try multiple patterns for multiline fields
+                        let patterns = [
+                            // Pattern 1: Key: (optional line break) value
+                            new RegExp('^' + cleanKey + '\\s*:?\\s*(?:\\n|\\r|\\r\\n)?([\s\S]*?)' + stopPattern, 'im'),
+                            // Pattern 2: Key: value (same line)
+                            new RegExp('^' + cleanKey + '\\s*:?\\s*([^\n]*?)(?=\\n|$)', 'im'),
+                            // Pattern 3: Key (anywhere) followed by value
+                            new RegExp(cleanKey + '\\s*:?\\s*([\s\S]*?)' + stopPattern, 'im')
+                        ];
+                        for (let regex of patterns) {
+                            const match = text.match(regex);
+                            if (match && match[1].trim()) return match[1].trim();
+                        }
                     } else {
                         const regex = new RegExp(
                             '^' + cleanKey + '\\s*:?\\s*(.*)',
