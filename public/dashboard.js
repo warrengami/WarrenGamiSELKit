@@ -88,12 +88,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 return 'N/A';
             };
 
-            // Helper to extract rating by multiple possible formats (more robust)
+            // Helper to extract rating by multiple possible formats (even more robust)
             const extractRatingMulti = (skillName, type) => {
-                // Flexible regex: allow optional spaces, line breaks, and case-insensitive
+                // Flexible regex: allow optional spaces, dashes, colons, and not anchored to start of line
                 // Matches lines like:
-                // Naming my emotions:\n  - Beginning: 2/5 | Current: 4/5
-                // or with extra spaces, tabs, etc.
+                // Naming my emotions:  - Beginning: 2/5 | Current: 4/5
+                // or with extra spaces, tabs, or dashes
                 const skillPattern = skillName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                 const typePattern = type.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                 // Try to match: SkillName (optional spaces/colon/linebreaks) - Type: X/5
@@ -103,9 +103,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 );
                 let match = text.match(regex);
                 if (match) return match[1];
-                // Try to match: SkillName (anywhere in line) Type: X/5
+                // Try to match: SkillName (anywhere in line) Type: X/5 (not anchored)
                 regex = new RegExp(
                     skillPattern + '[^\n]*' + typePattern + '\\s*:?\\s*(\\d+)\\s*/\\s*5',
+                    'im'
+                );
+                match = text.match(regex);
+                if (match) return match[1];
+                // Try to match: Type: X/5 (anywhere in the text, fallback)
+                regex = new RegExp(
+                    typePattern + '\\s*:?\\s*(\\d+)\\s*/\\s*5',
                     'im'
                 );
                 match = text.match(regex);
