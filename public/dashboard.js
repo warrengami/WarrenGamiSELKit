@@ -59,6 +59,97 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function parseAndSaveReflection(text) {
         try {
+            // Split text into individual student reflections
+            const studentSections = splitIntoStudentSections(text);
+            let successCount = 0;
+            let errorCount = 0;
+            let errorMessages = [];
+
+            // Process each student section
+            studentSections.forEach((section, index) => {
+                if (section.trim()) {
+                    const result = parseSingleStudentReflection(section.trim());
+                    if (result.success) {
+                        successCount++;
+                    } else {
+                        errorCount++;
+                        errorMessages.push(`Student ${index + 1}: ${result.message}`);
+                    }
+                }
+            });
+
+            if (successCount > 0) {
+                const message = `✅ Saved ${successCount} student reflection${successCount > 1 ? 's' : ''}.`;
+                if (errorCount > 0) {
+                    return { 
+                        success: true, 
+                        message: `${message} ${errorCount} failed to parse. Check format.` 
+                    };
+                }
+                return { success: true, message };
+            } else {
+                return { 
+                    success: false, 
+                    message: `❌ Failed to parse any student reflections. Errors: ${errorMessages.join('; ')}` 
+                };
+            }
+
+        } catch (error) {
+            return { success: false, message: `Parse Error: ${error.message}` };
+        }
+    }
+
+    // Split text into individual student sections
+    function splitIntoStudentSections(text) {
+        // Look for patterns that indicate a new student reflection
+        const studentPatterns = [
+            /^SEL Self-Assessment Summary\s*$/m,
+            /^Student:\s*[^\n]+$/m,
+            /^=====================================$/m
+        ];
+
+        const lines = text.split('\n');
+        const sections = [];
+        let currentSection = [];
+        let inStudentSection = false;
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            
+            // Check if this line starts a new student section
+            const isNewStudent = studentPatterns.some(pattern => pattern.test(line));
+            
+            if (isNewStudent && currentSection.length > 0) {
+                // Save current section and start new one
+                sections.push(currentSection.join('\n'));
+                currentSection = [line];
+                inStudentSection = true;
+            } else if (inStudentSection || isNewStudent) {
+                // Continue current section
+                currentSection.push(line);
+                inStudentSection = true;
+            } else if (currentSection.length > 0) {
+                // Continue current section
+                currentSection.push(line);
+            }
+        }
+
+        // Add the last section
+        if (currentSection.length > 0) {
+            sections.push(currentSection.join('\n'));
+        }
+
+        // If no sections were found, treat the entire text as one section
+        if (sections.length === 0) {
+            sections.push(text);
+        }
+
+        return sections;
+    }
+
+    // Parse a single student reflection
+    function parseSingleStudentReflection(text) {
+        try {
             const entry = {};
 
             // Helper to extract a value by multiple possible keys (robust multiline)
