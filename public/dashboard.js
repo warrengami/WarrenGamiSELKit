@@ -71,6 +71,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    // Test function for modal
+    window.testModal = function() {
+        console.log('testModal called!');
+        const modal = document.getElementById('reflection-modal');
+        if (modal) {
+            console.log('Modal found, current display:', modal.style.display);
+            modal.style.display = 'flex';
+            console.log('Modal display set to flex');
+        } else {
+            console.error('Modal not found in testModal');
+        }
+    };
+
     // Process and save reflections
     function processAndSaveReflections() {
         const text = reflectionPasteArea.value.trim();

@@ -202,45 +202,6 @@
             transform: translateY(-2px) scale(1.03);
             box-shadow: 0 6px 18px rgba(15,44,77,0.12);
         }
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 1000;
-            display: flex; justify-content: center; align-items: center;
-            opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s;
-        }
-        .modal-overlay.is-visible {
-            opacity: 1; visibility: visible;
-        }
-        .modal-content {
-            background: white; padding: 2em; border-radius: 12px;
-            width: 90%; max-width: 600px; position: relative;
-            transform: scale(0.95); transition: transform 0.3s;
-        }
-        .modal-overlay.is-visible .modal-content {
-             transform: scale(1);
-        }
-        .modal-close-btn {
-            position: absolute; top: 15px; right: 20px;
-            font-size: 1.5em; cursor: pointer; font-weight: bold; border:none; background:none;
-        }
-        .modal-content h2 { margin-top: 0; }
-        #reflection-paste-area {
-            width: 100%; min-height: 250px; margin: 1em 0;
-            font-family: monospace; font-size: 0.9em; box-sizing: border-box;
-            border: 1px solid #ccc; border-radius: 8px; padding: 10px;
-        }
-        #save-reflection-btn {
-            background-color: var(--midnight-blue); color: white;
-            padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;
-            font-size: 1em; font-weight: bold;
-        }
-        #modal-status {
-            display: inline-block; margin-left: 1em; font-weight: bold;
-        }
-        .modal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
         
         /* Modal styles for reflection input */
         .modal-overlay {
@@ -249,7 +210,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             display: none;
             justify-content: center;
             align-items: center;
@@ -258,7 +219,7 @@
         .modal-content {
             background: white;
             padding: 2em;
-            border-radius: 8px;
+            border-radius: 12px;
             max-width: 600px;
             width: 90%;
             max-height: 80vh;
@@ -292,6 +253,7 @@
             font-family: inherit;
             resize: vertical;
             margin: 1em 0;
+            box-sizing: border-box;
         }
         #save-reflection-btn {
             background: var(--sky-blue);
@@ -335,6 +297,7 @@
             <h2>SEL Data Hub</h2>
             <p style="margin-top:-15px; margin-bottom: 20px; line-height: 1.5; color: #333;">Use this section to manually input student reflection summaries and to view all collected data.</p>
             <button id="input-reflection-btn" class="sel-data-btn" style="margin-right:1em;" onclick="openReflectionModal()">Input Student Reflection</button>
+            <button id="test-modal-btn" style="background: #dc3545; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; margin-right:1em;" onclick="testModal()">Test Modal</button>
             <button id="view-sel-data" class="sel-data-btn" style="margin-right:1em;">View/Export SEL Data</button>
             <button id="view-portfolio" class="sel-data-btn">Individual Growth Portfolio</button>
         </section>
