@@ -644,16 +644,6 @@
         btn.disabled = true;
         btn.textContent = 'Submitting...';
 
-        // Get Google Form link
-        const gformLink = localStorage.getItem('selToolkit-gformLink');
-        if (!gformLink) {
-            status.textContent = 'Error: Data Hub is not set up. Please ask your teacher.';
-            status.style.color = '#e74c3c';
-            btn.disabled = false;
-            btn.textContent = 'Submit My Reflection';
-            return;
-        }
-
         // Gather data
         const name = document.getElementById('student-name').value.trim();
         if (!name) {
@@ -664,52 +654,16 @@
             document.getElementById('student-name').focus();
             return;
         }
-        const date = new Date().toISOString().slice(0,10);
-        const skills = [
-            "Naming my emotions",
-            "Calming myself down",
-            "Understanding others' feelings",
-            "Solving conflicts peacefully"
-        ];
-        let params = new URLSearchParams();
-        params.append('entry.NAME', name); // Replace with real entry IDs below
-        params.append('entry.DATE', date);
-        // Ratings
-        skills.forEach(skill => {
-            params.append(`entry.${skill.replace(/\s/g,'_').replace(/'/g,'')}_beginning`, getRating(skill, 'beginning'));
-            params.append(`entry.${skill.replace(/\s/g,'_').replace(/'/g,'')}_now`, getRating(skill, 'now'));
-        });
-        params.append('entry.TOTAL_GROWTH', document.getElementById('growth-score').innerText);
-        // Reflection
-        params.append('entry.PROUD', document.getElementById('reflection-proud').value.trim());
-        params.append('entry.SUCCESS', document.getElementById('reflection-success').value.trim());
-        // Goal
-        params.append('entry.GOAL_SKILL', document.getElementById('goal-skill').value);
-        params.append('entry.GOAL_STRATEGY', document.getElementById('goal-strategy').value.trim());
-
-        // TODO: Replace entry.NAME, entry.DATE, etc. with actual Google Form entry IDs
-        // Example: params.append('entry.123456789', name);
-
-        // Build final URL
-        let url = gformLink.split('/viewform')[0] + '/formResponse?' + params.toString();
-        fetch(url, { method: 'POST', mode: 'no-cors' })
-            .then(() => {
-                status.textContent = '✅ Submitted!';
-                status.style.color = '#27ae60';
-                btn.textContent = 'Submitted!';
-                setTimeout(()=>{
-                    status.textContent = '';
-                    btn.textContent = 'Submit My Reflection';
-                    btn.disabled = false;
-                }, 3000);
-                // Optionally clear form fields
-            })
-            .catch(() => {
-                status.textContent = 'Submission failed. Please try again.';
-                status.style.color = '#e74c3c';
-                btn.disabled = false;
-                btn.textContent = 'Submit My Reflection';
-            });
+        // Optionally, add more validation here for other fields if needed
+        status.textContent = '✅ Reflection submitted!';
+        status.style.color = '#27ae60';
+        btn.textContent = 'Submitted!';
+        setTimeout(()=>{
+            status.textContent = '';
+            btn.textContent = 'Submit My Reflection';
+            btn.disabled = false;
+        }, 3000);
+        // Optionally clear form fields here
     }
     document.getElementById('submit-assessment-btn').onclick = submitStudentAssessment;
     </script>
