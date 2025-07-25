@@ -52,6 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
         viewSelBtn.onclick = function() { window.open('sel-data.html', '_blank'); };
     }
 
+    const viewPortfolioBtn = document.getElementById('view-portfolio');
+    if (viewPortfolioBtn) {
+        viewPortfolioBtn.onclick = function() { window.open('student-portfolio.html', '_blank'); };
+    }
+
     function parseAndSaveReflection(text) {
         try {
             const entry = {};

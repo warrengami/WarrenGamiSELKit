@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual SEL Growth Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { 
+            font-family: 'Atkinson Hyperlegible', sans-serif; 
+            background: #f7f9fc; 
+            margin: 0; 
+            padding: 2em; 
+        }
+        main { 
+            max-width: 1200px; 
+            margin: auto; 
+            background: #fff; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08); 
+            padding: 2em; 
+        }
+        h1 { 
+            color: #0f2c4d; 
+            font-family: 'Poppins', sans-serif; 
+            margin-bottom: 0.5em;
+        }
+        .student-selector {
+            margin-bottom: 2em;
+            padding: 1em;
+            background: #f0f4f8;
+            border-radius: 8px;
+        }
+        .student-selector label {
+            font-weight: bold;
+            margin-right: 1em;
+        }
+        .student-selector select {
+            padding: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2em;
+            margin-top: 2em;
+        }
+        .chart-container {
+            background: #f8f9fa;
+            padding: 1.5em;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .chart-container canvas {
+            max-width: 100%;
+            height: auto;
+        }
+        .qualitative-section {
+            background: #f8f9fa;
+            padding: 1.5em;
+            border-radius: 8px;
+        }
+        .metrics-section {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1em;
+            margin-top: 2em;
+        }
+        .metric-card {
+            background: #e8f4fd;
+            padding: 1em;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #0f2c4d;
+        }
+        .metric-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 0.5em;
+        }
+        .reflection-item {
+            margin-bottom: 1.5em;
+            padding: 1em;
+            background: #fff;
+            border-radius: 6px;
+            border-left: 4px solid #73bdf5;
+        }
+        .reflection-label {
+            font-weight: bold;
+            color: #0f2c4d;
+            margin-bottom: 0.5em;
+        }
+        .reflection-text {
+            color: #333;
+            line-height: 1.4;
+        }
+        .observations-section {
+            margin-top: 2em;
+            padding: 1.5em;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .observation-item {
+            margin-bottom: 1em;
+            padding: 1em;
+            background: #fff;
+            border-radius: 6px;
+            border-left: 4px solid #27ae60;
+        }
+        .observation-date {
+            font-weight: bold;
+            color: #0f2c4d;
+            font-size: 0.9em;
+        }
+        .observation-competency {
+            color: #666;
+            font-size: 0.8em;
+            margin-bottom: 0.5em;
+        }
+        .observation-notes {
+            color: #333;
+            line-height: 1.4;
+        }
+        .no-data {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 2em;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1em;
+            font-weight: bold;
+            color: #0f2c4d;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+        <h1>Individual SEL Growth Portfolio</h1>
+        
+        <div class="student-selector">
+            <label for="student-select">Select Student:</label>
+            <select id="student-select">
+                <option value="">Choose a student...</option>
+            </select>
+        </div>
+
+        <div id="portfolio-content" style="display: none;">
+            <div class="portfolio-grid">
+                <div class="chart-container">
+                    <h3>SEL Growth Radar Chart</h3>
+                    <canvas id="radar-chart"></canvas>
+                </div>
+                
+                <div class="qualitative-section">
+                    <h3>Student Reflection Highlights</h3>
+                    <div id="reflection-content">
+                        <div class="reflection-item">
+                            <div class="reflection-label">Proudest Improvement:</div>
+                            <div class="reflection-text" id="proudest-improvement">No data available</div>
+                        </div>
+                        <div class="reflection-item">
+                            <div class="reflection-label">Success Story:</div>
+                            <div class="reflection-text" id="success-story">No data available</div>
+                        </div>
+                        <div class="reflection-item">
+                            <div class="reflection-label">Next Goal:</div>
+                            <div class="reflection-text" id="next-goal">No data available</div>
+                        </div>
+                        <div class="reflection-item">
+                            <div class="reflection-label">Practice Strategy:</div>
+                            <div class="reflection-text" id="practice-strategy">No data available</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="metrics-section">
+                <div class="metric-card">
+                    <div class="metric-value" id="growth-score">+0</div>
+                    <div class="metric-label">Total Growth Score</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="assessment-date">-</div>
+                    <div class="metric-label">Assessment Date</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value" id="observations-count">0</div>
+                    <div class="metric-label">Teacher Observations</div>
+                </div>
+            </div>
+
+            <div class="observations-section">
+                <h3>Observational Timeline</h3>
+                <div id="observations-content">
+                    <div class="no-data">No observation data available for this student.</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="no-student-selected" class="no-data">
+            Please select a student to view their SEL Growth Portfolio.
+        </div>
+    </main>
+
+    <script src="portfolio.js"></script>
+</body>
+</html> 
