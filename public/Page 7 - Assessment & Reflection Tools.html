@@ -386,57 +386,7 @@
             }
 
             function generateStudentPage() {
-                let studentTableRowsHTML = '';
-                document.querySelectorAll('.prompt-table tbody tr[data-skill-label]').forEach(row => {
-                    const skillLabel = row.dataset.skillLabel;
-                    const skillText = row.querySelector('th[scope="row"]').textContent;
-                    studentTableRowsHTML += `
-                        <tr data-skill-label="${skillLabel}">
-                            <th scope="row">${skillText}</th>
-                            <td><div class="rating-stars" data-col="beginning"></div></td>
-                            <td><div class="rating-stars" data-col="now"></div></td>
-                        </tr>`;
-                });
-
-                studentTableRowsHTML += `
-                    <tr>
-                        <th scope="row" style="text-align:right;">Total Growth Score:</th>
-                        <td colspan="2"><span id="growth-score">+0</span></td>
-                    </tr>`;
-
-                const studentTableHTML = `
-                <table class="prompt-table">
-                    <thead><tr><th scope="col">Skill</th><th scope="col">Beginning</th><th scope="col">Now</th></tr></thead>
-                    <tbody>
-                        ${studentTableRowsHTML}
-                    </tbody>
-                </table>`;
-
-                const reflectionHTML = `
-                <section class="reflection-section">
-                    <h3>My Reflection</h3>
-                    <label for="reflection-proud">The skill I am most proud of improving is...</label>
-                    <textarea id="reflection-proud" rows="3"></textarea>
-                    
-                    <label for="reflection-success">One time I successfully used one of these skills was when...</label>
-                    <textarea id="reflection-success" rows="3"></textarea>
-                    
-                    <h3>My Next Step</h3>
-                    <label for="goal-skill">What is one SEL skill you want to focus on practicing?</label>
-                    <select id="goal-skill">
-                        <option value="">- Select a skill -</option>
-                        <option>Naming my emotions</option>
-                        <option>Calming myself down</option>
-                        <option>Understanding others' feelings</option>
-                        <option>Solving conflicts peacefully</option>
-                    </select>
-                    
-                    <label for="goal-strategy">One small way I can practice this is by...</label>
-                    <textarea id="goal-strategy" rows="3"></textarea>
-                </section>
-                `;
-                
-                const studentHTML = `
+                const studentPageContent = `
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -477,48 +427,78 @@
         .button { background-color: var(--midnight-blue); color: var(--white); font-family: 'Poppins', sans-serif; font-size: 15px; border: none; padding: 10px 18px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; margin-top: 10px; }
         .button:hover { background-color: var(--sky-blue); }
         #summary-output { width: 100%; min-height: 250px; margin-top: 10px; font-family: monospace; font-size: 12px; white-space: pre-wrap; background: #fdfdfd; border: 1px solid var(--sky-blue); border-radius: 4px; padding: 10px; }
-        #copy-instructions { font-size: 12px; font-style: italic; color: #555; display: none; margin-top: 5px; }
+        #submit-instructions { font-size: 12px; font-style: italic; color: #555; display: none; margin-top: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>My SEL Skills Self-Assessment</h1>
-        <p>Hello! Please enter your name and then rate your skills below. The "Beginning" column is for how you felt at the start of the term, and "Now" is for how you feel today. After that, complete the reflection. When you're all done, click the 'Create Summary' button at the bottom.</p>
+        <p>Hello! Please fill out all the sections below. When you are finished, follow the two steps at the bottom to send your reflection to your teacher.</p>
         <label for="student-name" style="font-weight:bold; font-size:14px;">Full Name:</label>
         <input type="text" id="student-name" placeholder="Enter your full name here">
         
         <section class="assessment-section">
             <h2>My Skills Rating</h2>
-            <p style="font-size:12px; margin:0;">Use your Arrow Keys or click the stars to rate your skills (1 = needs work, 5 = very strong):</p>
-            ${studentTableHTML}
+            <p style="font-size:12px; margin:0;">Rate your skills from 1 (needs work) to 5 (very strong).</p>
+            <table class="prompt-table">
+                <thead><tr><th scope="col">Skill</th><th scope="col">Beginning</th><th scope="col">Now</th></tr></thead>
+                <tbody>
+                    <tr data-skill-label="Naming my emotions"><th scope="row">Naming my emotions</th><td><div class="rating-stars" data-col="beginning"></div></td><td><div class="rating-stars" data-col="now"></div></td></tr>
+                    <tr data-skill-label="Calming myself down"><th scope="row">Calming myself down</th><td><div class="rating-stars" data-col="beginning"></div></td><td><div class="rating-stars" data-col="now"></div></td></tr>
+                    <tr data-skill-label="Understanding others' feelings"><th scope="row">Understanding others' feelings</th><td><div class="rating-stars" data-col="beginning"></div></td><td><div class="rating-stars" data-col="now"></div></td></tr>
+                    <tr data-skill-label="Solving conflicts peacefully"><th scope="row">Solving conflicts peacefully</th><td><div class="rating-stars" data-col="beginning"></div></td><td><div class="rating-stars" data-col="now"></div></td></tr>
+                    <tr><th scope="row" style="text-align:right;">Total Growth Score:</th><td colspan="2"><span id="growth-score">+0</span></td></tr>
+                </tbody>
+            </table>
         </section>
 
-        ${reflectionHTML}
+        <section class="reflection-section">
+            <h3>My Reflection</h3>
+            <label for="reflection-proud">The skill I am most proud of improving is...</label>
+            <textarea id="reflection-proud" rows="3"></textarea>
+            <label for="reflection-success">One time I successfully used one of these skills was when...</label>
+            <textarea id="reflection-success" rows="3"></textarea>
+            <h3>My Next Step</h3>
+            <label for="goal-skill">What is one SEL skill you want to focus on practicing?</label>
+            <select id="goal-skill">
+                <option value="">- Select a skill -</option>
+                <option>Naming my emotions</option>
+                <option>Calming myself down</option>
+                <option>Understanding others' feelings</option>
+                <option>Solving conflicts peacefully</option>
+            </select>
+            <label for="goal-strategy">One small way I can practice this is by...</label>
+            <textarea id="goal-strategy" rows="3"></textarea>
+        </section>
 
         <section class="summary-section">
-            <h2>Create Your Summary</h2>
-            <p style="margin:0 0 10px 0;">After completing all sections, click this button to create a summary.</p>
-            <button class="button" onclick="generateSummary()">Create Summary for Teacher</button>
-            <p id="copy-instructions">Great! Now, please copy all the text from the box below and send it to your teacher.</p>
+            <h2>Create & Submit Your Reflection</h2>
+            <p style="margin:0 0 10px 0;">First, click "Create Summary." Then, click "Submit My Reflection" to email it to your teacher.</p>
+            <button class="button" onclick="generateSummary()">1. Create Summary</button>
+            <button id="submit-btn" class="button" style="margin-left: 10px; background-color: var(--sky-blue);">2. Submit My Reflection</button>
+            <p id="submit-instructions">Your summary is ready! Please click the "Submit My Reflection" button now. If that doesn't work, copy the text below and paste it into a new email.</p>
             <textarea id="summary-output" readonly placeholder="Your summary will appear here..."></textarea>
         </section>
     </div>
     <script>
+        // --- TEACHER EMAIL ADDRESS ---
+        const TEACHER_EMAIL = "your.teacher@example.com"; // <-- IMPORTANT: Teacher should change this address
+        
         function setRating(container, value) {
             const newValue = Math.max(0, Math.min(5, value));
             container.setAttribute('aria-valuenow', newValue);
             const stars = container.querySelectorAll('.star');
-            stars.forEach(star => {
-                star.classList.toggle('selected', parseInt(star.dataset.value) <= newValue);
-            });
+            stars.forEach(star => star.classList.toggle('selected', parseInt(star.dataset.value) <= newValue));
             calculateGrowth();
         }
+
         function handleStarKeydown(event) {
             const container = event.currentTarget;
             let currentValue = parseInt(container.getAttribute('aria-valuenow')) || 0;
             if (event.key === 'ArrowRight') { event.preventDefault(); setRating(container, currentValue + 1); }
             else if (event.key === 'ArrowLeft') { event.preventDefault(); setRating(container, currentValue - 1); }
         }
+
         function calculateGrowth() {
             let totalBeginning = 0, totalNow = 0;
             document.querySelectorAll('tbody tr[data-skill-label]').forEach(row => {
@@ -526,33 +506,25 @@
                 totalNow += parseInt(row.querySelector('[data-col="now"]').getAttribute('aria-valuenow')) || 0;
             });
             const growth = totalNow - totalBeginning;
-            const growthEl = document.getElementById('growth-score');
-            if (growthEl) {
-                growthEl.innerText = (growth >= 0 ? '+' : '') + growth;
-            }
+            document.getElementById('growth-score').innerText = (growth >= 0 ? '+' : '') + growth;
         }
         
         function initializeStars() {
-            const ratingContainers = document.querySelectorAll('.rating-stars');
-            ratingContainers.forEach(container => {
-                container.innerHTML = ''; // Clear existing stars
+            document.querySelectorAll('.rating-stars').forEach(container => {
+                container.innerHTML = '';
                 container.setAttribute('aria-valuenow', '0');
                 container.setAttribute('role', 'slider');
                 container.setAttribute('aria-valuemin', '0');
                 container.setAttribute('aria-valuemax', '5');
                 container.setAttribute('tabindex', '0');
                 container.addEventListener('keydown', handleStarKeydown);
-
                 for (let i = 1; i <= 5; i++) {
                     const star = document.createElement('span');
                     star.className = 'star';
                     star.dataset.value = i;
                     star.innerHTML = '★';
                     star.setAttribute('aria-hidden', 'true');
-                    star.onclick = (e) => {
-                         e.stopPropagation();
-                         setRating(container, i);
-                    };
+                    star.onclick = (e) => { e.stopPropagation(); setRating(container, i); };
                     container.appendChild(star);
                 }
             });
@@ -577,43 +549,51 @@
                 const skill = row.dataset.skillLabel;
                 const beginning = row.querySelector('[data-col="beginning"]').getAttribute('aria-valuenow') || '0';
                 const now = row.querySelector('[data-col="now"]').getAttribute('aria-valuenow') || '0';
-                summary += \`\${skill}:\\n\`;
-                summary += \`  - Beginning Rating: \${beginning} / 5\\n\`;
-                summary += \`  - Current Rating:   \${now} / 5\\n\\n\`;
+                summary += \`\${skill}:\\n  - Beginning: \${beginning}/5 | Current: \${now}/5\\n\\n\`;
             });
-            const growth = document.getElementById('growth-score').innerText;
-            summary += \`Total Growth Score: \${growth}\\n\`;
-
-            const proud = document.getElementById('reflection-proud').value || 'N/A';
-            const success = document.getElementById('reflection-success').value || 'N/A';
-            const goalSkill = document.getElementById('goal-skill').value || 'N/A';
-            const goalStrategy = document.getElementById('goal-strategy').value || 'N/A';
+            summary += \`Total Growth Score: \${document.getElementById('growth-score').innerText}\\n\`;
 
             summary += \`\\n=====================================\\n\`;
-            summary += \`MY REFLECTION\\n\`;
+            summary += \`MY REFLECTION & NEXT STEP\\n\`;
             summary += \`-------------------------------------\\n\`;
-            summary += \`Skill I'm most proud of improving:\\n\${proud}\\n\\n\`;
-            summary += \`A time I successfully used a skill:\\n\${success}\\n\`;
-            
-            summary += \`\\n=====================================\\n\`;
-            summary += \`MY NEXT STEP\\n\`;
-            summary += \`-------------------------------------\\n\`;
-            summary += \`SEL skill to focus on:\\n\${goalSkill}\\n\\n\`;
-            summary += \`One way I can practice this:\\n\${goalStrategy}\\n\`;
+            summary += \`Proudest Improvement:\\n\${document.getElementById('reflection-proud').value || 'N/A'}\\n\\n\`;
+            summary += \`Success Story:\\n\${document.getElementById('reflection-success').value || 'N/A'}\\n\\n\`;
+            summary += \`Next Skill to Practice:\\n\${document.getElementById('goal-skill').value || 'N/A'}\\n\\n\`;
+            summary += \`Practice Strategy:\\n\${document.getElementById('goal-strategy').value || 'N/A'}\\n\`;
 
             const output = document.getElementById('summary-output');
             output.value = summary;
             output.focus();
             output.select();
-            document.getElementById('copy-instructions').style.display = 'block';
+            document.getElementById('submit-instructions').style.display = 'block';
         }
 
-        document.addEventListener('DOMContentLoaded', initializeStars);
+        function submitReflection() {
+            const studentName = document.getElementById('student-name').value;
+             if (!studentName) {
+                alert('Please enter your name before submitting.');
+                document.getElementById('student-name').focus();
+                return;
+            }
+            const summary = document.getElementById('summary-output').value;
+            if (!summary) {
+                alert('Please click "Create Summary" before submitting.');
+                return;
+            }
+            const subject = encodeURIComponent(\`SEL Reflection from \${studentName}\`);
+            const body = encodeURIComponent(summary);
+            window.location.href = \`mailto:\${TEACHER_EMAIL}?subject=\${subject}&body=\${body}\`;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeStars();
+            document.getElementById('submit-btn').addEventListener('click', submitReflection);
+        });
     <\/script>
 </body>
 </html>
 `;
-                const blob = new Blob([studentHTML], { type: 'text/html' });
+                const blob = new Blob([studentPageContent], { type: 'text/html' });
                 const url = URL.createObjectURL(blob);
                 window.open(url, '_blank');
             }
