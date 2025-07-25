@@ -1,7 +1,10 @@
 // File: sel-data.js
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the unified data processor
+    const dataProcessor = new SELDataProcessor();
+
     function renderTable() {
-        const data = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
+        const data = dataProcessor.loadData();
         const tbody = document.querySelector('#sel-data-table tbody');
         tbody.innerHTML = '';
         
@@ -10,19 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Validate and clean data
-        const validData = data.filter(entry => {
-            return entry && entry.name && entry.name.trim() !== '';
-        });
+        data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Show newest first
 
-        if (validData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;font-style:italic;padding:2em;">No valid student data found. Please check your input format.</td></tr>';
-            return;
-        }
-
-        validData.sort((a, b) => new Date(b.date) - new Date(a.date)); // Show newest first
-
-        validData.forEach(entry => {
+        data.forEach(entry => {
             const tr = document.createElement('tr');
             
             // Ensure ratings are valid numbers
@@ -51,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Show summary of data loaded
-        console.log(`Loaded ${validData.length} student reflections from localStorage`);
+        console.log(`Loaded ${data.length} student reflections from localStorage`);
     }
 
     // Validate rating values
@@ -68,18 +61,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function exportToCsv() {
-        const data = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
+        const data = dataProcessor.loadData();
         if (data.length === 0) { 
             alert('No data to export.'); 
             return; 
-        }
-
-        // Filter valid data for export
-        const validData = data.filter(entry => entry && entry.name && entry.name.trim() !== '');
-        
-        if (validData.length === 0) {
-            alert('No valid student data found to export.');
-            return;
         }
 
         const headers = ['Name', 'Date', 'Naming Emotions (Beginning)', 'Naming Emotions (Now)', 'Calming Down (Beginning)', 'Calming Down (Now)', 'Understanding Others (Beginning)', 'Understanding Others (Now)', 'Solving Conflicts (Beginning)', 'Solving Conflicts (Now)', 'Total Growth Score', 'Proudest Improvement', 'Success Story', 'Next Goal', 'Goal Strategy'];
@@ -93,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return strCell;
         };
 
-        validData.forEach(entry => {
+        data.forEach(entry => {
             const row = [
                 entry.name, 
                 entry.date, 

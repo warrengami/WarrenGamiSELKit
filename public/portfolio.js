@@ -2,22 +2,18 @@
 // Individual SEL Growth Portfolio functionality
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize the unified data processor
+    const dataProcessor = new SELDataProcessor();
+    
     let radarChart = null;
     const studentSelect = document.getElementById('student-select');
     const portfolioContent = document.getElementById('portfolio-content');
     const noStudentSelected = document.getElementById('no-student-selected');
 
-    // Load data from localStorage
-    function loadData() {
-        const selData = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
-        const observationLog = JSON.parse(localStorage.getItem('selToolkit-observationLog') || '[]');
-        return { selData, observationLog };
-    }
-
     // Populate student dropdown
     function populateStudentDropdown() {
-        const { selData } = loadData();
-        const uniqueNames = [...new Set(selData.map(entry => entry.name).filter(Boolean))];
+        const data = dataProcessor.loadData();
+        const uniqueNames = [...new Set(data.map(entry => entry.name).filter(Boolean))];
         
         // Clear existing options except the first one
         while (studentSelect.options.length > 1) {
@@ -35,10 +31,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Get student data
     function getStudentData(studentName) {
-        const { selData, observationLog } = loadData();
+        const data = dataProcessor.loadData();
+        const observationLog = JSON.parse(localStorage.getItem('selToolkit-observationLog') || '[]');
         
         // Get the most recent SEL assessment for this student
-        const studentAssessments = selData
+        const studentAssessments = data
             .filter(entry => entry.name === studentName)
             .sort((a, b) => new Date(b.date) - new Date(a.date));
         
@@ -54,17 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Create radar chart
     function createRadarChart(studentData) {
-        const canvas = document.getElementById('radar-chart');
-        if (!canvas) {
-            console.error('Canvas element not found');
-            return;
-        }
-
-        const ctx = canvas.getContext('2d');
-        if (!ctx) {
-            console.error('Could not get 2D context');
-            return;
-        }
+        const ctx = document.getElementById('radar-chart').getContext('2d');
         
         // Destroy existing chart if it exists
         if (radarChart) {
@@ -85,68 +72,61 @@ document.addEventListener('DOMContentLoaded', () => {
             parseInt(studentData.assessment.solvingConflicts_N) || 0
         ];
 
-        console.log('Chart data:', { labels, beginningData, currentData });
-
-        try {
-            radarChart = new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: 'Beginning',
-                            data: beginningData,
-                            borderColor: '#73bdf5',
-                            backgroundColor: 'rgba(115, 189, 245, 0.1)',
-                            borderWidth: 2,
-                            pointBackgroundColor: '#73bdf5',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 2
-                        },
-                        {
-                            label: 'Current',
-                            data: currentData,
-                            borderColor: '#27ae60',
-                            backgroundColor: 'rgba(39, 174, 96, 0.2)',
-                            borderWidth: 2,
-                            pointBackgroundColor: '#27ae60',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 2
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            beginAtZero: true,
-                            max: 5,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
+        radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Beginning',
+                        data: beginningData,
+                        borderColor: '#73bdf5',
+                        backgroundColor: 'rgba(115, 189, 245, 0.1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#73bdf5',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
                     },
-                    plugins: {
-                        legend: {
-                            position: 'top'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.dataset.label || '';
-                                    const value = context.parsed.r;
-                                    return `${label}: ${value}/5`;
-                                }
+                    {
+                        label: 'Current',
+                        data: currentData,
+                        borderColor: '#27ae60',
+                        backgroundColor: 'rgba(39, 174, 96, 0.2)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#27ae60',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 5,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top'
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.dataset.label || '';
+                                const value = context.parsed.r;
+                                return `${label}: ${value}/5`;
                             }
                         }
                     }
                 }
-            });
-            console.log('Chart created successfully');
-        } catch (error) {
-            console.error('Error creating chart:', error);
-        }
+            }
+        });
     }
 
     // Update reflection content
