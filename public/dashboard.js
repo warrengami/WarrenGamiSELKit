@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize the unified data processor
     const dataProcessor = new SELDataProcessor();
     
-    // Get DOM elements
+    // Get DOM elements with error checking
     const inputReflectionBtn = document.getElementById('input-reflection-btn');
     const viewSelDataBtn = document.getElementById('view-sel-data');
     const viewPortfolioBtn = document.getElementById('view-portfolio');
@@ -18,6 +18,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const clearSearch = document.getElementById('clear-search');
     const printableList = document.getElementById('printable-list');
     const noResultsMessage = document.getElementById('no-results-message');
+
+    // Debug logging
+    console.log('Dashboard elements found:', {
+        inputReflectionBtn: !!inputReflectionBtn,
+        reflectionModal: !!reflectionModal,
+        modalCloseBtn: !!modalCloseBtn,
+        saveReflectionBtn: !!saveReflectionBtn,
+        reflectionPasteArea: !!reflectionPasteArea
+    });
+
+    // Check if required elements exist
+    if (!inputReflectionBtn) {
+        console.error('Input reflection button not found!');
+        return;
+    }
+    if (!reflectionModal) {
+        console.error('Reflection modal not found!');
+        return;
+    }
 
     // Classroom mode function
     function openClassroom(type, file) {
@@ -35,6 +54,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Make openClassroom available globally
     window.openClassroom = openClassroom;
+
+    // Global function for opening reflection modal (backup method)
+    window.openReflectionModal = function() {
+        console.log('openReflectionModal called!');
+        const modal = document.getElementById('reflection-modal');
+        const textarea = document.getElementById('reflection-paste-area');
+        const status = document.getElementById('modal-status');
+        
+        if (modal && textarea && status) {
+            modal.style.display = 'flex';
+            textarea.focus();
+            status.textContent = '';
+        } else {
+            console.error('Modal elements not found in openReflectionModal');
+        }
+    };
 
     // Process and save reflections
     function processAndSaveReflections() {
@@ -75,21 +110,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listeners
     inputReflectionBtn.addEventListener('click', () => {
+        console.log('Input reflection button clicked!');
         reflectionModal.style.display = 'flex';
         reflectionPasteArea.focus();
         modalStatus.textContent = '';
     });
 
     modalCloseBtn.addEventListener('click', () => {
+        console.log('Modal close button clicked!');
         reflectionModal.style.display = 'none';
         modalStatus.textContent = '';
     });
 
-    saveReflectionBtn.addEventListener('click', processAndSaveReflections);
+    saveReflectionBtn.addEventListener('click', () => {
+        console.log('Save reflection button clicked!');
+        processAndSaveReflections();
+    });
 
     // Close modal when clicking outside
     reflectionModal.addEventListener('click', (e) => {
         if (e.target === reflectionModal) {
+            console.log('Modal background clicked!');
             reflectionModal.style.display = 'none';
             modalStatus.textContent = '';
         }
