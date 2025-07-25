@@ -521,46 +521,6 @@
                 growthEl.innerText = (growth >= 0 ? '+' : '') + growth;
             }
         }
-        window.onload = function() {
-            document.querySelectorAll('.rating-stars').forEach(container => {
-                const tr = container.closest('tr');
-                if (!tr) return;
-                const skillLabel = tr.dataset.skillLabel;
-                const timeLabel = container.dataset.col;
-                container.setAttribute('role', 'slider');
-                container.setAttribute('tabindex', '0');
-                container.setAttribute('aria-valuemin', '0');
-                container.setAttribute('aria-valuemax', '5');
-                container.setAttribute('aria-label', `Rating for ${skillLabel} (${timeLabel})`);
-                container.setAttribute('aria-valuenow', 0);
-                for (let i = 1; i <= 5; i++) {
-                    const star = document.createElement('span');
-                    star.className = 'star';
-                    star.innerText = '★';
-                    star.dataset.value = i;
-                    star.onclick = function(event) {
-                        event.stopPropagation();
-                        const currentValue = parseInt(container.getAttribute('aria-valuenow'));
-                        const clickedValue = parseInt(star.dataset.value);
-                        setRating(container, currentValue === clickedValue ? 0 : clickedValue);
-                    };
-                    container.appendChild(star);
-                }
-            });
-            calculateGrowth();
-            document.getElementById('send-email-btn').onclick = function() {
-                const summary = document.getElementById('summary-output').value;
-                if (!summary) {
-                    alert('Please create your summary first.');
-                    return;
-                }
-                const teacherEmail = prompt('Enter your teacher\'s email address:');
-                if (!teacherEmail) return;
-                const subject = encodeURIComponent('SEL Self-Assessment Reflection');
-                const body = encodeURIComponent(summary);
-                window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
-            };
-        };
         function generateSummary() {
             const studentName = document.getElementById('student-name').value;
             if (!studentName) {
@@ -604,13 +564,18 @@
                 URL.revokeObjectURL(url);
             }
             
-            window.onload = () => {
+            document.addEventListener('DOMContentLoaded', function() {
+                // --- Student version (for generated HTML) ---
+                // (This block is only used in the generated student HTML, not the main page)
+                // --- Main page logic ---
+                // Initialize rating stars for the teacher's page
                 const ratingContainers = document.querySelectorAll('.rating-stars');
                 ratingContainers.forEach(container => {
                     // Make sure this only runs if the container is empty, to avoid any potential duplication.
                     if (container.children.length > 0) return;
-
-                    const skillLabel = container.closest('tr').dataset.skillLabel;
+                    const tr = container.closest('tr');
+                    if (!tr) return;
+                    const skillLabel = tr.dataset.skillLabel;
                     const timeLabel = container.dataset.col;
                     container.setAttribute('role', 'slider');
                     container.setAttribute('tabindex', '0');
@@ -633,11 +598,17 @@
                         container.appendChild(star);
                     }
                 });
-                displayRandomCelebration();
                 calculateGrowth();
-
-                document.getElementById('generate-student-version-btn').addEventListener('click', generateStudentPage);
-            };
+                // Celebration generator
+                if (typeof displayRandomCelebration === 'function') {
+                    displayRandomCelebration();
+                }
+                // Generate student version button
+                const genBtn = document.getElementById('generate-student-version-btn');
+                if (genBtn) {
+                    genBtn.addEventListener('click', generateStudentPage);
+                }
+            });
 
     // Pillar 2: Submission logic
     function getRating(skill, col) {
