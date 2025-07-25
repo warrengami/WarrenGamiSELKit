@@ -1,114 +1,133 @@
 // File: dashboard.js
-// Logic for making the Teacher Dashboard interactive.
+// Teacher Dashboard functionality
 
 document.addEventListener('DOMContentLoaded', () => {
     // Initialize the unified data processor
     const dataProcessor = new SELDataProcessor();
-
-    // --- SEARCH AND FILTER FUNCTIONALITY ---
-    const searchInput = document.getElementById('resource-search');
-    const clearSearchBtn = document.getElementById('clear-search');
-    const listItems = document.querySelectorAll('#printable-list li:not(#no-results-message)');
+    
+    // Get DOM elements
+    const inputReflectionBtn = document.getElementById('input-reflection-btn');
+    const viewSelDataBtn = document.getElementById('view-sel-data');
+    const viewPortfolioBtn = document.getElementById('view-portfolio');
+    const reflectionModal = document.getElementById('reflection-modal');
+    const modalCloseBtn = document.querySelector('.modal-close-btn');
+    const saveReflectionBtn = document.getElementById('save-reflection-btn');
+    const reflectionPasteArea = document.getElementById('reflection-paste-area');
+    const modalStatus = document.getElementById('modal-status');
+    const resourceSearch = document.getElementById('resource-search');
+    const clearSearch = document.getElementById('clear-search');
+    const printableList = document.getElementById('printable-list');
     const noResultsMessage = document.getElementById('no-results-message');
 
-    function filterResources() {
-        let visibleCount = 0;
-        const query = searchInput.value.trim().toLowerCase();
-        listItems.forEach(item => {
-            const text = item.textContent.toLowerCase();
-            const match = text.includes(query);
-            item.style.display = match ? '' : 'none';
-            if (match) visibleCount++;
-        });
-        noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
-        clearSearchBtn.style.display = query ? 'block' : 'none';
+    // Classroom mode function
+    function openClassroom(type, file) {
+        const url = `classroom.html?type=${type}&file=${file}`;
+        window.open(url, '_blank');
     }
 
-    if (searchInput) searchInput.addEventListener('input', filterResources);
-    if (clearSearchBtn) clearSearchBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        filterResources();
-    });
+    // Make openClassroom available globally
+    window.openClassroom = openClassroom;
 
-    // --- NEW SEL DATA HUB LOGIC ---
-    const inputReflectionBtn = document.getElementById('input-reflection-btn');
-    const viewSelBtn = document.getElementById('view-sel-data');
-    const viewPortfolioBtn = document.getElementById('view-portfolio');
-    const modal = document.getElementById('reflection-modal');
-    const closeModalBtn = document.querySelector('.modal-close-btn');
-    const saveReflectionBtn = document.getElementById('save-reflection-btn');
-    const pasteArea = document.getElementById('reflection-paste-area');
-    const modalStatus = document.getElementById('modal-status');
+    // Process and save reflections
+    function processAndSaveReflections() {
+        const text = reflectionPasteArea.value.trim();
+        if (!text) {
+            modalStatus.textContent = 'Please paste some reflection data.';
+            modalStatus.style.color = '#dc3545';
+            return;
+        }
 
-    if (inputReflectionBtn) {
-        inputReflectionBtn.onclick = () => {
-            modal.classList.add('is-visible');
-            pasteArea.value = '';
-            modalStatus.textContent = '';
-            pasteArea.focus();
-        };
-    }
-
-    if (closeModalBtn) closeModalBtn.onclick = () => { modal.classList.remove('is-visible'); };
-    window.onclick = (event) => { if (event.target === modal) modal.classList.remove('is-visible'); };
-
-    if (viewSelBtn) {
-        viewSelBtn.onclick = function() { window.open('sel-data.html', '_blank'); };
-    }
-
-    if (viewPortfolioBtn) {
-        viewPortfolioBtn.onclick = function() { window.open('student-portfolio.html', '_blank'); };
-    }
-
-    // Process and save reflections using the unified processor
-    function processAndSaveReflections(text) {
         try {
+            // Initialize the unified data processor
+            const dataProcessor = new SELDataProcessor();
+
+            // Process the multi-student input
             const results = dataProcessor.processMultiStudentInput(text);
-            
-            if (results.processedEntries.length > 0) {
-                // Validate all entries before saving
-                const validEntries = [];
-                results.processedEntries.forEach(entry => {
-                    const validation = dataProcessor.validateEntry(entry);
-                    if (validation.isValid) {
-                        validEntries.push(entry);
-                    } else {
-                        console.warn('Invalid entry:', validation.errors);
-                    }
-                });
 
-                if (validEntries.length > 0) {
-                    dataProcessor.saveEntries(validEntries);
-                    const message = `✅ Saved ${validEntries.length} student reflection${validEntries.length > 1 ? 's' : ''}.`;
-                    if (results.errorCount > 0) {
-                        return { 
-                            success: true, 
-                            message: `${message} ${results.errorCount} failed to parse.` 
-                        };
-                    }
-                    return { success: true, message };
-                }
+            if (results.success) {
+                modalStatus.textContent = `Successfully processed ${results.processedCount} student reflection(s)!`;
+                modalStatus.style.color = '#28a745';
+                reflectionPasteArea.value = '';
+                
+                // Close modal after a short delay
+                setTimeout(() => {
+                    reflectionModal.style.display = 'none';
+                    modalStatus.textContent = '';
+                }, 2000);
+            } else {
+                modalStatus.textContent = `Error: ${results.error}`;
+                modalStatus.style.color = '#dc3545';
             }
-            
-            return { 
-                success: false, 
-                message: `❌ Failed to parse any student reflections. Errors: ${results.errors.join('; ')}` 
-            };
-
         } catch (error) {
-            console.error('Processing error:', error);
-            return { success: false, message: `Processing Error: ${error.message}` };
+            console.error('Error processing reflections:', error);
+            modalStatus.textContent = 'An error occurred while processing the reflections.';
+            modalStatus.style.color = '#dc3545';
         }
     }
 
-    if (saveReflectionBtn) {
-        saveReflectionBtn.onclick = () => {
-            const result = processAndSaveReflections(pasteArea.value);
-            modalStatus.textContent = result.message;
-            if (result.success) {
-                pasteArea.value = '';
-                setTimeout(() => { modal.classList.remove('is-visible'); }, 2000);
+    // Event listeners
+    inputReflectionBtn.addEventListener('click', () => {
+        reflectionModal.style.display = 'flex';
+        reflectionPasteArea.focus();
+    });
+
+    modalCloseBtn.addEventListener('click', () => {
+        reflectionModal.style.display = 'none';
+        modalStatus.textContent = '';
+    });
+
+    saveReflectionBtn.addEventListener('click', processAndSaveReflections);
+
+    // Close modal when clicking outside
+    reflectionModal.addEventListener('click', (e) => {
+        if (e.target === reflectionModal) {
+            reflectionModal.style.display = 'none';
+            modalStatus.textContent = '';
+        }
+    });
+
+    // Navigation buttons
+    viewSelDataBtn.addEventListener('click', () => {
+        window.open('sel-data.html', '_blank');
+    });
+
+    viewPortfolioBtn.addEventListener('click', () => {
+        window.open('student-portfolio-enhanced.html', '_blank');
+    });
+
+    // Search functionality
+    resourceSearch.addEventListener('input', () => {
+        const searchTerm = resourceSearch.value.toLowerCase();
+        const items = printableList.querySelectorAll('li[data-type]');
+        let visibleCount = 0;
+
+        items.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+                item.style.display = 'block';
+                visibleCount++;
+            } else {
+                item.style.display = 'none';
             }
-        };
+        });
+
+        // Show/hide clear button
+        clearSearch.style.display = searchTerm ? 'block' : 'none';
+        
+        // Show/hide no results message
+        noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
+    });
+
+    clearSearch.addEventListener('click', () => {
+        resourceSearch.value = '';
+        resourceSearch.dispatchEvent(new Event('input'));
+        clearSearch.style.display = 'none';
+    });
+
+    // User info display
+    const userInfo = document.getElementById('user-info');
+    if (userInfo) {
+        const currentUser = localStorage.getItem('currentUser') || 'Teacher';
+        userInfo.innerHTML = `<p>Welcome, ${currentUser}!</p>`;
     }
 });
