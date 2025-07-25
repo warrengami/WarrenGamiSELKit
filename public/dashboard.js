@@ -190,6 +190,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 'One way I can practice this is by', 'Practice Strategy', 'Goal Strategy'
             ];
             const extractValueMulti = (keys, multiline = false) => {
+                console.log(`Extracting value for keys: ${keys.join(', ')} (multiline: ${multiline})`);
+                
                 for (const key of keys) {
                     const cleanKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                     if (multiline) {
@@ -205,9 +207,13 @@ document.addEventListener('DOMContentLoaded', () => {
                             // Pattern 3: Key (anywhere) followed by value
                             new RegExp(cleanKey + '\\s*:?\\s*([\s\S]*?)' + stopPattern, 'im')
                         ];
-                        for (let regex of patterns) {
+                        for (let i = 0; i < patterns.length; i++) {
+                            const regex = patterns[i];
                             const match = text.match(regex);
-                            if (match && match[1].trim()) return match[1].trim();
+                            if (match && match[1].trim()) {
+                                console.log(`Pattern ${i + 1} matched for ${key}: "${match[1].trim()}"`);
+                                return match[1].trim();
+                            }
                         }
                     } else {
                         const regex = new RegExp(
@@ -215,41 +221,49 @@ document.addEventListener('DOMContentLoaded', () => {
                             'im'
                         );
                         const match = text.match(regex);
-                        if (match) return match[1].trim();
+                        if (match) {
+                            console.log(`Single line pattern matched for ${key}: "${match[1].trim()}"`);
+                            return match[1].trim();
+                        }
                     }
                 }
+                console.log(`No pattern matched for keys: ${keys.join(', ')}`);
                 return 'N/A';
             };
 
             // Helper to extract rating by multiple possible formats (even more robust)
             const extractRatingMulti = (skillName, type) => {
+                console.log(`Extracting ${type} rating for skill: ${skillName}`);
+                
                 // Flexible regex: allow optional spaces, dashes, colons, and not anchored to start of line
                 // Matches lines like:
                 // Naming my emotions:  - Beginning: 2/5 | Current: 4/5
                 // or with extra spaces, tabs, or dashes
                 const skillPattern = skillName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                 const typePattern = type.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                // Try to match: SkillName (optional spaces/colon/linebreaks) - Type: X/5
-                let regex = new RegExp(
-                    skillPattern + '\\s*:?\\s*(?:\\n|\\r|\\r\\n)?\\s*-?\\s*' + typePattern + '\\s*:?\\s*(\\d+)\\s*/\\s*5',
-                    'im'
-                );
-                let match = text.match(regex);
-                if (match) return match[1];
-                // Try to match: SkillName (anywhere in line) Type: X/5 (not anchored)
-                regex = new RegExp(
-                    skillPattern + '[^\n]*' + typePattern + '\\s*:?\\s*(\\d+)\\s*/\\s*5',
-                    'im'
-                );
-                match = text.match(regex);
-                if (match) return match[1];
-                // Try to match: Type: X/5 (anywhere in the text, fallback)
-                regex = new RegExp(
-                    typePattern + '\\s*:?\\s*(\\d+)\\s*/\\s*5',
-                    'im'
-                );
-                match = text.match(regex);
-                if (match) return match[1];
+                
+                // Try multiple patterns in order of specificity
+                const patterns = [
+                    // Pattern 1: SkillName: - Type: X/5 (most specific)
+                    new RegExp(skillPattern + '\\s*:?\\s*(?:\\n|\\r|\\r\\n)?\\s*-?\\s*' + typePattern + '\\s*:?\\s*(\\d+)\\s*/\\s*5', 'im'),
+                    // Pattern 2: SkillName (anywhere) followed by Type: X/5
+                    new RegExp(skillPattern + '[^\n]*' + typePattern + '\\s*:?\\s*(\\d+)\\s*/\\s*5', 'im'),
+                    // Pattern 3: Type: X/5 (anywhere in text, fallback)
+                    new RegExp(typePattern + '\\s*:?\\s*(\\d+)\\s*/\\s*5', 'im'),
+                    // Pattern 4: Just find the number before /5 after the type
+                    new RegExp(typePattern + '[^/]*?(\\d+)\\s*/\\s*5', 'im')
+                ];
+                
+                for (let i = 0; i < patterns.length; i++) {
+                    const regex = patterns[i];
+                    const match = text.match(regex);
+                    if (match) {
+                        console.log(`Pattern ${i + 1} matched for ${skillName} ${type}: ${match[1]}`);
+                        return match[1];
+                    }
+                }
+                
+                console.log(`No pattern matched for ${skillName} ${type}`);
                 return '0';
             };
 
