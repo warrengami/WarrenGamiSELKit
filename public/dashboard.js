@@ -38,15 +38,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (inputReflectionBtn) {
         inputReflectionBtn.onclick = () => {
-            modal.style.display = 'flex';
+            modal.classList.add('is-visible');
             pasteArea.value = '';
             modalStatus.textContent = '';
             pasteArea.focus();
         };
     }
 
-    if (closeModalBtn) closeModalBtn.onclick = () => { modal.style.display = 'none'; };
-    window.onclick = (event) => { if (event.target === modal) modal.style.display = 'none'; };
+    if (closeModalBtn) closeModalBtn.onclick = () => { modal.classList.remove('is-visible'); };
+    window.onclick = (event) => { if (event.target === modal) modal.classList.remove('is-visible'); };
 
     if (viewSelBtn) {
         viewSelBtn.onclick = function() { window.open('sel-data.html', '_blank'); };
@@ -105,18 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (saveReflectionBtn) {
         saveReflectionBtn.onclick = () => {
-            const text = pasteArea.value;
-            if (!text.trim()) {
-                modalStatus.textContent = 'Please paste text into the box.';
-                modalStatus.style.color = '#c0392b';
-                return;
-            }
-            const result = parseAndSaveReflection(text);
+            const result = parseAndSaveReflection(pasteArea.value);
             modalStatus.textContent = result.message;
-            modalStatus.style.color = result.success ? '#27ae60' : '#c0392b';
             if (result.success) {
                 pasteArea.value = '';
-                setTimeout(() => { modal.style.display = 'none'; }, 2000);
+                setTimeout(() => { modal.classList.remove('is-visible'); }, 2000);
             }
         };
     }
