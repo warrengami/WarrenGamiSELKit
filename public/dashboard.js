@@ -56,20 +56,27 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const entry = {};
 
-            // Helper to extract a value by multiple possible keys (more robust)
+            // Helper to extract a value by multiple possible keys (robust multiline)
+            const allKeys = [
+                'Skill I\'m most proud of improving', 'Proudest Improvement',
+                'A time I successfully used a skill', 'Success Story',
+                'SEL skill to focus on', 'Next Skill to Practice', 'Next Goal',
+                'One way I can practice this is by', 'Practice Strategy', 'Goal Strategy'
+            ];
             const extractValueMulti = (keys, multiline = false) => {
                 for (const key of keys) {
                     const cleanKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
                     if (multiline) {
-                        // Match: key (optional spaces/colon/linebreaks), then capture until next section or double line break
+                        // Build a pattern for all possible keys except the current one
+                        const otherKeys = allKeys.filter(k => !keys.includes(k)).map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+                        const stopPattern = otherKeys.length > 0 ? `(?=^(${otherKeys.join('|')})\\s*:|\\n\\n|$)` : '(?=\\n\\n|$)';
                         const regex = new RegExp(
-                            '^' + cleanKey + '\\s*:?\\s*(?:\\n|\\r|\\r\\n)+([\s\S]*?)(?=\\n^\S|\\n\\n|$)',
+                            '^' + cleanKey + '\\s*:?\\s*(?:\\n|\\r|\\r\\n)+([\s\S]*?)' + stopPattern,
                             'im'
                         );
                         const match = text.match(regex);
                         if (match) return match[1].trim();
                     } else {
-                        // Match: key (optional spaces/colon), then value
                         const regex = new RegExp(
                             '^' + cleanKey + '\\s*:?\\s*(.*)',
                             'im'
