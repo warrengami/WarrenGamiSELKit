@@ -345,7 +345,7 @@
 
             function handleStarKeydown(event) {
                 const container = event.currentTarget;
-                let currentValue = parseInt(container.getAttribute('aria-valuenow'));
+                let currentValue = parseInt(container.getAttribute('aria-valuenow')) || 0;
                 if (event.key === 'ArrowRight') {
                     event.preventDefault();
                     setRating(container, currentValue + 1);
@@ -371,6 +371,29 @@
                     growthEl.innerText = (growth >= 0 ? '+' : '') + growth;
                 }
             }
+            
+            function initializeStars() {
+                const ratingContainers = document.querySelectorAll('.rating-stars');
+                ratingContainers.forEach(container => {
+                    container.innerHTML = ''; // Clear existing stars
+                    container.setAttribute('aria-valuenow', '0');
+                    container.setAttribute('role', 'slider');
+                    container.setAttribute('aria-valuemin', '0');
+                    container.setAttribute('aria-valuemax', '5');
+                    container.setAttribute('tabindex', '0');
+
+                    for (let i = 1; i <= 5; i++) {
+                        const star = document.createElement('span');
+                        star.className = 'star';
+                        star.dataset.value = i;
+                        star.innerHTML = '★';
+                        star.setAttribute('aria-hidden', 'true');
+                        star.onclick = () => setRating(container, i);
+                        container.appendChild(star);
+                    }
+                });
+            }
+
 
             function toggleTip(headerElement) {
                 const tip = headerElement.closest('.teacher-tip');
@@ -403,11 +426,9 @@
             }
 
             function generateStudentPage() {
-                // BUG FIX: Generate the table HTML from scratch to avoid duplicating stars.
                 let studentTableRowsHTML = '';
                 document.querySelectorAll('.prompt-table tbody tr[data-skill-label]').forEach(row => {
                     const skillLabel = row.dataset.skillLabel;
-                    // Use textContent to get the clean label text without any other elements.
                     const skillText = row.querySelector('th[scope="row"]').textContent;
                     studentTableRowsHTML += `
                         <tr data-skill-label="${skillLabel}">
@@ -417,11 +438,10 @@
                         </tr>`;
                 });
 
-                // Add the specific "Total Growth Score" row for the student view, matching the image.
                 studentTableRowsHTML += `
                     <tr>
-                        <th scope="row">Total Growth Score:</th>
-                        <td colspan="2" style="text-align:center;"><span id="growth-score">-</span></td>
+                        <th scope="row" style="text-align:right;">Total Growth Score:</th>
+                        <td colspan="2"><span id="growth-score">+0</span></td>
                     </tr>`;
 
                 const studentTableHTML = `
@@ -432,7 +452,6 @@
                     </tbody>
                 </table>`;
                 
-                // Now, create the full student page with the clean, generated table.
                 const studentHTML = `
 <!DOCTYPE html>
 <html lang="en">
@@ -505,7 +524,7 @@
         }
         function handleStarKeydown(event) {
             const container = event.currentTarget;
-            let currentValue = parseInt(container.getAttribute('aria-valuenow'));
+            let currentValue = parseInt(container.getAttribute('aria-valuenow')) || 0;
             if (event.key === 'ArrowRight') { event.preventDefault(); setRating(container, currentValue + 1); }
             else if (event.key === 'ArrowLeft') { event.preventDefault(); setRating(container, currentValue - 1); }
         }
@@ -521,6 +540,29 @@
                 growthEl.innerText = (growth >= 0 ? '+' : '') + growth;
             }
         }
+        
+        function initializeStars() {
+            const ratingContainers = document.querySelectorAll('.rating-stars');
+            ratingContainers.forEach(container => {
+                container.innerHTML = ''; // Clear existing stars
+                container.setAttribute('aria-valuenow', '0');
+                container.setAttribute('role', 'slider');
+                container.setAttribute('aria-valuemin', '0');
+                container.setAttribute('aria-valuemax', '5');
+                container.setAttribute('tabindex', '0');
+
+                for (let i = 1; i <= 5; i++) {
+                    const star = document.createElement('span');
+                    star.className = 'star';
+                    star.dataset.value = i;
+                    star.innerHTML = '★';
+                    star.setAttribute('aria-hidden', 'true');
+                    star.onclick = () => setRating(container, i);
+                    container.appendChild(star);
+                }
+            });
+        }
+        
         function generateSummary() {
             const studentName = document.getElementById('student-name').value;
             if (!studentName) {
@@ -528,33 +570,62 @@
                 document.getElementById('student-name').focus();
                 return;
             }
-            let summary = `SEL Self-Assessment Summary\n`;
-            summary += `Student: ${studentName}\n`;
-            summary += `Date: ${new Date().toLocaleDateString()}\n`;
-            summary += `=====================================\n`;
+            let summary = \`SEL Self-Assessment Summary\\n\`;
+            summary += \`Student: \${studentName}\\n\`;
+            summary += \`Date: \${new Date().toLocaleDateString()}\\n\`;
+            summary += \`=====================================\\n\`;
             document.querySelectorAll('tbody tr[data-skill-label]').forEach(row => {
                 const skill = row.dataset.skillLabel;
                 const beginning = row.querySelector('[data-col="beginning"]').getAttribute('aria-valuenow') || '0';
                 const now = row.querySelector('[data-col="now"]').getAttribute('aria-valuenow') || '0';
-                summary += `\n${skill}:\n`;
-                summary += `  - Beginning Rating: ${beginning} / 5\n`;
-                summary += `  - Current Rating:   ${now} / 5\n`;
+                summary += \`\\n\${skill}:\\n\`;
+                summary += \`  - Beginning Rating: \${beginning} / 5\\n\`;
+                summary += \`  - Current Rating:   \${now} / 5\\n\`;
             });
-            summary += `\n=====================================\n`;
+            summary += \`\\n=====================================\\n\`;
             const growth = document.getElementById('growth-score').innerText;
-            summary += `Total Growth Score: ${growth}\n`;
+            summary += \`Total Growth Score: \${growth}\\n\`;
             const output = document.getElementById('summary-output');
             output.value = summary;
             output.focus();
             output.select();
             document.getElementById('copy-instructions').style.display = 'block';
         }
-    document.addEventListener('DOMContentLoaded', function() {
-      var genBtn = document.getElementById('generate-student-version-btn');
-      if (genBtn) {
-        genBtn.addEventListener('click', generateStudentPage);
-      }
-    });
-    </script>
+        
+        document.getElementById('send-email-btn').addEventListener('click', function() {
+            const studentName = document.getElementById('student-name').value;
+            if (!studentName) {
+                alert('Please enter your name before sending the summary.');
+                document.getElementById('student-name').focus();
+                return;
+            }
+            const summary = document.getElementById('summary-output').value;
+            if (!summary) {
+                alert('Please create the summary before sending it.');
+                return;
+            }
+            const mailtoLink = \`mailto:?subject=SEL Self-Assessment for \${encodeURIComponent(studentName)}&body=\${encodeURIComponent(summary)}\`;
+            window.location.href = mailtoLink;
+        });
+
+        document.addEventListener('DOMContentLoaded', initializeStars);
+    <\/script>
+</body>
+</html>
+`;
+                const blob = new Blob([studentHTML], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                window.open(url, '_blank');
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                initializeStars();
+                var genBtn = document.getElementById('generate-student-version-btn');
+                if (genBtn) {
+                    genBtn.addEventListener('click', generateStudentPage);
+                }
+            });
+
+     </script>
 </body>
 </html>
