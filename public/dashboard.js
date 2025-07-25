@@ -185,95 +185,94 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const entry = {};
 
-            // Helper to extract a value by multiple possible keys (simplified)
-            const allKeys = [
-                'Skill I\'m most proud of improving', 'Proudest Improvement',
-                'A time I successfully used a skill', 'Success Story',
-                'SEL skill to focus on', 'Next Skill to Practice', 'Next Goal',
-                'One way I can practice this is by', 'Practice Strategy', 'Goal Strategy'
-            ];
-            const extractValueMulti = (keys, multiline = false) => {
-                console.log(`Extracting value for keys: ${keys.join(', ')} (multiline: ${multiline})`);
-                
-                for (const key of keys) {
-                    const cleanKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                    
-                    if (multiline) {
-                        // For multiline fields, look for the key followed by a colon and capture until the next key or end
-                        const regex = new RegExp(`${cleanKey}\\s*:\\s*\\n([\\s\\S]*?)(?=\\n\\n|\\n[A-Z]|$)`, 'im');
-                        const match = text.match(regex);
-                        if (match && match[1].trim()) {
-                            console.log(`Multiline pattern matched for ${key}: "${match[1].trim()}"`);
-                            return match[1].trim();
-                        }
-                    } else {
-                        // For single line fields like Student and Date
-                        const regex = new RegExp(`^${cleanKey}\\s*:\\s*(.*)`, 'im');
-                        const match = text.match(regex);
-                        if (match) {
-                            console.log(`Single line pattern matched for ${key}: "${match[1].trim()}"`);
-                            return match[1].trim();
-                        }
+            // Simple extraction functions
+            const extractSimple = (key) => {
+                const lines = text.split('\n');
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].trim().startsWith(key + ':')) {
+                        const value = lines[i].substring(key.length + 1).trim();
+                        console.log(`Found ${key}: "${value}"`);
+                        return value;
                     }
                 }
-                console.log(`No pattern matched for keys: ${keys.join(', ')}`);
+                console.log(`Not found: ${key}`);
                 return 'N/A';
             };
 
-            // Helper to extract rating by multiple possible formats (simplified and more robust)
-            const extractRatingMulti = (skillName, type) => {
-                console.log(`Extracting ${type} rating for skill: ${skillName}`);
-                
-                // First, try to find the skill section
-                const skillSection = text.match(new RegExp(`${skillName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}:[\\s\\S]*?(?=\\n\\n|$)`, 'im'));
-                if (!skillSection) {
-                    console.log(`No skill section found for: ${skillName}`);
-                    return '0';
+            const extractMultiline = (key) => {
+                const lines = text.split('\n');
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].trim() === key + ':') {
+                        // Collect lines until we hit another key or empty line
+                        let value = '';
+                        let j = i + 1;
+                        while (j < lines.length && lines[j].trim() !== '' && !lines[j].trim().endsWith(':')) {
+                            value += lines[j].trim() + ' ';
+                            j++;
+                        }
+                        const result = value.trim();
+                        console.log(`Found ${key}: "${result}"`);
+                        return result || 'N/A';
+                    }
                 }
-                
-                const skillText = skillSection[0];
-                console.log(`Skill section found: ${skillText.substring(0, 100)}...`);
-                
-                // Look for the specific type (Beginning or Current) in the skill section
-                const typePattern = type.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                const ratingMatch = skillText.match(new RegExp(`${typePattern}\\s*:\\s*(\\d+)\\s*/\\s*5`, 'im'));
-                
-                if (ratingMatch) {
-                    console.log(`Rating found for ${skillName} ${type}: ${ratingMatch[1]}`);
-                    return ratingMatch[1];
+                console.log(`Not found: ${key}`);
+                return 'N/A';
+            };
+
+            const extractRating = (skillName, type) => {
+                const lines = text.split('\n');
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].trim().startsWith(skillName + ':')) {
+                        // Look for the rating in the next few lines
+                        for (let j = i; j < Math.min(i + 5, lines.length); j++) {
+                            const line = lines[j];
+                            if (line.includes(type + ':') && line.includes('/5')) {
+                                const match = line.match(/(\d+)\s*\/\s*5/);
+                                if (match) {
+                                    console.log(`Found ${skillName} ${type}: ${match[1]}`);
+                                    return match[1];
+                                }
+                            }
+                        }
+                    }
                 }
-                
-                console.log(`No rating found for ${skillName} ${type}`);
+                console.log(`Not found: ${skillName} ${type}`);
                 return '0';
             };
 
-            entry.name = extractValueMulti(['Student']);
-            entry.date = extractValueMulti(['Date']);
+            // Extract basic info
+            entry.name = extractSimple('Student');
+            entry.date = extractSimple('Date');
+            entry.growthScore = extractSimple('Total Growth Score');
+
+            // Extract ratings
+            entry.namingEmotions_B = extractRating('Naming my emotions', 'Beginning');
+            entry.namingEmotions_N = extractRating('Naming my emotions', 'Current');
+            entry.calming_B = extractRating('Calming myself down', 'Beginning');
+            entry.calming_N = extractRating('Calming myself down', 'Current');
+            entry.understandingOthers_B = extractRating("Understanding others' feelings", 'Beginning');
+            entry.understandingOthers_N = extractRating("Understanding others' feelings", 'Current');
+            entry.solvingConflicts_B = extractRating('Solving conflicts peacefully', 'Beginning');
+            entry.solvingConflicts_N = extractRating('Solving conflicts peacefully', 'Current');
+
+            // Extract reflections
+            entry.proudestImprovement = extractMultiline('Proudest Improvement');
+            entry.successStory = extractMultiline('Success Story');
+            entry.nextGoal = extractMultiline('Next Skill to Practice');
+            entry.goalStrategy = extractMultiline('Practice Strategy');
 
             if (entry.name === 'N/A' || !entry.name) throw new Error("Could not parse Student Name.");
             if (entry.date === 'N/A' || !entry.date) throw new Error("Could not parse Date.");
-
-            entry.namingEmotions_B = extractRatingMulti('Naming my emotions', 'Beginning');
-            entry.namingEmotions_N = extractRatingMulti('Naming my emotions', 'Current');
-            entry.calming_B = extractRatingMulti('Calming myself down', 'Beginning');
-            entry.calming_N = extractRatingMulti('Calming myself down', 'Current');
-            entry.understandingOthers_B = extractRatingMulti("Understanding others' feelings", 'Beginning');
-            entry.understandingOthers_N = extractRatingMulti("Understanding others' feelings", 'Current');
-            entry.solvingConflicts_B = extractRatingMulti('Solving conflicts peacefully', 'Beginning');
-            entry.solvingConflicts_N = extractRatingMulti('Solving conflicts peacefully', 'Current');
-            entry.growthScore = extractValueMulti(['Total Growth Score']);
-            entry.proudestImprovement = extractValueMulti(["Skill I'm most proud of improving", 'Proudest Improvement'], true);
-            entry.successStory = extractValueMulti(["A time I successfully used a skill", 'Success Story'], true);
-            entry.nextGoal = extractValueMulti(["SEL skill to focus on", 'Next Skill to Practice', 'Next Goal'], true);
-            entry.goalStrategy = extractValueMulti(["One way I can practice this is by", 'Practice Strategy', 'Goal Strategy'], true);
 
             const data = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
             data.push(entry);
             localStorage.setItem('selToolkit-selData', JSON.stringify(data));
             
+            console.log('Final entry:', entry);
             return { success: true, message: `✅ Saved entry for ${entry.name}.` };
 
         } catch (error) {
+            console.error('Parse error:', error);
             return { success: false, message: `Parse Error: ${error.message}` };
         }
     }
