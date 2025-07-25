@@ -56,15 +56,27 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const entry = {};
 
-            // Helper to extract a value by multiple possible keys
+            // Helper to extract a value by multiple possible keys (more robust)
             const extractValueMulti = (keys, multiline = false) => {
                 for (const key of keys) {
                     const cleanKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                    const regex = multiline
-                        ? new RegExp(`^${cleanKey}\\s*$\\n(.*?)(?=\\n^\\S|\\n\\n|$)`, 'ms')
-                        : new RegExp(`^${cleanKey}:\\s*(.*)`, 'm');
-                    const match = text.match(regex);
-                    if (match) return match[1].trim();
+                    if (multiline) {
+                        // Match: key (optional spaces/colon/linebreaks), then capture until next section or double line break
+                        const regex = new RegExp(
+                            '^' + cleanKey + '\\s*:?\\s*(?:\\n|\\r|\\r\\n)+([\s\S]*?)(?=\\n^\S|\\n\\n|$)',
+                            'im'
+                        );
+                        const match = text.match(regex);
+                        if (match) return match[1].trim();
+                    } else {
+                        // Match: key (optional spaces/colon), then value
+                        const regex = new RegExp(
+                            '^' + cleanKey + '\\s*:?\\s*(.*)',
+                            'im'
+                        );
+                        const match = text.match(regex);
+                        if (match) return match[1].trim();
+                    }
                 }
                 return 'N/A';
             };
