@@ -21,8 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Classroom mode function
     function openClassroom(type, file) {
-        const url = `classroom.html?type=${type}&file=${file}`;
-        window.open(url, '_blank');
+        try {
+            const url = `classroom.html?type=${encodeURIComponent(type)}&file=${encodeURIComponent(file)}`;
+            const newWindow = window.open(url, '_blank');
+            if (!newWindow) {
+                alert('Please allow pop-ups for this site to use classroom mode.');
+            }
+        } catch (error) {
+            console.error('Error opening classroom mode:', error);
+            alert('Error opening classroom mode. Please try again.');
+        }
     }
 
     // Make openClassroom available globally
@@ -69,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     inputReflectionBtn.addEventListener('click', () => {
         reflectionModal.style.display = 'flex';
         reflectionPasteArea.focus();
+        modalStatus.textContent = '';
     });
 
     modalCloseBtn.addEventListener('click', () => {
