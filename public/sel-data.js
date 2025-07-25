@@ -1,10 +1,20 @@
 // File: sel-data.js
 document.addEventListener('DOMContentLoaded', () => {
+    // Test if SELDataProcessor is available
+    console.log('=== SEL DATA PAGE LOADED ===');
+    console.log('SELDataProcessor available:', typeof SELDataProcessor !== 'undefined');
+    
     // Initialize the unified data processor
     const dataProcessor = new SELDataProcessor();
+    console.log('DataProcessor created:', dataProcessor);
 
     function renderTable() {
         const data = dataProcessor.loadData();
+        console.log('=== SEL DATA DEBUG ===');
+        console.log('Raw localStorage data:', localStorage.getItem('selToolkit-selData'));
+        console.log('Processed data:', data);
+        console.log('Data length:', data.length);
+        
         const tbody = document.querySelector('#sel-data-table tbody');
         tbody.innerHTML = '';
         
