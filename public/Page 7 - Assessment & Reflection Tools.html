@@ -549,6 +549,12 @@
             output.select();
             document.getElementById('copy-instructions').style.display = 'block';
         }
+    document.addEventListener('DOMContentLoaded', function() {
+      var genBtn = document.getElementById('generate-student-version-btn');
+      if (genBtn) {
+        genBtn.addEventListener('click', generateStudentPage);
+      }
+    });
     </script>
 </body>
 </html>
