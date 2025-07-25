@@ -54,7 +54,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Create radar chart
     function createRadarChart(studentData) {
-        const ctx = document.getElementById('radar-chart').getContext('2d');
+        const canvas = document.getElementById('radar-chart');
+        if (!canvas) {
+            console.error('Canvas element not found');
+            return;
+        }
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+            console.error('Could not get 2D context');
+            return;
+        }
         
         // Destroy existing chart if it exists
         if (radarChart) {
@@ -75,61 +85,68 @@ document.addEventListener('DOMContentLoaded', () => {
             parseInt(studentData.assessment.solvingConflicts_N) || 0
         ];
 
-        radarChart = new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Beginning',
-                        data: beginningData,
-                        borderColor: '#73bdf5',
-                        backgroundColor: 'rgba(115, 189, 245, 0.1)',
-                        borderWidth: 2,
-                        pointBackgroundColor: '#73bdf5',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2
-                    },
-                    {
-                        label: 'Current',
-                        data: currentData,
-                        borderColor: '#27ae60',
-                        backgroundColor: 'rgba(39, 174, 96, 0.2)',
-                        borderWidth: 2,
-                        pointBackgroundColor: '#27ae60',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    r: {
-                        beginAtZero: true,
-                        max: 5,
-                        ticks: {
-                            stepSize: 1
+        console.log('Chart data:', { labels, beginningData, currentData });
+
+        try {
+            radarChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Beginning',
+                            data: beginningData,
+                            borderColor: '#73bdf5',
+                            backgroundColor: 'rgba(115, 189, 245, 0.1)',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#73bdf5',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'Current',
+                            data: currentData,
+                            borderColor: '#27ae60',
+                            backgroundColor: 'rgba(39, 174, 96, 0.2)',
+                            borderWidth: 2,
+                            pointBackgroundColor: '#27ae60',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2
                         }
-                    }
+                    ]
                 },
-                plugins: {
-                    legend: {
-                        position: 'top'
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 5,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
                     },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const label = context.dataset.label || '';
-                                const value = context.parsed.r;
-                                return `${label}: ${value}/5`;
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const label = context.dataset.label || '';
+                                    const value = context.parsed.r;
+                                    return `${label}: ${value}/5`;
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
+            });
+            console.log('Chart created successfully');
+        } catch (error) {
+            console.error('Error creating chart:', error);
+        }
     }
 
     // Update reflection content
@@ -178,6 +195,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update portfolio for selected student
     function updatePortfolio(studentName) {
+        console.log('Updating portfolio for student:', studentName);
+        
         if (!studentName) {
             portfolioContent.style.display = 'none';
             noStudentSelected.style.display = 'block';
@@ -185,6 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const studentData = getStudentData(studentName);
+        console.log('Student data:', studentData);
         
         if (!studentData.assessment) {
             portfolioContent.style.display = 'none';
@@ -196,10 +216,15 @@ document.addEventListener('DOMContentLoaded', () => {
         portfolioContent.style.display = 'block';
         noStudentSelected.style.display = 'none';
 
-        createRadarChart(studentData);
+        // Update text content first
         updateReflectionContent(studentData);
         updateMetrics(studentData);
         updateObservations(studentData);
+
+        // Create chart after a short delay to ensure DOM is ready
+        setTimeout(() => {
+            createRadarChart(studentData);
+        }, 100);
     }
 
     // Event listeners
