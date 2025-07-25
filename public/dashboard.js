@@ -101,6 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Split text into individual student sections
     function splitIntoStudentSections(text) {
+        console.log('Splitting text into student sections...');
+        
         // Look for patterns that indicate a new student reflection
         const studentPatterns = [
             /^SEL Self-Assessment Summary\s*$/m,
@@ -108,7 +110,25 @@ document.addEventListener('DOMContentLoaded', () => {
             /^=====================================$/m
         ];
 
-        const lines = text.split('\n');
+        // Split by common separators that might appear between student reflections
+        const separators = [
+            /\n\s*Student Sample \d+:/g,
+            /\n\s*Generated code\s*$/gm,
+            /\n\s*IGNORE_WHEN_COPYING_START.*?IGNORE_WHEN_COPYING_END\s*$/gms,
+            /\n\s*content_copy\s*$/gm,
+            /\n\s*download\s*$/gm,
+            /\n\s*Use code with caution\.\s*$/gm
+        ];
+
+        // First, clean up the text by removing common separator patterns
+        let cleanedText = text;
+        separators.forEach(separator => {
+            cleanedText = cleanedText.replace(separator, '\n\n');
+        });
+
+        console.log('Cleaned text length:', cleanedText.length);
+
+        const lines = cleanedText.split('\n');
         const sections = [];
         let currentSection = [];
         let inStudentSection = false;
@@ -121,7 +141,11 @@ document.addEventListener('DOMContentLoaded', () => {
             
             if (isNewStudent && currentSection.length > 0) {
                 // Save current section and start new one
-                sections.push(currentSection.join('\n'));
+                const sectionText = currentSection.join('\n').trim();
+                if (sectionText && sectionText.includes('Student:')) {
+                    sections.push(sectionText);
+                    console.log('Found student section:', sectionText.substring(0, 100) + '...');
+                }
                 currentSection = [line];
                 inStudentSection = true;
             } else if (inStudentSection || isNewStudent) {
@@ -136,14 +160,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Add the last section
         if (currentSection.length > 0) {
-            sections.push(currentSection.join('\n'));
+            const sectionText = currentSection.join('\n').trim();
+            if (sectionText && sectionText.includes('Student:')) {
+                sections.push(sectionText);
+                console.log('Found final student section:', sectionText.substring(0, 100) + '...');
+            }
         }
 
         // If no sections were found, treat the entire text as one section
         if (sections.length === 0) {
+            console.log('No sections found, treating entire text as one section');
             sections.push(text);
         }
 
+        console.log('Total sections found:', sections.length);
         return sections;
     }
 
