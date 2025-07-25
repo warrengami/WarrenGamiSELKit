@@ -7,67 +7,44 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Atkinson Hyperlegible', sans-serif; background: #f7f9fc; margin: 0; padding: 2em; }
-        main { max-width: 900px; margin: auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 2em; }
+        main { max-width: 95%; margin: auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 2em; }
         h1 { color: #0f2c4d; font-family: 'Poppins', sans-serif; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1em; }
-        th, td { border: 1px solid #e0e6ed; padding: 0.5em; text-align: left; }
-        th { background: #f7f9fc; }
-        button { background: #73bdf5; color: #fff; border: none; border-radius: 6px; padding: 0.7em 2em; font-size: 1em; cursor: pointer; margin-top: 1.5em; }
+        .controls { margin-bottom: 1.5em; display: flex; gap: 1em; align-items: center;}
+        table { width: 100%; border-collapse: collapse; margin-top: 1em; font-size: 0.9em;}
+        th, td { border: 1px solid #e0e6ed; padding: 0.7em; text-align: left; vertical-align: top; }
+        th { background: #f0f4f8; font-weight: bold; }
+        td p { margin: 0 0 0.5em 0; line-height: 1.4;}
+        td p:last-child { margin-bottom: 0; }
+        .goal-title { font-weight: bold; color: #0f2c4d;}
+        button { background: #73bdf5; color: #fff; border: none; border-radius: 6px; padding: 0.7em 2em; font-size: 1em; cursor: pointer; }
         button:hover { background: #0f2c4d; }
+        #clear-data { background:#c0392b; }
     </style>
 </head>
 <body>
 <main>
     <a href="dashboard.html" style="display:inline-block;margin-bottom:1em;font-weight:bold;">← Back to Dashboard</a>
     <h1>SEL Data Review & Export</h1>
-    <button id="export-csv">Export to CSV</button>
-    <button id="clear-data" style="background:#e74c3c;margin-left:1em;">Clear All Data</button>
-    <span id="clear-msg" style="color:#27ae60;margin-left:1em;"></span>
-    <table id="sel-data-table">
-        <thead>
-            <tr>
-                <th>Name</th><th>Date</th><th>Naming Emotions</th><th>Calming</th><th>Understanding Others</th><th>Solving Conflicts</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+    <div class="controls">
+        <button id="export-csv">Export to CSV</button>
+        <button id="clear-data">Clear All Data</button>
+        <span id="clear-msg" style="color:#27ae60;font-weight:bold;"></span>
+    </div>
+    <div style="overflow-x:auto;">
+        <table id="sel-data-table">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Date</th>
+                    <th>Ratings (Beginning ➞ Now)</th>
+                    <th>Growth</th>
+                    <th>Reflection & Goals</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 </main>
-<script>
-function renderTable() {
-    const data = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
-    const tbody = document.querySelector('#sel-data-table tbody');
-    tbody.innerHTML = '';
-    data.forEach(entry => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${entry.name}</td><td>${entry.date}</td><td>${entry.namingEmotions}</td><td>${entry.calming}</td><td>${entry.understandingOthers}</td><td>${entry.solvingConflicts}</td>`;
-        tbody.appendChild(tr);
-    });
-}
-document.getElementById('export-csv').onclick = function() {
-    const data = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
-    let csv = 'Name,Date,Naming Emotions,Calming,Understanding Others,Solving Conflicts\n';
-    data.forEach(entry => {
-        csv += `"${entry.name}","${entry.date}","${entry.namingEmotions}","${entry.calming}","${entry.understandingOthers}","${entry.solvingConflicts}"\n`;
-    });
-    const blob = new Blob([csv], {type:'text/csv'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'sel-data.csv';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-};
-document.getElementById('clear-data').onclick = function() {
-    if (confirm('Are you sure you want to permanently delete ALL SEL self-assessment data?')) {
-        localStorage.removeItem('selToolkit-selData');
-        renderTable();
-        document.getElementById('clear-msg').textContent = 'All data cleared.';
-        setTimeout(()=>{document.getElementById('clear-msg').textContent='';}, 3000);
-    }
-};
-renderTable();
-</script>
+<script src="sel-data.js"></script>
 </body>
-</html> 
+</html>
