@@ -71,19 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Test function for modal
-    window.testModal = function() {
-        console.log('testModal called!');
-        const modal = document.getElementById('reflection-modal');
-        if (modal) {
-            console.log('Modal found, current display:', modal.style.display);
-            modal.style.display = 'flex';
-            console.log('Modal display set to flex');
-        } else {
-            console.error('Modal not found in testModal');
-        }
-    };
-
     // Process and save reflections
     function processAndSaveReflections() {
         const text = reflectionPasteArea.value.trim();
@@ -100,8 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Process the multi-student input
             const results = dataProcessor.processMultiStudentInput(text);
 
-            if (results.success) {
-                modalStatus.textContent = `Successfully processed ${results.processedCount} student reflection(s)!`;
+            // Check if any students were processed successfully
+            if (results.successCount > 0) {
+                modalStatus.textContent = `Successfully processed ${results.successCount} student reflection(s)!`;
                 modalStatus.style.color = '#28a745';
                 reflectionPasteArea.value = '';
                 
@@ -111,7 +99,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     modalStatus.textContent = '';
                 }, 2000);
             } else {
-                modalStatus.textContent = `Error: ${results.error}`;
+                // No successful processing
+                const errorMessage = results.errors.length > 0 ? results.errors.join('; ') : 'No valid student data found';
+                modalStatus.textContent = `Error: ${errorMessage}`;
                 modalStatus.style.color = '#dc3545';
             }
         } catch (error) {
