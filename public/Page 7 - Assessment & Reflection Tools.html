@@ -65,9 +65,9 @@
         h2 { font-size: 16px; color: var(--midnight-blue); margin: 0; }
         h3 { font-size: 14px; }
         h4 { font-size: 13px; }
-        p { font-size: 11px; margin: 0 0 10px 0; }
+        p, label { font-size: 11px; margin: 0 0 10px 0; }
 
-        .assessment-section {
+        .assessment-section, .reflection-section {
             background-color: var(--soft-gray);
             border-radius: 5px;
             padding: 12px;
@@ -117,23 +117,23 @@
         #growth-score {
             font-size: 14px; font-weight: bold; color: var(--midnight-blue);
         }
-
-        .reflection-section {
-            background-color: var(--soft-gray);
-            border-radius: 5px; padding: 12px; margin: 12px 0;
-        }
         
-        #teacher-reflection {
+        #teacher-reflection, .reflection-section textarea, .reflection-section select {
             width: 100%; box-sizing: border-box;
-            border: 2px solid var(--sky-blue); padding: 10px; margin: 8px 0;
+            border: 1px solid var(--sky-blue); padding: 8px; margin-top: 2px; margin-bottom: 8px;
             background-color: var(--white);
-            background-image: linear-gradient(var(--ice-blue) 1px, transparent 1px);
-            background-size: 100% 1.4em; line-height: 1.4em;
             font-family: 'Atkinson Hyperlegible', sans-serif;
             font-size: 11px; color: var(--midnight-blue);
-            min-height: 80px; resize: vertical; border-radius: 5px;
+            border-radius: 5px;
         }
-        #teacher-reflection:focus { outline: 2px solid var(--midnight-blue); }
+         .reflection-section textarea {
+            resize: vertical;
+            min-height: 50px;
+         }
+        #teacher-reflection:focus, .reflection-section textarea:focus, .reflection-section select:focus {
+            outline: 2px solid var(--midnight-blue);
+            border-color: var(--midnight-blue);
+        }
 
         #celebration-generator {
             background-color: var(--soft-gray); border-radius: 5px;
@@ -146,37 +146,14 @@
         #celebration-display h4 { margin: 0; font-size: 13px; }
         #celebration-display p { margin: 5px 0 0 0; font-size: 11px; }
 
-        #new-celebration-btn {
+        #new-celebration-btn, #submit-assessment-btn {
             background-color: var(--midnight-blue); color: var(--white);
             font-family: 'Poppins', sans-serif; font-size: 13px; border: none;
             padding: 8px 15px; border-radius: 5px; cursor: pointer;
             transition: background-color 0.3s; margin-top: 10px;
         }
-        #new-celebration-btn:hover { background-color: var(--sky-blue); }
+        #new-celebration-btn:hover, #submit-assessment-btn:hover { background-color: var(--sky-blue); }
 
-        .teacher-tip {
-            background-color: var(--soft-gray); border-radius: 5px;
-            padding: 0; margin: 12px 0; border-left: 3px solid var(--sky-blue);
-            transition: background-color 0.3s;
-        }
-        .teacher-tip.open { background-color: #d4dde6; }
-        .teacher-tip h4 {
-            margin: 0; padding: 10px; display: flex; align-items: center;
-            font-size: 12px; cursor: pointer; border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        .teacher-tip h4:hover { background-color: var(--ice-blue); }
-        .teacher-tip h4:focus-visible { outline: 2px solid var(--midnight-blue); outline-offset: -1px; }
-        .teacher-tip h4:before { content: "★"; margin-right: 5px; }
-        .teacher-tip .tip-content {
-            max-height: 0; overflow: hidden;
-            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
-            padding: 0 10px;
-        }
-        .teacher-tip.open .tip-content { max-height: 100px; padding: 0 10px 10px 10px; }
-        .teacher-tip h4 .toggle-icon { margin-left: auto; transition: transform 0.4s; }
-        .teacher-tip.open .toggle-icon { transform: rotate(180deg); }
-        
         .print-button {
             background-color: var(--soft-gray); border: 1px solid var(--ice-blue);
             color: var(--midnight-blue); padding: 5px 10px; border-radius: 15px;
@@ -224,12 +201,10 @@
 
         @media print {
             body { padding-bottom: 0; }
-            .print-button, .toolkit-nav, #new-celebration-btn, #celebration-generator, #generate-student-version-btn { display: none !important; }
-            .teacher-tip .tip-content { max-height: none !important; overflow: visible !important; padding-top: 8px !important; }
-            .teacher-tip h4 .toggle-icon, .teacher-tip h4 { cursor: default; }
+            .print-button, .toolkit-nav, #new-celebration-btn, #celebration-generator, #generate-student-version-btn, #submit-assessment-btn { display: none !important; }
             .rating-stars .star { font-size: 16px; -webkit-text-stroke: 1px var(--midnight-blue); }
             .rating-stars .star.selected { color: var(--star-gold); -webkit-text-stroke: 0; }
-            #teacher-reflection { resize: none; min-height: 120px; }
+            .reflection-section textarea { resize: none; min-height: 80px; }
         }
     </style>
 </head>
@@ -247,13 +222,11 @@
                     <h3 style="margin: 0;">Student Self-Assessment</h3>
                     <button id="generate-student-version-btn" class="print-button" style="background:#73bdf5;color:#fff;">Generate Student Shareable Version</button>
                 </div>
-                <!-- Removed the Generate Shareable Student Version button -->
-                <!-- Add Student Name input at the top of the assessment section -->
-                <div style="margin-bottom:1em;">
+                <div style="margin-top: 1em; margin-bottom:1em;">
                     <label for="student-name" style="font-weight:bold;">Student Name:</label>
-                    <input type="text" id="student-name" placeholder="Enter your name" style="margin-left:1em;">
+                    <input type="text" id="student-name" placeholder="Enter student's name" style="margin-left:1em; border: 1px solid var(--sky-blue); border-radius: 4px; padding: 4px;">
                 </div>
-                <p style="margin-bottom: 4px; margin-top: 8px;">Use your Arrow Keys or click the stars to rate your skills (1 = needs work, 5 = very strong):</p>
+                <p style="margin-bottom: 4px; margin-top: 8px;">Use your Arrow Keys or click the stars to rate skills (1 = needs work, 5 = very strong):</p>
                 <table class="prompt-table">
                     <thead><tr><th scope="col">Skill</th><th scope="col">Beginning</th><th scope="col">Now</th></tr></thead>
                     <tbody>
@@ -283,19 +256,17 @@
                         </tr>
                     </tbody>
                 </table>
-                <!-- Remove the old submit button and status span -->
             </section>
 
-            <!-- Pillar 2: Student Reflection and Goal-Setting -->
             <section class="reflection-section">
                 <h3>My Reflection</h3>
                 <label for="reflection-proud">The skill I am most proud of improving is...</label>
-                <textarea id="reflection-proud" rows="2" style="width:100%;margin-bottom:1em;"></textarea>
+                <textarea id="reflection-proud" rows="2"></textarea>
                 <label for="reflection-success">One time I successfully used one of these skills was when...</label>
-                <textarea id="reflection-success" rows="2" style="width:100%;margin-bottom:1em;"></textarea>
+                <textarea id="reflection-success" rows="2"></textarea>
                 <h3>My Next Step</h3>
                 <label for="goal-skill">What is one SEL skill you want to focus on practicing?</label>
-                <select id="goal-skill" style="width:100%;margin-bottom:1em;">
+                <select id="goal-skill">
                     <option value="">- Select a skill -</option>
                     <option>Naming my emotions</option>
                     <option>Calming myself down</option>
@@ -303,8 +274,8 @@
                     <option>Solving conflicts peacefully</option>
                 </select>
                 <label for="goal-strategy">One small way I can practice this is by...</label>
-                <textarea id="goal-strategy" rows="2" style="width:100%;margin-bottom:1em;"></textarea>
-                <button id="submit-assessment-btn" class="sel-data-btn" style="margin-top:1em;">Submit My Reflection</button>
+                <textarea id="goal-strategy" rows="2"></textarea>
+                <button id="submit-assessment-btn">Submit My Reflection</button>
                 <span id="submit-status" style="margin-left:1em;color:#27ae60;"></span>
             </section>
 
@@ -388,25 +359,14 @@
                         star.dataset.value = i;
                         star.innerHTML = '★';
                         star.setAttribute('aria-hidden', 'true');
-                        star.onclick = () => setRating(container, i);
+                        star.onclick = (e) => {
+                            e.stopPropagation(); // prevent event bubbling
+                            setRating(container, i);
+                        };
                         container.appendChild(star);
                     }
                 });
             }
-
-
-            function toggleTip(headerElement) {
-                const tip = headerElement.closest('.teacher-tip');
-                const isOpening = tip.classList.toggle('open');
-                headerElement.setAttribute('aria-expanded', isOpening);
-            }
-
-             function handleTipKeydown(event) {
-                if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    toggleTip(event.currentTarget);
-                }
-             }
 
             const celebrations = [
                 { title: "Growth Showcase", description: "Students share one specific SEL skill they've noticed they improved." },
@@ -415,10 +375,10 @@
                 { title: "Problem-Solving Stars", description: "Award paper stars to students or groups who solve a conflict peacefully and respectfully." },
                 { title: "SEL Story Time", description: "Share a success story about how the class used an SEL skill to overcome a challenge together." }
             ];
-            const celebrationTitleEl = document.querySelector('#celebration-display h4');
-            const celebrationDescEl = document.querySelector('#celebration-display p');
-
+            
             function displayRandomCelebration() {
+                const celebrationTitleEl = document.querySelector('#celebration-display h4');
+                const celebrationDescEl = document.querySelector('#celebration-display p');
                 const randomIndex = Math.floor(Math.random() * celebrations.length);
                 const celebration = celebrations[randomIndex];
                 celebrationTitleEl.innerText = celebration.title;
@@ -433,8 +393,8 @@
                     studentTableRowsHTML += `
                         <tr data-skill-label="${skillLabel}">
                             <th scope="row">${skillText}</th>
-                            <td><div class="rating-stars" data-col="beginning" onkeydown="handleStarKeydown(event)"></div></td>
-                            <td><div class="rating-stars" data-col="now" onkeydown="handleStarKeydown(event)"></div></td>
+                            <td><div class="rating-stars" data-col="beginning"></div></td>
+                            <td><div class="rating-stars" data-col="now"></div></td>
                         </tr>`;
                 });
 
@@ -451,6 +411,30 @@
                         ${studentTableRowsHTML}
                     </tbody>
                 </table>`;
+
+                const reflectionHTML = `
+                <section class="reflection-section">
+                    <h3>My Reflection</h3>
+                    <label for="reflection-proud">The skill I am most proud of improving is...</label>
+                    <textarea id="reflection-proud" rows="3"></textarea>
+                    
+                    <label for="reflection-success">One time I successfully used one of these skills was when...</label>
+                    <textarea id="reflection-success" rows="3"></textarea>
+                    
+                    <h3>My Next Step</h3>
+                    <label for="goal-skill">What is one SEL skill you want to focus on practicing?</label>
+                    <select id="goal-skill">
+                        <option value="">- Select a skill -</option>
+                        <option>Naming my emotions</option>
+                        <option>Calming myself down</option>
+                        <option>Understanding others' feelings</option>
+                        <option>Solving conflicts peacefully</option>
+                    </select>
+                    
+                    <label for="goal-strategy">One small way I can practice this is by...</label>
+                    <textarea id="goal-strategy" rows="3"></textarea>
+                </section>
+                `;
                 
                 const studentHTML = `
 <!DOCTYPE html>
@@ -470,14 +454,14 @@
             background-color: #f0f4f8; font-size: 14px; padding: 20px;
         }
         .container { max-width: 700px; margin: 0 auto; background: var(--white); padding: 25px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
-        h1, h2 { font-family: 'Poppins', sans-serif; }
-        h1 { font-size: 22px; } h2 { font-size: 18px; }
-        .assessment-section, .summary-section { background-color: var(--soft-gray); border-radius: 5px; padding: 15px; margin: 15px 0; }
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; }
+        h1 { font-size: 22px; } h2 { font-size: 18px; margin-bottom: 15px;} h3 { font-size: 16px; margin-top: 1.2em;}
+        .assessment-section, .reflection-section, .summary-section { background-color: var(--soft-gray); border-radius: 5px; padding: 20px; margin: 20px 0; }
         .prompt-table { width: 100%; border-collapse: collapse; font-size: 13px; background-color: var(--white); border-radius: 5px; overflow: hidden; }
         .prompt-table th { background-color: var(--midnight-blue); color: var(--white); padding: 10px; text-align: left; }
         .prompt-table td { padding: 10px; border-bottom: 1px solid var(--soft-gray); text-align: center; vertical-align: middle; }
         .prompt-table th[scope="row"] { text-align: left; background-color: var(--ice-blue); color: var(--midnight-blue); font-weight: bold; }
-        .prompt-table tr:last-child td, .prompt-table tr:last-child th { border-bottom: none; background-color: var(--ice-blue) !important; }
+        .prompt-table tr:last-child td, .prompt-table tr:last-child th { border-bottom: none; background-color: var(--ice-blue) !important; font-weight: bold; }
         .prompt-table tr:nth-child(even) td { background-color: #f8fbff; }
         .rating-stars { display: flex; justify-content: center; gap: 3px; }
         .rating-stars:focus-visible { outline: 2px solid var(--midnight-blue); outline-offset: 1px; }
@@ -487,28 +471,35 @@
         .rating-stars .star:hover ~ .star { color: transparent; -webkit-text-stroke: 1px var(--sky-blue); }
         #growth-score { font-size: 16px; font-weight: bold; color: var(--midnight-blue); }
         #student-name { width: 100%; padding: 8px; font-size: 14px; border: 2px solid var(--sky-blue); border-radius: 4px; margin-bottom: 15px; box-sizing: border-box; }
+        textarea, select { width: 100%; box-sizing: border-box; border: 1px solid var(--sky-blue); padding: 8px; margin-top: 4px; margin-bottom: 12px; background-color: var(--white); font-family: 'Atkinson Hyperlegible', sans-serif; font-size: 13px; color: var(--midnight-blue); border-radius: 5px; }
+        textarea { resize: vertical; }
+        label { display: block; margin-bottom: 2px; font-weight: bold; font-size: 13px; }
         .button { background-color: var(--midnight-blue); color: var(--white); font-family: 'Poppins', sans-serif; font-size: 15px; border: none; padding: 10px 18px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; margin-top: 10px; }
         .button:hover { background-color: var(--sky-blue); }
-        #summary-output { width: 100%; min-height: 200px; margin-top: 10px; font-family: monospace; font-size: 12px; white-space: pre; background: #fdfdfd; border: 1px solid var(--sky-blue); border-radius: 4px; padding: 10px; }
+        #summary-output { width: 100%; min-height: 250px; margin-top: 10px; font-family: monospace; font-size: 12px; white-space: pre-wrap; background: #fdfdfd; border: 1px solid var(--sky-blue); border-radius: 4px; padding: 10px; }
         #copy-instructions { font-size: 12px; font-style: italic; color: #555; display: none; margin-top: 5px; }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>My SEL Skills Self-Assessment</h1>
-        <p>Hello! Please enter your name and then rate your skills below. The "Beginning" column is for how you felt at the start of the term, and "Now" is for how you feel today. When you're done, click the 'Create Summary' button at the bottom.</p>
+        <p>Hello! Please enter your name and then rate your skills below. The "Beginning" column is for how you felt at the start of the term, and "Now" is for how you feel today. After that, complete the reflection. When you're all done, click the 'Create Summary' button at the bottom.</p>
+        <label for="student-name" style="font-weight:bold; font-size:14px;">Full Name:</label>
         <input type="text" id="student-name" placeholder="Enter your full name here">
+        
         <section class="assessment-section">
             <h2>My Skills Rating</h2>
-            <p style="font-size:12px;">Use your Arrow Keys or click the stars to rate your skills (1 = needs work, 5 = very strong):</p>
+            <p style="font-size:12px; margin:0;">Use your Arrow Keys or click the stars to rate your skills (1 = needs work, 5 = very strong):</p>
             ${studentTableHTML}
         </section>
+
+        ${reflectionHTML}
+
         <section class="summary-section">
             <h2>Create Your Summary</h2>
-            <p>After rating all your skills, click this button to create a summary.</p>
+            <p style="margin:0 0 10px 0;">After completing all sections, click this button to create a summary.</p>
             <button class="button" onclick="generateSummary()">Create Summary for Teacher</button>
-            <button class="button" id="send-email-btn" style="background:#73bdf5;margin-left:1em;">Send to Teacher</button>
-            <p id="copy-instructions">Great! Now, please copy all the text from the box below and send it to your teacher in an email.</p>
+            <p id="copy-instructions">Great! Now, please copy all the text from the box below and send it to your teacher.</p>
             <textarea id="summary-output" readonly placeholder="Your summary will appear here..."></textarea>
         </section>
     </div>
@@ -550,6 +541,7 @@
                 container.setAttribute('aria-valuemin', '0');
                 container.setAttribute('aria-valuemax', '5');
                 container.setAttribute('tabindex', '0');
+                container.addEventListener('keydown', handleStarKeydown);
 
                 for (let i = 1; i <= 5; i++) {
                     const star = document.createElement('span');
@@ -557,7 +549,10 @@
                     star.dataset.value = i;
                     star.innerHTML = '★';
                     star.setAttribute('aria-hidden', 'true');
-                    star.onclick = () => setRating(container, i);
+                    star.onclick = (e) => {
+                         e.stopPropagation();
+                         setRating(container, i);
+                    };
                     container.appendChild(star);
                 }
             });
@@ -570,43 +565,48 @@
                 document.getElementById('student-name').focus();
                 return;
             }
+
             let summary = \`SEL Self-Assessment Summary\\n\`;
             summary += \`Student: \${studentName}\\n\`;
             summary += \`Date: \${new Date().toLocaleDateString()}\\n\`;
             summary += \`=====================================\\n\`;
+            summary += \`SKILL RATINGS\\n\`;
+            summary += \`-------------------------------------\\n\`;
+
             document.querySelectorAll('tbody tr[data-skill-label]').forEach(row => {
                 const skill = row.dataset.skillLabel;
                 const beginning = row.querySelector('[data-col="beginning"]').getAttribute('aria-valuenow') || '0';
                 const now = row.querySelector('[data-col="now"]').getAttribute('aria-valuenow') || '0';
-                summary += \`\\n\${skill}:\\n\`;
+                summary += \`\${skill}:\\n\`;
                 summary += \`  - Beginning Rating: \${beginning} / 5\\n\`;
-                summary += \`  - Current Rating:   \${now} / 5\\n\`;
+                summary += \`  - Current Rating:   \${now} / 5\\n\\n\`;
             });
-            summary += \`\\n=====================================\\n\`;
             const growth = document.getElementById('growth-score').innerText;
             summary += \`Total Growth Score: \${growth}\\n\`;
+
+            const proud = document.getElementById('reflection-proud').value || 'N/A';
+            const success = document.getElementById('reflection-success').value || 'N/A';
+            const goalSkill = document.getElementById('goal-skill').value || 'N/A';
+            const goalStrategy = document.getElementById('goal-strategy').value || 'N/A';
+
+            summary += \`\\n=====================================\\n\`;
+            summary += \`MY REFLECTION\\n\`;
+            summary += \`-------------------------------------\\n\`;
+            summary += \`Skill I'm most proud of improving:\\n\${proud}\\n\\n\`;
+            summary += \`A time I successfully used a skill:\\n\${success}\\n\`;
+            
+            summary += \`\\n=====================================\\n\`;
+            summary += \`MY NEXT STEP\\n\`;
+            summary += \`-------------------------------------\\n\`;
+            summary += \`SEL skill to focus on:\\n\${goalSkill}\\n\\n\`;
+            summary += \`One way I can practice this:\\n\${goalStrategy}\\n\`;
+
             const output = document.getElementById('summary-output');
             output.value = summary;
             output.focus();
             output.select();
             document.getElementById('copy-instructions').style.display = 'block';
         }
-        
-        document.getElementById('send-email-btn').addEventListener('click', function() {
-            const studentName = document.getElementById('student-name').value;
-            if (!studentName) {
-                alert('Please enter your name before sending the summary.');
-                document.getElementById('student-name').focus();
-                return;
-            }
-            const summary = document.getElementById('summary-output').value;
-            if (!summary) {
-                alert('Please create the summary before sending it.');
-                return;
-            }
-            const mailtoLink = \`mailto:?subject=SEL Self-Assessment for \${encodeURIComponent(studentName)}&body=\${encodeURIComponent(summary)}\`;
-            window.location.href = mailtoLink;
-        });
 
         document.addEventListener('DOMContentLoaded', initializeStars);
     <\/script>
