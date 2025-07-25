@@ -245,9 +245,9 @@
             <section class="assessment-section">
                  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px;">
                     <h3 style="margin: 0;">Student Self-Assessment</h3>
-                    <!-- Removed the Generate Shareable Student Version button -->
+                    <button id="generate-student-version-btn" class="print-button" style="background:#73bdf5;color:#fff;">Generate Student Shareable Version</button>
                 </div>
-                <p style="color: #b00; font-weight: bold; margin-top: 1em;">For digital self-assessment, use the dashboard’s <em>Start Collecting SEL Data</em> button.</p>
+                <!-- Removed the Generate Shareable Student Version button -->
                 <!-- Add Student Name input at the top of the assessment section -->
                 <div style="margin-bottom:1em;">
                     <label for="student-name" style="font-weight:bold;">Student Name:</label>
@@ -478,24 +478,21 @@
     <div class="container">
         <h1>My SEL Skills Self-Assessment</h1>
         <p>Hello! Please enter your name and then rate your skills below. The "Beginning" column is for how you felt at the start of the term, and "Now" is for how you feel today. When you're done, click the 'Create Summary' button at the bottom.</p>
-        
         <input type="text" id="student-name" placeholder="Enter your full name here">
-
         <section class="assessment-section">
             <h2>My Skills Rating</h2>
             <p style="font-size:12px;">Use your Arrow Keys or click the stars to rate your skills (1 = needs work, 5 = very strong):</p>
             ${studentTableHTML}
         </section>
-
         <section class="summary-section">
             <h2>Create Your Summary</h2>
             <p>After rating all your skills, click this button to create a summary.</p>
             <button class="button" onclick="generateSummary()">Create Summary for Teacher</button>
+            <button class="button" id="send-email-btn" style="background:#73bdf5;margin-left:1em;">Send to Teacher</button>
             <p id="copy-instructions">Great! Now, please copy all the text from the box below and send it to your teacher in an email.</p>
             <textarea id="summary-output" readonly placeholder="Your summary will appear here..."></textarea>
         </section>
     </div>
-
     <script>
         function setRating(container, value) {
             const newValue = Math.max(0, Math.min(5, value));
@@ -524,20 +521,24 @@
                 growthEl.innerText = (growth >= 0 ? '+' : '') + growth;
             }
         }
-        window.onload = () => {
+        window.onload = function() {
             document.querySelectorAll('.rating-stars').forEach(container => {
                 const tr = container.closest('tr');
                 if (!tr) return;
                 const skillLabel = tr.dataset.skillLabel;
                 const timeLabel = container.dataset.col;
-                container.setAttribute('role', 'slider'); container.setAttribute('tabindex', '0');
-                container.setAttribute('aria-valuemin', '0'); container.setAttribute('aria-valuemax', '5');
-                container.setAttribute('aria-label', \`Rating for \${skillLabel} (\${timeLabel})\`);
+                container.setAttribute('role', 'slider');
+                container.setAttribute('tabindex', '0');
+                container.setAttribute('aria-valuemin', '0');
+                container.setAttribute('aria-valuemax', '5');
+                container.setAttribute('aria-label', `Rating for ${skillLabel} (${timeLabel})`);
                 container.setAttribute('aria-valuenow', 0);
                 for (let i = 1; i <= 5; i++) {
                     const star = document.createElement('span');
-                    star.className = 'star'; star.innerText = '★'; star.dataset.value = i;
-                    star.onclick = (event) => {
+                    star.className = 'star';
+                    star.innerText = '★';
+                    star.dataset.value = i;
+                    star.onclick = function(event) {
                         event.stopPropagation();
                         const currentValue = parseInt(container.getAttribute('aria-valuenow'));
                         const clickedValue = parseInt(star.dataset.value);
@@ -547,8 +548,19 @@
                 }
             });
             calculateGrowth();
+            document.getElementById('send-email-btn').onclick = function() {
+                const summary = document.getElementById('summary-output').value;
+                if (!summary) {
+                    alert('Please create your summary first.');
+                    return;
+                }
+                const teacherEmail = prompt('Enter your teacher\'s email address:');
+                if (!teacherEmail) return;
+                const subject = encodeURIComponent('SEL Self-Assessment Reflection');
+                const body = encodeURIComponent(summary);
+                window.location.href = `mailto:${teacherEmail}?subject=${subject}&body=${body}`;
+            };
         };
-
         function generateSummary() {
             const studentName = document.getElementById('student-name').value;
             if (!studentName) {
@@ -556,33 +568,31 @@
                 document.getElementById('student-name').focus();
                 return;
             }
-            let summary = \`SEL Self-Assessment Summary\\n\`;
-            summary += \`Student: \${studentName}\\n\`;
-            summary += \`Date: \${new Date().toLocaleDateString()}\\n\`;
-            summary += \`=====================================\\n\`;
+            let summary = `SEL Self-Assessment Summary\n`;
+            summary += `Student: ${studentName}\n`;
+            summary += `Date: ${new Date().toLocaleDateString()}\n`;
+            summary += `=====================================\n`;
             document.querySelectorAll('tbody tr[data-skill-label]').forEach(row => {
                 const skill = row.dataset.skillLabel;
                 const beginning = row.querySelector('[data-col="beginning"]').getAttribute('aria-valuenow') || '0';
                 const now = row.querySelector('[data-col="now"]').getAttribute('aria-valuenow') || '0';
-                summary += \`\\n\${skill}:\\n\`;
-                summary += \`  - Beginning Rating: \${beginning} / 5\\n\`;
-                summary += \`  - Current Rating:   \${now} / 5\\n\`;
+                summary += `\n${skill}:\n`;
+                summary += `  - Beginning Rating: ${beginning} / 5\n`;
+                summary += `  - Current Rating:   ${now} / 5\n`;
             });
-            summary += \`\\n=====================================\\n\`;
+            summary += `\n=====================================\n`;
             const growth = document.getElementById('growth-score').innerText;
-            summary += \`Total Growth Score: \${growth}\\n\`;
-            
+            summary += `Total Growth Score: ${growth}\n`;
             const output = document.getElementById('summary-output');
             output.value = summary;
             output.focus();
             output.select();
             document.getElementById('copy-instructions').style.display = 'block';
         }
-    <\/script>
+    </script>
 </body>
 </html>
-                `;
-
+`;
                 const blob = new Blob([studentHTML], { type: 'text/html' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
