@@ -529,6 +529,168 @@
             max-width: 100%;
             height: 350px !important;
         }
+        /* Refined Layout - Data Snapshot (Left) & Growth Narrative (Right) */
+        .portfolio-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2em;
+        }
+        
+        @media (min-width: 1024px) {
+            .portfolio-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 3em;
+            }
+        }
+        
+        /* Data Snapshot Column (Left) - The "What" */
+        .data-snapshot {
+            order: 1;
+        }
+        
+        /* Growth Narrative Column (Right) - The "Why" */
+        .growth-narrative {
+            order: 2;
+        }
+        
+        /* Full-width bottom section */
+        .key-takeaways-section {
+            order: 3;
+            grid-column: 1 / -1;
+        }
+        
+        /* Growth Timeline - Unified timeline for observations and reflections */
+        .growth-timeline {
+            background: white;
+            padding: 1.5em;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-top: 2em;
+        }
+        
+        .growth-timeline h3 {
+            margin-top: 0;
+            color: #0f2c4d;
+            font-size: 1.3em;
+            margin-bottom: 1em;
+        }
+        
+        .timeline-item {
+            margin-bottom: 1.5em;
+            padding: 1em;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 3px solid;
+            position: relative;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-item.reflection {
+            border-left-color: #73bdf5;
+        }
+        
+        .timeline-item.observation {
+            border-left-color: #f59e0b;
+        }
+        
+        .timeline-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        
+        .timeline-icon {
+            font-size: 1.2em;
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: #0f2c4d;
+        }
+        
+        .timeline-type {
+            display: inline-block;
+            padding: 0.25em 0.5em;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+        
+        .timeline-type.reflection {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .timeline-type.observation {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .timeline-content {
+            color: #1e293b;
+            line-height: 1.4;
+        }
+        
+        /* Interactive skill cards with hover effects */
+        .spotlight-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .spotlight-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        
+        .spotlight-card.active {
+            border: 2px solid #0ea5e9;
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.1);
+        }
+        
+        /* Enhanced key takeaways with better microcopy */
+        .key-takeaways {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 2em;
+            border-radius: 12px;
+            border-left: 4px solid #0ea5e9;
+        }
+        
+        .key-takeaways h3 {
+            margin-top: 0;
+            color: #0f2c4d;
+            font-size: 1.4em;
+            margin-bottom: 1.5em;
+        }
+        
+        .takeaway-item {
+            margin-bottom: 1.5em;
+            padding: 1.5em;
+            background: white;
+            border-radius: 8px;
+            border-left: 3px solid #0ea5e9;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .takeaway-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .takeaway-label {
+            font-weight: bold;
+            color: #0f2c4d;
+            margin-bottom: 0.5em;
+            font-size: 1em;
+        }
+        
+        .takeaway-value {
+            color: #1e293b;
+            line-height: 1.5;
+            font-size: 1.1em;
+        }
     </style>
 </head>
 <body>
@@ -545,9 +707,44 @@
 
         <div id="portfolio-content" style="display: none;">
             <div class="portfolio-content">
-                <!-- Narrative Column (Left) - The "Why" -->
-                <div class="narrative-column">
-                    <!-- Student Reflection Section -->
+                <!-- Data Snapshot Column (Left) - The "What" -->
+                <div class="data-snapshot">
+                    <!-- Summary Metrics (Top) -->
+                    <div class="summary-metrics">
+                        <h3>Summary Metrics</h3>
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-value" id="growth-score">+0</div>
+                                <div class="metric-label">Total Growth Score</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="assessment-date">-</div>
+                                <div class="metric-label">Assessment Date</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="observations-count">0</div>
+                                <div class="metric-label">Teacher Observations</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Growth Visualization (Middle) -->
+                    <div class="chart-section">
+                        <h3>Growth Visualization</h3>
+                        <div class="chart-container">
+                            <canvas id="radar-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- SEL Skill Spotlight (Bottom) -->
+                    <div class="spotlight-cards">
+                        <!-- Dynamic spotlight cards will be generated here -->
+                    </div>
+                </div>
+                
+                <!-- Growth Narrative Column (Right) - The "Why" -->
+                <div class="growth-narrative">
+                    <!-- Student Reflection Highlights (Top) -->
                     <div class="reflection-section">
                         <h3>Student Reflection Highlights</h3>
                         <div id="reflection-content">
@@ -570,68 +767,20 @@
                         </div>
                     </div>
                     
-                    <!-- Teacher Observations Section -->
-                    <div class="observations-section">
-                        <h3>Teacher Observations</h3>
-                        <div id="observations-content">
-                            <div class="no-data">No observation data available for this student.</div>
+                    <!-- Growth Timeline (Bottom) - Unified timeline -->
+                    <div class="growth-timeline">
+                        <h3>Growth Timeline</h3>
+                        <div id="timeline-content">
+                            <div class="no-data">No timeline data available for this student.</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Data Column (Right) - The "What" -->
-                <div class="data-column">
-                    <h3>Growth Visualization</h3>
-                    <div class="chart-section">
-                        <div class="chart-container">
-                            <canvas id="radar-chart"></canvas>
-                        </div>
-                    </div>
-                    <div class="summary-metrics">
-                        <h3>Summary Metrics</h3>
-                        <div class="metrics-grid">
-                            <div class="metric-card">
-                                <div class="metric-value" id="growth-score">+0</div>
-                                <div class="metric-label">Total Growth Score</div>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-value" id="assessment-date">-</div>
-                                <div class="metric-label">Assessment Date</div>
-                            </div>
-                            <div class="metric-card">
-                                <div class="metric-value" id="observations-count">0</div>
-                                <div class="metric-label">Teacher Observations</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="spotlight-cards">
-                        <!-- Dynamic spotlight cards will be generated here -->
-                    </div>
+                <!-- Full-width bottom section -->
+                <div class="key-takeaways-section">
                     <div class="key-takeaways">
                         <h3>Key Takeaways</h3>
-                        <div class="takeaway-item">
-                            <div class="takeaway-label">Overall Growth</div>
-                            <div class="takeaway-value">Significant improvement in self-awareness and relationship skills.</div>
-                        </div>
-                        <div class="takeaway-item">
-                            <div class="takeaway-label">Areas for Focus</div>
-                            <div class="takeaway-value">Social awareness and emotional regulation need more attention.</div>
-                        </div>
-                        <div class="takeaway-item">
-                            <div class="takeaway-label">Next Steps</div>
-                            <div class="takeaway-value">Continue practicing emotional regulation and empathy.</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Observations Section -->
-                <div class="observations-section">
-                    <div class="observations-header">
-                        <h3>Teacher Observations</h3>
-                        <button id="clear-observations-btn" style="display: none;">Clear Observations</button>
-                    </div>
-                    <div id="observations-content">
-                        <div class="no-data">No observation data available for this student.</div>
+                        <!-- Dynamic takeaways will be generated here -->
                     </div>
                 </div>
             </div>

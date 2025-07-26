@@ -243,6 +243,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         };
+
+        // Add radar chart interactivity
+        radarChart.options.plugins.tooltip.callbacks.afterBody = function(context) {
+            const skillIndex = context[0].dataIndex;
+            const skillKeys = ['namingEmotions', 'calming', 'understandingOthers', 'solvingConflicts'];
+            highlightSkillCard(skillKeys[skillIndex]);
+            return '';
+        };
+        
+        // Remove highlight when tooltip is hidden
+        radarChart.options.plugins.tooltip.callbacks.afterLabel = function(context) {
+            setTimeout(() => {
+                clearSkillCardHighlights();
+            }, 100);
+            return '';
+        };
     }
 
     function updateReflectionContent(studentData) {
@@ -336,6 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Use new dynamic components
             createSpotlightCards(studentData);
             generateKeyTakeaways(studentData);
+            createGrowthTimeline(studentData); // Add this line to create the timeline
             
             // Create radar chart with a small delay to ensure DOM is ready
             setTimeout(() => {
@@ -414,9 +431,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Filter observations by skill when spotlight card is clicked
+    // Helper functions for skill card interactivity
+    function highlightSkillCard(skillKey) {
+        const cards = document.querySelectorAll('.spotlight-card');
+        cards.forEach(card => {
+            if (card.dataset.skill === skillKey) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        });
+    }
+    
+    function clearSkillCardHighlights() {
+        const cards = document.querySelectorAll('.spotlight-card');
+        cards.forEach(card => {
+            card.classList.remove('active');
+        });
+    }
+    
+    // Enhanced filter function for skill cards
     function filterObservationsBySkill(skillKey) {
-        const observationsContent = document.getElementById('observations-content');
+        const timelineContainer = document.getElementById('timeline-content');
         const allObservations = JSON.parse(localStorage.getItem('selToolkit-observationLog') || '[]');
         const currentStudent = document.getElementById('student-select').value;
         
@@ -432,20 +468,123 @@ document.addEventListener('DOMContentLoaded', () => {
             obs.student === currentStudent && obs.competency === skillName
         );
         
+        // Highlight the clicked card
+        const cards = document.querySelectorAll('.spotlight-card');
+        cards.forEach(card => {
+            if (card.dataset.skill === skillKey) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        });
+        
         if (filteredObservations.length > 0) {
-            observationsContent.innerHTML = filteredObservations.map(obs => `
-                <div class="observation-item">
-                    <div class="observation-date">${obs.date}</div>
-                    <div class="observation-competency">${obs.competency}</div>
-                    <div class="observation-notes">${obs.notes}</div>
+            const timelineHTML = filteredObservations.map(obs => `
+                <div class="timeline-item observation">
+                    <div class="timeline-header">
+                        <span class="timeline-icon">👁️</span>
+                        <span class="timeline-date">${obs.date}</span>
+                        <span class="timeline-type observation">${obs.competency}</span>
+                    </div>
+                    <div class="timeline-content">
+                        ${obs.notes}
+                    </div>
                 </div>
             `).join('');
+            timelineContainer.innerHTML = timelineHTML;
         } else {
-            observationsContent.innerHTML = `<div class="no-data">No observations found for ${skillName}.</div>`;
+            timelineContainer.innerHTML = `<div class="no-data">No observations found for ${skillName}.</div>`;
         }
+        
+        // Clear highlight after 3 seconds
+        setTimeout(() => {
+            clearSkillCardHighlights();
+        }, 3000);
     }
     
-    // Generate dynamic key takeaways
+    // Create unified growth timeline with reflections and observations
+    function createGrowthTimeline(studentData) {
+        const timelineContainer = document.getElementById('timeline-content');
+        if (!timelineContainer) return;
+        
+        const assessment = studentData.assessment;
+        const observations = studentData.observations;
+        
+        // Create timeline items
+        const timelineItems = [];
+        
+        // Add student reflection as timeline item
+        if (assessment.date) {
+            timelineItems.push({
+                type: 'reflection',
+                date: assessment.date,
+                content: `Student completed self-assessment with ${assessment.growthScore || '+0'} total growth.`,
+                details: {
+                    proudestImprovement: assessment.proudestImprovement,
+                    successStory: assessment.successStory,
+                    nextGoal: assessment.nextGoal,
+                    practiceStrategy: assessment.goalStrategy
+                }
+            });
+        }
+        
+        // Add teacher observations
+        observations.forEach(obs => {
+            timelineItems.push({
+                type: 'observation',
+                date: obs.date,
+                content: obs.notes,
+                competency: obs.competency
+            });
+        });
+        
+        // Sort by date (newest first)
+        timelineItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        if (timelineItems.length === 0) {
+            timelineContainer.innerHTML = '<div class="no-data">No timeline data available for this student.</div>';
+            return;
+        }
+        
+        // Generate timeline HTML
+        const timelineHTML = timelineItems.map(item => {
+            if (item.type === 'reflection') {
+                return `
+                    <div class="timeline-item reflection">
+                        <div class="timeline-header">
+                            <span class="timeline-icon">📝</span>
+                            <span class="timeline-date">${item.date}</span>
+                            <span class="timeline-type reflection">Student Reflection</span>
+                        </div>
+                        <div class="timeline-content">
+                            <p><strong>${item.content}</strong></p>
+                            ${item.details.proudestImprovement ? `<p><strong>Proudest Improvement:</strong> ${item.details.proudestImprovement}</p>` : ''}
+                            ${item.details.successStory ? `<p><strong>Success Story:</strong> ${item.details.successStory}</p>` : ''}
+                            ${item.details.nextGoal ? `<p><strong>Next Goal:</strong> ${item.details.nextGoal}</p>` : ''}
+                            ${item.details.practiceStrategy ? `<p><strong>Practice Strategy:</strong> ${item.details.practiceStrategy}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+            } else {
+                return `
+                    <div class="timeline-item observation">
+                        <div class="timeline-header">
+                            <span class="timeline-icon">👁️</span>
+                            <span class="timeline-date">${item.date}</span>
+                            <span class="timeline-type observation">${item.competency}</span>
+                        </div>
+                        <div class="timeline-content">
+                            ${item.content}
+                        </div>
+                    </div>
+                `;
+            }
+        }).join('');
+        
+        timelineContainer.innerHTML = timelineHTML;
+    }
+    
+    // Enhanced key takeaways with better microcopy and insights
     function generateKeyTakeaways(studentData) {
         const assessment = studentData.assessment;
         const observations = studentData.observations;
@@ -463,6 +602,12 @@ document.addEventListener('DOMContentLoaded', () => {
             parseInt(assessment.understandingOthers_N) || 0,
             parseInt(assessment.solvingConflicts_N) || 0
         ];
+        
+        // Calculate overall growth
+        let totalGrowth = 0;
+        for (let i = 0; i < beginning.length; i++) {
+            totalGrowth += current[i] - beginning[i];
+        }
         
         // Find biggest improvement
         let maxGrowth = -Infinity, maxIdx = 0;
@@ -483,39 +628,68 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
-        // Generate insights
+        // Generate enhanced insights
         const takeaways = [];
         
-        if (maxGrowth > 0) {
+        // Growth Status with better microcopy
+        if (totalGrowth > 0) {
             takeaways.push({
-                label: 'Biggest Improvement',
-                value: `${labels[maxIdx]} showed the most growth (+${maxGrowth} points).`
+                label: 'Growth Achievement',
+                value: `${labels[maxIdx]} showed the most significant improvement (+${maxGrowth} points), demonstrating strong progress in this area.`
+            });
+        } else if (totalGrowth === 0) {
+            takeaways.push({
+                label: 'Skill Consolidation',
+                value: 'Student is demonstrating stability and consolidation of current SEL skills across all areas.'
             });
         } else {
             takeaways.push({
-                label: 'Growth Status',
-                value: 'Student is maintaining current skill levels across all areas.'
+                label: 'Growth Focus',
+                value: 'Student may need additional support to build upon current skill levels.'
             });
         }
         
+        // Focus Area with context
         takeaways.push({
-            label: 'Focus Area',
-            value: `${labels[minIdx]} (${current[minIdx]}/5) needs continued development.`
+            label: 'Development Priority',
+            value: `${labels[minIdx]} (${current[minIdx]}/5) is the primary area for continued development and practice.`
         });
         
+        // Student Goal Integration
         if (assessment.nextGoal) {
             takeaways.push({
-                label: 'Student Goal',
-                value: `Next priority: ${assessment.nextGoal}`
+                label: 'Student-Directed Goal',
+                value: `Student has identified "${assessment.nextGoal}" as their next priority, showing strong self-awareness in goal-setting.`
             });
         }
         
+        // Teacher Insight with synthesis
         if (observations.length > 0) {
             const latestObservation = observations[0];
-            takeaways.push({
-                label: 'Teacher Insight',
-                value: `Latest observation (${latestObservation.date}): ${latestObservation.notes.substring(0, 100)}...`
-            });
+            const skillMap = {
+                'Self-Awareness': 'namingEmotions',
+                'Self-Management': 'calming',
+                'Social Awareness': 'understandingOthers',
+                'Relationship Skills': 'solvingConflicts'
+            };
+            
+            const relatedSkill = skillMap[latestObservation.competency];
+            if (relatedSkill) {
+                const skillIndex = ['namingEmotions', 'calming', 'understandingOthers', 'solvingConflicts'].indexOf(relatedSkill);
+                const skillGrowth = current[skillIndex] - beginning[skillIndex];
+                
+                if (skillGrowth > 0) {
+                    takeaways.push({
+                        label: 'Teacher-Student Alignment',
+                        value: `Your observation from ${latestObservation.date} directly corroborates the student's reported progress in ${latestObservation.competency}, showing strong alignment between classroom data and student self-assessment.`
+                    });
+                } else {
+                    takeaways.push({
+                        label: 'Teacher Insight',
+                        value: `Your observation from ${latestObservation.date} provides valuable context for understanding the student's current development in ${latestObservation.competency}.`
+                    });
+                }
+            }
         }
         
         // Update the takeaways section
