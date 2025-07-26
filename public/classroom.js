@@ -1,5 +1,5 @@
 // File: classroom.js
-// Updated logic for the interactive Classroom Hub with new features.
+// Enhanced interactive Classroom Hub with physics-based dice and smart features
 
 document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const titleEl = document.getElementById('resource-title');
     const mainContentEl = document.getElementById('main-content');
     const controlPanelEl = document.getElementById('control-panel');
+
+    // Global variables for enhanced features
+    let diceHistory = [];
+    let currentTimer = null;
+    let discussionPrompts = [];
 
     if (!resourceFile) {
         titleEl.textContent = 'Error';
@@ -25,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return parser.parseFromString(htmlText, 'text/html');
     }
 
-    // --- DICE MODE LOGIC ---
+    // --- ENHANCED DICE MODE LOGIC ---
     async function setupDiceMode() {
         try {
             const doc = await fetchAndParse(resourceFile);
@@ -46,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const allPrompts = eval(promptsMatch[1]);
             let currentPrompts = allPrompts.slice(0, 6);
             
-            // Build 3D dice HTML
+            // Build enhanced 3D dice HTML with history
             mainContentEl.innerHTML = `
                 <div class="dice-scene">
                     <div class="dice" id="interactive-dice">
@@ -54,40 +59,84 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
                 <div id="prompt-result"></div>
+                <div id="dice-history" class="dice-history">
+                    <h4>Recent Rolls:</h4>
+                    <div id="history-list"></div>
+                </div>
+                <div id="timer-section" class="timer-section" style="display: none;">
+                    <div id="timer-display" class="timer-display">00:00</div>
+                    <div id="discussion-prompt" class="discussion-prompt"></div>
+                </div>
             `;
             
-            // --- ADDED: Control buttons for dice ---
+            // Enhanced control buttons for dice
             const rollBtn = document.createElement('button');
             rollBtn.textContent = '🎲 Roll the Dice';
+            rollBtn.className = 'enhanced-btn';
             controlPanelEl.appendChild(rollBtn);
 
             const randomizeBtn = document.createElement('button');
             randomizeBtn.textContent = '🔄 Randomize Prompts';
+            randomizeBtn.className = 'enhanced-btn';
             controlPanelEl.appendChild(randomizeBtn);
+
+            // Timer controls
+            const timerBtn = document.createElement('button');
+            timerBtn.textContent = '⏱️ Start Timer';
+            timerBtn.className = 'enhanced-btn timer-btn';
+            controlPanelEl.appendChild(timerBtn);
             
             const dice = document.getElementById('interactive-dice');
             const promptResultEl = document.getElementById('prompt-result');
+            const historyList = document.getElementById('history-list');
+            const timerSection = document.getElementById('timer-section');
+            const timerDisplay = document.getElementById('timer-display');
+            const discussionPrompt = document.getElementById('discussion-prompt');
 
-            // Roll button functionality
+            // Enhanced roll function with physics and sound
             rollBtn.addEventListener('click', () => {
                 if (rollBtn.disabled) return;
+                
+                // Disable buttons during roll
                 rollBtn.disabled = true;
                 randomizeBtn.disabled = true;
                 promptResultEl.textContent = '';
                 
+                // Play dice rolling sound
+                playDiceSound();
+                
+                // Enhanced physics-based animation
                 const randomFace = Math.floor(Math.random() * 6) + 1;
-                dice.className = 'dice rolling';
+                const rollDuration = 2000 + Math.random() * 1000; // 2-3 seconds
+                
+                // Multiple rotation phases for realistic physics
+                dice.className = 'dice rolling physics-roll';
+                
+                // Add bounce effect
+                setTimeout(() => {
+                    dice.classList.add('bounce');
+                }, 500);
                 
                 setTimeout(() => {
-                    dice.className = `dice show-${randomFace}`;
+                    dice.classList.remove('bounce');
+                    dice.className = `dice show-${randomFace} settled`;
+                    
                     const chosenPrompt = currentPrompts[randomFace - 1];
                     promptResultEl.textContent = chosenPrompt;
+                    
+                    // Add to history
+                    addToHistory(chosenPrompt, randomFace);
+                    
+                    // Show discussion prompt
+                    showDiscussionPrompt(chosenPrompt);
+                    
+                    // Re-enable buttons
                     rollBtn.disabled = false;
                     randomizeBtn.disabled = false;
-                }, 1500);
+                }, rollDuration);
             });
 
-            // --- ADDED: Randomize button functionality ---
+            // Randomize button functionality
             randomizeBtn.addEventListener('click', () => {
                 const shuffled = [...allPrompts].sort(() => 0.5 - Math.random());
                 currentPrompts = shuffled.slice(0, 6);
@@ -98,12 +147,110 @@ document.addEventListener('DOMContentLoaded', () => {
                 promptResultEl.textContent = 'Prompts have been updated!';
             });
 
+            // Timer functionality
+            timerBtn.addEventListener('click', () => {
+                if (currentTimer) {
+                    stopTimer();
+                    timerBtn.textContent = '⏱️ Start Timer';
+                } else {
+                    startTimer();
+                    timerBtn.textContent = '⏹️ Stop Timer';
+                }
+            });
+
+            // Add to history function
+            function addToHistory(prompt, faceNumber) {
+                const timestamp = new Date().toLocaleTimeString();
+                diceHistory.unshift({
+                    prompt: prompt,
+                    face: faceNumber,
+                    time: timestamp
+                });
+                
+                // Keep only last 5 rolls
+                if (diceHistory.length > 5) {
+                    diceHistory.pop();
+                }
+                
+                updateHistoryDisplay();
+            }
+
+            // Update history display
+            function updateHistoryDisplay() {
+                historyList.innerHTML = diceHistory.map((roll, index) => `
+                    <div class="history-item">
+                        <span class="history-face">🎲${roll.face}</span>
+                        <span class="history-prompt">${roll.prompt.substring(0, 30)}${roll.prompt.length > 30 ? '...' : ''}</span>
+                        <span class="history-time">${roll.time}</span>
+                    </div>
+                `).join('');
+            }
+
+            // Show discussion prompt
+            function showDiscussionPrompt(prompt) {
+                const prompts = [
+                    "What emotions does this bring up for you?",
+                    "How might someone else feel in this situation?",
+                    "What would be a helpful response?",
+                    "How could you support someone dealing with this?",
+                    "What strategies could help in this situation?"
+                ];
+                
+                const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+                discussionPrompt.innerHTML = `<strong>Discussion:</strong> ${randomPrompt}`;
+                timerSection.style.display = 'block';
+            }
+
+            // Timer functions
+            function startTimer() {
+                const savedDuration = localStorage.getItem('timerDuration') || 120;
+                let timeLeft = parseInt(savedDuration);
+                currentTimer = setInterval(() => {
+                    timeLeft--;
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    if (timeLeft <= 0) {
+                        stopTimer();
+                        timerDisplay.textContent = "Time's up!";
+                    }
+                }, 1000);
+            }
+
+            function stopTimer() {
+                if (currentTimer) {
+                    clearInterval(currentTimer);
+                    currentTimer = null;
+                }
+            }
+
+            // Sound function
+            function playDiceSound() {
+                // Create audio context for dice rolling sound
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+                oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.5);
+                
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.5);
+            }
+
         } catch (error) {
             handleError(error);
         }
     }
 
-    // --- SCENARIO CARD MODE LOGIC ---
+    // --- ENHANCED SCENARIO CARD MODE LOGIC ---
     async function setupScenarioMode() {
         try {
             const doc = await fetchAndParse(resourceFile);
@@ -117,7 +264,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const back = card.querySelector('.card-back');
                 
                 if(front && back) {
-                    // --- ADDED: Detect background color class ---
                     const colorClassMatch = front.className.match(/bg-\w+/);
                     const colorClass = colorClassMatch ? colorClassMatch[0] : '';
 
@@ -125,22 +271,52 @@ document.addEventListener('DOMContentLoaded', () => {
                     const text = front.querySelector('.card-text')?.textContent || '';
                     const questions = back.querySelector('.guiding-questions')?.innerHTML || '';
 
+                    // Extract SEL competency from card content
+                    const selCompetencies = extractSELCompetencies(title + ' ' + text);
+                    const tags = extractTags(title + ' ' + text);
+
                     scenarios.push({
                         title: title,
                         text: text,
                         questions: questions,
-                        bgColorClass: colorClass // Store the class
+                        bgColorClass: colorClass,
+                        selCompetencies: selCompetencies,
+                        tags: tags
                     });
                 }
             });
 
             if (scenarios.length === 0) {
-                 scenarios.push({ title: 'Blank Card', text: 'Use this for your own scenario.', questions: '<li>What is the problem?</li><li>What are some solutions?</li>', bgColorClass: ''});
+                 scenarios.push({ 
+                     title: 'Blank Card', 
+                     text: 'Use this for your own scenario.', 
+                     questions: '<li>What is the problem?</li><li>What are some solutions?</li>', 
+                     bgColorClass: '',
+                     selCompetencies: ['Self-Awareness'],
+                     tags: ['blank', 'template']
+                 });
             }
 
-            let deck = [...scenarios].sort(() => 0.5 - Math.random()); // Shuffle initially
+            let deck = [...scenarios].sort(() => 0.5 - Math.random());
 
+            // Build enhanced scenario card interface with search and filters
             mainContentEl.innerHTML = `
+                <div class="scenario-controls">
+                    <div class="search-filter-section">
+                        <input type="text" id="scenario-search" placeholder="Search scenarios..." class="search-input">
+                        <select id="sel-filter" class="filter-select">
+                            <option value="">All SEL Competencies</option>
+                            <option value="Self-Awareness">Self-Awareness</option>
+                            <option value="Self-Management">Self-Management</option>
+                            <option value="Social-Awareness">Social Awareness</option>
+                            <option value="Relationship-Skills">Relationship Skills</option>
+                            <option value="Responsible-Decision-Making">Responsible Decision-Making</option>
+                        </select>
+                    </div>
+                    <div class="deck-info">
+                        <span id="deck-count">${deck.length} cards remaining</span>
+                    </div>
+                </div>
                 <div class="deck-container">
                     <div class="card-deck" id="card-deck">
                         <div class="card-back-design"></div>
@@ -149,14 +325,94 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="drawn-card-wrapper" id="drawn-card-wrapper"></div>
                 </div>
+                <div id="timer-section" class="timer-section" style="display: none;">
+                    <div id="timer-display" class="timer-display">00:00</div>
+                    <div id="discussion-prompt" class="discussion-prompt"></div>
+                </div>
             `;
             
             const drawBtn = document.createElement('button');
             drawBtn.textContent = 'Shuffle & Draw Card';
+            drawBtn.className = 'enhanced-btn';
             controlPanelEl.appendChild(drawBtn);
+
+            // Timer controls for scenarios
+            const timerBtn = document.createElement('button');
+            timerBtn.textContent = '⏱️ Start Timer';
+            timerBtn.className = 'enhanced-btn timer-btn';
+            controlPanelEl.appendChild(timerBtn);
 
             const deckEl = document.getElementById('card-deck');
             const drawnCardWrapper = document.getElementById('drawn-card-wrapper');
+            const searchInput = document.getElementById('scenario-search');
+            const selFilter = document.getElementById('sel-filter');
+            const deckCount = document.getElementById('deck-count');
+            const timerSection = document.getElementById('timer-section');
+            const timerDisplay = document.getElementById('timer-display');
+            const discussionPrompt = document.getElementById('discussion-prompt');
+
+            // Search and filter functionality
+            searchInput.addEventListener('input', filterScenarios);
+            selFilter.addEventListener('change', filterScenarios);
+
+            function filterScenarios() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const selectedCompetency = selFilter.value;
+                
+                const filteredScenarios = scenarios.filter(scenario => {
+                    const matchesSearch = scenario.title.toLowerCase().includes(searchTerm) || 
+                                        scenario.text.toLowerCase().includes(searchTerm) ||
+                                        scenario.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                    
+                    const matchesCompetency = !selectedCompetency || 
+                                           scenario.selCompetencies.includes(selectedCompetency);
+                    
+                    return matchesSearch && matchesCompetency;
+                });
+                
+                // Update deck with filtered scenarios
+                deck = [...filteredScenarios].sort(() => 0.5 - Math.random());
+                deckCount.textContent = `${deck.length} cards remaining`;
+            }
+
+            // Extract SEL competencies from text
+            function extractSELCompetencies(text) {
+                const competencies = [];
+                const lowerText = text.toLowerCase();
+                
+                if (lowerText.includes('emotion') || lowerText.includes('feel') || lowerText.includes('aware')) {
+                    competencies.push('Self-Awareness');
+                }
+                if (lowerText.includes('calm') || lowerText.includes('control') || lowerText.includes('manage')) {
+                    competencies.push('Self-Management');
+                }
+                if (lowerText.includes('other') || lowerText.includes('perspective') || lowerText.includes('empathy')) {
+                    competencies.push('Social-Awareness');
+                }
+                if (lowerText.includes('friend') || lowerText.includes('relationship') || lowerText.includes('team')) {
+                    competencies.push('Relationship-Skills');
+                }
+                if (lowerText.includes('decision') || lowerText.includes('choice') || lowerText.includes('problem')) {
+                    competencies.push('Responsible-Decision-Making');
+                }
+                
+                return competencies.length > 0 ? competencies : ['Self-Awareness'];
+            }
+
+            // Extract tags from text
+            function extractTags(text) {
+                const tags = [];
+                const lowerText = text.toLowerCase();
+                
+                if (lowerText.includes('conflict')) tags.push('conflict');
+                if (lowerText.includes('friendship')) tags.push('friendship');
+                if (lowerText.includes('emotion')) tags.push('emotions');
+                if (lowerText.includes('problem')) tags.push('problem-solving');
+                if (lowerText.includes('team')) tags.push('teamwork');
+                if (lowerText.includes('communication')) tags.push('communication');
+                
+                return tags;
+            }
 
             drawBtn.addEventListener('click', () => {
                 if (drawBtn.disabled) return;
@@ -165,6 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     deck = [...scenarios].sort(() => 0.5 - Math.random());
                     drawnCardWrapper.innerHTML = '<p style="font-size: 1.5em; text-align: center;">Deck reshuffled!</p>';
                     drawBtn.textContent = 'Shuffle & Draw Card';
+                    deckCount.textContent = `${deck.length} cards remaining`;
                     return;
                 }
 
@@ -175,12 +432,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     deckEl.classList.remove('shuffling');
                     const drawn = deck.pop();
                     
-                    // --- UPDATED: Apply the color class to both front and back ---
                     drawnCardWrapper.innerHTML = `
                         <div class="drawn-card" id="current-card">
                             <div class="card-front ${drawn.bgColorClass}">
                                 <div class="card-title">${drawn.title}</div>
                                 <p class="card-text">${drawn.text}</p>
+                                <div class="card-tags">
+                                    ${drawn.selCompetencies.map(comp => `<span class="sel-tag">${comp}</span>`).join('')}
+                                    ${drawn.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                </div>
                             </div>
                             <div class="card-back ${drawn.bgColorClass}">
                                 <div class="card-title">Guiding Questions</div>
@@ -193,12 +453,67 @@ document.addEventListener('DOMContentLoaded', () => {
                         this.classList.toggle('flipped');
                     });
 
+                    // Show discussion prompt for scenario
+                    showDiscussionPrompt(drawn.title + ' ' + drawn.text);
+                    
+                    deckCount.textContent = `${deck.length} cards remaining`;
+
                     if (deck.length === 0) {
                         drawBtn.textContent = 'Reshuffle Deck';
                     }
                     drawBtn.disabled = false;
                 }, 500);
             });
+
+            // Timer functionality for scenarios
+            timerBtn.addEventListener('click', () => {
+                if (currentTimer) {
+                    stopTimer();
+                    timerBtn.textContent = '⏱️ Start Timer';
+                } else {
+                    startTimer();
+                    timerBtn.textContent = '⏹️ Stop Timer';
+                }
+            });
+
+            // Show discussion prompt for scenarios
+            function showDiscussionPrompt(scenarioText) {
+                const prompts = [
+                    "What would you do in this situation?",
+                    "How might different people feel about this?",
+                    "What are some possible solutions?",
+                    "How could you help someone in this situation?",
+                    "What would be the best way to handle this?"
+                ];
+                
+                const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
+                discussionPrompt.innerHTML = `<strong>Discussion:</strong> ${randomPrompt}`;
+                timerSection.style.display = 'block';
+            }
+
+            // Timer functions (shared with dice)
+            function startTimer() {
+                const savedDuration = localStorage.getItem('timerDuration') || 180;
+                let timeLeft = parseInt(savedDuration);
+                currentTimer = setInterval(() => {
+                    timeLeft--;
+                    const minutes = Math.floor(timeLeft / 60);
+                    const seconds = timeLeft % 60;
+                    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    if (timeLeft <= 0) {
+                        stopTimer();
+                        timerDisplay.textContent = "Time's up!";
+                    }
+                }, 1000);
+            }
+
+            function stopTimer() {
+                if (currentTimer) {
+                    clearInterval(currentTimer);
+                    currentTimer = null;
+                }
+            }
 
         } catch (error) {
             handleError(error);

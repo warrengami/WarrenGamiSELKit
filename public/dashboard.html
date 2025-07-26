@@ -363,7 +363,20 @@
             </div>
         </section>
 
-
+        <!-- Share Your Ideas Section -->
+        <section class="feedback-section" style="background: var(--white); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin: 1rem 0;">
+            <h3 style="font-size: 1.2rem; color: var(--midnight-blue); margin-bottom: 0.5em;">⏱️ Timer Settings</h3>
+            <p style="margin-bottom: 1em; color: #666; font-size: 0.9em;">Set custom timer durations for classroom activities</p>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1em;">
+                <button onclick="setTimerDuration(30)" style="background: var(--sky-blue); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">30s</button>
+                <button onclick="setTimerDuration(60)" style="background: var(--sky-blue); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">1min</button>
+                <button onclick="setTimerDuration(120)" style="background: var(--sky-blue); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">2min</button>
+                <button onclick="setTimerDuration(300)" style="background: var(--sky-blue); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">5min</button>
+            </div>
+            <div style="font-size: 0.8em; color: #666;">
+                <strong>Current Timer:</strong> <span id="current-timer">2 minutes</span>
+            </div>
+        </section>
 
         <!-- Share Your Ideas Section -->
         <section class="feedback-section" style="background: var(--white); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin: 1rem 0;">
@@ -433,6 +446,35 @@
     <script>
         // Core dashboard functionality
         console.log('Dashboard loaded successfully');
+        
+        // Timer configuration
+        function setTimerDuration(seconds) {
+            localStorage.setItem('timerDuration', seconds);
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            const displayText = minutes > 0 ? 
+                `${minutes} minute${minutes > 1 ? 's' : ''}` : 
+                `${remainingSeconds} second${remainingSeconds > 1 ? 's' : ''}`;
+            
+            document.getElementById('current-timer').textContent = displayText;
+            
+            // Visual feedback
+            const buttons = document.querySelectorAll('[onclick^="setTimerDuration"]');
+            buttons.forEach(btn => {
+                btn.style.background = 'var(--sky-blue)';
+                btn.style.transform = 'none';
+            });
+            
+            // Highlight selected button
+            event.target.style.background = '#28a745';
+            event.target.style.transform = 'scale(1.05)';
+        }
+        
+        // Initialize timer display
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedDuration = localStorage.getItem('timerDuration') || 120;
+            setTimerDuration(parseInt(savedDuration));
+        });
     </script>
     
     <!-- TIDIO CHATBOT SCRIPT -->

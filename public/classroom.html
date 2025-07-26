@@ -147,6 +147,199 @@
             to { transform: rotateX(1080deg) rotateY(720deg); }
         }
 
+        /* --- ENHANCED DICE FEATURES --- */
+        .dice.rolling.physics-roll {
+            animation: physics-tumble 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .dice.bounce {
+            animation: bounce-effect 0.3s ease-out;
+        }
+        
+        .dice.settled {
+            animation: settle-effect 0.5s ease-out;
+        }
+        
+        @keyframes physics-tumble {
+            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+            25% { transform: rotateX(360deg) rotateY(180deg) rotateZ(90deg); }
+            50% { transform: rotateX(720deg) rotateY(360deg) rotateZ(180deg); }
+            75% { transform: rotateX(1080deg) rotateY(540deg) rotateZ(270deg); }
+            100% { transform: rotateX(1440deg) rotateY(720deg) rotateZ(360deg); }
+        }
+        
+        @keyframes bounce-effect {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes settle-effect {
+            0% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- DICE HISTORY --- */
+        .dice-history {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--ice-blue);
+            border-radius: 10px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .dice-history h4 {
+            margin: 0 0 10px 0;
+            color: var(--midnight-blue);
+            font-size: 1.1rem;
+        }
+        
+        .history-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            background: white;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .history-face {
+            font-size: 1.2rem;
+            min-width: 30px;
+        }
+        
+        .history-prompt {
+            flex: 1;
+            color: var(--midnight-blue);
+        }
+        
+        .history-time {
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        /* --- TIMER SECTION --- */
+        .timer-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: var(--highlight-yellow);
+            border-radius: 10px;
+            text-align: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .timer-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--midnight-blue);
+            margin-bottom: 10px;
+        }
+        
+        .discussion-prompt {
+            font-size: 1.1rem;
+            color: var(--midnight-blue);
+            line-height: 1.4;
+        }
+
+        /* --- ENHANCED BUTTONS --- */
+        .enhanced-btn {
+            background: linear-gradient(135deg, var(--midnight-blue) 0%, var(--sky-blue) 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .enhanced-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .enhanced-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .timer-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        /* --- SCENARIO CARD ENHANCEMENTS --- */
+        .scenario-controls {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: var(--ice-blue);
+            border-radius: 10px;
+        }
+        
+        .search-filter-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        
+        .filter-select {
+            padding: 10px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: white;
+            min-width: 150px;
+        }
+        
+        .deck-info {
+            text-align: center;
+            font-weight: bold;
+            color: var(--midnight-blue);
+        }
+        
+        .card-tags {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        .sel-tag {
+            background: var(--sky-blue);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .tag {
+            background: var(--soft-gray);
+            color: var(--midnight-blue);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
         /* --- SCENARIO CARD DECK STYLES --- */
         .deck-container {
             position: relative;
