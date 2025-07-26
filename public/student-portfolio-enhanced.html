@@ -11,7 +11,7 @@
             font-family: 'Atkinson Hyperlegible', sans-serif; 
             background: #f7f9fc; 
             margin: 0; 
-            padding: 2em; 
+            padding: 1em; 
         }
         main { 
             max-width: 1200px; 
@@ -19,15 +19,16 @@
             background: #fff; 
             border-radius: 12px; 
             box-shadow: 0 4px 24px rgba(0,0,0,0.08); 
-            padding: 2em; 
+            padding: 1.5em; 
         }
         h1 { 
             color: #0f2c4d; 
             font-family: 'Poppins', sans-serif; 
             margin-bottom: 0.5em;
+            font-size: 1.8rem;
         }
         .student-selector {
-            margin-bottom: 2em;
+            margin-bottom: 1.5em;
             padding: 1em;
             background: #f0f4f8;
             border-radius: 8px;
@@ -35,18 +36,183 @@
         .student-selector label {
             font-weight: bold;
             margin-right: 1em;
+            color: #1e293b;
         }
         .student-selector select {
             padding: 0.5em;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 1em;
+            background: white;
         }
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        
+        /* Simplified layout - single column on mobile, two columns on desktop */
+        .portfolio-content {
+            display: flex;
+            flex-direction: column;
             gap: 2em;
-            margin-top: 2em;
+        }
+        
+        @media (min-width: 768px) {
+            .portfolio-content {
+                display: grid;
+                grid-template-columns: 2fr 1fr;
+                gap: 2em;
+            }
+        }
+        
+        /* Water gauges section */
+        .gauges-section {
+            order: 1;
+        }
+        
+        /* Chart section */
+        .chart-section {
+            order: 2;
+        }
+        
+        /* Insights section */
+        .insights-section {
+            order: 3;
+            grid-column: 1 / -1;
+        }
+        
+        /* Reflection section */
+        .reflection-section {
+            order: 4;
+        }
+        
+        /* Metrics section */
+        .metrics-section {
+            order: 5;
+            grid-column: 1 / -1;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1em;
+            margin-top: 1em;
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #e8f4fd 0%, #d1ecf1 100%);
+            padding: 1.5em;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #bee5eb;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #0f2c4d;
+            margin-bottom: 0.5em;
+        }
+        
+        .metric-label {
+            font-size: 0.9em;
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        /* Observations section */
+        .observations-section {
+            order: 6;
+            grid-column: 1 / -1;
+        }
+        
+        .observations-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1em;
+        }
+        
+        .observations-header h3 {
+            margin: 0;
+        }
+        
+        #clear-observations-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 0.5em 1em;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+        }
+        
+        #clear-observations-btn:hover {
+            background: #c82333;
+            transform: translateY(-1px);
+        }
+        
+        /* Reflection section improvements */
+        .reflection-section {
+            order: 4;
+        }
+        
+        .reflection-item {
+            margin-bottom: 1.5em;
+            padding: 1.5em;
+            background: #fff;
+            border-radius: 12px;
+            border-left: 4px solid #73bdf5;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .reflection-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .reflection-label {
+            font-weight: bold;
+            color: #0f2c4d;
+            margin-bottom: 0.5em;
+            font-size: 1.1em;
+        }
+        
+        /* Mobile responsiveness improvements */
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5em;
+            }
+            
+            main {
+                padding: 1em;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .portfolio-content {
+                gap: 1.5em;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-value {
+                font-size: 2em;
+            }
+            
+            .observations-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1em;
+            }
         }
         
         /* Enhanced chart container with animations */
@@ -165,29 +331,6 @@
             padding: 1.5em;
             border-radius: 8px;
         }
-        .metrics-section {
-            grid-column: 1 / -1;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1em;
-            margin-top: 2em;
-        }
-        .metric-card {
-            background: #e8f4fd;
-            padding: 1em;
-            border-radius: 8px;
-            text-align: center;
-        }
-        .metric-value {
-            font-size: 2em;
-            font-weight: bold;
-            color: #0f2c4d;
-        }
-        .metric-label {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 0.5em;
-        }
         .reflection-item {
             margin-bottom: 1.5em;
             padding: 1em;
@@ -203,12 +346,6 @@
         .reflection-text {
             color: #333;
             line-height: 1.4;
-        }
-        .observations-section {
-            margin-top: 2em;
-            padding: 1.5em;
-            background: #f8f9fa;
-            border-radius: 8px;
         }
         .observation-item {
             margin-bottom: 1em;
@@ -262,94 +399,108 @@
         </div>
 
         <div id="portfolio-content" style="display: none;">
-            <div class="portfolio-grid">
+            <div class="portfolio-content">
                 <!-- Water Gauges Section -->
-                <div id="water-gauges" style="margin-bottom: 2em; grid-column: 1 / -1;"></div>
-                <div class="chart-container">
-                    <h3>SEL Growth Radar Chart</h3>
-                    
-                    <!-- Performance Zone Indicators -->
+                <div id="water-gauges" class="gauges-section">
+                    <h3>SEL Skill Performance</h3>
                     <div class="performance-zones">
                         <div class="zone-indicator zone-strong">
                             <span>🟢</span>
-                            <span>Strong (4-5)</span>
+                            <span>Excellent (4-5)</span>
                         </div>
                         <div class="zone-indicator zone-developing">
                             <span>🟡</span>
-                            <span>Developing (2-3)</span>
+                            <span>Good (3)</span>
+                        </div>
+                        <div class="zone-indicator zone-support">
+                            <span>🟠</span>
+                            <span>Developing (2)</span>
                         </div>
                         <div class="zone-indicator zone-support">
                             <span>🔴</span>
                             <span>Needs Support (0-1)</span>
                         </div>
                     </div>
-                    
-                    <div class="growth-animation">
+                </div>
+                
+                <!-- Chart Section -->
+                <div class="chart-section">
+                    <h3>Growth Visualization</h3>
+                    <div class="chart-container">
                         <canvas id="radar-chart"></canvas>
                     </div>
-                    
-                    <!-- Insights Panel -->
+                </div>
+                
+                <!-- Insights Section -->
+                <div class="insights-section">
+                    <h3>Growth Insights</h3>
                     <div class="insights-panel">
-                        <h4> Growth Insights</h4>
-                        <div id="insights-content">
-                            <div class="insight-item">
-                                <div class="insight-title">Biggest Improvement</div>
-                                <div class="insight-value" id="biggest-improvement">-</div>
-                            </div>
-                            <div class="insight-item">
-                                <div class="insight-title">Growth Percentage</div>
-                                <div class="insight-value" id="growth-percentage">-</div>
-                            </div>
-                            <div class="insight-item">
-                                <div class="insight-title">Focus Area</div>
-                                <div class="insight-value" id="focus-area">-</div>
-                            </div>
+                        <div class="insight-item">
+                            <div class="insight-title">Biggest Improvement</div>
+                            <div class="insight-value" id="biggest-improvement">-</div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-title">Growth Percentage</div>
+                            <div class="insight-value" id="growth-percentage">-</div>
+                        </div>
+                        <div class="insight-item">
+                            <div class="insight-title">Focus Area</div>
+                            <div class="insight-value" id="focus-area">-</div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="qualitative-section">
+                <!-- Reflection Section -->
+                <div class="reflection-section">
                     <h3>Student Reflection Highlights</h3>
                     <div id="reflection-content">
                         <div class="reflection-item">
-                            <div class="reflection-label">Proudest Improvement:</div>
-                            <div class="reflection-text" id="proudest-improvement">No data available</div>
+                            <div class="reflection-label">Proudest Improvement</div>
+                            <div id="proudest-improvement">-</div>
                         </div>
                         <div class="reflection-item">
-                            <div class="reflection-label">Success Story:</div>
-                            <div class="reflection-text" id="success-story">No data available</div>
+                            <div class="reflection-label">Success Story</div>
+                            <div id="success-story">-</div>
                         </div>
                         <div class="reflection-item">
-                            <div class="reflection-label">Next Goal:</div>
-                            <div class="reflection-text" id="next-goal">No data available</div>
+                            <div class="reflection-label">Next Goal</div>
+                            <div id="next-goal">-</div>
                         </div>
                         <div class="reflection-item">
-                            <div class="reflection-label">Practice Strategy:</div>
-                            <div class="reflection-text" id="practice-strategy">No data available</div>
+                            <div class="reflection-label">Practice Strategy</div>
+                            <div id="practice-strategy">-</div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="metrics-section">
-                <div class="metric-card">
-                    <div class="metric-value" id="growth-score">+0</div>
-                    <div class="metric-label">Total Growth Score</div>
+                
+                <!-- Metrics Section -->
+                <div class="metrics-section">
+                    <h3>Summary Metrics</h3>
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value" id="growth-score">+0</div>
+                            <div class="metric-label">Total Growth Score</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="assessment-date">-</div>
+                            <div class="metric-label">Assessment Date</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="observations-count">0</div>
+                            <div class="metric-label">Teacher Observations</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-value" id="assessment-date">-</div>
-                    <div class="metric-label">Assessment Date</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value" id="observations-count">0</div>
-                    <div class="metric-label">Teacher Observations</div>
-                </div>
-            </div>
-
-            <div class="observations-section">
-                <h3>Observational Timeline</h3>
-                <div id="observations-content">
-                    <div class="no-data">No observation data available for this student.</div>
+                
+                <!-- Observations Section -->
+                <div class="observations-section">
+                    <div class="observations-header">
+                        <h3>Teacher Observations</h3>
+                        <button id="clear-observations-btn" style="display: none;">Clear Observations</button>
+                    </div>
+                    <div id="observations-content">
+                        <div class="no-data">No observation data available for this student.</div>
+                    </div>
                 </div>
             </div>
         </div>

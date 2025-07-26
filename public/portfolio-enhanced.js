@@ -27,14 +27,29 @@ document.addEventListener('DOMContentLoaded', () => {
         const latestAssessment = studentAssessments[0];
         const studentObservations = observationLog.filter(entry => entry.student === studentName)
             .sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        // Validate assessment data
+        if (latestAssessment) {
+            // Ensure all required fields exist
+            const requiredFields = ['namingEmotions_B', 'namingEmotions_N', 'calming_B', 'calming_N', 
+                                  'understandingOthers_B', 'understandingOthers_N', 'solvingConflicts_B', 'solvingConflicts_N'];
+            requiredFields.forEach(field => {
+                if (!latestAssessment[field] || isNaN(parseInt(latestAssessment[field]))) {
+                    latestAssessment[field] = '0';
+                }
+            });
+        }
+        
         return { assessment: latestAssessment, observations: studentObservations };
     }
 
-    // Helper: Get color for a score
+    // Helper: Get color for a score - unified color scheme
     function getZoneColor(score) {
-        if (score >= 4) return '#28a745'; // Green
-        if (score >= 2) return '#ffc107'; // Yellow
-        return '#dc3545'; // Red
+        const numScore = parseInt(score);
+        if (numScore >= 4) return '#10b981'; // Green - Excellent
+        if (numScore >= 3) return '#3b82f6'; // Blue - Good  
+        if (numScore >= 2) return '#f59e0b'; // Orange - Developing
+        return '#ef4444'; // Red - Needs Support
     }
 
     // Helper: Animate data transition
@@ -47,21 +62,38 @@ document.addEventListener('DOMContentLoaded', () => {
         chart.update();
     }
 
-    // Helper: Find biggest improvement and focus area
+    // Helper: Find biggest improvement and focus area - FIXED CALCULATION
     function getGrowthInsights(beginning, current, labels) {
         let maxGrowth = -Infinity, minGrowth = Infinity, maxIdx = 0, minIdx = 0;
-        let totalGrowth = 0, totalPossible = 0;
+        let totalGrowth = 0, totalBeginning = 0, totalCurrent = 0;
+        
         for (let i = 0; i < beginning.length; i++) {
             const growth = current[i] - beginning[i];
             totalGrowth += growth;
-            totalPossible += 5 - beginning[i];
-            if (growth > maxGrowth) { maxGrowth = growth; maxIdx = i; }
-            if (growth < minGrowth) { minGrowth = growth; minIdx = i; }
+            totalBeginning += beginning[i];
+            totalCurrent += current[i];
+            
+            if (growth > maxGrowth) { 
+                maxGrowth = growth; 
+                maxIdx = i; 
+            }
+            if (growth < minGrowth) { 
+                minGrowth = growth; 
+                minIdx = i; 
+            }
         }
+        
+        // Calculate overall growth percentage
+        const avgBeginning = totalBeginning / beginning.length;
+        const avgCurrent = totalCurrent / current.length;
+        const overallGrowth = avgCurrent - avgBeginning;
+        const maxPossibleGrowth = 5 - avgBeginning;
+        const growthPercent = maxPossibleGrowth > 0 ? Math.round((overallGrowth / maxPossibleGrowth) * 100) : 0;
+        
         return {
-            biggestImprovement: labels[maxIdx],
-            focusArea: labels[minIdx],
-            growthPercent: totalPossible > 0 ? Math.round((totalGrowth / totalPossible) * 100) : 0
+            biggestImprovement: maxGrowth > 0 ? labels[maxIdx] : 'No improvement yet',
+            focusArea: minGrowth < 0 ? labels[minIdx] : (minGrowth === 0 ? 'All areas stable' : labels[minIdx]),
+            growthPercent: Math.max(0, growthPercent) // Ensure non-negative
         };
     }
 
@@ -84,9 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
             parseInt(studentData.assessment.solvingConflicts_N) || 0
         ];
 
-        // Color points by zone
-        const pointColors = currentData.map(getZoneColor);
-
         radarChart = new Chart(ctx, {
             type: 'radar',
             data: {
@@ -99,89 +128,88 @@ document.addEventListener('DOMContentLoaded', () => {
                         backgroundColor: 'rgba(115, 189, 245, 0.1)',
                         borderWidth: 2,
                         pointBackgroundColor: '#73bdf5',
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2
+                        pointBorderColor: '#73bdf5',
+                        pointRadius: 4
                     },
                     {
                         label: 'Current',
-                        data: beginningData, // Start at beginning for animation
-                        borderColor: '#27ae60',
-                        backgroundColor: 'rgba(39, 174, 96, 0.2)',
-                        borderWidth: 2,
-                        pointBackgroundColor: pointColors,
-                        pointBorderColor: '#fff',
-                        pointBorderWidth: 2
+                        data: currentData,
+                        borderColor: '#0f2c4d',
+                        backgroundColor: 'rgba(15, 44, 77, 0.1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: currentData.map(getZoneColor),
+                        pointBorderColor: currentData.map(getZoneColor),
+                        pointRadius: 6,
+                        pointHoverRadius: 8
                     }
                 ]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                animation: {
-                    duration: 1200,
-                    onComplete: function() {
-                        // Animate to current data after initial render
-                        setTimeout(() => {
-                            animateChart(radarChart, [beginningData, currentData]);
-                        }, 200);
-                    }
-                },
                 scales: {
                     r: {
                         beginAtZero: true,
                         max: 5,
-                        ticks: { stepSize: 1 },
-                        angleLines: { color: '#e0e0e0' },
-                        grid: { color: '#e0e0e0' }
+                        ticks: {
+                            stepSize: 1,
+                            color: '#64748b'
+                        },
+                        grid: {
+                            color: '#e2e8f0'
+                        },
+                        pointLabels: {
+                            color: '#1e293b',
+                            font: {
+                                size: 12,
+                                weight: '600'
+                            }
+                        }
                     }
                 },
                 plugins: {
-                    legend: { position: 'top' },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            padding: 20,
+                            color: '#1e293b',
+                            font: {
+                                size: 12,
+                                weight: '600'
+                            }
+                        }
+                    },
                     tooltip: {
-                        enabled: true,
-                        backgroundColor: 'rgba(0,0,0,0.9)',
-                        borderColor: '#fff',
+                        backgroundColor: 'rgba(15, 44, 77, 0.9)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        borderColor: '#0f2c4d',
                         borderWidth: 1,
                         callbacks: {
                             label: function(context) {
                                 const label = context.dataset.label || '';
                                 const value = context.parsed.r;
-                                let extra = '';
-                                if (label === 'Current') {
-                                    // Show growth %
-                                    const idx = context.dataIndex;
-                                    const growth = currentData[idx] - beginningData[idx];
-                                    extra = ` (Growth: ${growth >= 0 ? '+' : ''}${growth})`;
-                                    // Show snippet if available
-                                    if (idx === 0 && studentData.assessment.proudestImprovement)
-                                        extra += `\nProudest: ${studentData.assessment.proudestImprovement}`;
-                                    if (idx === 1 && studentData.assessment.goalStrategy)
-                                        extra += `\nStrategy: ${studentData.assessment.goalStrategy}`;
-                                    if (idx === 2 && studentData.assessment.successStory)
-                                        extra += `\nStory: ${studentData.assessment.successStory}`;
-                                    if (idx === 3 && studentData.assessment.nextGoal)
-                                        extra += `\nNext: ${studentData.assessment.nextGoal}`;
+                                const datasetIndex = context.datasetIndex;
+                                const dataIndex = context.dataIndex;
+                                
+                                if (datasetIndex === 1) { // Current dataset
+                                    const growth = currentData[dataIndex] - beginningData[dataIndex];
+                                    const growthText = growth > 0 ? ` (+${growth})` : growth < 0 ? ` (${growth})` : '';
+                                    return `${label}: ${value}/5${growthText}`;
                                 }
-                                return `${label}: ${value}/5${extra}`;
+                                return `${label}: ${value}/5`;
                             }
                         }
                     }
                 },
                 elements: {
                     point: {
-                        radius: 6,
-                        hoverRadius: 10,
                         backgroundColor: function(context) {
-                            // Pulse effect for biggest improvement
-                            const idx = context.dataIndex;
-                            const growth = currentData[idx] - beginningData[idx];
-                            if (growth >= 2) {
-                                return {
-                                    type: 'radialGradient',
-                                    colors: [getZoneColor(currentData[idx]), '#fff']
-                                };
+                            if (context.datasetIndex === 1) {
+                                return getZoneColor(currentData[context.dataIndex]);
                             }
-                            return getZoneColor(currentData[idx]);
+                            return '#73bdf5';
                         }
                     }
                 }
@@ -273,20 +301,59 @@ document.addEventListener('DOMContentLoaded', () => {
             noStudentSelected.style.display = 'block';
             return;
         }
+        
         const studentData = getStudentData(studentName);
+        
+        // Validate that we have assessment data
         if (!studentData.assessment) {
             portfolioContent.style.display = 'none';
             noStudentSelected.innerHTML = 'No assessment data available for this student.';
             noStudentSelected.style.display = 'block';
             return;
         }
-        portfolioContent.style.display = 'block';
-        noStudentSelected.style.display = 'none';
-        updateReflectionContent(studentData);
-        updateMetrics(studentData);
-        updateObservations(studentData);
-        updateInsights(studentData);
-        setTimeout(() => createRadarChart(studentData), 100);
+        
+        // Validate assessment has required data
+        const assessment = studentData.assessment;
+        const hasValidData = ['namingEmotions_B', 'namingEmotions_N', 'calming_B', 'calming_N', 
+                             'understandingOthers_B', 'understandingOthers_N', 'solvingConflicts_B', 'solvingConflicts_N']
+            .every(field => assessment[field] && !isNaN(parseInt(assessment[field])));
+        
+        if (!hasValidData) {
+            portfolioContent.style.display = 'none';
+            noStudentSelected.innerHTML = 'Assessment data is incomplete for this student.';
+            noStudentSelected.style.display = 'block';
+            return;
+        }
+        
+        try {
+            portfolioContent.style.display = 'block';
+            noStudentSelected.style.display = 'none';
+            
+            updateReflectionContent(studentData);
+            updateMetrics(studentData);
+            updateObservations(studentData);
+            updateInsights(studentData);
+            
+            // Create radar chart with a small delay to ensure DOM is ready
+            setTimeout(() => {
+                try {
+                    createRadarChart(studentData);
+                } catch (chartError) {
+                    console.error('Error creating radar chart:', chartError);
+                    // Fallback: show error message in chart container
+                    const chartContainer = document.querySelector('.chart-container');
+                    if (chartContainer) {
+                        chartContainer.innerHTML = '<p style="color: #dc3545; text-align: center;">Error loading chart. Please refresh the page.</p>';
+                    }
+                }
+            }, 100);
+            
+        } catch (error) {
+            console.error('Error updating portfolio:', error);
+            portfolioContent.style.display = 'none';
+            noStudentSelected.innerHTML = 'Error loading portfolio data. Please refresh the page.';
+            noStudentSelected.style.display = 'block';
+        }
     }
 
     studentSelect.addEventListener('change', (e) => updatePortfolio(e.target.value));
