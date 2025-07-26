@@ -1,46 +1,91 @@
 // Enhanced Individual SEL Growth Portfolio functionality
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Portfolio Enhanced: DOM loaded, initializing...');
+    
+    // Check if required dependencies are loaded
+    if (typeof SELDataProcessor === 'undefined') {
+        console.error('SELDataProcessor not found! Make sure sel-data-processor.js is loaded before portfolio-enhanced.js');
+        return;
+    }
+    
     const dataProcessor = new SELDataProcessor();
     let radarChart = null;
     const studentSelect = document.getElementById('student-select');
     const portfolioContent = document.getElementById('portfolio-content');
     const noStudentSelected = document.getElementById('no-student-selected');
 
+    // Validate required elements
+    if (!studentSelect) {
+        console.error('Student select element not found!');
+        return;
+    }
+    if (!portfolioContent) {
+        console.error('Portfolio content element not found!');
+        return;
+    }
+    if (!noStudentSelected) {
+        console.error('No student selected element not found!');
+        return;
+    }
+
+    console.log('Portfolio Enhanced: All required elements found');
+
     function populateStudentDropdown() {
-        const data = dataProcessor.loadData();
-        const uniqueNames = [...new Set(data.map(entry => entry.name).filter(Boolean))];
-        while (studentSelect.options.length > 1) studentSelect.remove(1);
-        uniqueNames.forEach(name => {
-            const option = document.createElement('option');
-            option.value = name;
-            option.textContent = name;
-            studentSelect.appendChild(option);
-        });
+        console.log('Populating student dropdown...');
+        try {
+            const data = dataProcessor.loadData();
+            console.log('Loaded data:', data);
+            
+            const uniqueNames = [...new Set(data.map(entry => entry.name).filter(Boolean))];
+            console.log('Unique names found:', uniqueNames);
+            
+            while (studentSelect.options.length > 1) studentSelect.remove(1);
+            uniqueNames.forEach(name => {
+                const option = document.createElement('option');
+                option.value = name;
+                option.textContent = name;
+                studentSelect.appendChild(option);
+            });
+            
+            console.log(`Added ${uniqueNames.length} students to dropdown`);
+        } catch (error) {
+            console.error('Error populating student dropdown:', error);
+        }
     }
 
     function getStudentData(studentName) {
-        const data = dataProcessor.loadData();
-        const observationLog = JSON.parse(localStorage.getItem('selToolkit-observationLog') || '[]');
-        const studentAssessments = data.filter(entry => entry.name === studentName)
-            .sort((a, b) => new Date(b.date) - new Date(a.date));
-        const latestAssessment = studentAssessments[0];
-        const studentObservations = observationLog.filter(entry => entry.student === studentName)
-            .sort((a, b) => new Date(b.date) - new Date(a.date));
-        
-        // Validate assessment data
-        if (latestAssessment) {
-            // Ensure all required fields exist
-            const requiredFields = ['namingEmotions_B', 'namingEmotions_N', 'calming_B', 'calming_N', 
-                                  'understandingOthers_B', 'understandingOthers_N', 'solvingConflicts_B', 'solvingConflicts_N'];
-            requiredFields.forEach(field => {
-                if (!latestAssessment[field] || isNaN(parseInt(latestAssessment[field]))) {
-                    latestAssessment[field] = '0';
-                }
-            });
+        console.log(`Getting data for student: ${studentName}`);
+        try {
+            const data = dataProcessor.loadData();
+            const observationLog = JSON.parse(localStorage.getItem('selToolkit-observationLog') || '[]');
+            const studentAssessments = data.filter(entry => entry.name === studentName)
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+            const latestAssessment = studentAssessments[0];
+            const studentObservations = observationLog.filter(entry => entry.student === studentName)
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+            
+            console.log('Student assessments:', studentAssessments);
+            console.log('Latest assessment:', latestAssessment);
+            console.log('Student observations:', studentObservations);
+            
+            // Validate assessment data
+            if (latestAssessment) {
+                // Ensure all required fields exist
+                const requiredFields = ['namingEmotions_B', 'namingEmotions_N', 'calming_B', 'calming_N', 
+                                      'understandingOthers_B', 'understandingOthers_N', 'solvingConflicts_B', 'solvingConflicts_N'];
+                requiredFields.forEach(field => {
+                    if (!latestAssessment[field] || isNaN(parseInt(latestAssessment[field]))) {
+                        latestAssessment[field] = '0';
+                    }
+                });
+            }
+            
+            return { assessment: latestAssessment, observations: studentObservations };
+        } catch (error) {
+            console.error('Error getting student data:', error);
+            return { assessment: null, observations: [] };
         }
-        
-        return { assessment: latestAssessment, observations: studentObservations };
     }
 
     // Helper: Get color for a score - unified color scheme
@@ -312,39 +357,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updatePortfolio(studentName) {
+        console.log(`Updating portfolio for student: ${studentName}`);
+        
         if (!studentName) {
+            console.log('No student selected, hiding portfolio content');
             portfolioContent.style.display = 'none';
             noStudentSelected.style.display = 'block';
             return;
         }
         
         const studentData = getStudentData(studentName);
+        console.log('Student data retrieved:', studentData);
         
         // Validate that we have assessment data
         if (!studentData.assessment) {
+            console.log('No assessment data found for student');
             portfolioContent.style.display = 'none';
-            noStudentSelected.innerHTML = 'No assessment data available for this student.';
+            noStudentSelected.innerHTML = 'No assessment data available for this student. Please add assessment data first.';
             noStudentSelected.style.display = 'block';
             return;
         }
         
         // Validate assessment has required data
         const assessment = studentData.assessment;
-        const hasValidData = ['namingEmotions_B', 'namingEmotions_N', 'calming_B', 'calming_N', 
-                             'understandingOthers_B', 'understandingOthers_N', 'solvingConflicts_B', 'solvingConflicts_N']
-            .every(field => assessment[field] && !isNaN(parseInt(assessment[field])));
+        const requiredFields = ['namingEmotions_B', 'namingEmotions_N', 'calming_B', 'calming_N', 
+                             'understandingOthers_B', 'understandingOthers_N', 'solvingConflicts_B', 'solvingConflicts_N'];
+        
+        console.log('Validating assessment fields:', requiredFields);
+        console.log('Assessment data:', assessment);
+        
+        const hasValidData = requiredFields.every(field => {
+            const value = assessment[field];
+            const isValid = value && !isNaN(parseInt(value));
+            console.log(`Field ${field}: ${value} (valid: ${isValid})`);
+            return isValid;
+        });
         
         if (!hasValidData) {
+            console.log('Assessment data is incomplete');
             portfolioContent.style.display = 'none';
-            noStudentSelected.innerHTML = 'Assessment data is incomplete for this student.';
+            noStudentSelected.innerHTML = 'Assessment data is incomplete for this student. Please ensure all skill ratings are provided.';
             noStudentSelected.style.display = 'block';
             return;
         }
+        
+        console.log('Assessment data is valid, updating portfolio...');
         
         try {
             portfolioContent.style.display = 'block';
             noStudentSelected.style.display = 'none';
             
+            console.log('Updating portfolio components...');
             updateReflectionContent(studentData);
             updateMetrics(studentData);
             updateObservations(studentData);
@@ -352,12 +415,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // Use new dynamic components
             createSpotlightCards(studentData);
             generateKeyTakeaways(studentData);
-            createGrowthTimeline(studentData); // Add this line to create the timeline
+            createGrowthTimeline(studentData);
             
             // Create radar chart with a small delay to ensure DOM is ready
             setTimeout(() => {
                 try {
+                    console.log('Creating radar chart...');
                     createRadarChart(studentData);
+                    console.log('Radar chart created successfully');
                 } catch (chartError) {
                     console.error('Error creating radar chart:', chartError);
                     // Fallback: show error message in chart container
@@ -371,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (error) {
             console.error('Error updating portfolio:', error);
             portfolioContent.style.display = 'none';
-            noStudentSelected.innerHTML = 'Error loading portfolio data. Please refresh the page.';
+            noStudentSelected.innerHTML = 'Error loading portfolio data. Please refresh the page and try again.';
             noStudentSelected.style.display = 'block';
         }
     }

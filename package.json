@@ -4,6 +4,7 @@
   "description": "A secure, code-based platform with no logins.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "generate-hash": "node utils/hash-generator.js"
   },
   "dependencies": {
