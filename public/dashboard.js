@@ -155,6 +155,14 @@ document.addEventListener('DOMContentLoaded', () => {
         window.open('student-portfolio-enhanced.html', '_blank');
     });
 
+    // Observation Log button
+    const observationLogBtn = document.getElementById('observation-log-btn');
+    if (observationLogBtn) {
+        observationLogBtn.addEventListener('click', () => {
+            window.open('log.html', '_blank');
+        });
+    }
+
     // Search functionality
     resourceSearch.addEventListener('input', () => {
         const searchTerm = resourceSearch.value.toLowerCase();

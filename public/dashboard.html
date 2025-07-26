@@ -203,6 +203,62 @@
             box-shadow: 0 6px 18px rgba(15,44,77,0.12);
         }
         
+        /* Professional Observation Log Button */
+        .observation-log-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 1em 1.5em;
+            font-size: 1.1em;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+            margin-top: 1em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        
+        .observation-log-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .observation-log-btn:hover::before {
+            left: 100%;
+        }
+        
+        .observation-log-btn:hover, .observation-log-btn:focus {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .observation-log-btn:active {
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* Responsive design for observation log button */
+        @media (max-width: 768px) {
+            .observation-log-btn {
+                width: 100%;
+                justify-content: center;
+                margin-top: 0.5em;
+            }
+        }
+        
         /* Modal styles for reflection input */
         .modal-overlay {
             position: fixed;
@@ -299,6 +355,7 @@
             <button id="input-reflection-btn" class="sel-data-btn" style="margin-right:1em;" onclick="openReflectionModal()">Input Student Reflection</button>
             <button id="view-sel-data" class="sel-data-btn" style="margin-right:1em;">View/Export SEL Data</button>
             <button id="view-portfolio" class="sel-data-btn">Individual Growth Portfolio</button>
+            <button id="observation-log-btn" class="observation-log-btn">📝 My Observation Log</button>
         </section>
 
         <!-- Quick Start Section -->
