@@ -364,13 +364,40 @@
         </header>
 
         <section class="settings-section" style="margin-bottom:2em;">
-            <h2>SEL Data Hub</h2>
-            <p style="margin-top:-15px; margin-bottom: 20px; line-height: 1.5; color: #333;">Use this section to manually input student reflection summaries and to view all collected data.</p>
-            <div class="sel-data-buttons">
-                <button id="input-reflection-btn" class="sel-data-btn" onclick="openReflectionModal()">Input Student Reflection</button>
-                <button id="view-sel-data" class="sel-data-btn">View/Export SEL Data</button>
-                <button id="view-portfolio" class="sel-data-btn">Individual Growth Portfolio</button>
-                <button id="observation-log-btn" class="observation-log-btn">📝 My Observation Log</button>
+            <h2>📊 SEL Data Hub</h2>
+            <p style="margin-top:-15px; margin-bottom: 20px; line-height: 1.5; color: #333;">Track student growth and capture meaningful SEL moments</p>
+            <div class="sel-data-buttons" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <button onclick="window.location.href='log.html'" style="background: var(--sky-blue); color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
+                    <span style="font-size: 1.5em;">📝</span>
+                    <div>
+                        <div style="font-weight: bold; margin-bottom: 0.2em;">My Observation Log</div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Log meaningful SEL moments</div>
+                    </div>
+                </button>
+                
+                <button onclick="openReflectionModal()" style="background: #28a745; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
+                    <span style="font-size: 1.5em;">📋</span>
+                    <div>
+                        <div style="font-weight: bold; margin-bottom: 0.2em;">Input Student Reflection</div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Paste student self-assessments</div>
+                    </div>
+                </button>
+                
+                <button onclick="window.location.href='student-portfolio-enhanced.html'" style="background: #ffc107; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
+                    <span style="font-size: 1.5em;">📈</span>
+                    <div>
+                        <div style="font-weight: bold; margin-bottom: 0.2em;">Individual Growth Portfolio</div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">View student progress</div>
+                    </div>
+                </button>
+                
+                <button onclick="window.location.href='sel-data.html'" style="background: #6f42c1; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
+                    <span style="font-size: 1.5em;">📊</span>
+                    <div>
+                        <div style="font-weight: bold; margin-bottom: 0.2em;">View/Export All Data</div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Master table and CSV export</div>
+                    </div>
+                </button>
             </div>
         </section>
 
@@ -441,47 +468,7 @@
             </div>
         </section>
 
-        <!-- SEL Data Hub Section -->
-        <section class="sel-data-hub" style="background: var(--white); border: 2px solid var(--sky-blue); border-radius: 12px; padding: 2rem; margin: 2rem 0; box-shadow: 0 4px 20px rgba(115, 189, 245, 0.15);">
-            <h2 style="color: var(--midnight-blue); margin-bottom: 1rem; font-family: 'Poppins', sans-serif; display: flex; align-items: center; gap: 0.5em;">
-                📊 SEL Data Hub
-            </h2>
-            <p style="margin-bottom: 1.5em; color: #666; font-size: 1em;">Track student growth and capture meaningful SEL moments</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
-                <button onclick="window.location.href='log.html'" style="background: var(--sky-blue); color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
-                    <span style="font-size: 1.5em;">📝</span>
-                    <div>
-                        <div style="font-weight: bold; margin-bottom: 0.2em;">My Observation Log</div>
-                        <div style="font-size: 0.9em; opacity: 0.9;">Log meaningful SEL moments</div>
-                    </div>
-                </button>
-                
-                <button onclick="openReflectionModal()" style="background: #28a745; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
-                    <span style="font-size: 1.5em;">📋</span>
-                    <div>
-                        <div style="font-weight: bold; margin-bottom: 0.2em;">Input Student Reflection</div>
-                        <div style="font-size: 0.9em; opacity: 0.9;">Paste student self-assessments</div>
-                    </div>
-                </button>
-                
-                <button onclick="window.location.href='student-portfolio-enhanced.html'" style="background: #ffc107; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
-                    <span style="font-size: 1.5em;">📈</span>
-                    <div>
-                        <div style="font-weight: bold; margin-bottom: 0.2em;">Individual Growth Portfolio</div>
-                        <div style="font-size: 0.9em; opacity: 0.9;">View student progress</div>
-                    </div>
-                </button>
-                
-                <button onclick="window.location.href='sel-data.html'" style="background: #6f42c1; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
-                    <span style="font-size: 1.5em;">📊</span>
-                    <div>
-                        <div style="font-weight: bold; margin-bottom: 0.2em;">View/Export All Data</div>
-                        <div style="font-size: 0.9em; opacity: 0.9;">Master table and CSV export</div>
-                    </div>
-                </button>
-            </div>
-        </section>
+
 
         <!-- Share Your Ideas Section -->
         <section class="feedback-section" style="background: var(--white); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin: 1rem 0;">
