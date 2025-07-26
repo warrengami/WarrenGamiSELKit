@@ -373,7 +373,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!studentData.assessment) {
             console.log('No assessment data found for student');
             portfolioContent.style.display = 'none';
-            noStudentSelected.innerHTML = 'No assessment data available for this student. Please add assessment data first.';
+            noStudentSelected.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <h3>No Assessment Data Available</h3>
+                    <p>No assessment data was found for <strong>${studentName}</strong>.</p>
+                    <p>To view a portfolio, you need to:</p>
+                    <ol style="text-align: left; display: inline-block;">
+                        <li>Go to the <a href="sel-data.html" target="_blank">SEL Data Management</a> page</li>
+                        <li>Add assessment data for this student</li>
+                        <li>Include both beginning and current ratings for all skills</li>
+                    </ol>
+                    <p><a href="add-sample-data.html" target="_blank">Add Sample Data</a> | <a href="sel-data.html" target="_blank">Manage SEL Data</a></p>
+                </div>
+            `;
             noStudentSelected.style.display = 'block';
             return;
         }
@@ -396,7 +408,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!hasValidData) {
             console.log('Assessment data is incomplete');
             portfolioContent.style.display = 'none';
-            noStudentSelected.innerHTML = 'Assessment data is incomplete for this student. Please ensure all skill ratings are provided.';
+            noStudentSelected.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <h3>Incomplete Assessment Data</h3>
+                    <p>The assessment data for <strong>${studentName}</strong> is missing required information.</p>
+                    <p>All students need ratings for these skills (both beginning and current):</p>
+                    <ul style="text-align: left; display: inline-block;">
+                        <li>Naming Emotions</li>
+                        <li>Calming Down</li>
+                        <li>Understanding Others</li>
+                        <li>Solving Conflicts</li>
+                    </ul>
+                    <p><a href="sel-data.html" target="_blank">Update Assessment Data</a> | <a href="add-sample-data.html" target="_blank">Add Sample Data</a></p>
+                </div>
+            `;
             noStudentSelected.style.display = 'block';
             return;
         }
