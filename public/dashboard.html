@@ -367,35 +367,35 @@
             <h2>📊 SEL Data Hub</h2>
             <p style="margin-top:-15px; margin-bottom: 20px; line-height: 1.5; color: #333;">Track student growth and capture meaningful SEL moments</p>
             <div class="sel-data-buttons" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
-                <button onclick="window.location.href='log.html'" style="background: var(--sky-blue); color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
-                    <span style="font-size: 1.5em;">📝</span>
+                <button onclick="startExperientialReflection('immediate')" style="background: var(--sky-blue); color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
+                    <span style="font-size: 1.5em;">🧘</span>
                     <div>
-                        <div style="font-weight: bold; margin-bottom: 0.2em;">My Observation Log</div>
-                        <div style="font-size: 0.9em; opacity: 0.9;">Log meaningful SEL moments</div>
+                        <div style="font-weight: bold; margin-bottom: 0.2em;">Start Reflection</div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Immediate experiential learning</div>
                     </div>
                 </button>
                 
-                <button id="input-reflection-btn" onclick="openReflectionModal()" style="background: #28a745; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
-                    <span style="font-size: 1.5em;">📋</span>
+                <button onclick="startExperientialDiscussion('think-pair-share')" style="background: #28a745; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
+                    <span style="font-size: 1.5em;">🗣️</span>
                     <div>
-                        <div style="font-weight: bold; margin-bottom: 0.2em;">Input Student Reflection</div>
-                        <div style="font-size: 0.9em; opacity: 0.9;">Paste student self-assessments</div>
+                        <div style="font-weight: bold; margin-bottom: 0.2em;">Start Discussion</div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Real-time group activities</div>
                     </div>
                 </button>
                 
-                <button id="view-portfolio" onclick="window.location.href='student-portfolio-enhanced.html'" style="background: #ffc107; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
-                    <span style="font-size: 1.5em;">📈</span>
+                <button onclick="openExperientialDashboard()" style="background: #ffc107; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
+                    <span style="font-size: 1.5em;">🌊</span>
                     <div>
-                        <div style="font-weight: bold; margin-bottom: 0.2em;">Individual Growth Portfolio</div>
-                        <div style="font-size: 0.9em; opacity: 0.9;">View student progress</div>
+                        <div style="font-weight: bold; margin-bottom: 0.2em;">Experiential Hub</div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Full experiential toolkit</div>
                     </div>
                 </button>
                 
-                <button id="view-sel-data" onclick="window.location.href='sel-data.html'" style="background: #6f42c1; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
-                    <span style="font-size: 1.5em;">📊</span>
+                <button onclick="startMoodEnergyCheck()" style="background: #6f42c1; color: white; border: none; padding: 1rem; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; text-align: left; display: flex; align-items: center; gap: 0.5em;">
+                    <span style="font-size: 1.5em;">😊</span>
                     <div>
-                        <div style="font-weight: bold; margin-bottom: 0.2em;">View/Export All Data</div>
-                        <div style="font-size: 0.9em; opacity: 0.9;">Master table and CSV export</div>
+                        <div style="font-weight: bold; margin-bottom: 0.2em;">Mood Check</div>
+                        <div style="font-size: 0.9em; opacity: 0.9;">Real-time emotional awareness</div>
                     </div>
                 </button>
             </div>
@@ -531,23 +531,181 @@
         </div>
     </main>
 
-    <!-- Modal for pasting reflection -->
-    <div id="reflection-modal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close-btn">×</button>
-            <h2>Paste Student Reflection(s)</h2>
-            <p>Copy the entire summary text from student self-assessments and paste it into the box below. You can paste multiple student reflections at once - the system will automatically detect and process each one.</p>
-            <textarea id="reflection-paste-area" placeholder="Paste student summary(ies) here... You can paste multiple students at once!"></textarea>
-            <div class="modal-actions">
-                <button id="save-reflection-btn">Save Reflection(s)</button>
-                <p id="modal-status"></p>
-            </div>
-        </div>
-    </div>
-
+    <!-- Load experiential systems -->
+    <script src="experiential-core.js"></script>
+    <script src="real-time-reflection.js"></script>
+    <script src="mood-energy-tracker.js"></script>
+    <script src="experiential-classroom.js"></script>
     <script src="auth.js"></script>
-    <script src="sel-data-processor.js"></script>
-    <script src="dashboard.js"></script>
+    <script src="dashboard-experiential.js"></script>
+    
+    <script>
+        // Experiential functions
+        function startExperientialReflection(type) {
+            if (window.RealTimeReflection) {
+                // Create reflection modal
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                `;
+                
+                const modalContent = document.createElement('div');
+                modalContent.style.cssText = `
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 15px;
+                    max-width: 600px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                `;
+                
+                modalContent.innerHTML = `
+                    <h2>🧘 ${type.charAt(0).toUpperCase() + type.slice(1)} Reflection</h2>
+                    <div id="reflection-container"></div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        background: #dc3545;
+                        color: white;
+                        border: none;
+                        padding: 0.5rem 1rem;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        margin-top: 1rem;
+                    ">Close</button>
+                `;
+                
+                modal.appendChild(modalContent);
+                document.body.appendChild(modal);
+                
+                // Initialize reflection UI
+                const reflectionUI = window.RealTimeReflection.createReflectionUI('reflection-container');
+                reflectionUI.startReflection(type);
+            }
+        }
+        
+        function startExperientialDiscussion(type) {
+            if (window.ExperientialClassroom) {
+                // Create discussion modal
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                `;
+                
+                const modalContent = document.createElement('div');
+                modalContent.style.cssText = `
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 15px;
+                    max-width: 800px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                `;
+                
+                modalContent.innerHTML = `
+                    <h2>🗣️ Discussion Tools</h2>
+                    <div id="classroom-discussion"></div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        background: #dc3545;
+                        color: white;
+                        border: none;
+                        padding: 0.5rem 1rem;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        margin-top: 1rem;
+                    ">Close</button>
+                `;
+                
+                modal.appendChild(modalContent);
+                document.body.appendChild(modal);
+                
+                // Start classroom session and discussion
+                window.ExperientialClassroom.startSession({ type: 'discussion' });
+                
+                if (type === 'think-pair-share') {
+                    window.ExperientialClassroom.startThinkPairShare({ topic: 'Current SEL Topic' });
+                } else if (type === 'circle-time') {
+                    window.ExperientialClassroom.startCircleTime();
+                } else if (type === 'quick-check') {
+                    window.ExperientialClassroom.startQuickCheck();
+                }
+            }
+        }
+        
+        function openExperientialDashboard() {
+            window.open('dashboard-experiential.html', '_blank');
+        }
+        
+        function startMoodEnergyCheck() {
+            if (window.MoodEnergyTracker) {
+                // Create mood/energy modal
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                `;
+                
+                const modalContent = document.createElement('div');
+                modalContent.style.cssText = `
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 15px;
+                    max-width: 600px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                `;
+                
+                modalContent.innerHTML = `
+                    <h2>😊 Mood & Energy Check</h2>
+                    <div id="mood-tracker-modal"></div>
+                    <div id="energy-tracker-modal"></div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        background: #dc3545;
+                        color: white;
+                        border: none;
+                        padding: 0.5rem 1rem;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        margin-top: 1rem;
+                    ">Close</button>
+                `;
+                
+                modal.appendChild(modalContent);
+                document.body.appendChild(modal);
+                
+                // Initialize mood and energy trackers
+                window.MoodEnergyTracker.createTrackerUI('mood-tracker-modal');
+                window.MoodEnergyTracker.createTrackerUI('energy-tracker-modal');
+            }
+        }
+    </script>
     
     <!-- TIDIO CHATBOT SCRIPT -->
     <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>

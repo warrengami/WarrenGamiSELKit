@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WarrenGami SEL - Experiential Learning Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight-blue: #0f2c4d;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --white: #ffffff;
+            --soft-gray: #f7f9fc;
+            --border-color: #e0e6ed;
+            --success-green: #28a745;
+            --warning-orange: #ffc107;
+            --danger-red: #dc3545;
+            --purple: #6f42c1;
+        }
+        
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            margin: 0;
+            padding: 2em;
+            min-height: 100vh;
+        }
+        
+        main.container {
+            max-width: 1200px;
+            margin: auto;
+            background-color: var(--white);
+            padding: 2em 3em;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        
+        .header {
+            text-align: center;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+            border-bottom: 4px solid var(--ice-blue);
+        }
+        
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            font-size: 3.5em;
+            margin: 0;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--midnight-blue), var(--sky-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            font-size: 1.3em;
+            color: var(--sky-blue);
+            margin: 10px 0 0 0;
+            font-style: italic;
+        }
+        
+        .quick-start {
+            background: linear-gradient(135deg, var(--purple), #e83e8c);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .quick-start h2 {
+            font-family: 'Poppins', sans-serif;
+            margin: 0 0 1rem 0;
+            font-size: 2em;
+        }
+        
+        .quick-start p {
+            font-size: 1.1em;
+            margin: 0 0 1.5rem 0;
+            opacity: 0.9;
+        }
+        
+        .quick-start-btn {
+            background: white;
+            color: var(--purple);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+        }
+        
+        .real-time-section {
+            background: linear-gradient(135deg, var(--ice-blue), #e3f2fd);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border: 2px solid var(--sky-blue);
+        }
+        
+        .real-time-section h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            margin: 0 0 1rem 0;
+            font-size: 1.8em;
+        }
+        
+        .mood-energy-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .experience-card {
+            background: linear-gradient(135deg, var(--white) 0%, var(--soft-gray) 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 2px solid var(--ice-blue);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .experience-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--sky-blue), var(--purple));
+        }
+        
+        .experience-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(115, 189, 245, 0.2);
+            border-color: var(--sky-blue);
+        }
+        
+        .experience-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .experience-icon {
+            font-size: 2.5em;
+            margin-right: 1rem;
+            background: linear-gradient(135deg, var(--sky-blue), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .experience-title {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            font-size: 1.5em;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .experience-description {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .experience-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .action-btn {
+            background: linear-gradient(135deg, var(--sky-blue), var(--purple));
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(115, 189, 245, 0.3);
+        }
+        
+        .action-btn.secondary {
+            background: linear-gradient(135deg, var(--success-green), #20c997);
+        }
+        
+        .action-btn.secondary:hover {
+            box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+        }
+        
+        .action-btn.warning {
+            background: linear-gradient(135deg, var(--warning-orange), #fd7e14);
+        }
+        
+        .action-btn.warning:hover {
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-card {
+            background: var(--soft-gray);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid var(--ice-blue);
+        }
+        
+        .stat-number {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--sky-blue);
+            margin: 0;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            margin: 0.5rem 0 0 0;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 1em; }
+            main.container { padding: 1.5em; }
+            .header h1 { font-size: 2.5em; }
+            .experience-grid { grid-template-columns: 1fr; }
+            .mood-energy-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <div class="header">
+            <h1>🌊 Experiential SEL Hub</h1>
+            <p>Immediate engagement through interactive learning experiences</p>
+        </div>
+        
+        <div class="quick-start">
+            <h2>🚀 Quick Start</h2>
+            <p>Ready to dive into SEL experiences? Start with an interactive dice or scenario cards for immediate classroom engagement.</p>
+            <button class="quick-start-btn" onclick="openRandomExperience()">🎲 Start Random Experience</button>
+        </div>
+        
+        <div class="real-time-section">
+            <h2>💭 Real-Time Awareness</h2>
+            <p>Check in with your current mood and energy level to guide your SEL experience.</p>
+            <div class="mood-energy-container">
+                <div id="mood-tracker"></div>
+                <div id="energy-tracker"></div>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">6</div>
+                <div class="stat-label">Interactive Dice</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">30</div>
+                <div class="stat-label">Scenario Cards</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5</div>
+                <div class="stat-label">CASEL Competencies</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Learning Possibilities</div>
+            </div>
+        </div>
+        
+        <div class="experience-grid">
+            <!-- Interactive Dice Experiences -->
+            <div class="experience-card">
+                <div class="experience-header">
+                    <div class="experience-icon">🎲</div>
+                    <h3 class="experience-title">Interactive Dice</h3>
+                </div>
+                <p class="experience-description">
+                    Engage students with dynamic dice prompts that cover all CASEL competencies. 
+                    Perfect for morning meetings, transitions, or focused SEL lessons.
+                </p>
+                <div class="experience-actions">
+                    <button class="action-btn" onclick="openClassroom('dice', 'Emotions & Feelings Dice.html')">
+                        🎭 Emotions & Feelings
+                    </button>
+                    <button class="action-btn" onclick="openClassroom('dice', 'Empathy & Kindness Dice.html')">
+                        💝 Empathy & Kindness
+                    </button>
+                    <button class="action-btn" onclick="openClassroom('dice', 'Friendship & Social Skills Dice.html')">
+                        🤝 Friendship & Social Skills
+                    </button>
+                    <button class="action-btn" onclick="openClassroom('dice', 'Coping Strategies Dice.html')">
+                        🧘 Coping Strategies
+                    </button>
+                    <button class="action-btn" onclick="openClassroom('dice', 'Problem Solving Dice.html')">
+                        🧩 Problem Solving
+                    </button>
+                    <button class="action-btn" onclick="openClassroom('dice', 'Self-Awareness Dice.html')">
+                        👁️ Self-Awareness
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Scenario Card Experiences -->
+            <div class="experience-card">
+                <div class="experience-header">
+                    <div class="experience-icon">📄</div>
+                    <h3 class="experience-title">Scenario Cards</h3>
+                </div>
+                <p class="experience-description">
+                    Explore real-world social situations through interactive scenario cards. 
+                    Build perspective-taking, problem-solving, and decision-making skills.
+                </p>
+                <div class="experience-actions">
+                    <button class="action-btn" onclick="openClassroom('scenarios', 'Scenario Cards 1.html')">
+                        📚 Cards 1-6
+                    </button>
+                    <button class="action-btn" onclick="openClassroom('scenarios', 'Scenario Cards 2.html')">
+                        📚 Cards 7-12
+                    </button>
+                    <button class="action-btn" onclick="openClassroom('scenarios', 'Scenario Cards 3.html')">
+                        📚 Cards 13-18
+                    </button>
+                    <button class="action-btn" onclick="openClassroom('scenarios', 'Scenario Cards 4.html')">
+                        📚 Cards 19-24
+                    </button>
+                    <button class="action-btn" onclick="openClassroom('scenarios', 'Scenario Cards 5.html')">
+                        📚 Cards 25-30
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Real-Time Reflection Experiences -->
+            <div class="experience-card">
+                <div class="experience-header">
+                    <div class="experience-icon">🧘</div>
+                    <h3 class="experience-title">Real-Time Reflection</h3>
+                </div>
+                <p class="experience-description">
+                    Immediate reflection experiences without data collection. 
+                    Focus on present-moment awareness and personal growth.
+                </p>
+                <div class="experience-actions">
+                    <button class="action-btn secondary" onclick="startReflection('immediate')">
+                        ⚡ Immediate Reflection
+                    </button>
+                    <button class="action-btn secondary" onclick="startReflection('group')">
+                        👥 Group Reflection
+                    </button>
+                    <button class="action-btn secondary" onclick="startReflection('guided')">
+                        🧘 Guided Reflection
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Guided Learning Experiences -->
+            <div class="experience-card">
+                <div class="experience-header">
+                    <div class="experience-icon">📖</div>
+                    <h3 class="experience-title">Guided Learning</h3>
+                </div>
+                <p class="experience-description">
+                    Access comprehensive SEL guides, lesson plans, and curriculum integration ideas. 
+                    Perfect for structured learning experiences.
+                </p>
+                <div class="experience-actions">
+                    <button class="action-btn secondary" onclick="window.open('Page 2 - Welcome to Your Interactive SEL Toolkit.html', '_blank')">
+                        🎯 Welcome Guide
+                    </button>
+                    <button class="action-btn secondary" onclick="window.open('Page 3 - Discussion Dice How They Work.html', '_blank')">
+                        🎲 Dice Guide
+                    </button>
+                    <button class="action-btn secondary" onclick="window.open('Page 9 - Integrating SEL Across the Curriculum.html', '_blank')">
+                        📚 Curriculum Integration
+                    </button>
+                    <button class="action-btn secondary" onclick="window.open('Page 8 - Advanced SEL Concepts.html', '_blank')">
+                        🧠 Advanced Concepts
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Family Connection Experiences -->
+            <div class="experience-card">
+                <div class="experience-header">
+                    <div class="experience-icon">👨‍👩‍👧‍👦</div>
+                    <h3 class="experience-title">Family Connection</h3>
+                </div>
+                <p class="experience-description">
+                    Extend SEL learning beyond the classroom with family activities, 
+                    conversation starters, and home-based experiences.
+                </p>
+                <div class="experience-actions">
+                    <button class="action-btn warning" onclick="window.open('Page 6 - Family Connection Activities.html', '_blank')">
+                        🏠 Family Activities
+                    </button>
+                    <button class="action-btn warning" onclick="window.open('Page 10 - Digital Resources & Extensions.html', '_blank')">
+                        💻 Digital Resources
+                    </button>
+                    <button class="action-btn warning" onclick="window.open('Page 11 - Glossary & Index.html', '_blank')">
+                        📖 Glossary & Index
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Print Resources -->
+            <div class="experience-card">
+                <div class="experience-header">
+                    <div class="experience-icon">🖨️</div>
+                    <h3 class="experience-title">Print Resources</h3>
+                </div>
+                <p class="experience-description">
+                    Access printable dice templates, scenario cards, and activity sheets 
+                    for hands-on, offline learning experiences.
+                </p>
+                <div class="experience-actions">
+                    <button class="action-btn" onclick="window.open('Blank Dice.html', '_blank')">
+                        🎲 Blank Dice Template
+                    </button>
+                    <button class="action-btn" onclick="window.open('Blank Scenario Cards.html', '_blank')">
+                        📄 Blank Scenario Cards
+                    </button>
+                    <button class="action-btn" onclick="window.open('Scenario Card Instructions.html', '_blank')">
+                        📋 Card Instructions
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Load experiential systems -->
+    <script src="experiential-core.js"></script>
+    <script src="real-time-reflection.js"></script>
+    <script src="mood-energy-tracker.js"></script>
+    
+    <script>
+        // Initialize experiential systems
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize mood and energy trackers
+            if (window.MoodEnergyTracker) {
+                const moodTracker = window.MoodEnergyTracker.createTrackerUI('mood-tracker');
+                const energyTracker = window.MoodEnergyTracker.createTrackerUI('energy-tracker');
+            }
+            
+            // Setup experiential SEL event listeners
+            if (window.ExperientialSEL) {
+                window.ExperientialSEL.on('experience:start', (data) => {
+                    console.log('🎯 Experience started:', data.type);
+                });
+                
+                window.ExperientialSEL.on('mood:change', (data) => {
+                    console.log('😊 Mood changed:', data.current);
+                });
+                
+                window.ExperientialSEL.on('energy:change', (data) => {
+                    console.log('⚡ Energy changed:', data.current);
+                });
+            }
+        });
+        
+        function openClassroom(type, file) {
+            const url = `classroom.html?type=${type}&file=${file}`;
+            window.open(url, '_blank');
+        }
+        
+        function openRandomExperience() {
+            const experiences = [
+                { type: 'dice', file: 'Emotions & Feelings Dice.html' },
+                { type: 'dice', file: 'Empathy & Kindness Dice.html' },
+                { type: 'dice', file: 'Friendship & Social Skills Dice.html' },
+                { type: 'dice', file: 'Coping Strategies Dice.html' },
+                { type: 'dice', file: 'Problem Solving Dice.html' },
+                { type: 'dice', file: 'Self-Awareness Dice.html' },
+                { type: 'scenarios', file: 'Scenario Cards 1.html' },
+                { type: 'scenarios', file: 'Scenario Cards 2.html' },
+                { type: 'scenarios', file: 'Scenario Cards 3.html' },
+                { type: 'scenarios', file: 'Scenario Cards 4.html' },
+                { type: 'scenarios', file: 'Scenario Cards 5.html' }
+            ];
+            
+            const randomExperience = experiences[Math.floor(Math.random() * experiences.length)];
+            openClassroom(randomExperience.type, randomExperience.file);
+        }
+        
+        function startReflection(type) {
+            if (window.RealTimeReflection) {
+                // Create reflection modal
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 1000;
+                `;
+                
+                const modalContent = document.createElement('div');
+                modalContent.style.cssText = `
+                    background: white;
+                    padding: 2rem;
+                    border-radius: 15px;
+                    max-width: 600px;
+                    width: 90%;
+                    max-height: 80vh;
+                    overflow-y: auto;
+                `;
+                
+                modalContent.innerHTML = `
+                    <h2>🧘 ${type.charAt(0).toUpperCase() + type.slice(1)} Reflection</h2>
+                    <div id="reflection-container"></div>
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        background: #dc3545;
+                        color: white;
+                        border: none;
+                        padding: 0.5rem 1rem;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        margin-top: 1rem;
+                    ">Close</button>
+                `;
+                
+                modal.appendChild(modalContent);
+                document.body.appendChild(modal);
+                
+                // Initialize reflection UI
+                const reflectionUI = window.RealTimeReflection.createReflectionUI('reflection-container');
+                reflectionUI.startReflection(type);
+            }
+        }
+        
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add hover effects to experience cards
+            const cards = document.querySelectorAll('.experience-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

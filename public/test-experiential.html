@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiential SEL Test Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight-blue: #0f2c4d;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --white: #ffffff;
+            --soft-gray: #f7f9fc;
+            --success-green: #28a745;
+            --warning-orange: #ffc107;
+            --danger-red: #dc3545;
+            --purple: #6f42c1;
+        }
+        
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            margin: 0;
+            padding: 2em;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background-color: var(--white);
+            padding: 2em 3em;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            font-size: 2.5em;
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .test-section {
+            background: var(--soft-gray);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border: 2px solid var(--ice-blue);
+        }
+        
+        .test-section h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            margin: 0 0 1rem 0;
+            font-size: 1.5em;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .test-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid var(--ice-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(115, 189, 245, 0.2);
+        }
+        
+        .test-btn {
+            background: linear-gradient(135deg, var(--sky-blue), var(--purple));
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+        
+        .test-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(115, 189, 245, 0.3);
+        }
+        
+        .test-btn.secondary {
+            background: linear-gradient(135deg, var(--success-green), #20c997);
+        }
+        
+        .test-btn.warning {
+            background: linear-gradient(135deg, var(--warning-orange), #fd7e14);
+        }
+        
+        .status-display {
+            background: var(--ice-blue);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.9em;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .mood-energy-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .reflection-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid var(--ice-blue);
+            margin: 1rem 0;
+        }
+        
+        .discussion-container {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid var(--ice-blue);
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 1em; }
+            .container { padding: 1.5em; }
+            .mood-energy-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌊 Experiential SEL Test Page</h1>
+            <p>Test the new experiential learning systems</p>
+        </div>
+        
+        <!-- Core System Test -->
+        <div class="test-section">
+            <h2>🔧 Core System Test</h2>
+            <p>Test the foundational experiential systems</p>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>Experiential Core</h3>
+                    <p>Test the central experience management system</p>
+                    <button class="test-btn" onclick="testExperientialCore()">Test Core System</button>
+                    <button class="test-btn secondary" onclick="testExperienceRegistry()">Test Registry</button>
+                </div>
+                <div class="test-card">
+                    <h3>Event System</h3>
+                    <p>Test the event-driven architecture</p>
+                    <button class="test-btn" onclick="testEventSystem()">Test Events</button>
+                    <button class="test-btn secondary" onclick="testHeartbeat()">Test Heartbeat</button>
+                </div>
+            </div>
+            <div id="core-status" class="status-display">Core system status will appear here...</div>
+        </div>
+        
+        <!-- Mood & Energy Test -->
+        <div class="test-section">
+            <h2>😊 Mood & Energy Test</h2>
+            <p>Test real-time emotional awareness tracking</p>
+            <div class="mood-energy-container">
+                <div id="mood-tracker"></div>
+                <div id="energy-tracker"></div>
+            </div>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>Mood Tracking</h3>
+                    <p>Test mood updates and statistics</p>
+                    <button class="test-btn" onclick="testMoodTracking()">Test Mood</button>
+                    <button class="test-btn secondary" onclick="getMoodStats()">Get Stats</button>
+                </div>
+                <div class="test-card">
+                    <h3>Energy Monitoring</h3>
+                    <p>Test energy level tracking</p>
+                    <button class="test-btn" onclick="testEnergyTracking()">Test Energy</button>
+                    <button class="test-btn secondary" onclick="getEnergyStats()">Get Stats</button>
+                </div>
+            </div>
+            <div id="mood-energy-status" class="status-display">Mood & energy status will appear here...</div>
+        </div>
+        
+        <!-- Reflection Test -->
+        <div class="test-section">
+            <h2>🧘 Reflection Test</h2>
+            <p>Test real-time reflection experiences</p>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>Reflection Types</h3>
+                    <p>Test different reflection experiences</p>
+                    <button class="test-btn" onclick="testImmediateReflection()">Immediate</button>
+                    <button class="test-btn secondary" onclick="testGroupReflection()">Group</button>
+                    <button class="test-btn warning" onclick="testGuidedReflection()">Guided</button>
+                </div>
+                <div class="test-card">
+                    <h3>Reflection Stats</h3>
+                    <p>View reflection statistics</p>
+                    <button class="test-btn" onclick="getReflectionStats()">Get Stats</button>
+                    <button class="test-btn secondary" onclick="clearReflectionHistory()">Clear History</button>
+                </div>
+            </div>
+            <div id="reflection-container" class="reflection-container">
+                <h3>Reflection Session</h3>
+                <p>Click a reflection type above to start a session</p>
+            </div>
+            <div id="reflection-status" class="status-display">Reflection status will appear here...</div>
+        </div>
+        
+        <!-- Classroom Test -->
+        <div class="test-section">
+            <h2>🏫 Classroom Test</h2>
+            <p>Test enhanced classroom experiences</p>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>Classroom Session</h3>
+                    <p>Test classroom session management</p>
+                    <button class="test-btn" onclick="startClassroomSession()">Start Session</button>
+                    <button class="test-btn secondary" onclick="endClassroomSession()">End Session</button>
+                </div>
+                <div class="test-card">
+                    <h3>Discussion Tools</h3>
+                    <p>Test discussion facilitation tools</p>
+                    <button class="test-btn" onclick="testThinkPairShare()">Think-Pair-Share</button>
+                    <button class="test-btn secondary" onclick="testCircleTime()">Circle Time</button>
+                    <button class="test-btn warning" onclick="testQuickCheck()">Quick Check</button>
+                </div>
+            </div>
+            <div id="classroom-discussion" class="discussion-container">
+                <h3>Discussion Tools</h3>
+                <p>Click a discussion tool above to start</p>
+            </div>
+            <div id="classroom-status" class="status-display">Classroom status will appear here...</div>
+        </div>
+        
+        <!-- System Status -->
+        <div class="test-section">
+            <h2>📊 System Status</h2>
+            <p>View overall system status and statistics</p>
+            <div class="test-grid">
+                <div class="test-card">
+                    <h3>System Stats</h3>
+                    <p>Get comprehensive system statistics</p>
+                    <button class="test-btn" onclick="getSystemStats()">Get Stats</button>
+                    <button class="test-btn secondary" onclick="getCurrentState()">Current State</button>
+                </div>
+                <div class="test-card">
+                    <h3>System Control</h3>
+                    <p>Control system operations</p>
+                    <button class="test-btn" onclick="cleanupSystem()">Cleanup</button>
+                    <button class="test-btn secondary" onclick="resetSystem()">Reset</button>
+                </div>
+            </div>
+            <div id="system-status" class="status-display">System status will appear here...</div>
+        </div>
+    </div>
+    
+    <!-- Load experiential systems -->
+    <script src="experiential-core.js"></script>
+    <script src="real-time-reflection.js"></script>
+    <script src="mood-energy-tracker.js"></script>
+    <script src="experiential-classroom.js"></script>
+    
+    <script>
+        // Initialize systems
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🌊 Experiential SEL Test Page Loaded');
+            
+            // Initialize mood and energy trackers
+            if (window.MoodEnergyTracker) {
+                window.MoodEnergyTracker.createTrackerUI('mood-tracker');
+                window.MoodEnergyTracker.createTrackerUI('energy-tracker');
+            }
+            
+            // Setup event listeners for testing
+            setupTestEventListeners();
+        });
+        
+        function setupTestEventListeners() {
+            if (window.ExperientialSEL) {
+                window.ExperientialSEL.on('experience:start', (data) => {
+                    updateStatus('core-status', `Experience started: ${data.type}`);
+                });
+                
+                window.ExperientialSEL.on('experience:end', (data) => {
+                    updateStatus('core-status', `Experience ended: ${data.experienceId}`);
+                });
+                
+                window.ExperientialSEL.on('heartbeat', (data) => {
+                    console.log('💓 Heartbeat:', data.state);
+                });
+            }
+            
+            if (window.MoodEnergyTracker) {
+                window.MoodEnergyTracker.on('mood:change', (data) => {
+                    updateStatus('mood-energy-status', `Mood changed: ${data.previous} → ${data.current}`);
+                });
+                
+                window.MoodEnergyTracker.on('energy:change', (data) => {
+                    updateStatus('mood-energy-status', `Energy changed: ${data.previous} → ${data.current}`);
+                });
+            }
+            
+            if (window.RealTimeReflection) {
+                window.RealTimeReflection.on('reflection:start', (data) => {
+                    updateStatus('reflection-status', `Reflection started: ${data.type}`);
+                });
+                
+                window.RealTimeReflection.on('reflection:end', (data) => {
+                    updateStatus('reflection-status', `Reflection ended with ${data.responseCount} responses`);
+                });
+            }
+            
+            if (window.ExperientialClassroom) {
+                window.ExperientialClassroom.on('classroom:session:start', (data) => {
+                    updateStatus('classroom-status', `Classroom session started: ${data.sessionId}`);
+                });
+                
+                window.ExperientialClassroom.on('classroom:session:end', (data) => {
+                    updateStatus('classroom-status', `Classroom session ended: ${data.sessionId}`);
+                });
+            }
+        }
+        
+        function updateStatus(elementId, message) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                const timestamp = new Date().toLocaleTimeString();
+                element.innerHTML += `\n[${timestamp}] ${message}`;
+                element.scrollTop = element.scrollHeight;
+            }
+        }
+        
+        // Test functions
+        function testExperientialCore() {
+            if (window.ExperientialSEL) {
+                const stats = window.ExperientialSEL.getStatistics();
+                updateStatus('core-status', `Core system stats: ${JSON.stringify(stats, null, 2)}`);
+            }
+        }
+        
+        function testExperienceRegistry() {
+            if (window.ExperientialSEL) {
+                const experienceId = window.ExperientialSEL.startExperience('dice');
+                updateStatus('core-status', `Started dice experience: ${experienceId}`);
+                
+                setTimeout(() => {
+                    window.ExperientialSEL.endExperience(experienceId);
+                    updateStatus('core-status', `Ended dice experience: ${experienceId}`);
+                }, 3000);
+            }
+        }
+        
+        function testEventSystem() {
+            if (window.ExperientialSEL) {
+                window.ExperientialSEL.emit('test:event', { message: 'Test event fired' });
+                updateStatus('core-status', 'Test event fired');
+            }
+        }
+        
+        function testHeartbeat() {
+            updateStatus('core-status', 'Heartbeat test - check console for heartbeat events');
+        }
+        
+        function testMoodTracking() {
+            if (window.MoodEnergyTracker) {
+                const moods = ['happy', 'calm', 'excited', 'neutral'];
+                const randomMood = moods[Math.floor(Math.random() * moods.length)];
+                window.MoodEnergyTracker.updateMood(randomMood);
+                updateStatus('mood-energy-status', `Updated mood to: ${randomMood}`);
+            }
+        }
+        
+        function getMoodStats() {
+            if (window.MoodEnergyTracker) {
+                const stats = window.MoodEnergyTracker.getStatistics();
+                updateStatus('mood-energy-status', `Mood stats: ${JSON.stringify(stats, null, 2)}`);
+            }
+        }
+        
+        function testEnergyTracking() {
+            if (window.MoodEnergyTracker) {
+                const energies = ['low', 'medium', 'high', 'supercharged'];
+                const randomEnergy = energies[Math.floor(Math.random() * energies.length)];
+                window.MoodEnergyTracker.updateEnergy(randomEnergy);
+                updateStatus('mood-energy-status', `Updated energy to: ${randomEnergy}`);
+            }
+        }
+        
+        function getEnergyStats() {
+            if (window.MoodEnergyTracker) {
+                const stats = window.MoodEnergyTracker.getStatistics();
+                updateStatus('mood-energy-status', `Energy stats: ${JSON.stringify(stats, null, 2)}`);
+            }
+        }
+        
+        function testImmediateReflection() {
+            if (window.RealTimeReflection) {
+                const sessionId = window.RealTimeReflection.startReflection('immediate');
+                updateStatus('reflection-status', `Started immediate reflection: ${sessionId}`);
+            }
+        }
+        
+        function testGroupReflection() {
+            if (window.RealTimeReflection) {
+                const sessionId = window.RealTimeReflection.startReflection('group');
+                updateStatus('reflection-status', `Started group reflection: ${sessionId}`);
+            }
+        }
+        
+        function testGuidedReflection() {
+            if (window.RealTimeReflection) {
+                const sessionId = window.RealTimeReflection.startReflection('guided');
+                updateStatus('reflection-status', `Started guided reflection: ${sessionId}`);
+            }
+        }
+        
+        function getReflectionStats() {
+            if (window.RealTimeReflection) {
+                const stats = window.RealTimeReflection.getStatistics();
+                updateStatus('reflection-status', `Reflection stats: ${JSON.stringify(stats, null, 2)}`);
+            }
+        }
+        
+        function clearReflectionHistory() {
+            if (window.RealTimeReflection) {
+                window.RealTimeReflection.reflectionHistory = [];
+                updateStatus('reflection-status', 'Reflection history cleared');
+            }
+        }
+        
+        function startClassroomSession() {
+            if (window.ExperientialClassroom) {
+                const sessionId = window.ExperientialClassroom.startSession({ type: 'test' });
+                updateStatus('classroom-status', `Started classroom session: ${sessionId}`);
+            }
+        }
+        
+        function endClassroomSession() {
+            if (window.ExperientialClassroom) {
+                window.ExperientialClassroom.endSession();
+                updateStatus('classroom-status', 'Ended classroom session');
+            }
+        }
+        
+        function testThinkPairShare() {
+            if (window.ExperientialClassroom) {
+                window.ExperientialClassroom.startThinkPairShare({ topic: 'Test Topic' });
+                updateStatus('classroom-status', 'Started Think-Pair-Share discussion');
+            }
+        }
+        
+        function testCircleTime() {
+            if (window.ExperientialClassroom) {
+                window.ExperientialClassroom.startCircleTime();
+                updateStatus('classroom-status', 'Started Circle Time');
+            }
+        }
+        
+        function testQuickCheck() {
+            if (window.ExperientialClassroom) {
+                window.ExperientialClassroom.startQuickCheck();
+                updateStatus('classroom-status', 'Started Quick Check');
+            }
+        }
+        
+        function getSystemStats() {
+            const stats = {
+                experiential: window.ExperientialSEL ? window.ExperientialSEL.getStatistics() : null,
+                mood: window.MoodEnergyTracker ? window.MoodEnergyTracker.getStatistics() : null,
+                reflection: window.RealTimeReflection ? window.RealTimeReflection.getStatistics() : null,
+                classroom: window.ExperientialClassroom ? window.ExperientialClassroom.getStatistics() : null
+            };
+            updateStatus('system-status', `System stats: ${JSON.stringify(stats, null, 2)}`);
+        }
+        
+        function getCurrentState() {
+            const state = {
+                experiential: window.ExperientialSEL ? window.ExperientialSEL.getState() : null,
+                mood: window.MoodEnergyTracker ? window.MoodEnergyTracker.getCurrentState() : null,
+                classroom: window.ExperientialClassroom ? window.ExperientialClassroom.getCurrentState() : null
+            };
+            updateStatus('system-status', `Current state: ${JSON.stringify(state, null, 2)}`);
+        }
+        
+        function cleanupSystem() {
+            if (window.ExperientialSEL) {
+                window.ExperientialSEL.cleanup();
+                updateStatus('system-status', 'System cleanup completed');
+            }
+        }
+        
+        function resetSystem() {
+            location.reload();
+        }
+    </script>
+</body>
+</html> 
