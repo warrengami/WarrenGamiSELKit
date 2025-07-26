@@ -203,6 +203,21 @@
             box-shadow: 0 6px 18px rgba(15,44,77,0.12);
         }
         
+        /* SEL Data Hub Button Layout */
+        .sel-data-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .sel-data-buttons .sel-data-btn,
+        .sel-data-buttons .observation-log-btn {
+            width: 100%;
+            margin: 0;
+            justify-content: center;
+        }
+        
         /* Professional Observation Log Button */
         .observation-log-btn {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -218,7 +233,6 @@
             box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
             position: relative;
             overflow: hidden;
-            margin-top: 1em;
             display: inline-flex;
             align-items: center;
             gap: 0.5em;
@@ -352,9 +366,12 @@
         <section class="settings-section" style="margin-bottom:2em;">
             <h2>SEL Data Hub</h2>
             <p style="margin-top:-15px; margin-bottom: 20px; line-height: 1.5; color: #333;">Use this section to manually input student reflection summaries and to view all collected data.</p>
-            <button id="input-reflection-btn" class="sel-data-btn" style="margin-right:1em;" onclick="openReflectionModal()">Input Student Reflection</button>
-            <button id="view-sel-data" class="sel-data-btn" style="margin-right:1em;">View/Export SEL Data</button>
-            <button id="view-portfolio" class="sel-data-btn">Individual Growth Portfolio</button>
+            <div class="sel-data-buttons">
+                <button id="input-reflection-btn" class="sel-data-btn" onclick="openReflectionModal()">Input Student Reflection</button>
+                <button id="view-sel-data" class="sel-data-btn">View/Export SEL Data</button>
+                <button id="view-portfolio" class="sel-data-btn">Individual Growth Portfolio</button>
+                <button id="observation-log-btn" class="observation-log-btn">📝 My Observation Log</button>
+            </div>
         </section>
 
         <!-- Quick Start Section -->
