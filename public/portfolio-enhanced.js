@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
         generateKeyTakeaways(reflections, observations);
     }
 
-    // Load student reflections
+    // Load student reflections with historical view
     function loadStudentReflections(reflections) {
         const reflectionsContainer = document.getElementById('student-reflections');
         
@@ -137,27 +137,69 @@ document.addEventListener('DOMContentLoaded', () => {
         // Sort by date (newest first)
         reflections.sort((a, b) => new Date(b.date) - new Date(a.date));
         
-        // Take the most recent reflection
+        // Take the most recent reflection for current view
         const latestReflection = reflections[0];
         
-        reflectionsContainer.innerHTML = `
-            <div class="reflection-item">
-                <strong>Proudest Improvement:</strong><br>
-                ${latestReflection.proudestImprovement || 'Not specified'}
-            </div>
-            <div class="reflection-item">
-                <strong>Success Story:</strong><br>
-                ${latestReflection.successStory || 'Not specified'}
-            </div>
-            <div class="reflection-item">
-                <strong>Next Goal:</strong><br>
-                ${latestReflection.nextGoal || 'Not specified'}
-            </div>
-            <div class="reflection-item">
-                <strong>Practice Strategy:</strong><br>
-                ${latestReflection.goalStrategy || 'Not specified'}
+        // Create current reflection section
+        let reflectionsHTML = `
+            <div class="current-reflection">
+                <h5>📝 Current Reflection (${new Date(latestReflection.date).toLocaleDateString()})</h5>
+                <div class="reflection-item">
+                    <strong>Proudest Improvement:</strong><br>
+                    ${latestReflection.proudestImprovement || 'Not specified'}
+                </div>
+                <div class="reflection-item">
+                    <strong>Success Story:</strong><br>
+                    ${latestReflection.successStory || 'Not specified'}
+                </div>
+                <div class="reflection-item">
+                    <strong>Next Goal:</strong><br>
+                    ${latestReflection.nextGoal || 'Not specified'}
+                </div>
+                <div class="reflection-item">
+                    <strong>Practice Strategy:</strong><br>
+                    ${latestReflection.goalStrategy || 'Not specified'}
+                </div>
             </div>
         `;
+        
+        // Add historical reflections if there are more than one
+        if (reflections.length > 1) {
+            reflectionsHTML += `
+                <div class="historical-reflections">
+                    <h5>📚 Growth Journey</h5>
+                    <div class="reflection-timeline">
+            `;
+            
+            // Show up to 3 previous reflections
+            const historicalReflections = reflections.slice(1, 4);
+            historicalReflections.forEach((reflection, index) => {
+                const date = new Date(reflection.date).toLocaleDateString();
+                reflectionsHTML += `
+                    <div class="historical-reflection-item">
+                        <div class="reflection-date">${date}</div>
+                        <div class="reflection-content">
+                            <div class="reflection-field">
+                                <strong>Goal:</strong> ${reflection.nextGoal || 'Not specified'}
+                            </div>
+                            <div class="reflection-field">
+                                <strong>Strategy:</strong> ${reflection.goalStrategy || 'Not specified'}
+                            </div>
+                            <div class="reflection-field">
+                                <strong>Proudest:</strong> ${reflection.proudestImprovement || 'Not specified'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            reflectionsHTML += `
+                    </div>
+                </div>
+            `;
+        }
+        
+        reflectionsContainer.innerHTML = reflectionsHTML;
     }
     
     // Load teacher observations
@@ -373,6 +415,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     title: '🎯 Current Goal',
                     value: latestReflection.nextGoal
                 });
+            }
+            
+            // Show goal progression if there are multiple reflections
+            if (reflections.length > 1) {
+                const previousGoals = reflections.slice(1, 4).map(r => r.nextGoal).filter(g => g && g !== 'N/A');
+                if (previousGoals.length > 0) {
+                    takeaways.push({
+                        title: '📈 Goal Evolution',
+                        value: `${previousGoals.length} previous goals tracked`
+                    });
+                }
             }
         }
         

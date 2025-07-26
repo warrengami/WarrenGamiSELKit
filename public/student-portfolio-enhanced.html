@@ -354,6 +354,62 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         
+        .current-reflection h5,
+        .historical-reflections h5 {
+            color: var(--midnight-blue);
+            margin-bottom: 1em;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+        }
+        
+        .historical-reflections {
+            margin-top: 2em;
+            padding-top: 1em;
+            border-top: 2px solid #e0e6ed;
+        }
+        
+        .reflection-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 1em;
+        }
+        
+        .historical-reflection-item {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            padding: 1em;
+            border-left: 4px solid #ffc107;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .historical-reflection-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+        
+        .reflection-date {
+            font-weight: bold;
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 0.5em;
+        }
+        
+        .reflection-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5em;
+        }
+        
+        .reflection-field {
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .reflection-field strong {
+            color: var(--midnight-blue);
+        }
+        
         .growth-narrative {
             background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
             border-radius: 12px;

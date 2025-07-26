@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Historical Student Data</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .form-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        input, select, textarea { margin: 5px; padding: 5px; width: 100%; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        .historical-entry { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Add Historical Student Data</h1>
+    <p>This will add multiple reflections for Jalen Carter to demonstrate the growth narrative feature.</p>
+    
+    <div class="form-section">
+        <h2>Historical Reflections for Jalen Carter</h2>
+        
+        <div class="historical-entry">
+            <h3>📅 January 2024 (Current)</h3>
+            <form id="current-form">
+                <div>
+                    <label>Date:</label>
+                    <input type="date" value="2024-01-15" readonly>
+                </div>
+                <div>
+                    <label>Proudest Improvement:</label>
+                    <input type="text" value="Getting better at calming down when frustrated" readonly>
+                </div>
+                <div>
+                    <label>Success Story:</label>
+                    <input type="text" value="Helped a friend solve a problem during recess" readonly>
+                </div>
+                <div>
+                    <label>Next Goal:</label>
+                    <input type="text" value="Practice using 'I feel' statements more often" readonly>
+                </div>
+                <div>
+                    <label>Practice Strategy:</label>
+                    <input type="text" value="Take deep breaths and count to 5 when upset" readonly>
+                </div>
+                <button type="button" onclick="addCurrentData()">Add Current Data</button>
+            </form>
+        </div>
+        
+        <div class="historical-entry">
+            <h3>📅 December 2023</h3>
+            <form id="dec-form">
+                <div>
+                    <label>Date:</label>
+                    <input type="date" value="2023-12-10" readonly>
+                </div>
+                <div>
+                    <label>Proudest Improvement:</label>
+                    <input type="text" value="Learning to share toys with classmates" readonly>
+                </div>
+                <div>
+                    <label>Success Story:</label>
+                    <input type="text" value="Shared my favorite book with a new student" readonly>
+                </div>
+                <div>
+                    <label>Next Goal:</label>
+                    <input type="text" value="Work on staying calm when things don't go my way" readonly>
+                </div>
+                <div>
+                    <label>Practice Strategy:</label>
+                    <input type="text" value="Count to 10 and think before reacting" readonly>
+                </div>
+                <button type="button" onclick="addDecData()">Add December Data</button>
+            </form>
+        </div>
+        
+        <div class="historical-entry">
+            <h3>📅 November 2023</h3>
+            <form id="nov-form">
+                <div>
+                    <label>Date:</label>
+                    <input type="date" value="2023-11-20" readonly>
+                </div>
+                <div>
+                    <label>Proudest Improvement:</label>
+                    <input type="text" value="Starting to recognize my emotions" readonly>
+                </div>
+                <div>
+                    <label>Success Story:</label>
+                    <input type="text" value="Told my teacher when I was feeling sad" readonly>
+                </div>
+                <div>
+                    <label>Next Goal:</label>
+                    <input type="text" value="Learn to share and take turns better" readonly>
+                </div>
+                <div>
+                    <label>Practice Strategy:</label>
+                    <input type="text" value="Use words to ask for what I need" readonly>
+                </div>
+                <button type="button" onclick="addNovData()">Add November Data</button>
+            </form>
+        </div>
+        
+        <div class="historical-entry">
+            <h3>📅 October 2023</h3>
+            <form id="oct-form">
+                <div>
+                    <label>Date:</label>
+                    <input type="date" value="2023-10-15" readonly>
+                </div>
+                <div>
+                    <label>Proudest Improvement:</label>
+                    <input type="text" value="Making new friends in class" readonly>
+                </div>
+                <div>
+                    <label>Success Story:</label>
+                    <input type="text" value="Asked a classmate to play with me" readonly>
+                </div>
+                <div>
+                    <label>Next Goal:</label>
+                    <input type="text" value="Learn to name my feelings" readonly>
+                </div>
+                <div>
+                    <label>Practice Strategy:</label>
+                    <input type="text" value="Tell someone when I'm happy, sad, or mad" readonly>
+                </div>
+                <button type="button" onclick="addOctData()">Add October Data</button>
+            </form>
+        </div>
+        
+        <button onclick="addAllData()" style="background: #28a745;">Add All Historical Data</button>
+        <button onclick="clearData()" style="background: #dc3545;">Clear All Data</button>
+        <button onclick="openPortfolio()" style="background: #6f42c1;">Open Portfolio</button>
+    </div>
+    
+    <div id="result"></div>
+
+    <script>
+        function addCurrentData() {
+            addData({
+                name: "Jalen Carter",
+                date: "2024-01-15",
+                namingEmotions_N: "4",
+                calming_N: "3",
+                understandingOthers_N: "4",
+                solvingConflicts_N: "3",
+                proudestImprovement: "Getting better at calming down when frustrated",
+                successStory: "Helped a friend solve a problem during recess",
+                nextGoal: "Practice using 'I feel' statements more often",
+                goalStrategy: "Take deep breaths and count to 5 when upset"
+            }, "Current");
+        }
+        
+        function addDecData() {
+            addData({
+                name: "Jalen Carter",
+                date: "2023-12-10",
+                namingEmotions_N: "3",
+                calming_N: "2",
+                understandingOthers_N: "3",
+                solvingConflicts_N: "2",
+                proudestImprovement: "Learning to share toys with classmates",
+                successStory: "Shared my favorite book with a new student",
+                nextGoal: "Work on staying calm when things don't go my way",
+                goalStrategy: "Count to 10 and think before reacting"
+            }, "December");
+        }
+        
+        function addNovData() {
+            addData({
+                name: "Jalen Carter",
+                date: "2023-11-20",
+                namingEmotions_N: "2",
+                calming_N: "1",
+                understandingOthers_N: "2",
+                solvingConflicts_N: "1",
+                proudestImprovement: "Starting to recognize my emotions",
+                successStory: "Told my teacher when I was feeling sad",
+                nextGoal: "Learn to share and take turns better",
+                goalStrategy: "Use words to ask for what I need"
+            }, "November");
+        }
+        
+        function addOctData() {
+            addData({
+                name: "Jalen Carter",
+                date: "2023-10-15",
+                namingEmotions_N: "1",
+                calming_N: "1",
+                understandingOthers_N: "1",
+                solvingConflicts_N: "1",
+                proudestImprovement: "Making new friends in class",
+                successStory: "Asked a classmate to play with me",
+                nextGoal: "Learn to name my feelings",
+                goalStrategy: "Tell someone when I'm happy, sad, or mad"
+            }, "October");
+        }
+        
+        function addAllData() {
+            addOctData();
+            setTimeout(() => addNovData(), 100);
+            setTimeout(() => addDecData(), 200);
+            setTimeout(() => addCurrentData(), 300);
+            setTimeout(() => {
+                document.getElementById('result').innerHTML = `
+                    <p class="success">✅ All historical data added successfully!</p>
+                    <p class="info">You can now open the portfolio to see Jalen's growth journey.</p>
+                `;
+            }, 400);
+        }
+        
+        function addData(data, period) {
+            try {
+                const existingData = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
+                existingData.push(data);
+                localStorage.setItem('selToolkit-selData', JSON.stringify(existingData));
+                document.getElementById('result').innerHTML = `
+                    <p class="success">✅ ${period} data added successfully!</p>
+                `;
+            } catch (error) {
+                document.getElementById('result').innerHTML = `
+                    <p class="error">❌ Error adding ${period} data: ${error.message}</p>
+                `;
+            }
+        }
+        
+        function clearData() {
+            localStorage.clear();
+            document.getElementById('result').innerHTML = `
+                <p class="success">✅ All data cleared!</p>
+            `;
+        }
+        
+        function openPortfolio() {
+            window.open('public/student-portfolio-enhanced.html', '_blank');
+        }
+    </script>
+</body>
+</html> 
