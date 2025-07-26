@@ -224,8 +224,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Make sure chart container is visible and sized properly
         chartContainer.style.display = 'block';
-        chartContainer.style.height = '300px';
+        chartContainer.style.height = '350px';
         chartContainer.style.width = '100%';
+        chartContainer.style.position = 'relative';
+        
+        // Ensure the canvas is properly sized
+        chartContainer.width = chartContainer.offsetWidth;
+        chartContainer.height = chartContainer.offsetHeight;
         
         // Get the most recent reflection for current ratings
         const latestReflection = reflections.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
@@ -262,6 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Chart.js is not loaded');
             }
             
+            // Get the canvas element directly
             const ctx = chartContainer.getContext('2d');
             skillsChart = new Chart(ctx, {
                 type: 'radar',
@@ -269,12 +275,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            top: 20,
+                            bottom: 20
+                        }
+                    },
                     scales: {
                         r: {
                             beginAtZero: true,
                             max: 5,
                             ticks: {
                                 stepSize: 1
+                            },
+                            pointLabels: {
+                                font: {
+                                    size: 12
+                                }
                             }
                         }
                     },
