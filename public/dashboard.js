@@ -83,12 +83,19 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Initialize the unified data processor
             const dataProcessor = new SELDataProcessor();
+            console.log('=== DASHBOARD PROCESSING ===');
+            console.log('Input text:', text.substring(0, 200) + '...');
 
             // Process the multi-student input
             const results = dataProcessor.processMultiStudentInput(text);
+            console.log('Processing results:', results);
 
             // Check if any students were processed successfully
             if (results.successCount > 0) {
+                // Save the processed entries to localStorage
+                console.log('Saving entries to localStorage...');
+                dataProcessor.saveEntries(results.processedEntries);
+                
                 modalStatus.textContent = `Successfully processed ${results.successCount} student reflection(s)!`;
                 modalStatus.style.color = '#28a745';
                 reflectionPasteArea.value = '';

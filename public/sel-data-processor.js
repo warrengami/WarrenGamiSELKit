@@ -209,10 +209,21 @@ class SELDataProcessor {
 
     // Save processed entries to localStorage
     saveEntries(entries) {
+        console.log('=== SAVING ENTRIES ===');
+        console.log('Entries to save:', entries);
+        
         const existingData = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
+        console.log('Existing data:', existingData);
+        
         const updatedData = [...existingData, ...entries];
+        console.log('Updated data:', updatedData);
+        
         localStorage.setItem('selToolkit-selData', JSON.stringify(updatedData));
         this.log(`Saved ${entries.length} entries to localStorage`);
+        
+        // Verify the save
+        const verifyData = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
+        console.log('Verified saved data:', verifyData);
     }
 
     // Load and validate data from localStorage
