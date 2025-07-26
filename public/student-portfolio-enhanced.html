@@ -46,61 +46,58 @@
             background: white;
         }
         
-        /* Simplified layout - single column on mobile, two columns on desktop */
+        /* Simplified layout - Narrative & Data columns */
         .portfolio-content {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr;
             gap: 2em;
         }
         
-        @media (min-width: 768px) {
+        @media (min-width: 1024px) {
             .portfolio-content {
-                display: grid;
-                grid-template-columns: 2fr 1fr;
-                gap: 2em;
+                grid-template-columns: 1fr 1fr;
+                gap: 3em;
             }
         }
         
-        /* Water gauges section */
-        .gauges-section {
+        /* Narrative Column (Left) - The "Why" */
+        .narrative-column {
             order: 1;
         }
         
-        /* Chart section */
-        .chart-section {
+        /* Data Column (Right) - The "What" */
+        .data-column {
             order: 2;
         }
         
-        /* Insights section */
-        .insights-section {
-            order: 3;
-            grid-column: 1 / -1;
+        /* Summary Metrics - Elevated to top of data column */
+        .summary-metrics {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 1.5em;
+            border-radius: 12px;
+            margin-bottom: 2em;
+            border: 1px solid #e2e8f0;
         }
         
-        /* Reflection section */
-        .reflection-section {
-            order: 4;
-        }
-        
-        /* Metrics section */
-        .metrics-section {
-            order: 5;
-            grid-column: 1 / -1;
+        .summary-metrics h3 {
+            margin-top: 0;
+            color: #0f2c4d;
+            font-size: 1.2em;
+            margin-bottom: 1em;
         }
         
         .metrics-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 1em;
-            margin-top: 1em;
         }
         
         .metric-card {
-            background: linear-gradient(135deg, #e8f4fd 0%, #d1ecf1 100%);
-            padding: 1.5em;
-            border-radius: 12px;
+            background: white;
+            padding: 1em;
+            border-radius: 8px;
             text-align: center;
-            border: 1px solid #bee5eb;
+            border: 1px solid #e2e8f0;
             transition: all 0.3s ease;
         }
         
@@ -110,130 +107,220 @@
         }
         
         .metric-value {
-            font-size: 2.5em;
+            font-size: 2em;
+            font-weight: bold;
+            color: #0f2c4d;
+            margin-bottom: 0.25em;
+        }
+        
+        .metric-label {
+            font-size: 0.8em;
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        /* SEL Skill Spotlight Cards - Replace water gauges */
+        .spotlight-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1em;
+            margin-bottom: 2em;
+        }
+        
+        .spotlight-card {
+            background: white;
+            padding: 1.5em;
+            border-radius: 12px;
+            border-left: 4px solid;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .spotlight-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .spotlight-card.self-awareness { border-left-color: #10b981; }
+        .spotlight-card.self-management { border-left-color: #3b82f6; }
+        .spotlight-card.social-awareness { border-left-color: #f59e0b; }
+        .spotlight-card.relationship-skills { border-left-color: #8b5cf6; }
+        .spotlight-card.responsible-decision-making { border-left-color: #ef4444; }
+        
+        .skill-name {
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 0.5em;
+            font-size: 1.1em;
+        }
+        
+        .skill-score {
+            font-size: 2em;
             font-weight: bold;
             color: #0f2c4d;
             margin-bottom: 0.5em;
         }
         
-        .metric-label {
+        .skill-growth {
+            display: inline-block;
+            padding: 0.25em 0.5em;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 0.5em;
+        }
+        
+        .skill-growth.positive {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        .skill-growth.negative {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+        
+        .skill-growth.neutral {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        
+        .skill-descriptor {
             font-size: 0.9em;
             color: #64748b;
             font-weight: 500;
         }
         
-        /* Observations section */
-        .observations-section {
-            order: 6;
-            grid-column: 1 / -1;
+        /* Key Takeaways - Dynamic insights */
+        .key-takeaways {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 1.5em;
+            border-radius: 12px;
+            border-left: 4px solid #0ea5e9;
         }
         
-        .observations-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .key-takeaways h3 {
+            margin-top: 0;
+            color: #0f2c4d;
+            font-size: 1.2em;
             margin-bottom: 1em;
         }
         
-        .observations-header h3 {
-            margin: 0;
+        .takeaway-item {
+            margin-bottom: 1em;
+            padding: 1em;
+            background: white;
+            border-radius: 8px;
+            border-left: 3px solid #0ea5e9;
         }
         
-        #clear-observations-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 0.5em 1em;
-            border-radius: 6px;
-            cursor: pointer;
+        .takeaway-label {
+            font-weight: bold;
+            color: #0f2c4d;
+            margin-bottom: 0.5em;
             font-size: 0.9em;
-            transition: all 0.3s ease;
         }
         
-        #clear-observations-btn:hover {
-            background: #c82333;
-            transform: translateY(-1px);
+        .takeaway-value {
+            color: #1e293b;
+            line-height: 1.4;
         }
         
         /* Reflection section improvements */
         .reflection-section {
-            order: 4;
+            background: white;
+            padding: 1.5em;
+            border-radius: 12px;
+            margin-bottom: 2em;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .reflection-section h3 {
+            margin-top: 0;
+            color: #0f2c4d;
+            font-size: 1.3em;
+            margin-bottom: 1em;
         }
         
         .reflection-item {
             margin-bottom: 1.5em;
-            padding: 1.5em;
-            background: #fff;
-            border-radius: 12px;
-            border-left: 4px solid #73bdf5;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
+            padding: 1em;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 3px solid #73bdf5;
         }
         
-        .reflection-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        .reflection-item:last-child {
+            margin-bottom: 0;
         }
         
         .reflection-label {
             font-weight: bold;
             color: #0f2c4d;
             margin-bottom: 0.5em;
-            font-size: 1.1em;
+            font-size: 1em;
         }
         
-        /* Mobile responsiveness improvements */
-        @media (max-width: 768px) {
-            body {
-                padding: 0.5em;
-            }
-            
-            main {
-                padding: 1em;
-            }
-            
-            h1 {
-                font-size: 1.5rem;
-            }
-            
-            .portfolio-content {
-                gap: 1.5em;
-            }
-            
-            .metrics-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .metric-value {
-                font-size: 2em;
-            }
-            
-            .observations-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1em;
-            }
-        }
-        
-        /* Enhanced chart container with animations */
-        .chart-container {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        /* Observations section */
+        .observations-section {
+            background: white;
             padding: 1.5em;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .observations-section h3 {
+            margin-top: 0;
+            color: #0f2c4d;
+            font-size: 1.3em;
+            margin-bottom: 1em;
+        }
+        
+        .observation-item {
+            margin-bottom: 1.5em;
+            padding: 1em;
+            background: #f8fafc;
             border-radius: 8px;
-            text-align: center;
-            min-height: 400px;
-            position: relative;
-            border: 2px solid #dee2e6;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
+            border-left: 3px solid #f59e0b;
         }
-        .chart-container:hover {
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-            transform: translateY(-2px);
+        
+        .observation-date {
+            font-weight: bold;
+            color: #0f2c4d;
+            margin-bottom: 0.5em;
         }
-        .chart-container canvas {
-            max-width: 100%;
-            height: 350px !important;
+        
+        .observation-competency {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.25em 0.5em;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 0.5em;
+        }
+        
+        .observation-notes {
+            color: #1e293b;
+            line-height: 1.4;
+        }
+        
+        /* Chart section improvements */
+        .chart-section {
+            background: white;
+            padding: 1.5em;
+            border-radius: 12px;
+            margin-bottom: 2em;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .chart-section h3 {
+            margin-top: 0;
+            color: #0f2c4d;
+            font-size: 1.3em;
+            margin-bottom: 1em;
         }
         
         /* Performance zone indicators */
@@ -384,6 +471,64 @@
         .back-link:hover {
             text-decoration: underline;
         }
+        
+        /* Mobile responsiveness improvements */
+        @media (max-width: 1023px) {
+            body {
+                padding: 0.5em;
+            }
+            
+            main {
+                padding: 1em;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .portfolio-content {
+                gap: 1.5em;
+            }
+            
+            .spotlight-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metric-value {
+                font-size: 1.8em;
+            }
+            
+            .observations-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1em;
+            }
+        }
+        
+        /* Enhanced chart container with animations */
+        .chart-container {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 1.5em;
+            border-radius: 8px;
+            text-align: center;
+            min-height: 400px;
+            position: relative;
+            border: 2px solid #dee2e6;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .chart-container:hover {
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            transform: translateY(-2px);
+        }
+        .chart-container canvas {
+            max-width: 100%;
+            height: 350px !important;
+        }
     </style>
 </head>
 <body>
@@ -400,94 +545,81 @@
 
         <div id="portfolio-content" style="display: none;">
             <div class="portfolio-content">
-                <!-- Water Gauges Section -->
-                <div id="water-gauges" class="gauges-section">
-                    <h3>SEL Skill Performance</h3>
-                    <div class="performance-zones">
-                        <div class="zone-indicator zone-strong">
-                            <span>🟢</span>
-                            <span>Excellent (4-5)</span>
+                <!-- Narrative Column (Left) - The "Why" -->
+                <div class="narrative-column">
+                    <!-- Student Reflection Section -->
+                    <div class="reflection-section">
+                        <h3>Student Reflection Highlights</h3>
+                        <div id="reflection-content">
+                            <div class="reflection-item">
+                                <div class="reflection-label">Proudest Improvement</div>
+                                <div id="proudest-improvement">-</div>
+                            </div>
+                            <div class="reflection-item">
+                                <div class="reflection-label">Success Story</div>
+                                <div id="success-story">-</div>
+                            </div>
+                            <div class="reflection-item">
+                                <div class="reflection-label">Next Goal</div>
+                                <div id="next-goal">-</div>
+                            </div>
+                            <div class="reflection-item">
+                                <div class="reflection-label">Practice Strategy</div>
+                                <div id="practice-strategy">-</div>
+                            </div>
                         </div>
-                        <div class="zone-indicator zone-developing">
-                            <span>🟡</span>
-                            <span>Good (3)</span>
-                        </div>
-                        <div class="zone-indicator zone-support">
-                            <span>🟠</span>
-                            <span>Developing (2)</span>
-                        </div>
-                        <div class="zone-indicator zone-support">
-                            <span>🔴</span>
-                            <span>Needs Support (0-1)</span>
+                    </div>
+                    
+                    <!-- Teacher Observations Section -->
+                    <div class="observations-section">
+                        <h3>Teacher Observations</h3>
+                        <div id="observations-content">
+                            <div class="no-data">No observation data available for this student.</div>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Chart Section -->
-                <div class="chart-section">
+                <!-- Data Column (Right) - The "What" -->
+                <div class="data-column">
                     <h3>Growth Visualization</h3>
-                    <div class="chart-container">
-                        <canvas id="radar-chart"></canvas>
-                    </div>
-                </div>
-                
-                <!-- Insights Section -->
-                <div class="insights-section">
-                    <h3>Growth Insights</h3>
-                    <div class="insights-panel">
-                        <div class="insight-item">
-                            <div class="insight-title">Biggest Improvement</div>
-                            <div class="insight-value" id="biggest-improvement">-</div>
-                        </div>
-                        <div class="insight-item">
-                            <div class="insight-title">Growth Percentage</div>
-                            <div class="insight-value" id="growth-percentage">-</div>
-                        </div>
-                        <div class="insight-item">
-                            <div class="insight-title">Focus Area</div>
-                            <div class="insight-value" id="focus-area">-</div>
+                    <div class="chart-section">
+                        <div class="chart-container">
+                            <canvas id="radar-chart"></canvas>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Reflection Section -->
-                <div class="reflection-section">
-                    <h3>Student Reflection Highlights</h3>
-                    <div id="reflection-content">
-                        <div class="reflection-item">
-                            <div class="reflection-label">Proudest Improvement</div>
-                            <div id="proudest-improvement">-</div>
-                        </div>
-                        <div class="reflection-item">
-                            <div class="reflection-label">Success Story</div>
-                            <div id="success-story">-</div>
-                        </div>
-                        <div class="reflection-item">
-                            <div class="reflection-label">Next Goal</div>
-                            <div id="next-goal">-</div>
-                        </div>
-                        <div class="reflection-item">
-                            <div class="reflection-label">Practice Strategy</div>
-                            <div id="practice-strategy">-</div>
+                    <div class="summary-metrics">
+                        <h3>Summary Metrics</h3>
+                        <div class="metrics-grid">
+                            <div class="metric-card">
+                                <div class="metric-value" id="growth-score">+0</div>
+                                <div class="metric-label">Total Growth Score</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="assessment-date">-</div>
+                                <div class="metric-label">Assessment Date</div>
+                            </div>
+                            <div class="metric-card">
+                                <div class="metric-value" id="observations-count">0</div>
+                                <div class="metric-label">Teacher Observations</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Metrics Section -->
-                <div class="metrics-section">
-                    <h3>Summary Metrics</h3>
-                    <div class="metrics-grid">
-                        <div class="metric-card">
-                            <div class="metric-value" id="growth-score">+0</div>
-                            <div class="metric-label">Total Growth Score</div>
+                    <div class="spotlight-cards">
+                        <!-- Dynamic spotlight cards will be generated here -->
+                    </div>
+                    <div class="key-takeaways">
+                        <h3>Key Takeaways</h3>
+                        <div class="takeaway-item">
+                            <div class="takeaway-label">Overall Growth</div>
+                            <div class="takeaway-value">Significant improvement in self-awareness and relationship skills.</div>
                         </div>
-                        <div class="metric-card">
-                            <div class="metric-value" id="assessment-date">-</div>
-                            <div class="metric-label">Assessment Date</div>
+                        <div class="takeaway-item">
+                            <div class="takeaway-label">Areas for Focus</div>
+                            <div class="takeaway-value">Social awareness and emotional regulation need more attention.</div>
                         </div>
-                        <div class="metric-card">
-                            <div class="metric-value" id="observations-count">0</div>
-                            <div class="metric-label">Teacher Observations</div>
+                        <div class="takeaway-item">
+                            <div class="takeaway-label">Next Steps</div>
+                            <div class="takeaway-value">Continue practicing emotional regulation and empathy.</div>
                         </div>
                     </div>
                 </div>
@@ -512,6 +644,5 @@
 
     <script src="sel-data-processor.js"></script>
     <script src="portfolio-enhanced.js"></script>
-    <script src="water-gauges.js"></script>
 </body>
 </html>

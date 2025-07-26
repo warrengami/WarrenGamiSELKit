@@ -332,7 +332,10 @@ document.addEventListener('DOMContentLoaded', () => {
             updateReflectionContent(studentData);
             updateMetrics(studentData);
             updateObservations(studentData);
-            updateInsights(studentData);
+            
+            // Use new dynamic components
+            createSpotlightCards(studentData);
+            generateKeyTakeaways(studentData);
             
             // Create radar chart with a small delay to ensure DOM is ready
             setTimeout(() => {
@@ -358,4 +361,175 @@ document.addEventListener('DOMContentLoaded', () => {
 
     studentSelect.addEventListener('change', (e) => updatePortfolio(e.target.value));
     populateStudentDropdown();
+
+    // Create dynamic spotlight cards to replace water gauges
+    function createSpotlightCards(studentData) {
+        const spotlightContainer = document.querySelector('.spotlight-cards');
+        if (!spotlightContainer) return;
+        
+        const skills = [
+            { key: 'namingEmotions', name: 'Naming Emotions', competency: 'self-awareness', descriptor: 'Emotional Recognition' },
+            { key: 'calming', name: 'Calming Down', competency: 'self-management', descriptor: 'Emotional Regulation' },
+            { key: 'understandingOthers', name: 'Understanding Others', competency: 'social-awareness', descriptor: 'Empathy & Perspective' },
+            { key: 'solvingConflicts', name: 'Solving Conflicts', competency: 'relationship-skills', descriptor: 'Conflict Resolution' }
+        ];
+        
+        const assessment = studentData.assessment;
+        let spotlightHTML = '';
+        
+        skills.forEach(skill => {
+            const beginningScore = parseInt(assessment[`${skill.key}_B`]) || 0;
+            const currentScore = parseInt(assessment[`${skill.key}_N`]) || 0;
+            const growth = currentScore - beginningScore;
+            
+            let growthClass = 'neutral';
+            let growthText = '±0';
+            if (growth > 0) {
+                growthClass = 'positive';
+                growthText = `+${growth}`;
+            } else if (growth < 0) {
+                growthClass = 'negative';
+                growthText = `${growth}`;
+            }
+            
+            spotlightHTML += `
+                <div class="spotlight-card ${skill.competency}" data-skill="${skill.key}">
+                    <div class="skill-name">${skill.name}</div>
+                    <div class="skill-score">${currentScore}/5</div>
+                    <div class="skill-growth ${growthClass}">${growthText}</div>
+                    <div class="skill-descriptor">${skill.descriptor}</div>
+                </div>
+            `;
+        });
+        
+        spotlightContainer.innerHTML = spotlightHTML;
+        
+        // Add click handlers for interactivity
+        const cards = spotlightContainer.querySelectorAll('.spotlight-card');
+        cards.forEach(card => {
+            card.addEventListener('click', () => {
+                const skillKey = card.dataset.skill;
+                filterObservationsBySkill(skillKey);
+            });
+        });
+    }
+    
+    // Filter observations by skill when spotlight card is clicked
+    function filterObservationsBySkill(skillKey) {
+        const observationsContent = document.getElementById('observations-content');
+        const allObservations = JSON.parse(localStorage.getItem('selToolkit-observationLog') || '[]');
+        const currentStudent = document.getElementById('student-select').value;
+        
+        const skillMap = {
+            'namingEmotions': 'Self-Awareness',
+            'calming': 'Self-Management', 
+            'understandingOthers': 'Social Awareness',
+            'solvingConflicts': 'Relationship Skills'
+        };
+        
+        const skillName = skillMap[skillKey];
+        const filteredObservations = allObservations.filter(obs => 
+            obs.student === currentStudent && obs.competency === skillName
+        );
+        
+        if (filteredObservations.length > 0) {
+            observationsContent.innerHTML = filteredObservations.map(obs => `
+                <div class="observation-item">
+                    <div class="observation-date">${obs.date}</div>
+                    <div class="observation-competency">${obs.competency}</div>
+                    <div class="observation-notes">${obs.notes}</div>
+                </div>
+            `).join('');
+        } else {
+            observationsContent.innerHTML = `<div class="no-data">No observations found for ${skillName}.</div>`;
+        }
+    }
+    
+    // Generate dynamic key takeaways
+    function generateKeyTakeaways(studentData) {
+        const assessment = studentData.assessment;
+        const observations = studentData.observations;
+        
+        const labels = ['Naming Emotions', 'Calming Down', 'Understanding Others', 'Solving Conflicts'];
+        const beginning = [
+            parseInt(assessment.namingEmotions_B) || 0,
+            parseInt(assessment.calming_B) || 0,
+            parseInt(assessment.understandingOthers_B) || 0,
+            parseInt(assessment.solvingConflicts_B) || 0
+        ];
+        const current = [
+            parseInt(assessment.namingEmotions_N) || 0,
+            parseInt(assessment.calming_N) || 0,
+            parseInt(assessment.understandingOthers_N) || 0,
+            parseInt(assessment.solvingConflicts_N) || 0
+        ];
+        
+        // Find biggest improvement
+        let maxGrowth = -Infinity, maxIdx = 0;
+        for (let i = 0; i < beginning.length; i++) {
+            const growth = current[i] - beginning[i];
+            if (growth > maxGrowth) {
+                maxGrowth = growth;
+                maxIdx = i;
+            }
+        }
+        
+        // Find focus area (lowest current score)
+        let minScore = Infinity, minIdx = 0;
+        for (let i = 0; i < current.length; i++) {
+            if (current[i] < minScore) {
+                minScore = current[i];
+                minIdx = i;
+            }
+        }
+        
+        // Generate insights
+        const takeaways = [];
+        
+        if (maxGrowth > 0) {
+            takeaways.push({
+                label: 'Biggest Improvement',
+                value: `${labels[maxIdx]} showed the most growth (+${maxGrowth} points).`
+            });
+        } else {
+            takeaways.push({
+                label: 'Growth Status',
+                value: 'Student is maintaining current skill levels across all areas.'
+            });
+        }
+        
+        takeaways.push({
+            label: 'Focus Area',
+            value: `${labels[minIdx]} (${current[minIdx]}/5) needs continued development.`
+        });
+        
+        if (assessment.nextGoal) {
+            takeaways.push({
+                label: 'Student Goal',
+                value: `Next priority: ${assessment.nextGoal}`
+            });
+        }
+        
+        if (observations.length > 0) {
+            const latestObservation = observations[0];
+            takeaways.push({
+                label: 'Teacher Insight',
+                value: `Latest observation (${latestObservation.date}): ${latestObservation.notes.substring(0, 100)}...`
+            });
+        }
+        
+        // Update the takeaways section
+        const takeawaysContainer = document.querySelector('.key-takeaways');
+        if (takeawaysContainer) {
+            const takeawaysHTML = takeaways.map(takeaway => `
+                <div class="takeaway-item">
+                    <div class="takeaway-label">${takeaway.label}</div>
+                    <div class="takeaway-value">${takeaway.value}</div>
+                </div>
+            `).join('');
+            
+            const existingTitle = takeawaysContainer.querySelector('h3');
+            takeawaysContainer.innerHTML = existingTitle.outerHTML + takeawaysHTML;
+        }
+    }
 }); 
