@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const controlPanelEl = document.getElementById('control-panel');
 
     // Global variables for enhanced features
-    let diceHistory = [];
     let currentTimer = null;
     let discussionPrompts = [];
 
@@ -51,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const allPrompts = eval(promptsMatch[1]);
             let currentPrompts = allPrompts.slice(0, 6);
             
-            // Build enhanced 3D dice HTML with history
+            // Build enhanced 3D dice HTML
             mainContentEl.innerHTML = `
                 <div class="dice-scene">
                     <div class="dice" id="interactive-dice">
@@ -59,10 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
                 <div id="prompt-result"></div>
-                <div id="dice-history" class="dice-history">
-                    <h4>Recent Rolls:</h4>
-                    <div id="history-list"></div>
-                </div>
                 <div id="timer-section" class="timer-section" style="display: none;">
                     <div id="timer-display" class="timer-display">00:00</div>
                     <div id="discussion-prompt" class="discussion-prompt"></div>
@@ -88,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const dice = document.getElementById('interactive-dice');
             const promptResultEl = document.getElementById('prompt-result');
-            const historyList = document.getElementById('history-list');
             const timerSection = document.getElementById('timer-section');
             const timerDisplay = document.getElementById('timer-display');
             const discussionPrompt = document.getElementById('discussion-prompt');
@@ -124,9 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const chosenPrompt = currentPrompts[randomFace - 1];
                     promptResultEl.textContent = chosenPrompt;
                     
-                    // Add to history
-                    addToHistory(chosenPrompt, randomFace);
-                    
                     // Show discussion prompt
                     showDiscussionPrompt(chosenPrompt);
                     
@@ -157,34 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     timerBtn.textContent = '⏹️ Stop Timer';
                 }
             });
-
-            // Add to history function
-            function addToHistory(prompt, faceNumber) {
-                const timestamp = new Date().toLocaleTimeString();
-                diceHistory.unshift({
-                    prompt: prompt,
-                    face: faceNumber,
-                    time: timestamp
-                });
-                
-                // Keep only last 5 rolls
-                if (diceHistory.length > 5) {
-                    diceHistory.pop();
-                }
-                
-                updateHistoryDisplay();
-            }
-
-            // Update history display
-            function updateHistoryDisplay() {
-                historyList.innerHTML = diceHistory.map((roll, index) => `
-                    <div class="history-item">
-                        <span class="history-face">🎲${roll.face}</span>
-                        <span class="history-prompt">${roll.prompt.substring(0, 30)}${roll.prompt.length > 30 ? '...' : ''}</span>
-                        <span class="history-time">${roll.time}</span>
-                    </div>
-                `).join('');
-            }
 
             // Show discussion prompt
             function showDiscussionPrompt(prompt) {
