@@ -1,44 +1,16 @@
 // File: dashboard.js
-// Teacher Dashboard functionality
+// Teacher Dashboard functionality - Focused on Dice and Scenario Cards
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize the unified data processor
-    const dataProcessor = new SELDataProcessor();
+    console.log('Dashboard loaded - Dice and Scenario Cards focus');
     
-    // Get DOM elements with error checking
-    const inputReflectionBtn = document.getElementById('input-reflection-btn');
-    const viewSelDataBtn = document.getElementById('view-sel-data');
-    const viewPortfolioBtn = document.getElementById('view-portfolio');
-    const reflectionModal = document.getElementById('reflection-modal');
-    const modalCloseBtn = document.querySelector('.modal-close-btn');
-    const saveReflectionBtn = document.getElementById('save-reflection-btn');
-    const reflectionPasteArea = document.getElementById('reflection-paste-area');
-    const modalStatus = document.getElementById('modal-status');
+    // Get DOM elements
     const resourceSearch = document.getElementById('resource-search');
     const clearSearch = document.getElementById('clear-search');
     const printableList = document.getElementById('printable-list');
     const noResultsMessage = document.getElementById('no-results-message');
 
-    // Debug logging
-    console.log('Dashboard elements found:', {
-        inputReflectionBtn: !!inputReflectionBtn,
-        reflectionModal: !!reflectionModal,
-        modalCloseBtn: !!modalCloseBtn,
-        saveReflectionBtn: !!saveReflectionBtn,
-        reflectionPasteArea: !!reflectionPasteArea
-    });
-
-    // Check if required elements exist
-    if (!inputReflectionBtn) {
-        console.error('Input reflection button not found!');
-        return;
-    }
-    if (!reflectionModal) {
-        console.error('Reflection modal not found!');
-        return;
-    }
-
-    // Classroom mode function
+    // Classroom mode function for dice and scenario cards
     function openClassroom(type, file) {
         try {
             const url = `classroom.html?type=${encodeURIComponent(type)}&file=${encodeURIComponent(file)}`;
@@ -55,142 +27,42 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make openClassroom available globally
     window.openClassroom = openClassroom;
 
-    // Global function for opening reflection modal (backup method)
-    window.openReflectionModal = function() {
-        console.log('openReflectionModal called!');
-        const modal = document.getElementById('reflection-modal');
-        const textarea = document.getElementById('reflection-paste-area');
-        const status = document.getElementById('modal-status');
-        
-        if (modal && textarea && status) {
-            modal.style.display = 'flex';
-            textarea.focus();
-            status.textContent = '';
-        } else {
-            console.error('Modal elements not found in openReflectionModal');
-        }
-    };
+    // Search functionality for printables
+    if (resourceSearch) {
+        resourceSearch.addEventListener('input', () => {
+            const searchTerm = resourceSearch.value.toLowerCase();
+            const items = printableList.querySelectorAll('li[data-type]');
+            let visibleCount = 0;
 
-    // Process and save reflections
-    function processAndSaveReflections() {
-        const text = reflectionPasteArea.value.trim();
-        if (!text) {
-            modalStatus.textContent = 'Please paste some reflection data.';
-            modalStatus.style.color = '#dc3545';
-            return;
-        }
+            items.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
 
-        try {
-            // Initialize the unified data processor
-            const dataProcessor = new SELDataProcessor();
-            console.log('=== DASHBOARD PROCESSING ===');
-            console.log('Input text:', text.substring(0, 200) + '...');
-
-            // Process the multi-student input
-            const results = dataProcessor.processMultiStudentInput(text);
-            console.log('Processing results:', results);
-
-            // Check if any students were processed successfully
-            if (results.successCount > 0) {
-                // Save the processed entries to localStorage
-                console.log('Saving entries to localStorage...');
-                dataProcessor.saveEntries(results.processedEntries);
-                
-                modalStatus.textContent = `Successfully processed ${results.successCount} student reflection(s)!`;
-                modalStatus.style.color = '#28a745';
-                reflectionPasteArea.value = '';
-                
-                // Close modal after a short delay
-                setTimeout(() => {
-                    reflectionModal.style.display = 'none';
-                    modalStatus.textContent = '';
-                }, 2000);
-            } else {
-                // No successful processing
-                const errorMessage = results.errors.length > 0 ? results.errors.join('; ') : 'No valid student data found';
-                modalStatus.textContent = `Error: ${errorMessage}`;
-                modalStatus.style.color = '#dc3545';
+            // Show/hide clear button
+            if (clearSearch) {
+                clearSearch.style.display = searchTerm ? 'block' : 'none';
             }
-        } catch (error) {
-            console.error('Error processing reflections:', error);
-            modalStatus.textContent = 'An error occurred while processing the reflections.';
-            modalStatus.style.color = '#dc3545';
-        }
-    }
-
-    // Event listeners
-    inputReflectionBtn.addEventListener('click', () => {
-        console.log('Input reflection button clicked!');
-        reflectionModal.style.display = 'flex';
-        reflectionPasteArea.focus();
-        modalStatus.textContent = '';
-    });
-
-    modalCloseBtn.addEventListener('click', () => {
-        console.log('Modal close button clicked!');
-        reflectionModal.style.display = 'none';
-        modalStatus.textContent = '';
-    });
-
-    saveReflectionBtn.addEventListener('click', () => {
-        console.log('Save reflection button clicked!');
-        processAndSaveReflections();
-    });
-
-    // Close modal when clicking outside
-    reflectionModal.addEventListener('click', (e) => {
-        if (e.target === reflectionModal) {
-            console.log('Modal background clicked!');
-            reflectionModal.style.display = 'none';
-            modalStatus.textContent = '';
-        }
-    });
-
-    // Navigation buttons
-    viewSelDataBtn.addEventListener('click', () => {
-        window.open('sel-data.html', '_blank');
-    });
-
-    viewPortfolioBtn.addEventListener('click', () => {
-        window.open('student-portfolio-enhanced.html', '_blank');
-    });
-
-    // Observation Log button
-    const observationLogBtn = document.getElementById('observation-log-btn');
-    if (observationLogBtn) {
-        observationLogBtn.addEventListener('click', () => {
-            window.open('log.html', '_blank');
+            
+            // Show/hide no results message
+            if (noResultsMessage) {
+                noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
         });
     }
 
-    // Search functionality
-    resourceSearch.addEventListener('input', () => {
-        const searchTerm = resourceSearch.value.toLowerCase();
-        const items = printableList.querySelectorAll('li[data-type]');
-        let visibleCount = 0;
-
-        items.forEach(item => {
-            const text = item.textContent.toLowerCase();
-            if (text.includes(searchTerm)) {
-                item.style.display = 'block';
-                visibleCount++;
-            } else {
-                item.style.display = 'none';
-            }
+    if (clearSearch) {
+        clearSearch.addEventListener('click', () => {
+            resourceSearch.value = '';
+            resourceSearch.dispatchEvent(new Event('input'));
+            clearSearch.style.display = 'none';
         });
-
-        // Show/hide clear button
-        clearSearch.style.display = searchTerm ? 'block' : 'none';
-        
-        // Show/hide no results message
-        noResultsMessage.style.display = visibleCount === 0 ? 'block' : 'none';
-    });
-
-    clearSearch.addEventListener('click', () => {
-        resourceSearch.value = '';
-        resourceSearch.dispatchEvent(new Event('input'));
-        clearSearch.style.display = 'none';
-    });
+    }
 
     // User info display
     const userInfo = document.getElementById('user-info');
@@ -198,4 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentUser = localStorage.getItem('currentUser') || 'Teacher';
         userInfo.innerHTML = `<p>Welcome, ${currentUser}!</p>`;
     }
+
+    console.log('Dashboard initialization complete');
 });
