@@ -6,79 +6,356 @@
     <title>SEL Self-Assessment</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Atkinson Hyperlegible', sans-serif; background: #f7f9fc; margin: 0; padding: 2em; }
-        main { max-width: 500px; margin: auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 2em; }
-        h1 { color: #0f2c4d; font-family: 'Poppins', sans-serif; }
-        label { font-weight: bold; display: block; margin-top: 1em; }
-        input, select { width: 100%; padding: 0.5em; margin-top: 0.3em; border-radius: 6px; border: 1px solid #e0e6ed; }
-        .rating-row { display: flex; align-items: center; gap: 1em; margin-bottom: 1em; }
-        .rating-row label { flex: 1; margin: 0; font-weight: normal; }
-        .rating-row select { width: 80px; }
-        button { background: #73bdf5; color: #fff; border: none; border-radius: 6px; padding: 0.7em 2em; font-size: 1em; cursor: pointer; margin-top: 1.5em; }
-        button:hover { background: #0f2c4d; }
-        .success { color: green; margin-top: 1em; font-weight: bold; }
+        :root {
+            --midnight-blue: #0f2c4d;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --white: #ffffff;
+            --soft-gray: #f7f9fc;
+            --border-color: #e0e6ed;
+            --success-green: #28a745;
+        }
+        
+        body { 
+            font-family: 'Atkinson Hyperlegible', sans-serif; 
+            background: var(--soft-gray); 
+            margin: 0; 
+            padding: 2em; 
+        }
+        
+        main { 
+            max-width: 600px; 
+            margin: auto; 
+            background: var(--white); 
+            border-radius: 12px; 
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08); 
+            padding: 2em; 
+        }
+        
+        h1 { 
+            color: var(--midnight-blue); 
+            font-family: 'Poppins', sans-serif; 
+            text-align: center;
+            margin-bottom: 1.5em;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1em;
+            font-weight: bold;
+            color: var(--sky-blue);
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            color: var(--midnight-blue);
+        }
+        
+        label { 
+            font-weight: bold; 
+            display: block; 
+            margin-top: 1em; 
+            color: var(--midnight-blue);
+        }
+        
+        input, select { 
+            width: 100%; 
+            padding: 0.8em; 
+            margin-top: 0.3em; 
+            border-radius: 6px; 
+            border: 2px solid var(--border-color); 
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--sky-blue);
+        }
+        
+        .rating-row { 
+            display: flex; 
+            align-items: center; 
+            gap: 1em; 
+            margin-bottom: 1em; 
+            padding: 1em;
+            background: var(--soft-gray);
+            border-radius: 8px;
+        }
+        
+        .rating-row label { 
+            flex: 1; 
+            margin: 0; 
+            font-weight: normal; 
+            color: var(--midnight-blue);
+        }
+        
+        .rating-row select { 
+            width: 80px; 
+        }
+        
+        .rating-explanation {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 0.5em;
+        }
+        
+        button { 
+            background: var(--sky-blue); 
+            color: var(--white); 
+            border: none; 
+            border-radius: 6px; 
+            padding: 1em 2em; 
+            font-size: 1.1em; 
+            font-weight: bold;
+            cursor: pointer; 
+            margin-top: 1.5em; 
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover { 
+            background: var(--midnight-blue); 
+            transform: translateY(-2px);
+        }
+        
+        .success { 
+            color: var(--success-green); 
+            margin-top: 1em; 
+            font-weight: bold; 
+            text-align: center;
+            padding: 1em;
+            background: var(--ice-blue);
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .text-block-container {
+            margin-top: 2em;
+            display: none;
+        }
+        
+        .text-block-container h3 {
+            color: var(--midnight-blue);
+            margin-bottom: 1em;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .text-block {
+            background: var(--soft-gray);
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1em;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 1em;
+        }
+        
+        .copy-instructions {
+            background: var(--ice-blue);
+            padding: 1em;
+            border-radius: 8px;
+            margin-bottom: 1em;
+        }
+        
+        .copy-instructions h4 {
+            color: var(--midnight-blue);
+            margin: 0 0 0.5em 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .copy-instructions ol {
+            margin: 0;
+            padding-left: 1.5em;
+        }
+        
+        .copy-instructions li {
+            margin-bottom: 0.5em;
+        }
+        
+        .copy-btn {
+            background: var(--success-green);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.8em 1.5em;
+            font-size: 1em;
+            cursor: pointer;
+            margin-right: 1em;
+            transition: all 0.3s ease;
+        }
+        
+        .copy-btn:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+        
+        .new-assessment-btn {
+            background: var(--sky-blue);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 0.8em 1.5em;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .new-assessment-btn:hover {
+            background: var(--midnight-blue);
+            transform: translateY(-1px);
+        }
     </style>
 </head>
 <body>
 <main>
-    <a href="dashboard.html" style="display:inline-block;margin-bottom:1em;font-weight:bold;">← Back to Dashboard</a>
-    <h1>SEL Self-Assessment</h1>
+    <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+    <h1>📝 SEL Self-Assessment</h1>
     <form id="sel-form">
         <label for="student-name">Your Name</label>
         <input type="text" id="student-name" required>
+        
         <label for="date">Date</label>
         <input type="date" id="date" required>
+        
         <div class="rating-row">
             <label for="naming-emotions">Naming my emotions</label>
             <select id="naming-emotions" required>
                 <option value="">-</option>
-                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
             </select>
         </div>
+        <div class="rating-explanation">1 = I'm just learning this • 5 = I'm really good at this</div>
+        
         <div class="rating-row">
             <label for="calming">Calming myself down</label>
             <select id="calming" required>
                 <option value="">-</option>
-                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
             </select>
         </div>
+        <div class="rating-explanation">1 = I'm just learning this • 5 = I'm really good at this</div>
+        
         <div class="rating-row">
             <label for="understanding-others">Understanding others' feelings</label>
             <select id="understanding-others" required>
                 <option value="">-</option>
-                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
             </select>
         </div>
+        <div class="rating-explanation">1 = I'm just learning this • 5 = I'm really good at this</div>
+        
         <div class="rating-row">
             <label for="solving-conflicts">Solving conflicts peacefully</label>
             <select id="solving-conflicts" required>
                 <option value="">-</option>
-                <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
             </select>
         </div>
-        <button type="submit">Submit</button>
+        <div class="rating-explanation">1 = I'm just learning this • 5 = I'm really good at this</div>
+        
+        <button type="submit">Submit My Reflection</button>
         <div id="success-msg" class="success"></div>
     </form>
+    
+    <div id="text-block-container" class="text-block-container">
+        <div class="copy-instructions">
+            <h4>📋 Your reflection is ready!</h4>
+            <ol>
+                <li>Click the "Copy" button below to copy your reflection</li>
+                <li>Send the copied text to your teacher (email, message, etc.)</li>
+                <li>Your teacher will add it to your portfolio</li>
+            </ol>
+        </div>
+        
+        <div id="text-block" class="text-block"></div>
+        
+        <div style="text-align: center;">
+            <button id="copy-btn" class="copy-btn">📋 Copy Reflection</button>
+            <button id="new-assessment-btn" class="new-assessment-btn">📝 New Assessment</button>
+        </div>
+    </div>
 </main>
+
 <script>
 document.getElementById('date').value = new Date().toISOString().slice(0,10);
+
 document.getElementById('sel-form').onsubmit = function(e) {
     e.preventDefault();
-    const entry = {
-        name: document.getElementById('student-name').value,
-        date: document.getElementById('date').value,
-        namingEmotions: document.getElementById('naming-emotions').value,
-        calming: document.getElementById('calming').value,
-        understandingOthers: document.getElementById('understanding-others').value,
-        solvingConflicts: document.getElementById('solving-conflicts').value
-    };
-    const data = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
-    data.push(entry);
-    localStorage.setItem('selToolkit-selData', JSON.stringify(data));
-    document.getElementById('success-msg').textContent = '✅ Submitted!';
-    setTimeout(()=>{document.getElementById('success-msg').textContent='';}, 3000);
+    
+    // Get form data
+    const studentName = document.getElementById('student-name').value;
+    const date = document.getElementById('date').value;
+    const namingEmotions = document.getElementById('naming-emotions').value;
+    const calming = document.getElementById('calming').value;
+    const understandingOthers = document.getElementById('understanding-others').value;
+    const solvingConflicts = document.getElementById('solving-conflicts').value;
+    
+    // Calculate total growth score
+    const totalScore = parseInt(namingEmotions) + parseInt(calming) + parseInt(understandingOthers) + parseInt(solvingConflicts);
+    
+    // Generate the formatted text block
+    const textBlock = `SEL Self-Assessment Summary
+
+Student: ${studentName}
+Date: ${date}
+
+Skill Ratings:
+Naming my emotions: Current: ${namingEmotions}/5
+Calming myself down: Current: ${calming}/5
+Understanding others' feelings: Current: ${understandingOthers}/5
+Solving conflicts peacefully: Current: ${solvingConflicts}/5
+
+Total Growth Score: ${totalScore}/20
+
+Proudest Improvement:
+[Student should add their proudest improvement here]
+
+Success Story:
+[Student should add a recent success story here]
+
+Next Skill to Practice:
+[Student should add their next goal here]
+
+Practice Strategy:
+[Student should add their strategy for practicing this skill]`;
+
+    // Display the text block
+    document.getElementById('text-block').textContent = textBlock;
+    document.getElementById('text-block-container').style.display = 'block';
+    document.getElementById('sel-form').style.display = 'none';
+    
+    // Scroll to the text block
+    document.getElementById('text-block-container').scrollIntoView({ behavior: 'smooth' });
+};
+
+// Copy button functionality
+document.getElementById('copy-btn').onclick = function() {
+    const textBlock = document.getElementById('text-block').textContent;
+    navigator.clipboard.writeText(textBlock).then(function() {
+        this.textContent = '✅ Copied!';
+        this.style.background = '#28a745';
+        setTimeout(() => {
+            this.textContent = '📋 Copy Reflection';
+            this.style.background = '#28a745';
+        }, 2000);
+    }.bind(this)).catch(function(err) {
+        console.error('Could not copy text: ', err);
+        alert('Please manually copy the text above.');
+    });
+};
+
+// New assessment button functionality
+document.getElementById('new-assessment-btn').onclick = function() {
     document.getElementById('sel-form').reset();
     document.getElementById('date').value = new Date().toISOString().slice(0,10);
+    document.getElementById('sel-form').style.display = 'block';
+    document.getElementById('text-block-container').style.display = 'none';
+    document.getElementById('student-name').focus();
 };
 </script>
 </body>

@@ -1,11 +1,57 @@
 // File: sel-data-processor.js
-// Unified SEL Data Processing System
+// Enhanced SEL Data Processing System - Supports Teacher Observations & Student Reflections
 
 class SELDataProcessor {
     constructor() {
         this.debugMode = true;
     }
 
+    // ===== TEACHER OBSERVATION METHODS =====
+    
+    // Save a teacher observation
+    saveObservation(observation) {
+        console.log('=== SAVING TEACHER OBSERVATION ===');
+        console.log('Observation to save:', observation);
+        
+        const existingData = JSON.parse(localStorage.getItem('selToolkit-observationLog') || '[]');
+        console.log('Existing observations:', existingData);
+        
+        const updatedData = [...existingData, observation];
+        console.log('Updated observations:', updatedData);
+        
+        localStorage.setItem('selToolkit-observationLog', JSON.stringify(updatedData));
+        this.log(`Saved observation for ${observation.studentName}`);
+        
+        // Verify the save
+        const verifyData = JSON.parse(localStorage.getItem('selToolkit-observationLog') || '[]');
+        console.log('Verified saved observations:', verifyData);
+    }
+
+    // Load all teacher observations
+    loadObservations() {
+        const data = JSON.parse(localStorage.getItem('selToolkit-observationLog') || '[]');
+        const validData = data.filter(entry => {
+            return entry && entry.studentName && entry.studentName.trim() !== '' && entry.observationText;
+        });
+        this.log(`Loaded ${validData.length} valid observations from localStorage`);
+        return validData;
+    }
+
+    // Get observations for a specific student
+    getObservationsForStudent(studentName) {
+        const allObservations = this.loadObservations();
+        return allObservations.filter(obs => obs.studentName === studentName);
+    }
+
+    // Get unique student names from observations
+    getStudentNamesFromObservations() {
+        const observations = this.loadObservations();
+        const names = observations.map(obs => obs.studentName);
+        return [...new Set(names)].sort();
+    }
+
+    // ===== STUDENT REFLECTION METHODS =====
+    
     // Main processing function for multi-student input
     processMultiStudentInput(text) {
         console.log('=== SEL DATA PROCESSOR: Processing Multi-Student Input ===');
@@ -234,6 +280,27 @@ class SELDataProcessor {
         });
         this.log(`Loaded ${validData.length} valid entries from localStorage`);
         return validData;
+    }
+
+    // Get unique student names from reflections
+    getStudentNamesFromReflections() {
+        const reflections = this.loadData();
+        const names = reflections.map(ref => ref.name);
+        return [...new Set(names)].sort();
+    }
+
+    // Get all unique student names (from both observations and reflections)
+    getAllStudentNames() {
+        const observationNames = this.getStudentNamesFromObservations();
+        const reflectionNames = this.getStudentNamesFromReflections();
+        const allNames = [...observationNames, ...reflectionNames];
+        return [...new Set(allNames)].sort();
+    }
+
+    // Get student reflection data
+    getStudentReflections(studentName) {
+        const allReflections = this.loadData();
+        return allReflections.filter(ref => ref.name === studentName);
     }
 
     // Validate data entry

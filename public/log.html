@@ -3,67 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Observation Log</title>
+    <title>Teacher Observation Log - WarrenGami SEL</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Atkinson Hyperlegible', sans-serif; background: #f7f9fc; margin: 0; padding: 2em; }
-        main { max-width: 800px; margin: auto; background: #fff; border-radius: 12px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 2em; }
-        h1 { color: #0f2c4d; font-family: 'Poppins', sans-serif; }
-        form { display: flex; flex-wrap: wrap; gap: 1em; margin-bottom: 2em; }
-        form > * { flex: 1 1 180px; }
-        textarea { min-height: 60px; }
-        button { background: #73bdf5; color: #fff; border: none; border-radius: 6px; padding: 0.5em 1.5em; font-size: 1em; cursor: pointer; }
-        button:hover { background: #0f2c4d; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1em; }
-        th, td { border: 1px solid #e0e6ed; padding: 0.5em; text-align: left; }
-        th { background: #f7f9fc; }
-        .log-filters { margin-bottom: 1em; display: flex; gap: 1em; }
-        .log-filters > * { flex: 1 1 120px; }
+        :root {
+            --midnight-blue: #0f2c4d;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --white: #ffffff;
+            --soft-gray: #f7f9fc;
+            --border-color: #e0e6ed;
+            --success-green: #28a745;
+            --warning-orange: #ffc107;
+            --danger-red: #dc3545;
+        }
+        
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            background-color: var(--soft-gray);
+            color: #333;
+            margin: 0;
+            padding: 2em;
+        }
+        
+        main.container {
+            max-width: 800px;
+            margin: auto;
+            background-color: var(--white);
+            padding: 2em 3em;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 4px solid var(--ice-blue);
+        }
+        
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            font-size: 2.5em;
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            color: var(--sky-blue);
+            margin: 5px 0 0 0;
+            font-style: italic;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1em;
+            font-weight: bold;
+            color: var(--sky-blue);
+            text-decoration: none;
+        }
+        
+        .back-link:hover {
+            color: var(--midnight-blue);
+        }
+        
+        .form-section {
+            margin-bottom: 2em;
+        }
+        
+        .form-section h3 {
+            color: var(--midnight-blue);
+            margin-bottom: 0.5em;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5em;
+            color: var(--midnight-blue);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8em;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--sky-blue);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .sel-tags {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1em;
+            margin-top: 1em;
+        }
+        
+        .tag-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+            padding: 0.5em;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tag-checkbox:hover {
+            border-color: var(--sky-blue);
+            background-color: var(--ice-blue);
+        }
+        
+        .tag-checkbox input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .tag-checkbox input[type="checkbox"]:checked + span {
+            color: var(--midnight-blue);
+            font-weight: bold;
+        }
+        
+        .submit-btn {
+            background: var(--sky-blue);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            padding: 1em 2em;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1em;
+        }
+        
+        .submit-btn:hover {
+            background: var(--midnight-blue);
+            transform: translateY(-2px);
+        }
+        
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .success-message {
+            background: var(--success-green);
+            color: white;
+            padding: 1em;
+            border-radius: 8px;
+            margin-top: 1em;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .recent-observations {
+            margin-top: 3em;
+            padding-top: 2em;
+            border-top: 2px solid var(--ice-blue);
+        }
+        
+        .recent-observations h3 {
+            color: var(--midnight-blue);
+            margin-bottom: 1em;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .observation-card {
+            background: var(--soft-gray);
+            border-radius: 8px;
+            padding: 1em;
+            margin-bottom: 1em;
+            border-left: 4px solid var(--sky-blue);
+        }
+        
+        .observation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5em;
+        }
+        
+        .student-name {
+            font-weight: bold;
+            color: var(--midnight-blue);
+            font-size: 1.1em;
+        }
+        
+        .observation-date {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .observation-text {
+            margin-bottom: 0.5em;
+            line-height: 1.5;
+        }
+        
+        .sel-tags-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5em;
+            margin-bottom: 0.5em;
+        }
+        
+        .sel-tag {
+            background: var(--sky-blue);
+            color: white;
+            padding: 0.2em 0.6em;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+        
+        .next-step {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        .no-observations {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 2em;
+        }
     </style>
 </head>
 <body>
-<main>
-    <a href="dashboard.html" style="display:inline-block;margin-bottom:1em;font-weight:bold;">← Back to Dashboard</a>
-    <h1>📝 My Observation Log</h1>
-    <form id="observation-form">
-        <select id="student-name-log" required>
-            <option value="">Select Student</option>
-            <!-- Populated by log.js -->
-            <option value="__other__">Other...</option>
-        </select>
-        <input type="text" id="student-name-log-other" placeholder="Enter student name" style="display:none;" autocomplete="off">
-        <select id="competency-log">
-            <option>Self-Awareness</option>
-            <option>Self-Management</option>
-            <option>Social Awareness</option>
-            <option>Relationship Skills</option>
-            <option>Responsible Decision-Making</option>
-        </select>
-        <input type="date" id="date-log">
-        <textarea id="notes-log" placeholder="Observation notes..." required></textarea>
-        <button type="submit">Save Observation</button>
-    </form>
-    <div class="log-filters">
-        <input type="text" id="filter-student" placeholder="Filter by student">
-        <select id="filter-competency">
-            <option value="">All Competencies</option>
-            <option>Self-Awareness</option>
-            <option>Self-Management</option>
-            <option>Social Awareness</option>
-            <option>Relationship Skills</option>
-            <option>Responsible Decision-Making</option>
-        </select>
-        <input type="date" id="filter-date-from">
-        <input type="date" id="filter-date-to">
-        <button id="export-log" type="button">Export to CSV</button>
-    </div>
-    <table id="observation-log-table">
-        <thead>
-            <tr><th>Date</th><th>Student</th><th>Competency</th><th>Notes</th></tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</main>
-<script src="log.js"></script>
+    <main class="container">
+        <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+        
+        <div class="header">
+            <h1>📝 Teacher Observation Log</h1>
+            <p>Capture meaningful SEL moments as they happen</p>
+        </div>
+        
+        <form id="observation-form">
+            <div class="form-section">
+                <h3>Student & Date</h3>
+                <label for="student-select">Student Name</label>
+                <select id="student-select" required>
+                    <option value="">Select a student...</option>
+                    <option value="new">+ Add New Student</option>
+                </select>
+                
+                <div id="new-student-input" style="display: none; margin-top: 1em;">
+                    <label for="new-student-name">New Student Name</label>
+                    <input type="text" id="new-student-name" placeholder="Enter student name">
+                </div>
+                
+                <label for="observation-date" style="margin-top: 1em;">Date</label>
+                <input type="date" id="observation-date" required>
+            </div>
+            
+            <div class="form-section">
+                <h3>What Happened?</h3>
+                <label for="observation-text">Observation</label>
+                <textarea id="observation-text" placeholder="Describe what you observed... (e.g., During the math game, noticed Leo was struggling and quietly offered to help him with the next step.)" required></textarea>
+            </div>
+            
+            <div class="form-section">
+                <h3>SEL Competencies</h3>
+                <p style="color: #666; margin-bottom: 1em;">Which SEL competencies did you observe?</p>
+                <div class="sel-tags">
+                    <label class="tag-checkbox">
+                        <input type="checkbox" name="sel-tags" value="Self-Awareness">
+                        <span>Self-Awareness</span>
+                    </label>
+                    <label class="tag-checkbox">
+                        <input type="checkbox" name="sel-tags" value="Self-Management">
+                        <span>Self-Management</span>
+                    </label>
+                    <label class="tag-checkbox">
+                        <input type="checkbox" name="sel-tags" value="Social Awareness">
+                        <span>Social Awareness</span>
+                    </label>
+                    <label class="tag-checkbox">
+                        <input type="checkbox" name="sel-tags" value="Relationship Skills">
+                        <span>Relationship Skills</span>
+                    </label>
+                    <label class="tag-checkbox">
+                        <input type="checkbox" name="sel-tags" value="Responsible Decision-Making">
+                        <span>Responsible Decision-Making</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>Next Steps (Optional)</h3>
+                <label for="next-step">Follow-up Notes</label>
+                <textarea id="next-step" placeholder="Any notes about follow-up actions... (e.g., Acknowledge his leadership and empathy in our next check-in.)"></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">💾 Save Observation</button>
+        </form>
+        
+        <div id="success-message" class="success-message">
+            ✓ Observation Saved!
+        </div>
+        
+        <div class="recent-observations">
+            <h3>📋 Recent Observations</h3>
+            <div id="observations-list">
+                <div class="no-observations">No observations yet. Start by adding your first observation above!</div>
+            </div>
+        </div>
+    </main>
+    
+    <script src="sel-data-processor.js"></script>
+    <script src="log.js"></script>
 </body>
 </html> 
