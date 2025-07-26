@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Bug Fixes Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        .bug-list { background: #f8f9fa; padding: 15px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Portfolio Bug Fixes Test</h1>
+    
+    <div class="test-section">
+        <h2>🐛 Bugs Fixed</h2>
+        <div class="bug-list">
+            <h3>✅ Fixed Issues:</h3>
+            <ul>
+                <li><strong>Field Name Mismatch:</strong> Sample data form was using "practiceStrategy" but portfolio expected "goalStrategy"</li>
+                <li><strong>Inconsistent Fallback Values:</strong> Chart used fallback of 1, takeaways used 0 - now both use 1</li>
+                <li><strong>Strongest/Weakest Logic:</strong> Changed from >/< to >=/<= to handle equal values</li>
+                <li><strong>Added Debug Logging:</strong> Better error tracking for troubleshooting</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🧪 Test Steps</h2>
+        <ol>
+            <li><strong>Clear existing data:</strong> Open browser dev tools → Application → Local Storage → Clear all</li>
+            <li><strong>Add sample data:</strong> Use the "Add Sample Data" button below</li>
+            <li><strong>Open portfolio:</strong> Click "Open Enhanced Portfolio"</li>
+            <li><strong>Select student:</strong> Choose "Jalen Carter" from dropdown</li>
+            <li><strong>Verify fixes:</strong> Check that chart displays and all data shows correctly</li>
+        </ol>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔧 Test Tools</h2>
+        <button onclick="window.open('public/add-sample-data.html', '_blank')">Add Sample Data</button>
+        <button onclick="window.open('public/student-portfolio-enhanced.html', '_blank')">Open Enhanced Portfolio</button>
+        <button onclick="clearLocalStorage()">Clear Local Storage</button>
+        <button onclick="checkLocalStorage()">Check Local Storage</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>📊 Expected Results</h2>
+        <ul>
+            <li><strong>Chart:</strong> Should display radar chart with values (4,3,4,3)</li>
+            <li><strong>Score:</strong> Should show "🌊 Current SEL Score: 14/20 (70%)"</li>
+            <li><strong>Strongest:</strong> Should show "🏆 Strongest Area: Naming Emotions (4/5)" or "Understanding Others (4/5)"</li>
+            <li><strong>Growth:</strong> Should show "🌱 Growth Opportunity: Calming Down (3/5)" or "Solving Conflicts (3/5)"</li>
+            <li><strong>Practice Strategy:</strong> Should display the strategy text (was previously missing)</li>
+        </ul>
+    </div>
+    
+    <div id="test-results" class="test-section" style="display: none;">
+        <h2>🔍 Test Results</h2>
+        <div id="results-content"></div>
+    </div>
+
+    <script>
+        function clearLocalStorage() {
+            localStorage.clear();
+            alert('Local storage cleared!');
+        }
+        
+        function checkLocalStorage() {
+            const selData = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
+            const observations = JSON.parse(localStorage.getItem('selToolkit-observationLog') || '[]');
+            
+            const resultsDiv = document.getElementById('test-results');
+            const contentDiv = document.getElementById('results-content');
+            
+            contentDiv.innerHTML = `
+                <h3>Local Storage Contents:</h3>
+                <p><strong>SEL Data:</strong> ${selData.length} entries</p>
+                <p><strong>Observations:</strong> ${observations.length} entries</p>
+                
+                ${selData.length > 0 ? `
+                    <h4>Sample SEL Data Entry:</h4>
+                    <pre>${JSON.stringify(selData[0], null, 2)}</pre>
+                ` : '<p class="error">No SEL data found</p>'}
+                
+                ${observations.length > 0 ? `
+                    <h4>Sample Observation Entry:</h4>
+                    <pre>${JSON.stringify(observations[0], null, 2)}</pre>
+                ` : '<p class="error">No observations found</p>'}
+            `;
+            
+            resultsDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html> 

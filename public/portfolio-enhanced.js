@@ -61,6 +61,23 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Student reflections:', reflections);
         console.log('Student observations:', observations);
         
+        // Debug: Check if reflections have the expected structure
+        if (reflections.length > 0) {
+            const latest = reflections[0];
+            console.log('Latest reflection structure:', {
+                name: latest.name,
+                date: latest.date,
+                namingEmotions_N: latest.namingEmotions_N,
+                calming_N: latest.calming_N,
+                understandingOthers_N: latest.understandingOthers_N,
+                solvingConflicts_N: latest.solvingConflicts_N,
+                proudestImprovement: latest.proudestImprovement,
+                successStory: latest.successStory,
+                nextGoal: latest.nextGoal,
+                goalStrategy: latest.goalStrategy
+            });
+        }
+        
         // Display portfolio content
         portfolioContent.style.display = 'grid';
         noStudentSelected.style.display = 'none';
@@ -248,10 +265,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const latestReflection = reflections.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
             
             // Calculate total score
-            const totalScore = (parseInt(latestReflection.namingEmotions_N) || 0) +
-                              (parseInt(latestReflection.calming_N) || 0) +
-                              (parseInt(latestReflection.understandingOthers_N) || 0) +
-                              (parseInt(latestReflection.solvingConflicts_N) || 0);
+            const totalScore = (parseInt(latestReflection.namingEmotions_N) || 1) +
+                              (parseInt(latestReflection.calming_N) || 1) +
+                              (parseInt(latestReflection.understandingOthers_N) || 1) +
+                              (parseInt(latestReflection.solvingConflicts_N) || 1);
             
             takeaways.push({
                 title: '🌊 Current SEL Score',
@@ -260,14 +277,14 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Find strongest and weakest areas
             const skills = [
-                { name: 'Naming Emotions', value: parseInt(latestReflection.namingEmotions_N) || 0 },
-                { name: 'Calming Down', value: parseInt(latestReflection.calming_N) || 0 },
-                { name: 'Understanding Others', value: parseInt(latestReflection.understandingOthers_N) || 0 },
-                { name: 'Solving Conflicts', value: parseInt(latestReflection.solvingConflicts_N) || 0 }
+                { name: 'Naming Emotions', value: parseInt(latestReflection.namingEmotions_N) || 1 },
+                { name: 'Calming Down', value: parseInt(latestReflection.calming_N) || 1 },
+                { name: 'Understanding Others', value: parseInt(latestReflection.understandingOthers_N) || 1 },
+                { name: 'Solving Conflicts', value: parseInt(latestReflection.solvingConflicts_N) || 1 }
             ];
             
-            const strongest = skills.reduce((a, b) => a.value > b.value ? a : b);
-            const weakest = skills.reduce((a, b) => a.value < b.value ? a : b);
+            const strongest = skills.reduce((a, b) => a.value >= b.value ? a : b);
+            const weakest = skills.reduce((a, b) => a.value <= b.value ? a : b);
             
             takeaways.push({
                 title: '🏆 Strongest Area',
