@@ -49,7 +49,8 @@ class MoodEnergyTracker {
      */
     updateMood(mood, metadata = {}) {
         if (!this.moodOptions[mood]) {
-            throw new Error(`Invalid mood: ${mood}`);
+            console.warn(`Invalid mood: ${mood} - using neutral`);
+            mood = 'neutral';
         }
 
         const previousMood = this.currentMood;
@@ -91,7 +92,8 @@ class MoodEnergyTracker {
      */
     updateEnergy(energy, metadata = {}) {
         if (!this.energyLevels[energy]) {
-            throw new Error(`Invalid energy level: ${energy}`);
+            console.warn(`Invalid energy level: ${energy} - using medium`);
+            energy = 'medium';
         }
 
         const previousEnergy = this.currentEnergy;

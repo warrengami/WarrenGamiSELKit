@@ -177,12 +177,14 @@ class SELDataProcessor {
             entry.nextGoal = this.extractMultilineField(text, 'Next Skill to Practice');
             entry.goalStrategy = this.extractMultilineField(text, 'Practice Strategy');
 
-            // Validate required fields
+            // Validate required fields with fallbacks
             if (!entry.name || entry.name === 'N/A') {
-                throw new Error("Could not parse Student Name");
+                console.warn("Could not parse Student Name - using default");
+                entry.name = 'Unknown Student';
             }
             if (!entry.date || entry.date === 'N/A') {
-                throw new Error("Could not parse Date");
+                console.warn("Could not parse Date - using current date");
+                entry.date = new Date().toISOString().split('T')[0];
             }
 
             this.log('Final processed entry:', entry);

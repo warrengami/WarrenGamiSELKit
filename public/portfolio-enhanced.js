@@ -19,22 +19,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     let skillsChart = null;
     
-    // Check if required elements exist
+    // Check if required elements exist and provide fallbacks
     if (!studentSelect) {
-        console.error('Student select element not found!');
-        return;
+        console.warn('Student select element not found - portfolio selection disabled');
     }
     if (!portfolioContent) {
-        console.error('Portfolio content element not found!');
-        return;
+        console.warn('Portfolio content element not found - content display disabled');
     }
     if (!noStudentSelected) {
-        console.error('No student selected element not found!');
-        return;
+        console.warn('No student selected element not found - placeholder disabled');
     }
     if (!printBtn) {
-        console.error('Print button element not found!');
-        return;
+        console.warn('Print button element not found - print functionality disabled');
     }
 
     // Populate student dropdown
@@ -303,11 +299,12 @@ document.addEventListener('DOMContentLoaded', () => {
             skillsChart.destroy();
         }
         
-        // Create new chart with error handling
-        try {
-            if (typeof Chart === 'undefined') {
-                throw new Error('Chart.js is not loaded');
-            }
+            // Create new chart with error handling
+    try {
+        if (typeof Chart === 'undefined') {
+            console.warn('Chart.js is not loaded - charts will be disabled');
+            return;
+        }
             
             // Get the canvas element directly
             const ctx = chartContainer.getContext('2d');

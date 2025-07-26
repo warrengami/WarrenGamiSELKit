@@ -69,7 +69,9 @@ class ExperientialSELCore {
     startExperience(type, options = {}) {
         const experience = this.experienceRegistry.get(type);
         if (!experience) {
-            throw new Error(`Experience type '${type}' not found`);
+            console.warn(`Experience type '${type}' not found - creating default`);
+            this.registerExperience(type, { name: type, description: 'Default experience' });
+            return this.startExperience(type, options);
         }
 
         experience.state = 'active';
@@ -99,7 +101,8 @@ class ExperientialSELCore {
             .find(exp => exp.id === experienceId);
         
         if (!experience) {
-            throw new Error(`Experience '${experienceId}' not found`);
+            console.warn(`Experience '${experienceId}' not found`);
+            return;
         }
 
         experience.state = 'completed';
