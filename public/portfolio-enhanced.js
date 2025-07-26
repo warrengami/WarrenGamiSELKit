@@ -166,21 +166,24 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
         
+        // Make sure chart container is visible and sized properly
         chartContainer.style.display = 'block';
+        chartContainer.style.height = '300px';
+        chartContainer.style.width = '100%';
         
         // Get the most recent reflection for current ratings
         const latestReflection = reflections.sort((a, b) => new Date(b.date) - new Date(a.date))[0];
         
-        // Prepare chart data
+        // Prepare chart data with fallback values
         const chartData = {
             labels: ['Naming Emotions', 'Calming Down', 'Understanding Others', 'Solving Conflicts'],
             datasets: [{
                 label: 'Current Skills',
                 data: [
-                    parseInt(latestReflection.namingEmotions_N) || 0,
-                    parseInt(latestReflection.calming_N) || 0,
-                    parseInt(latestReflection.understandingOthers_N) || 0,
-                    parseInt(latestReflection.solvingConflicts_N) || 0
+                    parseInt(latestReflection.namingEmotions_N) || 1,
+                    parseInt(latestReflection.calming_N) || 1,
+                    parseInt(latestReflection.understandingOthers_N) || 1,
+                    parseInt(latestReflection.solvingConflicts_N) || 1
                 ],
                 backgroundColor: 'rgba(115, 189, 245, 0.2)',
                 borderColor: 'rgba(115, 189, 245, 1)',
@@ -197,30 +200,36 @@ document.addEventListener('DOMContentLoaded', () => {
             skillsChart.destroy();
         }
         
-        // Create new chart
-        const ctx = chartContainer.getContext('2d');
-        skillsChart = new Chart(ctx, {
-            type: 'radar',
-            data: chartData,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    r: {
-                        beginAtZero: true,
-                        max: 5,
-                        ticks: {
-                            stepSize: 1
+        // Create new chart with error handling
+        try {
+            const ctx = chartContainer.getContext('2d');
+            skillsChart = new Chart(ctx, {
+                type: 'radar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 5,
+                            ticks: {
+                                stepSize: 1
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
                         }
                     }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
                 }
-            }
-        });
+            });
+            console.log('Chart created successfully');
+        } catch (error) {
+            console.error('Error creating chart:', error);
+            chartContainer.innerHTML = '<div style="text-align: center; padding: 2em; color: #666;">Chart could not be loaded</div>';
+        }
     }
 
     // Generate key takeaways
@@ -245,20 +254,41 @@ document.addEventListener('DOMContentLoaded', () => {
                               (parseInt(latestReflection.solvingConflicts_N) || 0);
             
             takeaways.push({
-                title: 'Current SEL Score',
+                title: '🌊 Current SEL Score',
                 value: `${totalScore}/20 (${Math.round(totalScore/20*100)}%)`
+            });
+            
+            // Find strongest and weakest areas
+            const skills = [
+                { name: 'Naming Emotions', value: parseInt(latestReflection.namingEmotions_N) || 0 },
+                { name: 'Calming Down', value: parseInt(latestReflection.calming_N) || 0 },
+                { name: 'Understanding Others', value: parseInt(latestReflection.understandingOthers_N) || 0 },
+                { name: 'Solving Conflicts', value: parseInt(latestReflection.solvingConflicts_N) || 0 }
+            ];
+            
+            const strongest = skills.reduce((a, b) => a.value > b.value ? a : b);
+            const weakest = skills.reduce((a, b) => a.value < b.value ? a : b);
+            
+            takeaways.push({
+                title: '🏆 Strongest Area',
+                value: `${strongest.name} (${strongest.value}/5)`
+            });
+            
+            takeaways.push({
+                title: '🌱 Growth Opportunity',
+                value: `${weakest.name} (${weakest.value}/5)`
             });
             
             if (latestReflection.proudestImprovement && latestReflection.proudestImprovement !== 'N/A') {
                 takeaways.push({
-                    title: 'Proudest Achievement',
+                    title: '💫 Proudest Achievement',
                     value: latestReflection.proudestImprovement
                 });
             }
             
             if (latestReflection.nextGoal && latestReflection.nextGoal !== 'N/A') {
                 takeaways.push({
-                    title: 'Current Goal',
+                    title: '🎯 Current Goal',
                     value: latestReflection.nextGoal
                 });
             }
@@ -266,44 +296,34 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Analyze observations
         if (observations.length > 0) {
-            // Count SEL competencies
-            const competencyCounts = {};
-            observations.forEach(obs => {
-                if (obs.selTags) {
-                    obs.selTags.forEach(tag => {
-                        competencyCounts[tag] = (competencyCounts[tag] || 0) + 1;
-                    });
-                }
+            takeaways.push({
+                title: '👁️ Observations',
+                value: `${observations.length} teacher observations recorded`
             });
             
-            // Find most observed competency
-            const mostObserved = Object.entries(competencyCounts)
-                .sort(([,a], [,b]) => b - a)[0];
+            // Count SEL tags
+            const allTags = observations.flatMap(obs => obs.selTags || []);
+            const tagCounts = {};
+            allTags.forEach(tag => {
+                tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+            });
             
-            if (mostObserved) {
+            if (Object.keys(tagCounts).length > 0) {
+                const mostObserved = Object.entries(tagCounts)
+                    .sort((a, b) => b[1] - a[1])[0];
                 takeaways.push({
-                    title: 'Strongest SEL Area',
-                    value: `${mostObserved[0]} (${mostObserved[1]} observations)`
+                    title: '🎯 Focus Area',
+                    value: `${mostObserved[0]} (${mostObserved[1]} times)`
                 });
             }
-            
-            takeaways.push({
-                title: 'Teacher Observations',
-                value: `${observations.length} meaningful moments captured`
-            });
         }
         
         // Display takeaways
-        takeawaysContainer.innerHTML = '';
-        takeaways.forEach(takeaway => {
-            const takeawayElement = document.createElement('div');
-            takeawayElement.className = 'takeaway-item';
-            takeawayElement.innerHTML = `
-                <strong>${takeaway.title}:</strong><br>
-                ${takeaway.value}
-            `;
-            takeawaysContainer.appendChild(takeawayElement);
-        });
+        takeawaysContainer.innerHTML = takeaways.map(takeaway => `
+            <div class="takeaway-item">
+                <strong>${takeaway.title}:</strong> ${takeaway.value}
+            </div>
+        `).join('');
     }
 
     // Print functionality
