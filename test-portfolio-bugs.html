@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Bug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        pre { background: #f5f5f5; padding: 10px; overflow-x: auto; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        .test-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Portfolio Bug Test & Fix</h1>
+    
+    <div class="test-grid">
+        <div class="test-section">
+            <h2>🐛 Known Issues Fixed</h2>
+            <ul>
+                <li>✅ Field name mismatch (practiceStrategy → goalStrategy)</li>
+                <li>✅ Inconsistent fallback values (0 vs 1)</li>
+                <li>✅ Missing error checking for DOM elements</li>
+                <li>✅ Missing SELDataProcessor availability check</li>
+                <li>✅ Missing Chart.js availability check</li>
+                <li>✅ Strongest/weakest logic for equal values</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h2>🧪 Test Steps</h2>
+            <ol>
+                <li>Clear browser data (localStorage)</li>
+                <li>Add sample data for Jalen Carter</li>
+                <li>Open portfolio and select Jalen</li>
+                <li>Check console for any errors</li>
+                <li>Verify chart displays correctly</li>
+                <li>Verify all data shows properly</li>
+            </ol>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>🔧 Quick Test Tools</h2>
+        <button onclick="addTestData()">Add Test Data</button>
+        <button onclick="openPortfolio()">Open Portfolio</button>
+        <button onclick="checkData()">Check Data</button>
+        <button onclick="clearData()">Clear Data</button>
+        <button onclick="testChart()">Test Chart.js</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>📊 Expected Results</h2>
+        <div id="expected-results">
+            <p><strong>Chart:</strong> Radar chart with values [4,3,4,3]</p>
+            <p><strong>Score:</strong> 14/20 (70%)</p>
+            <p><strong>Strongest:</strong> Naming Emotions or Understanding Others (4/5)</p>
+            <p><strong>Growth:</strong> Calming Down or Solving Conflicts (3/5)</p>
+            <p><strong>Practice Strategy:</strong> Should display text (was missing before)</p>
+        </div>
+    </div>
+    
+    <div id="test-output" class="test-section" style="display: none;">
+        <h2>🔍 Test Results</h2>
+        <div id="output-content"></div>
+    </div>
+
+    <script>
+        function log(message, data = null) {
+            const output = document.getElementById('test-output');
+            const content = document.getElementById('output-content');
+            
+            output.style.display = 'block';
+            
+            const entry = document.createElement('div');
+            entry.style.borderBottom = '1px solid #eee';
+            entry.style.padding = '10px 0';
+            
+            if (data) {
+                entry.innerHTML = `
+                    <strong>${new Date().toLocaleTimeString()}: ${message}</strong><br>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } else {
+                entry.innerHTML = `<strong>${new Date().toLocaleTimeString()}: ${message}</strong>`;
+            }
+            
+            content.appendChild(entry);
+        }
+        
+        function addTestData() {
+            const testData = {
+                name: "Jalen Carter",
+                date: "2024-01-15",
+                namingEmotions_B: "3",
+                namingEmotions_N: "4",
+                calming_B: "2",
+                calming_N: "3",
+                understandingOthers_B: "3",
+                understandingOthers_N: "4",
+                solvingConflicts_B: "2",
+                solvingConflicts_N: "3",
+                proudestImprovement: "Getting better at calming down when frustrated",
+                successStory: "Helped a friend solve a problem during recess",
+                nextGoal: "Practice using 'I feel' statements more often",
+                goalStrategy: "Take deep breaths and count to 5 when upset"
+            };
+            
+            try {
+                const existingData = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
+                existingData.push(testData);
+                localStorage.setItem('selToolkit-selData', JSON.stringify(existingData));
+                log('✅ Test data added successfully');
+            } catch (error) {
+                log('❌ Error adding test data:', error.message);
+            }
+        }
+        
+        function openPortfolio() {
+            window.open('public/student-portfolio-enhanced.html', '_blank');
+        }
+        
+        function checkData() {
+            try {
+                const selData = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
+                const observations = JSON.parse(localStorage.getItem('selToolkit-observationLog') || '[]');
+                
+                log('Data check results:', {
+                    selDataCount: selData.length,
+                    observationsCount: observations.length,
+                    sampleData: selData.length > 0 ? selData[0] : null
+                });
+            } catch (error) {
+                log('❌ Error checking data:', error.message);
+            }
+        }
+        
+        function clearData() {
+            localStorage.clear();
+            log('✅ All data cleared');
+        }
+        
+        function testChart() {
+            try {
+                if (typeof Chart === 'undefined') {
+                    log('❌ Chart.js not loaded');
+                    return;
+                }
+                
+                log('✅ Chart.js loaded successfully');
+                log('Chart version:', Chart.version);
+                
+                // Test chart creation
+                const canvas = document.createElement('canvas');
+                canvas.width = 200;
+                canvas.height = 200;
+                document.body.appendChild(canvas);
+                
+                const ctx = canvas.getContext('2d');
+                const testChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Test'],
+                        datasets: [{
+                            label: 'Test',
+                            data: [3],
+                            backgroundColor: 'rgba(115, 189, 245, 0.2)',
+                            borderColor: 'rgba(115, 189, 245, 1)'
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        maintainAspectRatio: false
+                    }
+                });
+                
+                log('✅ Test chart created successfully');
+                testChart.destroy();
+                document.body.removeChild(canvas);
+                
+            } catch (error) {
+                log('❌ Chart test failed:', error.message);
+            }
+        }
+    </script>
+</body>
+</html> 

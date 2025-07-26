@@ -2,16 +2,40 @@
 // Enhanced Student Portfolio functionality
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Check if SELDataProcessor is available
+    if (typeof SELDataProcessor === 'undefined') {
+        console.error('SELDataProcessor is not loaded!');
+        return;
+    }
+    
     // Initialize the data processor
     const dataProcessor = new SELDataProcessor();
     
-    // Get DOM elements
+    // Get DOM elements with error checking
     const studentSelect = document.getElementById('student-select');
     const portfolioContent = document.getElementById('portfolio-content');
     const noStudentSelected = document.getElementById('no-student-selected');
     const printBtn = document.getElementById('print-btn');
     
     let skillsChart = null;
+    
+    // Check if required elements exist
+    if (!studentSelect) {
+        console.error('Student select element not found!');
+        return;
+    }
+    if (!portfolioContent) {
+        console.error('Portfolio content element not found!');
+        return;
+    }
+    if (!noStudentSelected) {
+        console.error('No student selected element not found!');
+        return;
+    }
+    if (!printBtn) {
+        console.error('Print button element not found!');
+        return;
+    }
 
     // Populate student dropdown
     function populateStudentDropdown() {
@@ -100,6 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadStudentReflections(reflections) {
         const reflectionsContainer = document.getElementById('student-reflections');
         
+        if (!reflectionsContainer) {
+            console.error('Student reflections container not found!');
+            return;
+        }
+        
         if (reflections.length === 0) {
             reflectionsContainer.innerHTML = '<div class="no-data">No student reflections yet</div>';
             return;
@@ -134,6 +163,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load teacher observations
     function loadTeacherObservations(observations) {
         const observationsContainer = document.getElementById('teacher-observations');
+        
+        if (!observationsContainer) {
+            console.error('Teacher observations container not found!');
+            return;
+        }
         
         if (observations.length === 0) {
             observationsContainer.innerHTML = '<div class="no-data">No teacher observations yet</div>';
@@ -178,6 +212,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function createSkillsChart(reflections) {
         const chartContainer = document.getElementById('skills-chart');
         
+        if (!chartContainer) {
+            console.error('Chart container element not found!');
+            return;
+        }
+        
         if (reflections.length === 0) {
             chartContainer.style.display = 'none';
             return;
@@ -219,6 +258,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Create new chart with error handling
         try {
+            if (typeof Chart === 'undefined') {
+                throw new Error('Chart.js is not loaded');
+            }
+            
             const ctx = chartContainer.getContext('2d');
             skillsChart = new Chart(ctx, {
                 type: 'radar',
@@ -252,6 +295,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Generate key takeaways
     function generateKeyTakeaways(reflections, observations) {
         const takeawaysContainer = document.getElementById('key-takeaways');
+        
+        if (!takeawaysContainer) {
+            console.error('Key takeaways container not found!');
+            return;
+        }
         
         if (reflections.length === 0 && observations.length === 0) {
             takeawaysContainer.innerHTML = '<div class="no-data">No data available for insights</div>';

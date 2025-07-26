@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Debug</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        pre { background: #f5f5f5; padding: 10px; overflow-x: auto; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <h1>Portfolio Debug Tool</h1>
+    
+    <div class="debug-section">
+        <h2>🔍 Debug Steps</h2>
+        <button onclick="testDataProcessor()">Test SELDataProcessor</button>
+        <button onclick="testChartJS()">Test Chart.js</button>
+        <button onclick="testLocalStorage()">Test Local Storage</button>
+        <button onclick="testPortfolioData()">Test Portfolio Data</button>
+        <button onclick="clearAllData()">Clear All Data</button>
+    </div>
+    
+    <div id="debug-output" class="debug-section">
+        <h2>📊 Debug Output</h2>
+        <div id="output-content">Click a debug button above to start...</div>
+    </div>
+
+    <script src="sel-data-processor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        function log(message, data = null) {
+            const output = document.getElementById('output-content');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.style.borderBottom = '1px solid #eee';
+            logEntry.style.padding = '10px 0';
+            
+            if (data) {
+                logEntry.innerHTML = `
+                    <strong>[${timestamp}] ${message}</strong><br>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } else {
+                logEntry.innerHTML = `<strong>[${timestamp}] ${message}</strong>`;
+            }
+            
+            output.appendChild(logEntry);
+            output.scrollTop = output.scrollHeight;
+        }
+        
+        function testDataProcessor() {
+            log('Testing SELDataProcessor...');
+            
+            try {
+                if (typeof SELDataProcessor === 'undefined') {
+                    log('❌ SELDataProcessor is not defined!', null);
+                    return;
+                }
+                
+                const processor = new SELDataProcessor();
+                log('✅ SELDataProcessor created successfully');
+                
+                const allNames = processor.getAllStudentNames();
+                log('All student names:', allNames);
+                
+                const observations = processor.loadObservations();
+                log('Observations count:', observations.length);
+                
+                const reflections = processor.loadData();
+                log('Reflections count:', reflections.length);
+                
+                if (reflections.length > 0) {
+                    log('Sample reflection structure:', reflections[0]);
+                }
+                
+            } catch (error) {
+                log('❌ Error testing SELDataProcessor:', error.message);
+            }
+        }
+        
+        function testChartJS() {
+            log('Testing Chart.js...');
+            
+            try {
+                if (typeof Chart === 'undefined') {
+                    log('❌ Chart.js is not loaded!', null);
+                    return;
+                }
+                
+                log('✅ Chart.js loaded successfully');
+                log('Chart version:', Chart.version);
+                
+                // Test creating a simple chart
+                const canvas = document.createElement('canvas');
+                canvas.width = 200;
+                canvas.height = 200;
+                document.body.appendChild(canvas);
+                
+                const ctx = canvas.getContext('2d');
+                const testChart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Test'],
+                        datasets: [{
+                            label: 'Test',
+                            data: [3],
+                            backgroundColor: 'rgba(115, 189, 245, 0.2)',
+                            borderColor: 'rgba(115, 189, 245, 1)'
+                        }]
+                    },
+                    options: {
+                        responsive: false,
+                        maintainAspectRatio: false
+                    }
+                });
+                
+                log('✅ Test chart created successfully');
+                testChart.destroy();
+                document.body.removeChild(canvas);
+                
+            } catch (error) {
+                log('❌ Error testing Chart.js:', error.message);
+            }
+        }
+        
+        function testLocalStorage() {
+            log('Testing Local Storage...');
+            
+            try {
+                const selData = JSON.parse(localStorage.getItem('selToolkit-selData') || '[]');
+                const observations = JSON.parse(localStorage.getItem('selToolkit-observationLog') || '[]');
+                
+                log('SEL Data entries:', selData.length);
+                log('Observation entries:', observations.length);
+                
+                if (selData.length > 0) {
+                    log('Sample SEL data entry:', selData[0]);
+                }
+                
+                if (observations.length > 0) {
+                    log('Sample observation entry:', observations[0]);
+                }
+                
+            } catch (error) {
+                log('❌ Error testing Local Storage:', error.message);
+            }
+        }
+        
+        function testPortfolioData() {
+            log('Testing Portfolio Data Flow...');
+            
+            try {
+                const processor = new SELDataProcessor();
+                const allNames = processor.getAllStudentNames();
+                
+                if (allNames.length === 0) {
+                    log('❌ No students found in data');
+                    return;
+                }
+                
+                const testStudent = allNames[0];
+                log('Testing with student:', testStudent);
+                
+                const reflections = processor.getStudentReflections(testStudent);
+                const observations = processor.getObservationsForStudent(testStudent);
+                
+                log('Reflections for student:', reflections.length);
+                log('Observations for student:', observations.length);
+                
+                if (reflections.length > 0) {
+                    const latest = reflections[0];
+                    log('Latest reflection data:', {
+                        name: latest.name,
+                        date: latest.date,
+                        namingEmotions_N: latest.namingEmotions_N,
+                        calming_N: latest.calming_N,
+                        understandingOthers_N: latest.understandingOthers_N,
+                        solvingConflicts_N: latest.solvingConflicts_N,
+                        proudestImprovement: latest.proudestImprovement,
+                        successStory: latest.successStory,
+                        nextGoal: latest.nextGoal,
+                        goalStrategy: latest.goalStrategy
+                    });
+                    
+                    // Test chart data calculation
+                    const chartData = [
+                        parseInt(latest.namingEmotions_N) || 1,
+                        parseInt(latest.calming_N) || 1,
+                        parseInt(latest.understandingOthers_N) || 1,
+                        parseInt(latest.solvingConflicts_N) || 1
+                    ];
+                    
+                    log('Chart data values:', chartData);
+                    
+                    // Test score calculation
+                    const totalScore = chartData.reduce((sum, val) => sum + val, 0);
+                    log('Total score calculation:', `${totalScore}/20 (${Math.round(totalScore/20*100)}%)`);
+                }
+                
+            } catch (error) {
+                log('❌ Error testing portfolio data:', error.message);
+            }
+        }
+        
+        function clearAllData() {
+            localStorage.clear();
+            log('✅ All local storage data cleared');
+        }
+    </script>
+</body>
+</html> 
