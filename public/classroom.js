@@ -48,13 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!promptsMatch) throw new Error('Could not find prompts array in the resource file.');
             
             const allPrompts = eval(promptsMatch[1]);
-            let currentPrompts = allPrompts.slice(0, 6);
             
             // Build enhanced 3D dice HTML
             mainContentEl.innerHTML = `
                 <div class="dice-scene">
                     <div class="dice" id="interactive-dice">
-                        ${currentPrompts.map((prompt, i) => `<div class="face face-${i + 1}">${prompt}</div>`).join('')}
+                        ${allPrompts.slice(0, 6).map((prompt, i) => `<div class="face face-${i + 1}">${prompt}</div>`).join('')}
                     </div>
                 </div>
                 <div id="prompt-result"></div>
@@ -109,7 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     dice.classList.remove('bounce');
                     dice.className = `dice show-${randomFace} settled`;
                     
-                    const chosenPrompt = currentPrompts[randomFace - 1];
+                    // Select a random prompt from all available prompts, not just the 6 on the dice
+                    const chosenPrompt = allPrompts[Math.floor(Math.random() * allPrompts.length)];
                     promptResultEl.textContent = chosenPrompt;
                     
                     // Re-enable buttons
