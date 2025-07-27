@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Sound function
             function playDiceSound() {
                 // Create audio element for dice rolling sound
-                const audio = new Audio('dice-roll.mp3');
+                const audio = new Audio('dice-roll-1.mp3');
                 audio.volume = 0.3; // Set volume to 30%
                 audio.play().catch(error => {
                     console.log('Audio playback failed:', error);
