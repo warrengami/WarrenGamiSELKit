@@ -69,10 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rollBtn.className = 'enhanced-btn';
             controlPanelEl.appendChild(rollBtn);
 
-            const randomizeBtn = document.createElement('button');
-            randomizeBtn.textContent = '🔄 Randomize Prompts';
-            randomizeBtn.className = 'enhanced-btn';
-            controlPanelEl.appendChild(randomizeBtn);
+
 
             // Timer controls
             const timerBtn = document.createElement('button');
@@ -91,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // Disable buttons during roll
                 rollBtn.disabled = true;
-                randomizeBtn.disabled = true;
                 promptResultEl.textContent = '';
                 
                 // Play dice rolling sound
@@ -118,20 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     // Re-enable buttons
                     rollBtn.disabled = false;
-                    randomizeBtn.disabled = false;
                 }, rollDuration);
             });
 
-            // Randomize button functionality
-            randomizeBtn.addEventListener('click', () => {
-                const shuffled = [...allPrompts].sort(() => 0.5 - Math.random());
-                currentPrompts = shuffled.slice(0, 6);
-                const faces = dice.querySelectorAll('.face');
-                faces.forEach((face, i) => {
-                    face.textContent = currentPrompts[i];
-                });
-                promptResultEl.textContent = '🎲 Dice prompts have been randomized!';
-            });
+
 
             // Timer functionality
             timerBtn.addEventListener('click', () => {

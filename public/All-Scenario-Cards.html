@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>All Scenario Cards (Interactive)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+        :root {
+            --midnight-blue: #002b5c;
+            --sky-blue: #73bdf5;
+            --soft-gray: #e0e6ed;
+            --white: #ffffff;
+            --border-color: #333;
+            --yellow: #fdf2b8;
+            --green: #d5f1d5;
+            --pink: #f8d1e0;
+            --purple: #e8d5f5;
+            --red: #ffd1d1;
+            --orange: #ffe8d1;
+            /* --- Nav Bar Colors --- */
+            --nav-bg: #f8f9fa;
+            --nav-border: #dee2e6;
+            --nav-text: #212529;
+            --nav-primary-bg: #002b5c;
+            --nav-primary-hover: #00408a;
+            --nav-secondary-text: #002b5c;
+            --nav-secondary-hover: #73bdf5;
+            --nav-shadow: rgba(0, 0, 0, 0.1);
+        }
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            line-height: 1.5; color: var(--border-color);
+            margin: 0; padding: 20px;
+            background-color: var(--soft-gray);
+            font-size: 16px;
+            padding-bottom: 80px; /* Space for new nav bar */
+        }
+        .page {
+            max-width: 8.5in;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        h2, h3 {
+            font-family: 'Poppins', sans-serif;
+            margin: 0 0 10px 0;
+            color: var(--midnight-blue);
+            text-align: center;
+        }
+        h2 { font-size: 24px; margin-bottom: 5px; }
+        h3 { font-size: 14px; font-weight: normal; color: #555; margin-bottom: 20px; }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .control-btn {
+            background-color: var(--midnight-blue);
+            color: var(--white);
+            font-family: 'Poppins', sans-serif;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .control-btn:hover { background-color: var(--sky-blue); }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        .scenario-card-container {
+            perspective: 1000px;
+            min-height: 220px;
+            cursor: pointer;
+        }
+        .scenario-card-inner {
+            position: relative;
+            width: 100%; height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .scenario-card-container.flipped .scenario-card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%; height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--midnight-blue);
+        }
+        .card-text {
+            margin: 0;
+            line-height: 1.4;
+        }
+        .guiding-questions {
+            margin: 10px 0 0 0;
+            padding-left: 20px;
+            text-align: left;
+        }
+        .guiding-questions li {
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        /* SEL Competency Color Coding */
+        .bg-self-awareness { background-color: var(--yellow); } /* Self-Awareness - Yellow */
+        .bg-self-management { background-color: var(--green); } /* Self-Management - Green */
+        .bg-social-awareness { background-color: var(--pink); } /* Social-Awareness - Pink */
+        .bg-relationship-skills { background-color: var(--purple); } /* Relationship-Skills - Purple */
+        .bg-responsible-decision { background-color: var(--red); } /* Responsible-Decision-Making - Red */
+
+        /* Navigation styles */
+        .toolkit-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            border-top: 1px solid var(--nav-border);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -2px 10px var(--nav-shadow);
+            z-index: 1000;
+        }
+        .nav-button, .nav-home-link {
+            text-decoration: none;
+            color: var(--nav-text);
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .nav-button:hover, .nav-button:focus,
+        .nav-home-link:hover, .nav-home-link:focus {
+            background-color: var(--nav-primary-bg);
+            color: var(--white);
+        }
+        .nav-home-link {
+            background-color: var(--nav-primary-bg);
+            color: var(--white);
+        }
+        .nav-home-link:hover, .nav-home-link:focus {
+            background-color: var(--nav-primary-hover);
+        }
+
+        @media print {
+            .toolkit-nav, .controls { display: none; }
+            body { padding: 0; }
+            .page { max-width: none; }
+            .scenario-card-container {
+                perspective: unset; min-height: unset; cursor: default;
+                page-break-inside: avoid; margin: 0 auto 15mm auto; max-width: 320px;
+            }
+            .scenario-card-inner { position: static; transform: none !important; height: auto; }
+            .card-front, .card-back { position: static; transform: none; min-height: 180px; height: auto; display: flex !important; }
+            .card-front { margin-bottom: 5mm; }
+            .bg-self-awareness, .bg-self-management, .bg-social-awareness, .bg-relationship-skills, .bg-responsible-decision { 
+                -webkit-print-color-adjust: exact; print-color-adjust: exact; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <main>
+            <header>
+                <h1>All Scenario Cards</h1>
+                <h2>Social-Emotional Learning Scenarios for Discussion</h2>
+                <h3>Click each card to flip it and see guiding questions</h3>
+            </header>
+
+            <section>
+                <div class="controls">
+                    <button onclick="window.open('classroom.html?type=scenarios&file=All-Scenario-Cards.html', '_blank')" class="control-btn" aria-label="Project in Classroom Mode">🖥️ Project in Classroom</button>
+                    <button class="control-btn" onclick="window.print()">🖨️ Print Cards</button>
+                </div>
+            </section>
+
+            <section class="card-container">
+                <!-- Self-Awareness Cards (Yellow) -->
+                <div class="scenario-card-container" id="card1" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-self-awareness">
+                            <div class="card-title">Scenario 1</div>
+                            <p class="card-text">Your friends suggest skipping class to hang out in the hallway. You feel torn about what to do. How would you handle this situation?</p>
+                        </div>
+                        <div class="card-back bg-self-awareness">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>What factors would you consider before making your decision?</li>
+                                <li>How might your choice affect your relationships and your future?</li>
+                                <li>What values are important to you in this situation?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card2" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-self-awareness">
+                            <div class="card-title">Scenario 2</div>
+                            <p class="card-text">You're feeling really stressed about a big test. How do you manage these feelings?</p>
+                        </div>
+                        <div class="card-back bg-self-awareness">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How does stress feel in your body and mind?</li>
+                                <li>What strategies help you calm down when you're overwhelmed?</li>
+                                <li>Who could you talk to for support?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card3" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-self-awareness">
+                            <div class="card-title">Scenario 3</div>
+                            <p class="card-text">You're feeling really anxious about a presentation. How do you cope with these feelings?</p>
+                        </div>
+                        <div class="card-back bg-self-awareness">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How does anxiety feel in your body?</li>
+                                <li>What strategies help you feel more confident?</li>
+                                <li>How can you prepare yourself mentally for the challenge?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Self-Management Cards (Green) -->
+                <div class="scenario-card-container" id="card4" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-self-management">
+                            <div class="card-title">Scenario 4</div>
+                            <p class="card-text">You're feeling really angry at a friend. How do you express your feelings without hurting the relationship?</p>
+                        </div>
+                        <div class="card-back bg-self-management">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>What are some words or actions that can help communicate anger without hurting someone?</li>
+                                <li>How can you take a moment to calm down before responding?</li>
+                                <li>What might help you both understand each other's perspective?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card5" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-self-management">
+                            <div class="card-title">Scenario 5</div>
+                            <p class="card-text">You have to choose between spending time with friends and doing homework. How do you decide?</p>
+                        </div>
+                        <div class="card-back bg-self-management">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>What factors would you consider when making this decision?</li>
+                                <li>How might your choice affect your future?</li>
+                                <li>What would be a responsible way to balance both?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card6" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-self-management">
+                            <div class="card-title">Scenario 6</div>
+                            <p class="card-text">You're feeling really frustrated with a difficult assignment. How do you manage these feelings?</p>
+                        </div>
+                        <div class="card-back bg-self-management">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How does frustration feel in your body?</li>
+                                <li>What strategies help you stay calm when things are challenging?</li>
+                                <li>When is it okay to ask for help?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social-Awareness Cards (Pink) -->
+                <div class="scenario-card-container" id="card7" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-social-awareness">
+                            <div class="card-title">Scenario 7</div>
+                            <p class="card-text">You see someone being teased in the hallway. What could you do to help?</p>
+                        </div>
+                        <div class="card-back bg-social-awareness">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How might the person being teased be feeling?</li>
+                                <li>What are some safe ways you could intervene?</li>
+                                <li>When might you need to get help from an adult?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card8" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-social-awareness">
+                            <div class="card-title">Scenario 8</div>
+                            <p class="card-text">You see someone posting mean comments about a classmate online. What do you do?</p>
+                        </div>
+                        <div class="card-back bg-social-awareness">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How might this affect the person being talked about?</li>
+                                <li>What are some positive ways you could respond?</li>
+                                <li>How can you be a good digital citizen?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card9" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-social-awareness">
+                            <div class="card-title">Scenario 9</div>
+                            <p class="card-text">You see someone being excluded from a group activity. What could you do to help?</p>
+                        </div>
+                        <div class="card-back bg-social-awareness">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How might the person being excluded be feeling?</li>
+                                <li>What are some kind ways you could include them?</li>
+                                <li>How might your actions affect the group dynamic?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Relationship-Skills Cards (Purple) -->
+                <div class="scenario-card-container" id="card10" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-relationship-skills">
+                            <div class="card-title">Scenario 10</div>
+                            <p class="card-text">You and a friend have a disagreement. How do you express your feelings without making things worse?</p>
+                        </div>
+                        <div class="card-back bg-relationship-skills">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>What's a good way to tell someone how you feel without starting a bigger fight?</li>
+                                <li>How can you listen to their side of the story?</li>
+                                <li>What might help you both find a solution?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card11" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-relationship-skills">
+                            <div class="card-title">Scenario 11</div>
+                            <p class="card-text">A friend shares a secret with you. How do you show you are trustworthy?</p>
+                        </div>
+                        <div class="card-back bg-relationship-skills">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>Why is trust important in a friendship?</li>
+                                <li>What could happen if you broke their trust?</li>
+                                <li>How can you demonstrate that you're a good friend?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card12" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-relationship-skills">
+                            <div class="card-title">Scenario 12</div>
+                            <p class="card-text">You and a friend have different opinions about something important. How do you handle this?</p>
+                        </div>
+                        <div class="card-back bg-relationship-skills">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How can you respect their opinion while still sharing your own?</li>
+                                <li>What does it mean to 'agree to disagree'?</li>
+                                <li>How can you maintain your friendship despite the disagreement?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Responsible-Decision-Making Cards (Red) -->
+                <div class="scenario-card-container" id="card13" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-responsible-decision">
+                            <div class="card-title">Scenario 13</div>
+                            <p class="card-text">You forgot your homework. How can you take responsibility?</p>
+                        </div>
+                        <div class="card-back bg-responsible-decision">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>What is the first step you should take?</li>
+                                <li>What can you do to make sure it doesn't happen again?</li>
+                                <li>How can you be honest about the situation?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card14" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-responsible-decision">
+                            <div class="card-title">Scenario 14</div>
+                            <p class="card-text">You're about to post something online about a friend. How do you decide if it's appropriate?</p>
+                        </div>
+                        <div class="card-back bg-responsible-decision">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>What should you consider before posting something about someone else?</li>
+                                <li>How might your post affect your friend's feelings?</li>
+                                <li>What makes something appropriate or inappropriate to share online?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card15" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-responsible-decision">
+                            <div class="card-title">Scenario 15</div>
+                            <p class="card-text">You made a decision that you later regretted. What did you learn from that experience?</p>
+                        </div>
+                        <div class="card-back bg-responsible-decision">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>What made that decision challenging at the time?</li>
+                                <li>How did the outcome affect you and others?</li>
+                                <li>What would you do differently if you could go back?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card16" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-responsible-decision">
+                            <div class="card-title">Scenario 16</div>
+                            <p class="card-text">You have to make a difficult choice between two important things. How do you decide?</p>
+                        </div>
+                        <div class="card-back bg-responsible-decision">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>What factors would you consider when making this decision?</li>
+                                <li>How might your choice affect others?</li>
+                                <li>What would be a responsible way to handle this situation?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Self-Management Cards -->
+                <div class="scenario-card-container" id="card17" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-self-management">
+                            <div class="card-title">Scenario 17</div>
+                            <p class="card-text">You're feeling really overwhelmed with everything going on. How do you take care of yourself?</p>
+                        </div>
+                        <div class="card-back bg-self-management">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How do you know when you need a break?</li>
+                                <li>What activities help you feel more balanced?</li>
+                                <li>Who can you talk to when you're feeling overwhelmed?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card18" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-self-management">
+                            <div class="card-title">Scenario 18</div>
+                            <p class="card-text">You're feeling really stressed about social media and online interactions. How do you manage this?</p>
+                        </div>
+                        <div class="card-back bg-self-management">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How does being online affect your mood?</li>
+                                <li>What boundaries can you set for your social media use?</li>
+                                <li>How can you stay connected while protecting your well-being?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Social-Awareness Cards -->
+                <div class="scenario-card-container" id="card19" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-social-awareness">
+                            <div class="card-title">Scenario 19</div>
+                            <p class="card-text">You see someone posting something mean about a classmate online. What do you do?</p>
+                        </div>
+                        <div class="card-back bg-social-awareness">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How might this affect the person being talked about?</li>
+                                <li>What are some positive ways you could respond?</li>
+                                <li>How can you be a good digital citizen in this situation?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card20" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-social-awareness">
+                            <div class="card-title">Scenario 20</div>
+                            <p class="card-text">You're about to post something online. How do you decide if it's appropriate to share?</p>
+                        </div>
+                        <div class="card-back bg-social-awareness">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>What should you consider before posting something online?</li>
+                                <li>How might your post affect others?</li>
+                                <li>What makes something appropriate or inappropriate to share?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Self-Awareness Cards -->
+                <div class="scenario-card-container" id="card21" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-self-awareness">
+                            <div class="card-title">Scenario 21</div>
+                            <p class="card-text">You're feeling really nervous about trying something new. How do you handle these feelings?</p>
+                        </div>
+                        <div class="card-back bg-self-awareness">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How does nervousness feel in your body?</li>
+                                <li>What helps you feel more confident when trying new things?</li>
+                                <li>How can you support yourself through the challenge?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card22" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-self-awareness">
+                            <div class="card-title">Scenario 22</div>
+                            <p class="card-text">You're feeling really sad about something. What are some healthy ways to cope with these feelings?</p>
+                        </div>
+                        <div class="card-back bg-self-awareness">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How does sadness feel in your body and mind?</li>
+                                <li>What activities help you feel better when you're sad?</li>
+                                <li>Who could you talk to about your feelings?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Relationship-Skills Cards -->
+                <div class="scenario-card-container" id="card23" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-relationship-skills">
+                            <div class="card-title">Scenario 23</div>
+                            <p class="card-text">You're feeling really angry about something. How do you express these feelings safely?</p>
+                        </div>
+                        <div class="card-back bg-relationship-skills">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How does anger feel in your body?</li>
+                                <li>What strategies help you calm down when you're angry?</li>
+                                <li>How can you communicate your feelings without hurting others?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card24" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-relationship-skills">
+                            <div class="card-title">Scenario 24</div>
+                            <p class="card-text">You're feeling really frustrated. What's a healthy way to cope?</p>
+                        </div>
+                        <div class="card-back bg-relationship-skills">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>What does "frustrated" feel like in your body?</li>
+                                <li>Name one calming strategy you could use.</li>
+                                <li>How can you express your frustration constructively?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Responsible-Decision-Making Cards -->
+                <div class="scenario-card-container" id="card25" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-responsible-decision">
+                            <div class="card-title">Scenario 25</div>
+                            <p class="card-text">You're about to share something online about a friend. How do you decide if it's appropriate?</p>
+                        </div>
+                        <div class="card-back bg-responsible-decision">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>What should you consider before posting something about someone else?</li>
+                                <li>How might your post affect your friend's feelings?</li>
+                                <li>What makes something appropriate or inappropriate to share online?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-card-container" id="card26" onclick="flipCard(this)">
+                    <div class="scenario-card-inner">
+                        <div class="card-front bg-responsible-decision">
+                            <div class="card-title">Scenario 26</div>
+                            <p class="card-text">You're feeling really overwhelmed with schoolwork. What strategies help you manage this stress?</p>
+                        </div>
+                        <div class="card-back bg-responsible-decision">
+                            <div class="card-title">Guiding Questions</div>
+                            <ul class="guiding-questions">
+                                <li>How does stress feel in your body and mind?</li>
+                                <li>What helps you stay organized and focused?</li>
+                                <li>Who could you ask for help when you're struggling?</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <nav class="toolkit-nav" aria-label="Toolkit Navigation">
+        <a href="dashboard.html" class="nav-home-link" aria-label="Go to Teacher Dashboard">
+            <span aria-hidden="true">🏠</span>
+            <span>Teacher Dashboard</span>
+        </a>
+    </nav>
+    
+    <script>
+        function flipCard(cardContainer) {
+            cardContainer.classList.toggle('flipped');
+        }
+    </script>
+    <script src="auth.js"></script>
+    <!-- TIDIO CHATBOT SCRIPT -->
+    <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>
+
+</body>
+</html> 
