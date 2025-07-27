@@ -108,8 +108,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     dice.classList.remove('bounce');
                     dice.className = `dice show-${randomFace} settled`;
                     
-                    // Select a random prompt from all available prompts in the category
-                    const chosenPrompt = allPrompts[Math.floor(Math.random() * allPrompts.length)];
+                    // Select a random prompt from the visible dice faces (first 6 prompts)
+                    const chosenPrompt = currentPrompts[randomFace - 1];
                     promptResultEl.textContent = chosenPrompt;
                     
                     // Re-enable buttons
