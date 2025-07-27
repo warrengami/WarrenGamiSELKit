@@ -190,22 +190,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Sound function
             function playDiceSound() {
-                // Create audio context for dice rolling sound
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
-                oscillator.frequency.exponentialRampToValueAtTime(50, audioContext.currentTime + 0.5);
-                
-                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.5);
+                // Create audio element for dice rolling sound
+                const audio = new Audio('dice-roll.mp3');
+                audio.volume = 0.3; // Set volume to 30%
+                audio.play().catch(error => {
+                    console.log('Audio playback failed:', error);
+                });
             }
 
         } catch (error) {
