@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     dice.classList.remove('bounce');
                     dice.className = `dice show-${randomFace} settled`;
                     
-                    // Select a random prompt from all available prompts, not just the 6 on the dice
+                    // Select a random prompt from all available prompts in the category
                     const chosenPrompt = allPrompts[Math.floor(Math.random() * allPrompts.length)];
                     promptResultEl.textContent = chosenPrompt;
                     

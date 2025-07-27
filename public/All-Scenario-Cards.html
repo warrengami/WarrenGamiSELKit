@@ -173,17 +173,70 @@
 
         @media print {
             .toolkit-nav, .controls { display: none; }
-            body { padding: 0; }
-            .page { max-width: none; }
-            .scenario-card-container {
-                perspective: unset; min-height: unset; cursor: default;
-                page-break-inside: avoid; margin: 0 auto 15mm auto; max-width: 320px;
+            body { 
+                padding: 0; 
+                margin: 0;
+                background: white;
             }
-            .scenario-card-inner { position: static; transform: none !important; height: auto; }
-            .card-front, .card-back { position: static; transform: none; min-height: 180px; height: auto; display: flex !important; }
-            .card-front { margin-bottom: 5mm; }
+            .page { 
+                max-width: none; 
+                margin: 0;
+                padding: 10mm;
+            }
+            .card-container {
+                display: block;
+                margin: 0;
+                padding: 0;
+            }
+            .scenario-card-container {
+                perspective: unset; 
+                min-height: unset; 
+                cursor: default;
+                page-break-inside: avoid; 
+                margin: 0 auto 20mm auto; 
+                max-width: 320px;
+                break-inside: avoid;
+            }
+            .scenario-card-inner { 
+                position: static; 
+                transform: none !important; 
+                height: auto; 
+            }
+            .card-front, .card-back { 
+                position: static; 
+                transform: none; 
+                min-height: 200px; 
+                height: auto; 
+                display: flex !important;
+                padding: 15px;
+                margin: 0;
+                page-break-inside: avoid;
+            }
+            .card-front { 
+                margin-bottom: 8mm; 
+                break-after: page;
+            }
+            .card-title {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+            .card-text {
+                font-size: 14px;
+                line-height: 1.4;
+            }
+            .guiding-questions {
+                font-size: 13px;
+                line-height: 1.3;
+            }
+            .guiding-questions li {
+                margin-bottom: 8px;
+            }
             .bg-self-awareness, .bg-self-management, .bg-social-awareness, .bg-relationship-skills, .bg-responsible-decision { 
-                -webkit-print-color-adjust: exact; print-color-adjust: exact; 
+                -webkit-print-color-adjust: exact; 
+                print-color-adjust: exact; 
+            }
+            h1, h2, h3 {
+                display: none;
             }
         }
     </style>
