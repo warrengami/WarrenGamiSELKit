@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromptDJ Guide - WarrenGami SEL Toolkit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight-blue: #0f2c4d;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --white: #ffffff;
+            --soft-gray: #f7f9fc;
+            --border-color: #e0e6ed;
+            --accent-red: #ff6b6b;
+            --accent-teal: #4ecdc4;
+        }
+        
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            background-color: var(--soft-gray);
+            color: #333;
+            margin: 0;
+            padding: 2em;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background-color: var(--white);
+            padding: 2em 3em;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 4px solid var(--ice-blue);
+        }
+        
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            font-size: 2.5em;
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            color: var(--sky-blue);
+            margin: 10px 0 0 0;
+        }
+        
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            border-bottom: 2px solid var(--ice-blue);
+            padding-bottom: 10px;
+            margin-top: 40px;
+            font-size: 1.8em;
+        }
+        
+        h3 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--sky-blue);
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+        
+        .feature-card {
+            background: var(--soft-gray);
+            border-radius: 8px;
+            padding: 1.5em;
+            margin: 1em 0;
+            border-left: 4px solid var(--accent-red);
+        }
+        
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .activity-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5em;
+            border: 2px solid var(--accent-teal);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .activity-card h4 {
+            color: var(--midnight-blue);
+            margin-top: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .prompt-list {
+            background: var(--ice-blue);
+            border-radius: 6px;
+            padding: 1em;
+            margin: 1em 0;
+        }
+        
+        .prompt-list ul {
+            margin: 0;
+            padding-left: 1.5em;
+        }
+        
+        .btn {
+            background: var(--accent-red);
+            color: white;
+            border: none;
+            padding: 0.8em 1.5em;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5em 0;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: var(--accent-teal);
+        }
+        
+        .btn-secondary:hover {
+            background: #3dbdb4;
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            margin-bottom: 1em;
+            padding-left: 2.5em;
+            position: relative;
+        }
+        
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: var(--accent-red);
+            color: white;
+            width: 1.5em;
+            height: 1.5em;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 6px;
+            padding: 1em;
+            margin: 1em 0;
+            color: #856404;
+        }
+        
+        .tip {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            border-radius: 6px;
+            padding: 1em;
+            margin: 1em 0;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🎵 PromptDJ Guide</h1>
+            <p>AI-Powered Music Generation for SEL Activities</p>
+        </header>
+
+        <section>
+            <h2>What is PromptDJ?</h2>
+            <p>PromptDJ is an AI-powered music generation tool that creates real-time ambient music using MIDI controllers and text prompts. It's perfect for creating calming, engaging, or energizing music to enhance your SEL activities.</p>
+            
+            <div class="feature-card">
+                <h3>Key Features</h3>
+                <ul>
+                    <li><strong>Real-time Generation:</strong> Music is created instantly as you adjust controls</li>
+                    <li><strong>MIDI Controller Support:</strong> Use physical controllers for hands-on music creation</li>
+                    <li><strong>Text Prompts:</strong> Describe the mood or style you want</li>
+                    <li><strong>Multiple Styles:</strong> From calm meditation to energetic celebration</li>
+                    <li><strong>Volume Control:</strong> Adjust levels to suit your classroom environment</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>SEL Activity Integration</h2>
+            <p>PromptDJ can enhance various SEL activities by providing appropriate background music that supports the emotional and learning objectives.</p>
+            
+            <div class="activity-grid">
+                <div class="activity-card">
+                    <h4>🧘 Mindfulness Sessions</h4>
+                    <p>Create calming ambient music for meditation, breathing exercises, and mindfulness activities.</p>
+                    <div class="prompt-list">
+                        <strong>Suggested Prompts:</strong>
+                        <ul>
+                            <li>Calm meditation</li>
+                            <li>Peaceful ambient</li>
+                            <li>Gentle breathing</li>
+                            <li>Tranquil nature sounds</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="activity-card">
+                    <h4>😊 Emotion Expression</h4>
+                    <p>Use music to help students identify and express different emotions through sound.</p>
+                    <div class="prompt-list">
+                        <strong>Suggested Prompts:</strong>
+                        <ul>
+                            <li>Joyful celebration</li>
+                            <li>Melancholic reflection</li>
+                            <li>Energetic excitement</li>
+                            <li>Peaceful contentment</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="activity-card">
+                    <h4>😌 Relaxation Exercises</h4>
+                    <p>Generate soothing music for stress reduction and relaxation activities.</p>
+                    <div class="prompt-list">
+                        <strong>Suggested Prompts:</strong>
+                        <ul>
+                            <li>Soft lullaby</li>
+                            <li>Gentle waves</li>
+                            <li>Peaceful forest</li>
+                            <li>Calm breathing</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="activity-card">
+                    <h4>👥 Group Activities</h4>
+                    <p>Create collaborative music for group SEL activities and discussions.</p>
+                    <div class="prompt-list">
+                        <strong>Suggested Prompts:</strong>
+                        <ul>
+                            <li>Collaborative rhythm</li>
+                            <li>Group harmony</li>
+                            <li>Interactive beats</li>
+                            <li>Community celebration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>How to Use PromptDJ</h2>
+            
+            <ol class="step-list">
+                <li><strong>Launch PromptDJ:</strong> Click the "Launch PromptDJ" button from the dashboard</li>
+                <li><strong>Choose Your Activity:</strong> Select from mindfulness, emotion expression, relaxation, or group activities</li>
+                <li><strong>Adjust Prompts:</strong> Modify the text prompts to match your specific SEL activity</li>
+                <li><strong>Control Music:</strong> Use the MIDI controller or on-screen controls to adjust the music</li>
+                <li><strong>Play/Pause:</strong> Start and stop the music as needed during your activity</li>
+                <li><strong>Volume Management:</strong> Keep the volume at an appropriate level for your classroom</li>
+            </ol>
+            
+            <div class="tip">
+                <strong>💡 Tip:</strong> Start with lower volume and gradually increase to find the right level for your activity. The music should enhance, not distract from, the SEL learning.
+            </div>
+        </section>
+
+        <section>
+            <h2>Classroom Implementation Tips</h2>
+            
+            <h3>Before the Activity</h3>
+            <ul>
+                <li>Test the music volume and quality before class</li>
+                <li>Prepare your prompts based on the SEL activity</li>
+                <li>Have a backup plan in case of technical issues</li>
+                <li>Consider the acoustics of your classroom</li>
+            </ul>
+            
+            <h3>During the Activity</h3>
+            <ul>
+                <li>Start with gentle, calming music for mindfulness activities</li>
+                <li>Use more energetic music for group discussions or celebrations</li>
+                <li>Adjust the mood based on student engagement and energy levels</li>
+                <li>Be prepared to pause or change the music if it's not working</li>
+            </ul>
+            
+            <h3>After the Activity</h3>
+            <ul>
+                <li>Discuss how the music affected the activity</li>
+                <li>Ask students about their emotional responses to different music</li>
+                <li>Reflect on how music can support emotional regulation</li>
+                <li>Consider how to incorporate music in future SEL activities</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Technical Requirements</h2>
+            
+            <div class="warning">
+                <strong>⚠️ Important:</strong> PromptDJ requires a stable internet connection and may need permission to access audio devices. Make sure your browser supports Web Audio API.
+            </div>
+            
+            <h3>Browser Compatibility</h3>
+            <ul>
+                <li>Chrome (recommended)</li>
+                <li>Firefox</li>
+                <li>Safari</li>
+                <li>Edge</li>
+            </ul>
+            
+            <h3>Audio Setup</h3>
+            <ul>
+                <li>Ensure your computer's audio is working</li>
+                <li>Test with headphones if needed</li>
+                <li>Allow microphone access if using MIDI controllers</li>
+                <li>Check that your speakers/headphones are properly connected</li>
+            </ul>
+        </section>
+
+        <section style="text-align: center; margin-top: 3em;">
+            <a href="promptdj-midi/index.html" class="btn" target="_blank">🚀 Launch PromptDJ</a>
+            <a href="dashboard.html" class="btn btn-secondary">← Back to Dashboard</a>
+        </section>
+    </div>
+</body>
+</html> 

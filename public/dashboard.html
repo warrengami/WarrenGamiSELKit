@@ -363,6 +363,41 @@
             </div>
         </section>
 
+        <!-- PromptDJ Music Generation Section -->
+        <section class="promptdj-section" style="margin-bottom: 2em;">
+            <h2>🎵 PromptDJ Music Generation</h2>
+            <p style="margin-top: -10px; margin-bottom: 1.5em; color: #666;">Create ambient music for SEL activities using AI-powered music generation.</p>
+            
+            <div class="promptdj-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                <!-- PromptDJ MIDI Tool -->
+                <div class="promptdj-card" style="background: white; border-radius: 8px; padding: 1.5em; border: 2px solid #ff6b6b; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="display: flex; align-items: center; margin-bottom: 1em;">
+                        <span style="font-size: 2em; margin-right: 0.5em;">🎵</span>
+                        <h3 style="margin: 0; color: var(--midnight-blue);">AI Music Generator</h3>
+                    </div>
+                    <p style="margin-bottom: 1em; color: #666; font-size: 0.9em;">Generate ambient music for mindfulness activities, relaxation exercises, and SEL discussions using MIDI controllers and AI prompts.</p>
+                    <div style="display: grid; gap: 0.5em;">
+                        <button onclick="openPromptDJ()" style="background: #ff6b6b; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Launch PromptDJ</button>
+                        <button onclick="openPromptDJGuide()" style="background: #4ecdc4; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">How to Use</button>
+                    </div>
+                </div>
+                
+                <!-- Music Activities -->
+                <div class="promptdj-card" style="background: white; border-radius: 8px; padding: 1.5em; border: 2px solid #45b7d1; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                    <div style="display: flex; align-items: center; margin-bottom: 1em;">
+                        <span style="font-size: 2em; margin-right: 0.5em;">🎼</span>
+                        <h3 style="margin: 0; color: var(--midnight-blue);">SEL Music Activities</h3>
+                    </div>
+                    <div style="display: grid; gap: 0.5em;">
+                        <button onclick="openMusicActivity('mindfulness')" style="background: #45b7d1; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Mindfulness Sessions</button>
+                        <button onclick="openMusicActivity('emotion')" style="background: #45b7d1; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Emotion Expression</button>
+                        <button onclick="openMusicActivity('relaxation')" style="background: #45b7d1; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Relaxation Exercises</button>
+                        <button onclick="openMusicActivity('group')" style="background: #45b7d1; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Group Activities</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Share Your Ideas Section -->
         <section class="feedback-section" style="background: var(--white); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin: 1rem 0;">
             <h3 style="font-size: 1.2rem; color: var(--midnight-blue); margin-bottom: 0.5em;">⏱️ Timer Settings</h3>
@@ -475,6 +510,49 @@
             const savedDuration = localStorage.getItem('timerDuration') || 120;
             setTimerDuration(parseInt(savedDuration));
         });
+        
+        // PromptDJ Integration Functions
+        function openPromptDJ() {
+            // Open PromptDJ in a new window/tab
+            window.open('promptdj-midi/index.html', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+        }
+        
+        function openPromptDJGuide() {
+            // Open PromptDJ guide in a new window
+            window.open('promptdj-guide.html', '_blank', 'width=800,height=600,scrollbars=yes,resizable=yes');
+        }
+        
+        function openMusicActivity(activityType) {
+            const activities = {
+                'mindfulness': {
+                    title: 'Mindfulness Music Session',
+                    description: 'Create calming ambient music for mindfulness and meditation activities',
+                    prompts: ['Calm meditation', 'Peaceful ambient', 'Gentle breathing', 'Tranquil nature sounds']
+                },
+                'emotion': {
+                    title: 'Emotion Expression Through Music',
+                    description: 'Use music to help students express and process emotions',
+                    prompts: ['Joyful celebration', 'Melancholic reflection', 'Energetic excitement', 'Peaceful contentment']
+                },
+                'relaxation': {
+                    title: 'Relaxation Exercise Music',
+                    description: 'Generate soothing music for relaxation and stress reduction',
+                    prompts: ['Soft lullaby', 'Gentle waves', 'Peaceful forest', 'Calm breathing']
+                },
+                'group': {
+                    title: 'Group Activity Music',
+                    description: 'Create collaborative music for group SEL activities',
+                    prompts: ['Collaborative rhythm', 'Group harmony', 'Interactive beats', 'Community celebration']
+                }
+            };
+            
+            const activity = activities[activityType];
+            if (activity) {
+                // Store activity info for PromptDJ
+                localStorage.setItem('selMusicActivity', JSON.stringify(activity));
+                openPromptDJ();
+            }
+        }
     </script>
     
     <!-- TIDIO CHATBOT SCRIPT -->
