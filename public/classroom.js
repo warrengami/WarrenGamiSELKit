@@ -60,7 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div id="prompt-result"></div>
                 <div id="timer-section" class="timer-section" style="display: none;">
                     <div id="timer-display" class="timer-display">00:00</div>
-                    <div id="discussion-prompt" class="discussion-prompt"></div>
                 </div>
             `;
             
@@ -85,7 +84,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const promptResultEl = document.getElementById('prompt-result');
             const timerSection = document.getElementById('timer-section');
             const timerDisplay = document.getElementById('timer-display');
-            const discussionPrompt = document.getElementById('discussion-prompt');
 
             // Enhanced roll function with physics and sound
             rollBtn.addEventListener('click', () => {
@@ -118,9 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const chosenPrompt = currentPrompts[randomFace - 1];
                     promptResultEl.textContent = chosenPrompt;
                     
-                    // Show discussion prompt
-                    showDiscussionPrompt(chosenPrompt);
-                    
                     // Re-enable buttons
                     rollBtn.disabled = false;
                     randomizeBtn.disabled = false;
@@ -135,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 faces.forEach((face, i) => {
                     face.textContent = currentPrompts[i];
                 });
-                promptResultEl.textContent = 'Prompts have been updated!';
+                promptResultEl.textContent = '🎲 Dice prompts have been randomized!';
             });
 
             // Timer functionality
@@ -149,20 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Show discussion prompt
-            function showDiscussionPrompt(prompt) {
-                const prompts = [
-                    "What emotions does this bring up for you?",
-                    "How might someone else feel in this situation?",
-                    "What would be a helpful response?",
-                    "How could you support someone dealing with this?",
-                    "What strategies could help in this situation?"
-                ];
-                
-                const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
-                discussionPrompt.innerHTML = `<strong>Discussion:</strong> ${randomPrompt}`;
-                timerSection.style.display = 'block';
-            }
+
 
             // Timer functions
             function startTimer() {
@@ -280,7 +262,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
                 <div id="timer-section" class="timer-section" style="display: none;">
                     <div id="timer-display" class="timer-display">00:00</div>
-                    <div id="discussion-prompt" class="discussion-prompt"></div>
                 </div>
             `;
             
@@ -302,7 +283,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const deckCount = document.getElementById('deck-count');
             const timerSection = document.getElementById('timer-section');
             const timerDisplay = document.getElementById('timer-display');
-            const discussionPrompt = document.getElementById('discussion-prompt');
 
             // Search and filter functionality
             searchInput.addEventListener('input', filterScenarios);
@@ -405,9 +385,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('current-card').addEventListener('click', function() {
                         this.classList.toggle('flipped');
                     });
-
-                    // Show discussion prompt for scenario
-                    showDiscussionPrompt(drawn.title + ' ' + drawn.text);
                     
                     deckCount.textContent = `${deck.length} cards remaining`;
 
@@ -429,20 +406,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Show discussion prompt for scenarios
-            function showDiscussionPrompt(scenarioText) {
-                const prompts = [
-                    "What would you do in this situation?",
-                    "How might different people feel about this?",
-                    "What are some possible solutions?",
-                    "How could you help someone in this situation?",
-                    "What would be the best way to handle this?"
-                ];
-                
-                const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
-                discussionPrompt.innerHTML = `<strong>Discussion:</strong> ${randomPrompt}`;
-                timerSection.style.display = 'block';
-            }
+
 
             // Timer functions (shared with dice)
             function startTimer() {
