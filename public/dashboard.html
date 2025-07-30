@@ -4,543 +4,752 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WarrenGami SEL - Teacher Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --midnight-blue: #0f2c4d;
-            --sky-blue: #73bdf5;
-            --ice-blue: #cfe9ff;
-            --white: #ffffff;
-            --soft-gray: #f7f9fc;
-            --border-color: #e0e6ed;
+            --warren-blue: #1e3a5f;
+            --warren-light-blue: #4a90e2;
+            --paper-white: #fefefe;
+            --ice-white: #f8fbff;
+            --crane-blue: #87ceeb;
+            --soft-blue: #b8d4f0;
+            --accent-blue: #6bb6ff;
+            --shadow-blue: rgba(30, 58, 95, 0.15);
+            --glow-blue: rgba(106, 182, 255, 0.3);
+            --text-dark: #2c3e50;
+            --success-green: #28a745;
+            --warning-orange: #fd7e14;
             --tag-awareness: #ffc107;
             --tag-management: #28a745;
             --tag-social: #17a2b8;
             --tag-relationship: #fd7e14;
             --tag-decision: #6f42c1;
         }
-        body {
-            font-family: 'Atkinson Hyperlegible', sans-serif;
-            background-color: var(--soft-gray);
-            color: #333;
+        
+        * {
             margin: 0;
-            padding: 2em;
-        }
-        main.container {
-            max-width: 1100px;
-            margin: auto;
-            background-color: var(--white);
-            padding: 2em 3em;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-        }
-        .header {
-            text-align: center;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-            border-bottom: 4px solid var(--ice-blue);
-        }
-        .header h1 {
-            font-family: 'Poppins', sans-serif;
-            color: var(--midnight-blue);
-            font-size: 3em;
-            margin: 0;
-            font-weight: 700;
-        }
-        .header p {
-            font-size: 1.2em;
-            color: var(--sky-blue);
-            margin: 5px 0 0 0;
-            font-style: italic;
-        }
-        h2 {
-            font-family: 'Poppins', sans-serif;
-            color: var(--midnight-blue);
-            border-bottom: 2px solid var(--ice-blue);
-            padding-bottom: 10px;
-            margin-top: 40px;
-            font-size: 1.8em;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        h3.resource-group-title {
-            font-family: 'Poppins', sans-serif;
-            color: var(--sky-blue);
-            margin-top: 25px;
-            margin-bottom: 10px;
-            font-size: 1.2em;
-            padding-left: 5px;
-            border-bottom: 1px solid var(--ice-blue);
-        }
-        .search-bar-wrapper {
-            position: relative;
-            width: 250px;
-        }
-        .search-bar {
-            width: 100%;
-            padding: 8px 12px;
-            padding-right: 30px;
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-            font-size: 0.9em;
-            font-family: 'Atkinson Hyperlegible', sans-serif;
+            padding: 0;
             box-sizing: border-box;
         }
-        #clear-search {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: #999;
-            font-weight: bold;
-            display: none;
-        }
-        .resources-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-        }
-        .resource-list {
-            list-style: none;
-            padding: 0;
-        }
-        .resource-list li {
-            margin-bottom: 15px;
-        }
-        .resource-list a {
-            text-decoration: none;
-            color: var(--midnight-blue);
-            font-size: 1.1em;
-            background-color: var(--white);
-            display: flex;
-            align-items: center;
-            padding: 18px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
-            overflow: hidden;
-            position: relative;
-        }
-        .resource-list a:hover, .resource-list a:focus {
-            background-color: var(--ice-blue);
-            border-color: var(--sky-blue);
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 8px 15px rgba(0, 43, 92, 0.1);
-        }
-        .icon {
-            margin-right: 15px;
-            flex-shrink: 0;
-            width: 24px;
-            height: 24px;
-            opacity: 0.7;
-        }
-        .link-content { flex-grow: 1; }
-        .link-text { font-weight: bold; }
-        .sel-tag {
-            display: inline-block;
-            font-size: 0.75em;
-            font-weight: bold;
-            color: var(--midnight-blue);
-            padding: 3px 8px;
-            border-radius: 12px;
-            margin-left: 8px;
-            vertical-align: middle;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-        }
-        .sel-tag:hover, .sel-tag:focus {
-            transform: scale(1.1);
-        }
-        .sel-tag.self-awareness { background-color: var(--tag-awareness); }
-        .sel-tag.self-management { background-color: var(--tag-management); color: white;}
-        .sel-tag.social-awareness { background-color: var(--tag-social); color: white;}
-        .sel-tag.relationship-skills { background-color: var(--tag-relationship); color: white;}
-        .sel-tag.responsible-decision-making { background-color: var(--tag-decision); color: white;}
-        .sel-tag.all-competencies { background-color: #dc3545; color: white;}
-        .description {
-            display: block;
-            font-size: 0.9em;
-            font-weight: normal;
-            margin-top: 4px;
-            color: #1b4a7e;
-            font-style: italic;
-            max-height: 0;
-            opacity: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-out, opacity 0.3s ease-in;
-        }
-        .resource-list a:hover .description, .resource-list a:focus .description {
-            max-height: 5em;
-            opacity: 1;
-        }
-        #no-results-message {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-            color: #777;
-            font-style: italic;
-        }
-        .sel-data-btn {
-            background: linear-gradient(90deg, #73bdf5 0%, #0f2c4d 100%);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 0.8em 2em;
-            font-size: 1.15em;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            box-shadow: 0 2px 8px rgba(115,189,245,0.10);
-            margin-bottom: 0.5em;
-            cursor: pointer;
-            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-            outline: none;
-        }
-        .sel-data-btn:hover, .sel-data-btn:focus {
-            background: linear-gradient(90deg, #0f2c4d 0%, #73bdf5 100%);
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 6px 18px rgba(15,44,77,0.12);
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--warren-blue) 0%, #2c5aa0 50%, var(--warren-light-blue) 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            overflow-x: hidden;
         }
         
-        /* SEL Data Hub Button Layout */
-        .sel-data-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .sel-data-buttons .sel-data-btn,
-        .sel-data-buttons .observation-log-btn {
+        /* Floating paper elements background */
+        .paper-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            margin: 0;
-            justify-content: center;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.1;
         }
         
-        /* Professional Observation Log Button */
-        .observation-log-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            padding: 1em 1.5em;
-            font-size: 1.1em;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        .paper-crane {
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            background: var(--paper-white);
+            clip-path: polygon(20% 0%, 0% 40%, 30% 70%, 50% 50%, 80% 70%, 100% 40%, 80% 0%, 50% 30%);
+            animation: float 15s infinite ease-in-out;
+            opacity: 0.1;
+            filter: drop-shadow(0 2px 10px var(--glow-blue));
+        }
+        
+        .paper-crane:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .paper-crane:nth-child(2) { top: 30%; right: 15%; animation-delay: 4s; }
+        .paper-crane:nth-child(3) { top: 60%; left: 20%; animation-delay: 8s; }
+        .paper-crane:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 2s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(120deg); }
+            66% { transform: translateY(10px) rotate(240deg); }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            background: var(--paper-white);
+            border-radius: 25px;
+            padding: 2rem;
+            box-shadow: 0 15px 50px var(--shadow-blue);
             position: relative;
             overflow: hidden;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5em;
+            border: 1px solid var(--soft-blue);
         }
         
-        .observation-log-btn::before {
+        .header::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--warren-blue), var(--warren-light-blue), var(--accent-blue));
+        }
+        
+        .brand-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem auto;
+            background: var(--warren-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 8px 25px var(--shadow-blue);
+        }
+        
+        .brand-logo::after {
+            content: '';
+            width: 35px;
+            height: 25px;
+            background: var(--paper-white);
+            clip-path: polygon(20% 0%, 0% 40%, 30% 70%, 50% 50%, 80% 70%, 100% 40%, 80% 0%, 50% 30%);
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+        }
+        
+        .header h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--warren-blue);
+            margin-bottom: 0.3rem;
+        }
+        
+        .header .subtitle {
+            font-size: 1rem;
+            color: var(--warren-light-blue);
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+        
+        .user-welcome {
+            color: var(--warren-light-blue);
+            font-size: 0.9rem;
+        }
+        
+        /* Quick Actions Section */
+        .quick-actions {
+            background: var(--paper-white);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 30px var(--shadow-blue);
+            border: 1px solid var(--soft-blue);
+        }
+        
+        .quick-actions h2 {
+            color: var(--warren-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        
+        .action-card {
+            background: linear-gradient(135deg, var(--ice-white) 0%, var(--paper-white) 100%);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 2px solid var(--soft-blue);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .action-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--warren-blue), var(--warren-light-blue));
+        }
+        
+        .action-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px var(--shadow-blue);
+            border-color: var(--warren-light-blue);
+        }
+        
+        .action-card h3 {
+            color: var(--warren-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .action-card p {
+            color: var(--text-dark);
+            opacity: 0.8;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        /* Timer Section */
+        .timer-section {
+            background: var(--paper-white);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 30px var(--shadow-blue);
+            border: 1px solid var(--soft-blue);
+        }
+        
+        .timer-section h2 {
+            color: var(--warren-blue);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .timer-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .timer-btn {
+            background: transparent;
+            border: 2px solid var(--warren-light-blue);
+            color: var(--warren-light-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .timer-btn.active,
+        .timer-btn:hover {
+            background: var(--warren-light-blue);
+            color: var(--paper-white);
+        }
+        
+        /* Recently Used Section */
+        .recently-used {
+            background: var(--paper-white);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 30px var(--shadow-blue);
+            border: 1px solid var(--soft-blue);
+        }
+        
+        .recently-used h2 {
+            color: var(--warren-blue);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .recent-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .recent-item {
+            background: var(--ice-white);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid var(--soft-blue);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .recent-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--shadow-blue);
+        }
+        
+        /* Cultural Inclusion Section */
+        .cultural-inclusion {
+            background: linear-gradient(135deg, var(--warning-orange), #ff9a56);
+            color: var(--paper-white);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 30px var(--shadow-blue);
+        }
+        
+        .cultural-inclusion h2 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        /* Collapsible Sections */
+        .collapsible-section {
+            background: var(--paper-white);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 30px var(--shadow-blue);
+            border: 1px solid var(--soft-blue);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, var(--soft-blue), var(--ice-white));
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .section-header:hover {
+            background: linear-gradient(135deg, var(--warren-light-blue), var(--accent-blue));
+            color: var(--paper-white);
+        }
+        
+        .section-header h2 {
+            color: var(--warren-blue);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .section-header:hover h2 {
+            color: var(--paper-white);
+        }
+        
+        .section-content {
+            padding: 2rem;
+            display: none;
+        }
+        
+        .section-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Resources Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .resource-section {
+            background: var(--ice-white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid var(--soft-blue);
+        }
+        
+        .resource-section h3 {
+            color: var(--warren-blue);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+        
+        .resource-button {
+            display: block;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(135deg, var(--warren-blue), var(--warren-light-blue));
+            color: var(--paper-white);
+            text-decoration: none;
+            padding: 0.8rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
         
-        .observation-log-btn:hover::before {
-            left: 100%;
+        .resource-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px var(--glow-blue);
         }
         
-        .observation-log-btn:hover, .observation-log-btn:focus {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        .resource-button.dice-button {
+            background: linear-gradient(135deg, var(--warren-light-blue), var(--accent-blue));
         }
         
-        .observation-log-btn:active {
-            transform: translateY(-1px) scale(1.02);
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        .resource-button.card-button {
+            background: linear-gradient(135deg, var(--warning-orange), #ff9a56);
         }
         
-        /* Responsive design for observation log button */
+        /* SEL Tags */
+        .sel-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 0.5rem;
+            color: white;
+        }
+        
+        .sel-tag.self-awareness { background-color: var(--tag-awareness); color: black; }
+        .sel-tag.self-management { background-color: var(--tag-management); }
+        .sel-tag.social-awareness { background-color: var(--tag-social); }
+        .sel-tag.relationship-skills { background-color: var(--tag-relationship); }
+        .sel-tag.responsible-decision-making { background-color: var(--tag-decision); }
+        .sel-tag.all-competencies { background-color: #dc3545; }
+        
+        /* Search Bar */
+        .search-container {
+            background: var(--paper-white);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 30px var(--shadow-blue);
+            border: 1px solid var(--soft-blue);
+        }
+        
+        .search-bar-wrapper {
+            position: relative;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .search-bar {
+            width: 100%;
+            padding: 12px 16px;
+            padding-right: 40px;
+            border-radius: 15px;
+            border: 2px solid var(--soft-blue);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--warren-light-blue);
+            box-shadow: 0 0 0 3px var(--glow-blue);
+        }
+        
+        #clear-search {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--warren-light-blue);
+            font-weight: bold;
+            display: none;
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .observation-log-btn {
-                width: 100%;
-                justify-content: center;
-                margin-top: 0.5em;
-            }
-        }
-        
-
-
-        @media (max-width: 800px) {
-            .resources-grid {
-                grid-template-columns: 1fr;
-            }
-            body { padding: 1em; }
-            main.container { padding: 1.5em; }
-            h2 { flex-direction: column; align-items: flex-start; }
-            .search-bar-wrapper { width: 100%; margin-top: 10px; }
+            .container { padding: 0.5rem; }
+            .header h1 { font-size: 2rem; }
+            .actions-grid { grid-template-columns: 1fr; }
+            .resources-grid { grid-template-columns: 1fr; }
+            .timer-controls { justify-content: center; }
+            .recent-items { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <main class="container">
-        <header class="header">
-            <h1>Teacher Dashboard</h1>
-            <p>WarrenGami SEL: Where Play Meets Emotional Growth</p>
-            <div id="user-info"></div>
-        </header>
-
-
-
-        <!-- Quick Start Section -->
-        <section class="quick-start" style="margin-bottom: 2em;">
-            <h2>Quick Start</h2>
-            <div class="quick-start-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1em;">
-                <a href="educator-quick-start-guide.html" target="_blank" style="display: flex; align-items: center; padding: 1em; background: linear-gradient(135deg, #73bdf5 0%, #0f2c4d 100%); border-radius: 8px; text-decoration: none; color: white; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(115,189,245,0.3);">
-                    <span style="margin-right: 1em; font-size: 1.5em;">📖</span>
-                    <div>
-                        <div style="font-weight: bold;">Printable Quick Start Guide</div>
-                        <div style="font-size: 0.9em; opacity: 0.9;">Complete guide with scripts & tips</div>
-                    </div>
-                </a>
-                <a href="educator-feedback-form.html" target="_blank" style="display: flex; align-items: center; padding: 1em; background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border-radius: 8px; text-decoration: none; color: white; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(40,167,69,0.3);">
-                    <span style="margin-right: 1em; font-size: 1.5em;">💬</span>
-                    <div>
-                        <div style="font-weight: bold;">Share Your Feedback</div>
-                        <div style="font-size: 0.9em; opacity: 0.9;">Help us improve the toolkit</div>
-                    </div>
-                </a>
-                <a href="toolkit.html?view=guide&page=2" style="display: flex; align-items: center; padding: 1em; background: var(--ice-blue); border-radius: 8px; text-decoration: none; color: var(--midnight-blue); transition: all 0.3s ease;">
-                    <span style="margin-right: 1em; font-size: 1.5em;">👋</span>
-                    <div>
-                        <div style="font-weight: bold;">Get Started with the Toolkit</div>
-                        <div style="font-size: 0.9em; opacity: 0.8;">Begin your SEL journey</div>
-                    </div>
-                </a>
-                <a href="toolkit.html?view=dice&type=emotions" style="display: flex; align-items: center; padding: 1em; background: var(--ice-blue); border-radius: 8px; text-decoration: none; color: var(--midnight-blue); transition: all 0.3s ease;">
-                    <span style="margin-right: 1em; font-size: 1.5em;">🖨️</span>
-                    <div>
-                        <div style="font-weight: bold;">Print Emotions Dice</div>
-                        <div style="font-size: 0.9em; opacity: 0.8;">Ready-to-use resources</div>
-                    </div>
-                </a>
-                <a href="toolkit.html?view=dice&type=blank" style="display: flex; align-items: center; padding: 1em; background: var(--ice-blue); border-radius: 8px; text-decoration: none; color: var(--midnight-blue); transition: all 0.3s ease;">
-                    <span style="margin-right: 1em; font-size: 1.5em;">✍️</span>
-                    <div>
-                        <div style="font-weight: bold;">Create a Blank Dice</div>
-                        <div style="font-size: 0.9em; opacity: 0.8;">Customize for your needs</div>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Educator Support Section -->
-        <section class="educator-support" style="margin-bottom: 2em; background: #f7f9fc; border-radius: 12px; border: 2px solid #73bdf5; padding: 1.5em;">
-            <h2 style="color: #0f2c4d; margin-top: 0;">🧑‍🏫 Educator Facilitation Guide</h2>
-            <ul style="font-size: 1.1em; line-height: 1.7;">
-                <li><strong>Opening Script:</strong> <em>"Today, we're going to use a special toolkit to help us talk about our feelings and how we work together. Let's have fun and support each other!"</em></li>
-                <li><strong>Transition Script:</strong> <em>"Now that we've finished this activity, let's take a moment to reflect on what we learned before we move on."</em></li>
-                <li><strong>Closure Script:</strong> <em>"Thank you for sharing your thoughts. Remember, these skills help us in and out of the classroom!"</em></li>
-                <li><strong>Troubleshooting:</strong> If students are shy, allow think-pair-share or journaling before group sharing. For off-task behavior, use the timer and clear expectations.</li>
-                <li><strong>Age Adaptation:</strong> For younger students, use simpler language and shorter activities. For older students, encourage deeper discussion and self-reflection.</li>
-            </ul>
-        </section>
-
-        <section class="educator-quickstart" style="margin-bottom: 2em; background: #e0e6ed; border-radius: 12px; border: 2px solid #ffc107; padding: 1.5em;">
-            <h2 style="color: #6f42c1; margin-top: 0;">🚦 Quick Start for Educators</h2>
-            <ol style="font-size: 1.1em; line-height: 1.7;">
-                <li><strong>Choose an Activity:</strong> Select a dice or scenario card set from the dashboard.</li>
-                <li><strong>Prep Materials:</strong> Print or project the resource. Assemble dice if needed (5-10 min).</li>
-                <li><strong>Set the Timer:</strong> Use the built-in timer for structured discussions (2-5 min recommended).</li>
-                <li><strong>Facilitate:</strong> Read the prompt aloud, use guiding questions, and encourage participation.</li>
-                <li><strong>Reflect:</strong> Use the reflection tools or closing script to wrap up.</li>
-            </ol>
-        </section>
-
-        <section class="activity-timing" style="margin-bottom: 2em; background: #fffde7; border-radius: 12px; border: 2px solid #ffc107; padding: 1.5em;">
-            <h2 style="color: #fd7e14; margin-top: 0;">⏳ Activity Prep & Timing Tips</h2>
-            <ul style="font-size: 1.1em; line-height: 1.7;">
-                <li><strong>Prep Time:</strong> Most activities require 5-10 minutes to prepare (printing, cutting, or assembling dice/cards).</li>
-                <li><strong>Implementation Time:</strong> Activities can be completed in 10-20 minutes, fitting well into morning meetings, advisory, or transition periods.</li>
-                <li><strong>Flexible Use:</strong> Use as a quick warm-up, a full lesson, or an exit ticket. Adjust timer and depth of discussion as needed.</li>
-                <li><strong>Support for All Levels:</strong> No prior SEL experience required—scripts and guiding questions are provided for every activity.</li>
-            </ul>
-        </section>
-
-        <!-- Professional Development Section -->
-        <section class="professional-development" style="margin-bottom: 2em; background: linear-gradient(135deg, #6f42c1 0%, #fd7e14 100%); border-radius: 12px; padding: 1.5em; color: white;">
-            <h2 style="color: white; margin-top: 0;">🧠 SEL Professional Development</h2>
-            <p style="margin-bottom: 1.5em; opacity: 0.9;">New to SEL? Learn the fundamentals and best practices for implementing social-emotional learning in your classroom.</p>
-            <a href="sel-professional-development.html" target="_blank" style="display: inline-block; background: rgba(255,255,255,0.2); color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; border: 2px solid rgba(255,255,255,0.3); transition: all 0.3s ease; font-weight: bold;">
-                📚 Learn SEL Fundamentals
-            </a>
-            <div style="margin-top: 1em; font-size: 0.9em; opacity: 0.8;">
-                <strong>What you'll learn:</strong> SEL basics, research foundation, five core competencies, best practices, and resources for continued learning.
-            </div>
-        </section>
-
-        <!-- Classroom Mode Section -->
-        <section class="classroom-section" style="margin-bottom: 2em;">
-            <h2>🖥️ Classroom Mode</h2>
-            <p style="margin-top: -10px; margin-bottom: 1.5em; color: #666;">Browse interactive dice and scenario cards available for classroom projection.</p>
-            
-            <div class="classroom-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-                <!-- Dice Resources -->
-                <div class="classroom-card" style="background: white; border-radius: 8px; padding: 1.5em; border: 2px solid #73bdf5; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                    <div style="display: flex; align-items: center; margin-bottom: 1em;">
-                        <span style="font-size: 2em; margin-right: 0.5em;">🎲</span>
-                        <h3 style="margin: 0; color: var(--midnight-blue);">Dice Resources</h3>
-                    </div>
-                    <div style="display: grid; gap: 0.5em;">
-                        <button onclick="openClassroom('dice', 'Emotions & Feelings Dice.html')" style="background: var(--sky-blue); color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Emotions & Feelings Dice</button>
-                        <button onclick="openClassroom('dice', 'Empathy & Kindness Dice.html')" style="background: var(--sky-blue); color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Empathy & Kindness Dice</button>
-                        <button onclick="openClassroom('dice', 'Friendship & Social Skills Dice.html')" style="background: var(--sky-blue); color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Friendship & Social Skills Dice</button>
-                        <button onclick="openClassroom('dice', 'Coping Strategies Dice.html')" style="background: var(--sky-blue); color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Coping Strategies Dice</button>
-                        <button onclick="openClassroom('dice', 'Problem Solving Dice.html')" style="background: var(--sky-blue); color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Problem Solving Dice</button>
-                        <button onclick="openClassroom('dice', 'Self-Awareness Dice.html')" style="background: var(--sky-blue); color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Self-Awareness Dice</button>
-                    </div>
-                </div>
-                
-                <!-- Scenario Cards -->
-                <div class="classroom-card" style="background: white; border-radius: 8px; padding: 1.5em; border: 2px solid #ffc107; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                    <div style="display: flex; align-items: center; margin-bottom: 1em;">
-                        <span style="font-size: 2em; margin-right: 0.5em;">📄</span>
-                        <h3 style="margin: 0; color: var(--midnight-blue);">Scenario Cards</h3>
-                    </div>
-                    <div style="display: grid; gap: 0.5em;">
-                                    <button onclick="openClassroom('scenarios', 'All-Scenario-Cards.html')" style="background: #28a745; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease; font-weight: bold;">🎯 All Scenario Cards (Complete Set)</button>
-            <button onclick="openClassroom('scenarios', 'Scenario Cards 1.html')" style="background: #ffc107; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Scenario Cards 1 (1-6)</button>
-            <button onclick="openClassroom('scenarios', 'Scenario Cards 2.html')" style="background: #ffc107; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Scenario Cards 2 (7-12)</button>
-            <button onclick="openClassroom('scenarios', 'Scenario Cards 3.html')" style="background: #ffc107; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Scenario Cards 3 (13-18)</button>
-            <button onclick="openClassroom('scenarios', 'Scenario Cards 4.html')" style="background: #ffc107; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Scenario Cards 4 (19-24)</button>
-            <button onclick="openClassroom('scenarios', 'Scenario Cards 5.html')" style="background: #ffc107; color: white; border: none; padding: 0.5em 1em; border-radius: 6px; cursor: pointer; transition: all 0.3s ease;">Scenario Cards 5 (25-30)</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Share Your Ideas Section -->
-        <section class="feedback-section" style="background: var(--white); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin: 1rem 0;">
-            <h3 style="font-size: 1.2rem; color: var(--midnight-blue); margin-bottom: 0.5em;">⏱️ Timer Settings</h3>
-            <p style="margin-bottom: 1em; color: #666; font-size: 0.9em;">Set custom timer durations for classroom activities</p>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1em;">
-                <button onclick="setTimerDuration(30)" style="background: var(--sky-blue); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">30s</button>
-                <button onclick="setTimerDuration(60)" style="background: var(--sky-blue); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">1min</button>
-                <button onclick="setTimerDuration(120)" style="background: var(--sky-blue); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">2min</button>
-                <button onclick="setTimerDuration(300)" style="background: var(--sky-blue); color: white; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-size: 0.9rem;">5min</button>
-            </div>
-            <div style="font-size: 0.8em; color: #666;">
-                <strong>Current Timer:</strong> <span id="current-timer">2 minutes</span>
-            </div>
-        </section>
-
-        <!-- Share Your Ideas Section -->
-        <section class="feedback-section" style="background: var(--white); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin: 1rem 0;">
-            <h3 style="font-size: 1.2rem; color: var(--midnight-blue); margin-bottom: 0.5em;">💡 Share Your Ideas</h3>
-            <p style="margin-bottom: 1em; color: #666; font-size: 0.9em;">Have suggestions for new prompts, features, or improvements? We'd love to hear from you!</p>
-            <button class="feedback-simple" style="background: var(--sky-blue); color: var(--white); padding: 0.5rem 1rem; border: none; border-radius: 6px; font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease;" onclick="window.open('mailto:feedback@warrengami.com?subject=SEL Toolkit Feedback', '_blank')">Share Your Ideas</button>
-        </section>
-
-        <div class="resources-grid">
-            <section class="resource-section">
-                <h2>Toolkit Guide</h2>
-                <ul class="resource-list">
-                    <li><a href="Page 1 - Cover.html"><span class="icon">📖</span><div class="link-content"><span class="link-text">Page 1: Cover</span><div class="description">The front cover of the SEL Toolkit.</div></div></a></li>
-                    <li><a href="Page 2 - Welcome to Your Interactive SEL Toolkit.html"><span class="icon">👋</span><div class="link-content"><span class="link-text">Page 2: Welcome</span><div class="description">An introduction to the toolkit and SEL principles.</div></div></a></li>
-                    <li><a href="Page 3 - Discussion Dice How They Work.html"><span class="icon">🎲</span><div class="link-content"><span class="link-text">Page 3: How Dice Work</span><div class="description">Instructions and ideas for using the discussion dice.</div></div></a></li>
-                    <li><a href="Page 4 - Emotion Exploration Dice.html"><span class="icon">😊</span><div class="link-content"><span class="link-text">Page 4: Emotion Exploration</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Using dice to identify and understand emotions.</div></div></a></li>
-                    <li><a href="Page 5 - Social Scenarios Dice.html"><span class="icon">🤝</span><div class="link-content"><span class="link-text">Page 5: Social Scenarios</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Navigating social situations with dice prompts.</div></div></a></li>
-                    <li><a href="Page 6 - Family Connection Activities.html"><span class="icon">🏠</span><div class="link-content"><span class="link-text">Page 6: Family Connection</span><span class="sel-tag relationship-skills" data-tag="Relationship Skills">Relationship Skills</span><div class="description">Activities to involve families in the SEL process.</div></div></a></li>
-                    
-                    <!-- PAGE 7 LINK IS RESTORED HERE -->
-                    <li><a href="Page 7 - Assessment & Reflection Tools.html"><span class="icon">📊</span><div class="link-content"><span class="link-text">Page 7: Assessment & Reflection</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Tools for gauging progress and encouraging self-reflection.</div></div></a></li>
-                    
-                    <li><a href="Page 8 - Advanced SEL Concepts.html"><span class="icon">🧠</span><div class="link-content"><span class="link-text">Page 8: Advanced Concepts</span><div class="description">Exploring deeper SEL topics for older learners.</div></div></a></li>
-                    <li><a href="Page 9 - Integrating SEL Across the Curriculum.html"><span class="icon">📚</span><div class="link-content"><span class="link-text">Page 9: Curriculum Integration</span><div class="description">Tips for weaving SEL into academic subjects.</div></div></a></li>
-                    <li><a href="Page 10 - Digital Resources & Extensions.html"><span class="icon">💻</span><div class="link-content"><span class="link-text">Page 10: Digital Resources</span><div class="description">Links to supplementary online tools and apps.</div></div></a></li>
-                    <li><a href="Page 11 - Glossary & Index.html"><span class="icon">🔍</span><div class="link-content"><span class="link-text">Page 11: Glossary & Index</span><div class="description">Definitions of key terms and an index for easy navigation.</div></div></a></li>
-                </ul>
-            </section>
-            
-            <section class="resource-section">
-                <h2>
-                    <span>Printable Dice & Cards</span>
-                    <div class="search-bar-wrapper">
-                        <input type="text" id="resource-search" class="search-bar" placeholder="Filter printables...">
-                        <span id="clear-search">X</span>
-                    </div>
-                </h2>
-                <ul class="resource-list" id="printable-list">
-                    <h3 class="resource-group-title">Dice</h3>
-                    <li data-type="dice"><a href="Emotions & Feelings Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Emotions & Feelings Dice</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Printable dice to identify and discuss emotions.</div></div></a></li>
-                    <li data-type="dice"><a href="Empathy & Kindness Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Empathy & Kindness Dice</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Dice prompts about understanding others and showing kindness.</div></div></a></li>
-                    <li data-type="dice"><a href="Friendship & Social Skills Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Friendship & Social Skills</span><span class="sel-tag relationship-skills" data-tag="Relationship Skills">Relationship Skills</span><div class="description">Prompts about making and being a good friend.</div></div></a></li>
-                    <li data-type="dice"><a href="Coping Strategies Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Coping Strategies Dice</span><span class="sel-tag self-management" data-tag="Self-Management">Self-Management</span><div class="description">Healthy strategies for managing stress and emotions.</div></div></a></li>
-                    <li data-type="dice"><a href="Problem Solving Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Problem Solving Dice</span><span class="sel-tag responsible-decision-making" data-tag="Responsible Decision-Making">Responsible Decision-Making</span><div class="description">Tools to practice breaking down and solving problems.</div></div></a></li>
-                    <li data-type="dice"><a href="Self-Awareness Dice.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Self-Awareness Dice</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Prompts to encourage introspection and self-reflection.</div></div></a></li>
-                    
-                    <h3 class="resource-group-title">Scenario Cards</h3>
-                    <li data-type="scenarios"><a href="All-Scenario-Cards.html"><span class="icon">🎯</span><div class="link-content"><span class="link-text">All Scenario Cards (Complete Set)</span><span class="sel-tag all-competencies" data-tag="All SEL Competencies">All SEL Competencies</span><div class="description">Complete set of 30 scenario cards with proper SEL competency color coding.</div></div></a></li>
-                    <li data-type="scenarios"><a href="Scenario Cards 1.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards 1</span><span class="sel-tag self-awareness" data-tag="Self-Awareness">Self-Awareness</span><div class="description">Printable cards with social scenarios 1 through 6.</div></div></a></li>
-                    <li data-type="scenarios"><a href="Scenario Cards 2.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards 2</span><span class="sel-tag social-awareness" data-tag="Social Awareness">Social Awareness</span><div class="description">Printable cards with social scenarios 7 through 12.</div></div></a></li>
-                    <li data-type="scenarios"><a href="Scenario Cards 3.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards 3</span><span class="sel-tag self-management" data-tag="Self-Management">Self-Management</span><div class="description">Printable cards with social scenarios 13 through 18.</div></div></a></li>
-                    <li data-type="scenarios"><a href="Scenario Cards 4.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards 4</span><span class="sel-tag relationship-skills" data-tag="Relationship Skills">Relationship Skills</span><div class="description">Printable cards with social scenarios 19 through 24.</div></div></a></li>
-                    <li data-type="scenarios"><a href="Scenario Cards 5.html"><span class="icon">🖨️</span><div class="link-content"><span class="link-text">Scenario Cards 5</span><span class="sel-tag responsible-decision-making" data-tag="Responsible Decision-Making">Responsible Decision-Making</span><div class="description">Printable cards with social scenarios 25 through 30.</div></div></a></li>
-                    <li data-type="scenarios"><a href="Blank Scenario Cards.html"><span class="icon">✍️</span><div class="link-content"><span class="link-text">Blank Scenario Cards</span><div class="description">Create your own situations with these blank templates.</div></div></a></li>
-                    
-                    <h3 class="resource-group-title">Templates</h3>
-                    <li data-type="dice"><a href="Blank Dice.html"><span class="icon">✍️</span><div class="link-content"><span class="link-text">Blank Dice Template</span><div class="description">A customizable template to create your own prompts.</div></div></a></li>
-                    <li id="no-results-message"><p>No printables found matching your search.</p></li>
-                </ul>
-            </section>
-        </div>
-    </main>
-
-    <!-- Load core functionality -->
-    <script src="auth.js"></script>
-    <script src="dashboard.js"></script>
+    <div class="paper-elements">
+        <div class="paper-crane"></div>
+        <div class="paper-crane"></div>
+        <div class="paper-crane"></div>
+        <div class="paper-crane"></div>
+    </div>
     
-    <script>
-        // Core dashboard functionality
-        console.log('Dashboard loaded successfully');
+    <div class="container">
+        <header class="header">
+            <div class="brand-logo"></div>
+            <h1>WarrenGami SEL</h1>
+            <p class="subtitle">Where Play Meets Emotional Growth</p>
+            <p class="user-welcome">Welcome, Teacher!</p>
+        </header>
         
-        // Timer configuration
-        function setTimerDuration(seconds) {
-            localStorage.setItem('timerDuration', seconds);
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = seconds % 60;
-            const displayText = minutes > 0 ? 
-                `${minutes} minute${minutes > 1 ? 's' : ''}` : 
-                `${remainingSeconds} second${remainingSeconds > 1 ? 's' : ''}`;
+        <!-- Quick Actions Section -->
+        <section class="quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="actions-grid">
+                <div class="action-card" onclick="openActivity('educator-quick-start-guide.html')">
+                    <h3>📚 Quick Start Guide</h3>
+                    <p>Get started with the toolkit</p>
+                </div>
+                <div class="action-card" onclick="openActivity('educator-feedback-form.html')">
+                    <h3>💬 Share Feedback</h3>
+                    <p>Help us improve the toolkit</p>
+                </div>
+                <div class="action-card" onclick="openActivity('sel-professional-development.html')">
+                    <h3>🧠 SEL Professional Development</h3>
+                    <p>Learn SEL fundamentals</p>
+                </div>
+                <div class="action-card" onclick="openActivity('verify-enhanced-dice.html')">
+                    <h3>🎲 Test Enhanced Dice</h3>
+                    <p>Try the new Lottie-style animations</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Timer Section -->
+        <section class="timer-section">
+            <h2>⏱️ Timer Settings</h2>
+            <p>Set custom timer durations for classroom activities</p>
+            <div class="timer-controls">
+                <button class="timer-btn" onclick="setTimer(30)">30s</button>
+                <button class="timer-btn" onclick="setTimer(60)">1min</button>
+                <button class="timer-btn active" onclick="setTimer(120)">2min</button>
+                <button class="timer-btn" onclick="setTimer(180)">3min</button>
+                <button class="timer-btn" onclick="setTimer(300)">5min</button>
+                <button class="timer-btn" onclick="setTimer(600)">10min</button>
+            </div>
+        </section>
+        
+        <!-- Recently Used Section -->
+        <section class="recently-used">
+            <h2>🕒 Recently Used</h2>
+            <div class="recent-items" id="recent-items">
+                <div class="recent-item">
+                    <p>No recent activities yet</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Cultural Inclusion Section -->
+        <section class="cultural-inclusion">
+            <h2>🌍 Cultural Inclusion</h2>
+            <p>Our toolkit includes diverse scenarios and inclusive content to support all students. Activities are designed to be culturally responsive and accessible to learners from various backgrounds.</p>
+        </section>
+        
+        <!-- Classroom Activities Section -->
+        <section class="collapsible-section">
+            <div class="section-header" onclick="toggleSection('classroom-activities')">
+                <h2>📱 Classroom Activities</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="classroom-activities">
+                <div class="resources-grid">
+                    <div class="resource-section">
+                        <h3>🎲 Dice Resources</h3>
+                        <button class="resource-button dice-button" onclick="openClassroom('dice', 'Emotions & Feelings Dice.html')">Emotions & Feelings Dice</button>
+                        <button class="resource-button dice-button" onclick="openClassroom('dice', 'Empathy & Kindness Dice.html')">Empathy & Kindness Dice</button>
+                        <button class="resource-button dice-button" onclick="openClassroom('dice', 'Friendship & Social Skills Dice.html')">Friendship & Social Skills Dice</button>
+                        <button class="resource-button dice-button" onclick="openClassroom('dice', 'Coping Strategies Dice.html')">Coping Strategies Dice</button>
+                        <button class="resource-button dice-button" onclick="openClassroom('dice', 'Problem Solving Dice.html')">Problem Solving Dice</button>
+                        <button class="resource-button dice-button" onclick="openClassroom('dice', 'Self-Awareness Dice.html')">Self-Awareness Dice</button>
+                    </div>
+                    
+                    <div class="resource-section">
+                        <h3>📄 Scenario Cards</h3>
+                        <button class="resource-button card-button" onclick="openClassroom('cards', 'All-Scenario-Cards.html')">All Scenario Cards <span class="sel-tag all-competencies">All SEL Competencies</span></button>
+                        <button class="resource-button card-button" onclick="openClassroom('cards', 'Scenario Cards 1.html')">Scenario Cards 1 (1-6) <span class="sel-tag self-awareness">Self-Awareness</span></button>
+                        <button class="resource-button card-button" onclick="openClassroom('cards', 'Scenario Cards 2.html')">Scenario Cards 2 (7-12) <span class="sel-tag social-awareness">Social Awareness</span></button>
+                        <button class="resource-button card-button" onclick="openClassroom('cards', 'Scenario Cards 3.html')">Scenario Cards 3 (13-18) <span class="sel-tag self-management">Self-Management</span></button>
+                        <button class="resource-button card-button" onclick="openClassroom('cards', 'Scenario Cards 4.html')">Scenario Cards 4 (19-24) <span class="sel-tag relationship-skills">Relationship Skills</span></button>
+                        <button class="resource-button card-button" onclick="openClassroom('cards', 'Scenario Cards 5.html')">Scenario Cards 5 (25-30) <span class="sel-tag responsible-decision-making">Responsible Decision-Making</span></button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Toolkit Resources Section -->
+        <section class="collapsible-section">
+            <div class="section-header" onclick="toggleSection('toolkit-resources')">
+                <h2>📚 Toolkit Resources</h2>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="toolkit-resources">
+                <div class="resources-grid">
+                    <div class="resource-section">
+                        <h3>📖 Guides & Instructions</h3>
+                        <button class="resource-button" onclick="openActivity('Page 2 - Welcome to Your Interactive SEL Toolkit.html')">Welcome Guide</button>
+                        <button class="resource-button" onclick="openActivity('Page 3 - Discussion Dice How They Work.html')">Dice Instructions</button>
+                        <button class="resource-button" onclick="openActivity('Page 4 - Emotion Exploration Dice.html')">Emotion Exploration</button>
+                        <button class="resource-button" onclick="openActivity('Page 5 - Social Scenarios Dice.html')">Social Scenarios</button>
+                        <button class="resource-button" onclick="openActivity('Page 6 - Family Connection Activities.html')">Family Connections</button>
+                        <button class="resource-button" onclick="openActivity('Page 7 - Assessment & Reflection Tools.html')">Assessment Tools</button>
+                        <button class="resource-button" onclick="openActivity('Page 8 - Advanced SEL Concepts.html')">Advanced Concepts</button>
+                        <button class="resource-button" onclick="openActivity('Page 9 - Integrating SEL Across the Curriculum.html')">Curriculum Integration</button>
+                        <button class="resource-button" onclick="openActivity('Page 10 - Digital Resources & Extensions.html')">Digital Resources</button>
+                        <button class="resource-button" onclick="openActivity('Page 11 - Glossary & Index.html')">Glossary & Index</button>
+                    </div>
+                    
+                    <div class="resource-section">
+                        <h3>🖨️ Printable Resources</h3>
+                        <button class="resource-button" onclick="openActivity('Blank Dice.html')">Blank Dice Template</button>
+                        <button class="resource-button" onclick="openActivity('Blank Scenario Cards.html')">Blank Scenario Cards</button>
+                        <button class="resource-button" onclick="openActivity('Scenario Card Instructions.html')">Scenario Card Instructions</button>
+                        <button class="resource-button" onclick="openActivity('toolkit.html')">Toolkit Overview</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Search Section -->
+        <section class="search-container">
+            <h2>🔍 Search Resources</h2>
+            <div class="search-bar-wrapper">
+                <input type="text" id="search-bar" class="search-bar" placeholder="Search for activities, topics, or SEL competencies..." oninput="filterResources()">
+                <span id="clear-search" onclick="clearSearch()">✕</span>
+            </div>
+            <div id="search-results" style="margin-top: 1rem;"></div>
+        </section>
+    </div>
+    
+    <script src="dashboard.js"></script>
+    <script>
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            loadRecentItems();
+            initializeTimer();
+        });
+        
+        // Toggle collapsible sections
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId);
+            const header = content.previousElementSibling;
+            const icon = header.querySelector('.toggle-icon');
             
-            document.getElementById('current-timer').textContent = displayText;
-            
-            // Visual feedback
-            const buttons = document.querySelectorAll('[onclick^="setTimerDuration"]');
-            buttons.forEach(btn => {
-                btn.style.background = 'var(--sky-blue)';
-                btn.style.transform = 'none';
-            });
-            
-            // Highlight selected button
-            event.target.style.background = '#28a745';
-            event.target.style.transform = 'scale(1.05)';
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.textContent = '▼';
+            } else {
+                content.classList.add('active');
+                icon.textContent = '▲';
+            }
         }
         
-        // Initialize timer display
-        document.addEventListener('DOMContentLoaded', () => {
+        // Timer functionality
+        function setTimer(seconds) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.timer-btn').forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Save to localStorage
+            localStorage.setItem('timerDuration', seconds);
+        }
+        
+        function initializeTimer() {
             const savedDuration = localStorage.getItem('timerDuration') || 120;
-            setTimerDuration(parseInt(savedDuration));
-        });
+            const buttons = document.querySelectorAll('.timer-btn');
+            buttons.forEach(btn => {
+                const seconds = parseInt(btn.textContent.replace(/[^\d]/g, ''));
+                if (seconds === parseInt(savedDuration)) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        // Recent items functionality
+        function loadRecentItems() {
+            const recentItems = JSON.parse(localStorage.getItem('recentItems') || '[]');
+            const container = document.getElementById('recent-items');
+            
+            if (recentItems.length === 0) {
+                container.innerHTML = '<div class="recent-item"><p>No recent activities yet</p></div>';
+                return;
+            }
+            
+            container.innerHTML = recentItems.map(item => `
+                <div class="recent-item" onclick="openActivity('${item.url}')">
+                    <h4>${item.title}</h4>
+                    <p>${item.type}</p>
+                </div>
+            `).join('');
+        }
+        
+        function addToRecent(title, url, type) {
+            const recentItems = JSON.parse(localStorage.getItem('recentItems') || '[]');
+            const newItem = { title, url, type, timestamp: Date.now() };
+            
+            // Remove if already exists
+            const existingIndex = recentItems.findIndex(item => item.url === url);
+            if (existingIndex > -1) {
+                recentItems.splice(existingIndex, 1);
+            }
+            
+            // Add to beginning
+            recentItems.unshift(newItem);
+            
+            // Keep only last 6 items
+            if (recentItems.length > 6) {
+                recentItems.splice(6);
+            }
+            
+            localStorage.setItem('recentItems', JSON.stringify(recentItems));
+            loadRecentItems();
+        }
+        
+        // Search functionality
+        function filterResources() {
+            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
+            const clearButton = document.getElementById('clear-search');
+            
+            if (searchTerm.length > 0) {
+                clearButton.style.display = 'block';
+            } else {
+                clearButton.style.display = 'none';
+            }
+            
+            // Implement search logic here
+            // This would search through all available resources
+        }
+        
+        function clearSearch() {
+            document.getElementById('search-bar').value = '';
+            document.getElementById('clear-search').style.display = 'none';
+            document.getElementById('search-results').innerHTML = '';
+        }
+        
+        // Open activity function
+        function openActivity(url) {
+            addToRecent('Activity', url, 'Resource');
+            window.open(url, '_blank');
+        }
+        
+        // Open classroom function
+        function openClassroom(type, url) {
+            const title = url.replace('.html', '').replace(/-/g, ' ');
+            addToRecent(title, url, type === 'dice' ? 'Dice Activity' : 'Scenario Cards');
+            
+            if (type === 'dice') {
+                window.open(`classroom-enhanced.html?type=dice&file=${url}`, '_blank');
+            } else {
+                window.open(`classroom-enhanced.html?type=cards&file=${url}`, '_blank');
+            }
+        }
     </script>
-    
-    <!-- TIDIO CHATBOT SCRIPT -->
-    <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>
-
 </body>
 </html>
