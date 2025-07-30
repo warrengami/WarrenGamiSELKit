@@ -78,42 +78,137 @@ document.addEventListener('DOMContentLoaded', () => {
             const promptResultEl = document.getElementById('prompt-result');
             const timerSection = document.getElementById('timer-section');
             const timerDisplay = document.getElementById('timer-display');
+            
+            // Initialize enhanced dice roll
+            if (window.enhancedDiceRoll) {
+                window.enhancedDiceRoll.enhanceExistingDice();
+            }
+            
+            // Add keyboard support
+            document.addEventListener('keydown', (e) => {
+                if (e.code === 'Space' && !rollBtn.disabled) {
+                    e.preventDefault();
+                    rollBtn.click();
+                }
+            });
 
-            // Enhanced roll function with physics and sound
-            rollBtn.addEventListener('click', () => {
+            // Enhanced roll function with Lottie-style animations
+            rollBtn.addEventListener('click', async () => {
                 if (rollBtn.disabled) return;
                 
                 // Disable buttons during roll
                 rollBtn.disabled = true;
                 promptResultEl.textContent = '';
                 
-                // Play dice rolling sound
-                playDiceSound();
-                
-                // Enhanced physics-based animation
-                const randomFace = Math.floor(Math.random() * 6) + 1;
-                const rollDuration = 2000 + Math.random() * 1000; // 2-3 seconds
-                
-                // Multiple rotation phases for realistic physics
-                dice.className = 'dice rolling physics-roll';
-                
-                // Add bounce effect
-                setTimeout(() => {
-                    dice.classList.add('bounce');
-                }, 500);
-                
-                setTimeout(() => {
-                    dice.classList.remove('bounce');
-                    dice.className = `dice show-${randomFace} settled`;
+                // Use enhanced dice roll if available
+                if (window.enhancedDiceRoll) {
+                    await window.enhancedDiceRoll.roll();
+                } else {
+                    // Fallback to enhanced physics-based animation
+                    const randomFace = Math.floor(Math.random() * 6) + 1;
+                    const rollDuration = 2500 + Math.random() * 1000; // 2.5-3.5 seconds
                     
-                    // Select a random prompt from the visible dice faces (first 6 prompts)
-                    const chosenPrompt = dicePrompts[randomFace - 1];
-                    promptResultEl.textContent = chosenPrompt;
+                    // Enhanced multi-phase animation
+                    dice.classList.add('rolling', 'enhanced-tumble');
                     
-                    // Re-enable buttons
-                    rollBtn.disabled = false;
-                }, rollDuration);
+                    // Add glow effect
+                    dice.classList.add('glowing');
+                    
+                    setTimeout(() => {
+                        dice.classList.remove('rolling', 'enhanced-tumble');
+                        dice.classList.add('bouncing');
+                        
+                        setTimeout(() => {
+                            dice.classList.remove('bouncing');
+                            setDiceFace(dice, randomFace);
+                            dice.classList.add('settling');
+                            
+                            setTimeout(() => {
+                                dice.classList.remove('settling', 'glowing');
+                                showEnhancedResult(randomFace, promptResultEl, dicePrompts);
+                                rollBtn.disabled = false;
+                            }, 800);
+                        }, 600);
+                    }, rollDuration);
+                }
             });
+            
+            // Enhanced dice face setting
+            function setDiceFace(dice, face) {
+                const transforms = {
+                    1: 'rotateY(0deg)',
+                    2: 'rotateY(-90deg)',
+                    3: 'rotateY(-180deg)',
+                    4: 'rotateY(90deg)',
+                    5: 'rotateX(-90deg)',
+                    6: 'rotateX(90deg)'
+                };
+                
+                dice.style.transform = transforms[face];
+            }
+            
+            // Enhanced result display with celebration
+            function showEnhancedResult(face, resultEl, prompts) {
+                const prompt = prompts[face - 1];
+                
+                // Create particle effect
+                createParticleEffect(resultEl);
+                
+                // Show result with enhanced animation
+                resultEl.style.opacity = '0';
+                resultEl.style.transform = 'translateY(20px)';
+                resultEl.textContent = prompt;
+                
+                setTimeout(() => {
+                    resultEl.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                    resultEl.style.opacity = '1';
+                    resultEl.style.transform = 'translateY(0px)';
+                    resultEl.classList.add('celebrating');
+                    
+                    setTimeout(() => {
+                        resultEl.classList.remove('celebrating');
+                    }, 1200);
+                }, 200);
+            }
+            
+            // Create particle effect
+            function createParticleEffect(element) {
+                const particles = document.createElement('div');
+                particles.className = 'dice-particles';
+                particles.style.cssText = `
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    pointer-events: none;
+                    z-index: 10;
+                `;
+                
+                // Create multiple particles
+                for (let i = 0; i < 8; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.cssText = `
+                        position: absolute;
+                        width: 6px;
+                        height: 6px;
+                        background: radial-gradient(circle, #ffd23f 0%, #ff6b35 100%);
+                        border-radius: 50%;
+                        left: ${Math.random() * 100}%;
+                        animation: particle-float 2.5s ease-out forwards;
+                        animation-delay: ${Math.random() * 0.5}s;
+                    `;
+                    particles.appendChild(particle);
+                }
+                
+                element.appendChild(particles);
+                
+                // Remove particles after animation
+                setTimeout(() => {
+                    particles.remove();
+                }, 2500);
+            }
 
 
 
