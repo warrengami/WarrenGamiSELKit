@@ -735,37 +735,12 @@ function setupEnhancedTimer() {
     }
 }
 
-// High contrast mode toggle
-function toggleHighContrast() {
-    document.body.classList.toggle('high-contrast');
-    
-    // Save preference
-    const isHighContrast = document.body.classList.contains('high-contrast');
-    localStorage.setItem('highContrast', isHighContrast);
-}
-
 // Initialize enhanced features
 document.addEventListener('DOMContentLoaded', function() {
-    // Load saved preferences
-    const isHighContrast = localStorage.getItem('highContrast') === 'true';
-    if (isHighContrast) {
-        document.body.classList.add('high-contrast');
-    }
-    
     // Setup enhanced modes
     setupEnhancedDiceMode();
     setupEnhancedScenarioMode();
     setupEnhancedTimer();
-    
-    // Add accessibility button
-    const controlPanel = document.getElementById('control-panel');
-    if (controlPanel) {
-        const accessibilityBtn = document.createElement('button');
-        accessibilityBtn.textContent = '👁️ High Contrast';
-        accessibilityBtn.className = 'enhanced-btn';
-        accessibilityBtn.onclick = toggleHighContrast;
-        controlPanel.appendChild(accessibilityBtn);
-    }
 });
 
 // Enhanced sound effects

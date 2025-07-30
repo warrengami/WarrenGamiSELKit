@@ -249,23 +249,23 @@
 
         .dice .face {
             position: absolute;
-            width: 250px;
-            height: 250px;
-            border: 4px solid var(--midnight-blue);
-            background: linear-gradient(135deg, var(--emotion-joy) 0%, var(--emotion-excited) 100%);
+            width: 200px;
+            height: 200px;
+            border: 3px solid var(--midnight-blue);
+            background: white;
             padding: var(--spacing-md);
             box-sizing: border-box;
             text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
+            font-size: 1rem;
             line-height: 1.4;
             font-weight: 600;
-            border-radius: var(--radius-lg);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            border-radius: 20px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
             color: var(--midnight-blue);
-            animation: gentle-pulse 3s ease-in-out infinite;
+            backface-visibility: hidden;
         }
 
         @keyframes gentle-pulse {
@@ -273,20 +273,14 @@
             50% { transform: scale(1.02); }
         }
 
-        /* Emotion-based dice face colors */
-        .dice .face.face-1 { background: linear-gradient(135deg, var(--emotion-joy) 0%, #ffd54f 100%); }
-        .dice .face.face-2 { background: linear-gradient(135deg, var(--emotion-calm) 0%, #00bcd4 100%); }
-        .dice .face.face-3 { background: linear-gradient(135deg, var(--emotion-excited) 0%, #ff9800 100%); }
-        .dice .face.face-4 { background: linear-gradient(135deg, var(--emotion-caring) 0%, #e91e63 100%); }
-        .dice .face.face-5 { background: linear-gradient(135deg, var(--emotion-confident) 0%, #4caf50 100%); }
-        .dice .face.face-6 { background: linear-gradient(135deg, var(--emotion-curious) 0%, #9c27b0 100%); }
 
-        .face.face-1 { transform: rotateY(0deg) translateZ(125px); }
-        .face.face-2 { transform: rotateY(90deg) translateZ(125px); }
-        .face.face-3 { transform: rotateY(180deg) translateZ(125px); }
-        .face.face-4 { transform: rotateY(-90deg) translateZ(125px); }
-        .face.face-5 { transform: rotateX(90deg) translateZ(125px); }
-        .face.face-6 { transform: rotateX(-90deg) translateZ(125px); }
+
+        .face.face-1 { transform: rotateY(0deg) translateZ(100px); }
+        .face.face-2 { transform: rotateY(90deg) translateZ(100px); }
+        .face.face-3 { transform: rotateY(180deg) translateZ(100px); }
+        .face.face-4 { transform: rotateY(-90deg) translateZ(100px); }
+        .face.face-5 { transform: rotateX(90deg) translateZ(100px); }
+        .face.face-6 { transform: rotateX(-90deg) translateZ(100px); }
 
         .dice.show-1 { transform: rotateY(0deg); }
         .dice.show-2 { transform: rotateY(-90deg); }
@@ -841,19 +835,7 @@
             100% {transform: translateX(0) rotate(2deg);} 
         }
 
-        /* Accessibility Enhancements */
-        .high-contrast {
-            --midnight-blue: #000000;
-            --sky-blue: #0066cc;
-            --white: #ffffff;
-            --soft-gray: #f0f0f0;
-        }
 
-        .high-contrast .dice .face {
-            background: var(--white);
-            color: var(--midnight-blue);
-            border: 4px solid var(--midnight-blue);
-        }
 
         /* Responsive Design */
         @media (max-width: 768px) {
@@ -869,14 +851,14 @@
             }
             
             .dice .face {
-                width: 200px;
-                height: 200px;
-                font-size: 1rem;
+                width: 150px;
+                height: 150px;
+                font-size: 0.9rem;
             }
             
             .face.face-1, .face.face-2, .face.face-3, 
             .face.face-4, .face.face-5, .face.face-6 {
-                transform: translateZ(100px);
+                transform: translateZ(75px);
             }
             
             .control-panel {
