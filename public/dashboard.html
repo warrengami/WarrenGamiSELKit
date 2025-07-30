@@ -105,25 +105,24 @@
         }
         
         .brand-logo {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             margin: 0 auto 1rem auto;
-            background: var(--warren-blue);
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             box-shadow: 0 8px 25px var(--shadow-blue);
+            border-radius: 50%;
+            background: var(--paper-white);
+            padding: 8px;
         }
         
-        .brand-logo::after {
-            content: '';
-            width: 35px;
-            height: 25px;
-            background: var(--paper-white);
-            clip-path: polygon(20% 0%, 0% 40%, 30% 70%, 50% 50%, 80% 70%, 100% 40%, 80% 0%, 50% 30%);
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.1));
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
         }
         
         .header h1 {
@@ -493,7 +492,9 @@
     
     <div class="container">
         <header class="header">
-            <div class="brand-logo"></div>
+            <div class="brand-logo">
+                <img src="warrengamilogo.png" alt="WarrenGami Logo">
+            </div>
             <h1>WarrenGami SEL</h1>
             <p class="subtitle">Where Play Meets Emotional Growth</p>
             <p class="user-welcome">Welcome, Teacher!</p>
