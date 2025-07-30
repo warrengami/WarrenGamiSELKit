@@ -299,11 +299,12 @@ class EnhancedDiceRoll {
             setTimeout(() => {
                 dice.classList.remove('shaking');
                 
-                // Phase 2: Enhanced tumble
-                dice.classList.add('rolling');
+                // Phase 2: Enhanced tumble with glow
+                dice.classList.add('rolling', 'enhanced-tumble');
+                dice.classList.add('glowing');
                 
                 setTimeout(() => {
-                    dice.classList.remove('rolling');
+                    dice.classList.remove('rolling', 'enhanced-tumble');
                     
                     // Phase 3: Bounce effect
                     dice.classList.add('bouncing');
@@ -316,7 +317,7 @@ class EnhancedDiceRoll {
                         dice.classList.add('settling');
                         
                         setTimeout(() => {
-                            dice.classList.remove('settling');
+                            dice.classList.remove('settling', 'glowing');
                             resolve();
                         }, 800);
                     }, 600);

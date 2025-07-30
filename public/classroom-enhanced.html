@@ -336,6 +336,10 @@
             animation: enhanced-celebration 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
         
+        .dice.shaking {
+            animation: enhanced-shake 0.5s ease-in-out;
+        }
+        
         .dice.glowing::before {
             content: '';
             position: absolute;
@@ -433,6 +437,40 @@
             100% {
                 opacity: 0.8;
                 transform: scale(1.2);
+            }
+        }
+        
+        /* Enhanced Shake Animation */
+        @keyframes enhanced-shake {
+            0%, 100% {
+                transform: translateX(0px) rotate(0deg);
+            }
+            10% {
+                transform: translateX(-5px) rotate(-2deg);
+            }
+            20% {
+                transform: translateX(5px) rotate(2deg);
+            }
+            30% {
+                transform: translateX(-5px) rotate(-1deg);
+            }
+            40% {
+                transform: translateX(5px) rotate(1deg);
+            }
+            50% {
+                transform: translateX(-3px) rotate(-0.5deg);
+            }
+            60% {
+                transform: translateX(3px) rotate(0.5deg);
+            }
+            70% {
+                transform: translateX(-2px) rotate(-0.25deg);
+            }
+            80% {
+                transform: translateX(2px) rotate(0.25deg);
+            }
+            90% {
+                transform: translateX(-1px) rotate(-0.1deg);
             }
         }
         

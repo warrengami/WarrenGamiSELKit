@@ -101,8 +101,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 promptResultEl.textContent = '';
                 
                 // Use enhanced dice roll if available
-                if (window.enhancedDiceRoll) {
-                    await window.enhancedDiceRoll.roll();
+                if (window.enhancedDiceRoll && window.enhancedDiceRoll.isRolling === false) {
+                    try {
+                        await window.enhancedDiceRoll.performEnhancedRoll(dice, Math.floor(Math.random() * 6) + 1);
+                        const randomFace = Math.floor(Math.random() * 6) + 1;
+                        showEnhancedResult(randomFace, promptResultEl, dicePrompts);
+                    } catch (error) {
+                        console.log('Enhanced roll failed, using fallback:', error);
+                        // Fallback to enhanced physics-based animation
+                        const randomFace = Math.floor(Math.random() * 6) + 1;
+                        const rollDuration = 2500 + Math.random() * 1000; // 2.5-3.5 seconds
+                        
+                        // Enhanced multi-phase animation
+                        dice.classList.add('rolling', 'enhanced-tumble');
+                        
+                        // Add glow effect
+                        dice.classList.add('glowing');
+                        
+                        setTimeout(() => {
+                            dice.classList.remove('rolling', 'enhanced-tumble');
+                            dice.classList.add('bouncing');
+                            
+                            setTimeout(() => {
+                                dice.classList.remove('bouncing');
+                                setDiceFace(dice, randomFace);
+                                dice.classList.add('settling');
+                                
+                                setTimeout(() => {
+                                    dice.classList.remove('settling', 'glowing');
+                                    showEnhancedResult(randomFace, promptResultEl, dicePrompts);
+                                    rollBtn.disabled = false;
+                                }, 800);
+                            }, 600);
+                        }, rollDuration);
+                    }
                 } else {
                     // Fallback to enhanced physics-based animation
                     const randomFace = Math.floor(Math.random() * 6) + 1;
@@ -131,6 +163,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 600);
                     }, rollDuration);
                 }
+                
+                // Re-enable buttons after animation
+                setTimeout(() => {
+                    rollBtn.disabled = false;
+                }, 3500);
             });
             
             // Enhanced dice face setting
