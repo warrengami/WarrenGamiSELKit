@@ -293,6 +293,8 @@ class EnhancedDiceRoll {
     
     async performEnhancedRoll(dice, targetFace) {
         return new Promise((resolve) => {
+            console.log('Starting enhanced roll for face:', targetFace);
+            
             // Phase 1: Initial shake
             dice.classList.add('shaking');
             
@@ -318,6 +320,7 @@ class EnhancedDiceRoll {
                         
                         setTimeout(() => {
                             dice.classList.remove('settling', 'glowing');
+                            console.log('Enhanced roll completed');
                             resolve();
                         }, 800);
                     }, 600);
@@ -473,6 +476,10 @@ class EnhancedDiceRoll {
             faces.forEach(face => {
                 face.classList.add('dice-face');
             });
+            
+            console.log('Enhanced dice initialized:', dice);
+        } else {
+            console.log('No dice element found for enhancement');
         }
     }
     
