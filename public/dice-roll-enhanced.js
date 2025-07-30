@@ -6,16 +6,18 @@ class EnhancedDiceRoll {
         this.isRolling = false;
         this.audioContext = null;
         this.currentFace = 1;
-        this.animationDuration = 2500;
-        this.bounceIntensity = 0.3;
-        this.spinIntensity = 0.8;
+        this.animationDuration = 3000; // Increased for more fluid animation
+        this.bounceIntensity = 0.4;
+        this.spinIntensity = 1.2;
         
-        // Animation timing functions
+        // Animation timing functions - more Lottie-like
         this.easing = {
             bounce: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
             elastic: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
             smooth: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            sharp: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            sharp: 'cubic-bezier(0.4, 0, 0.2, 1)',
+            lottie: 'cubic-bezier(0.25, 0.1, 0.25, 1)', // Lottie-style easing
+            fluid: 'cubic-bezier(0.4, 0, 0.2, 1)' // Fluid motion
         };
         
         this.init();
@@ -38,106 +40,187 @@ class EnhancedDiceRoll {
     createAnimationStyles() {
         const style = document.createElement('style');
         style.textContent = `
-            /* Enhanced Dice Roll Animations */
+            /* Enhanced Dice Roll Animations - Lottie Style */
             .dice-enhanced {
                 transform-style: preserve-3d;
                 transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
                 position: relative;
+                filter: drop-shadow(0 8px 25px rgba(0,0,0,0.15));
             }
             
             .dice-enhanced.rolling {
-                animation: enhanced-tumble 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                animation: lottie-tumble 3s cubic-bezier(0.25, 0.1, 0.25, 1);
             }
             
             .dice-enhanced.bouncing {
-                animation: enhanced-bounce 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                animation: lottie-bounce 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             }
             
             .dice-enhanced.settling {
-                animation: enhanced-settle 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+                animation: lottie-settle 1s cubic-bezier(0.4, 0, 0.2, 1);
             }
             
             .dice-enhanced.celebrating {
-                animation: enhanced-celebration 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                animation: lottie-celebration 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             }
             
-            /* Enhanced Tumble Animation */
-            @keyframes enhanced-tumble {
+            .dice-enhanced.shaking {
+                animation: lottie-shake 0.6s cubic-bezier(0.25, 0.1, 0.25, 1);
+            }
+            
+            .dice-enhanced.glowing {
+                position: relative;
+                filter: drop-shadow(0 0 20px rgba(255, 210, 63, 0.6)) drop-shadow(0 8px 25px rgba(0,0,0,0.15));
+            }
+            
+            .dice-enhanced.glowing::before {
+                content: '';
+                position: absolute;
+                top: -15px;
+                left: -15px;
+                right: -15px;
+                bottom: -15px;
+                background: radial-gradient(circle, rgba(255, 210, 63, 0.3) 0%, transparent 70%);
+                border-radius: 50%;
+                animation: lottie-glow 0.8s ease-in-out infinite alternate;
+                z-index: -1;
+            }
+            
+            /* Lottie-style Tumble Animation - More Fluid */
+            @keyframes lottie-tumble {
                 0% {
-                    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+                    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1) translateY(0px);
                 }
-                15% {
-                    transform: rotateX(180deg) rotateY(90deg) rotateZ(45deg) scale(1.1);
+                10% {
+                    transform: rotateX(90deg) rotateY(45deg) rotateZ(30deg) scale(1.05) translateY(-10px);
                 }
-                30% {
-                    transform: rotateX(360deg) rotateY(180deg) rotateZ(90deg) scale(0.95);
+                25% {
+                    transform: rotateX(270deg) rotateY(135deg) rotateZ(90deg) scale(0.95) translateY(5px);
                 }
-                45% {
-                    transform: rotateX(540deg) rotateY(270deg) rotateZ(135deg) scale(1.05);
+                40% {
+                    transform: rotateX(450deg) rotateY(225deg) rotateZ(150deg) scale(1.08) translateY(-8px);
+                }
+                55% {
+                    transform: rotateX(630deg) rotateY(315deg) rotateZ(210deg) scale(0.92) translateY(3px);
+                }
+                70% {
+                    transform: rotateX(810deg) rotateY(405deg) rotateZ(270deg) scale(1.03) translateY(-5px);
+                }
+                85% {
+                    transform: rotateX(990deg) rotateY(495deg) rotateZ(330deg) scale(0.97) translateY(2px);
+                }
+                100% {
+                    transform: rotateX(1170deg) rotateY(585deg) rotateZ(360deg) scale(1) translateY(0px);
+                }
+            }
+            
+            /* Lottie-style Bounce Animation */
+            @keyframes lottie-bounce {
+                0%, 100% {
+                    transform: translateY(0px) scale(1) rotate(0deg);
+                }
+                20% {
+                    transform: translateY(-25px) scale(1.1) rotate(2deg);
+                }
+                40% {
+                    transform: translateY(-15px) scale(0.95) rotate(-1deg);
                 }
                 60% {
-                    transform: rotateX(720deg) rotateY(360deg) rotateZ(180deg) scale(0.98);
+                    transform: translateY(-8px) scale(1.05) rotate(0.5deg);
                 }
-                75% {
-                    transform: rotateX(900deg) rotateY(450deg) rotateZ(225deg) scale(1.02);
-                }
-                90% {
-                    transform: rotateX(1080deg) rotateY(540deg) rotateZ(270deg) scale(0.99);
-                }
-                100% {
-                    transform: rotateX(1260deg) rotateY(630deg) rotateZ(315deg) scale(1);
+                80% {
+                    transform: translateY(-3px) scale(0.98) rotate(-0.25deg);
                 }
             }
             
-            /* Enhanced Bounce Animation */
-            @keyframes enhanced-bounce {
-                0%, 100% {
-                    transform: translateY(0px) scale(1);
-                }
-                25% {
-                    transform: translateY(-15px) scale(1.05);
-                }
-                50% {
-                    transform: translateY(-25px) scale(1.1);
-                }
-                75% {
-                    transform: translateY(-10px) scale(1.03);
-                }
-            }
-            
-            /* Enhanced Settle Animation */
-            @keyframes enhanced-settle {
+            /* Lottie-style Settle Animation */
+            @keyframes lottie-settle {
                 0% {
-                    transform: scale(1.1) rotate(5deg);
+                    transform: scale(1.1) rotate(3deg);
                 }
-                50% {
+                30% {
                     transform: scale(0.95) rotate(-2deg);
                 }
+                60% {
+                    transform: scale(1.03) rotate(1deg);
+                }
                 100% {
                     transform: scale(1) rotate(0deg);
                 }
             }
             
-            /* Enhanced Celebration Animation */
-            @keyframes enhanced-celebration {
+            /* Lottie-style Celebration Animation */
+            @keyframes lottie-celebration {
                 0% {
                     transform: scale(1) rotate(0deg);
                 }
-                25% {
-                    transform: scale(1.2) rotate(5deg);
+                15% {
+                    transform: scale(1.4) rotate(5deg);
                 }
-                50% {
-                    transform: scale(0.9) rotate(-3deg);
+                30% {
+                    transform: scale(0.85) rotate(-3deg);
+                }
+                45% {
+                    transform: scale(1.25) rotate(2deg);
+                }
+                60% {
+                    transform: scale(0.9) rotate(-1deg);
                 }
                 75% {
-                    transform: scale(1.1) rotate(2deg);
+                    transform: scale(1.15) rotate(0.5deg);
                 }
                 100% {
                     transform: scale(1) rotate(0deg);
                 }
             }
             
-            /* Particle Effects */
+            /* Lottie-style Shake Animation */
+            @keyframes lottie-shake {
+                0%, 100% {
+                    transform: translateX(0px) rotate(0deg);
+                }
+                10% {
+                    transform: translateX(-8px) rotate(-3deg);
+                }
+                20% {
+                    transform: translateX(8px) rotate(3deg);
+                }
+                30% {
+                    transform: translateX(-6px) rotate(-2deg);
+                }
+                40% {
+                    transform: translateX(6px) rotate(2deg);
+                }
+                50% {
+                    transform: translateX(-4px) rotate(-1deg);
+                }
+                60% {
+                    transform: translateX(4px) rotate(1deg);
+                }
+                70% {
+                    transform: translateX(-2px) rotate(-0.5deg);
+                }
+                80% {
+                    transform: translateX(2px) rotate(0.5deg);
+                }
+                90% {
+                    transform: translateX(-1px) rotate(-0.25deg);
+                }
+            }
+            
+            /* Lottie-style Glow Animation */
+            @keyframes lottie-glow {
+                0% {
+                    opacity: 0.3;
+                    transform: scale(1);
+                }
+                100% {
+                    opacity: 0.8;
+                    transform: scale(1.3);
+                }
+            }
+            
+            /* Enhanced Particle Effects */
             .dice-particles {
                 position: absolute;
                 top: 0;
@@ -150,99 +233,44 @@ class EnhancedDiceRoll {
             
             .particle {
                 position: absolute;
-                width: 4px;
-                height: 4px;
-                background: radial-gradient(circle, #ffd23f 0%, #ff6b35 100%);
+                width: 8px;
+                height: 8px;
+                background: linear-gradient(45deg, #ffd23f, #ff6b35);
                 border-radius: 50%;
-                animation: particle-float 2s ease-out forwards;
+                animation: lottie-particle 2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
             }
             
-            @keyframes particle-float {
+            @keyframes lottie-particle {
                 0% {
                     opacity: 1;
-                    transform: translateY(0px) scale(1);
+                    transform: translateY(0px) scale(1) rotate(0deg);
+                }
+                50% {
+                    opacity: 0.8;
+                    transform: translateY(-30px) scale(1.2) rotate(180deg);
                 }
                 100% {
                     opacity: 0;
-                    transform: translateY(-50px) scale(0);
+                    transform: translateY(-60px) scale(0) rotate(360deg);
                 }
             }
             
-            /* Glow Effects */
-            .dice-enhanced.rolling::before {
-                content: '';
-                position: absolute;
-                top: -10px;
-                left: -10px;
-                right: -10px;
-                bottom: -10px;
-                background: radial-gradient(circle, rgba(255, 210, 63, 0.3) 0%, transparent 70%);
-                border-radius: 50%;
-                animation: glow-pulse 0.5s ease-in-out infinite alternate;
-            }
-            
-            @keyframes glow-pulse {
-                0% {
-                    opacity: 0.3;
-                    transform: scale(1);
-                }
-                100% {
-                    opacity: 0.6;
-                    transform: scale(1.1);
-                }
-            }
-            
-            /* Shake Effect */
-            .dice-enhanced.shaking {
-                animation: enhanced-shake 0.5s cubic-bezier(0.36, 0, 0.66, 1);
-            }
-            
-            @keyframes enhanced-shake {
-                0%, 100% {
-                    transform: translateX(0px) rotate(0deg);
-                }
-                25% {
-                    transform: translateX(-5px) rotate(-2deg);
-                }
-                50% {
-                    transform: translateX(5px) rotate(2deg);
-                }
-                75% {
-                    transform: translateX(-3px) rotate(-1deg);
-                }
-            }
-            
-            /* Face-specific animations */
-            .dice-face {
-                transition: all 0.3s ease;
+            /* Enhanced Result Display */
+            #prompt-result {
                 position: relative;
-                overflow: hidden;
+                transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+                backdrop-filter: blur(10px);
+                border-radius: 15px;
+                padding: 20px;
+                margin-top: 20px;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+                border: 1px solid rgba(255, 255, 255, 0.2);
             }
             
-            .dice-face::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: -100%;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-                transition: left 0.6s ease;
-            }
-            
-            .dice-face.highlighted::before {
-                left: 100%;
-            }
-            
-            /* Enhanced 3D Transform */
-            .dice-enhanced {
-                transform-style: preserve-3d;
-                perspective: 1000px;
-            }
-            
-            .dice-face {
-                backface-visibility: hidden;
-                transform-style: preserve-3d;
+            #prompt-result.celebrating {
+                animation: lottie-celebration 1.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                background: linear-gradient(135deg, rgba(255, 210, 63, 0.1), rgba(255, 107, 53, 0.1));
             }
         `;
         document.head.appendChild(style);
@@ -293,39 +321,49 @@ class EnhancedDiceRoll {
     
     async performEnhancedRoll(dice, targetFace) {
         return new Promise((resolve) => {
-            console.log('Starting enhanced roll for face:', targetFace);
+            console.log('Starting Lottie-style roll for face:', targetFace);
             
-            // Phase 1: Initial shake
+            // Phase 1: Initial shake with Lottie-style timing
             dice.classList.add('shaking');
+            this.playEnhancedSound('shake');
             
             setTimeout(() => {
                 dice.classList.remove('shaking');
                 
-                // Phase 2: Enhanced tumble with glow
-                dice.classList.add('rolling', 'enhanced-tumble');
+                // Phase 2: Lottie-style tumble with enhanced glow
+                dice.classList.add('rolling');
                 dice.classList.add('glowing');
                 
                 setTimeout(() => {
-                    dice.classList.remove('rolling', 'enhanced-tumble');
+                    dice.classList.remove('rolling');
                     
-                    // Phase 3: Bounce effect
+                    // Phase 3: Lottie-style bounce with rotation
                     dice.classList.add('bouncing');
+                    this.playEnhancedSound('bounce');
                     
                     setTimeout(() => {
                         dice.classList.remove('bouncing');
                         
-                        // Phase 4: Settle to final position
+                        // Phase 4: Lottie-style settle to final position
                         this.setDiceFace(dice, targetFace);
                         dice.classList.add('settling');
                         
                         setTimeout(() => {
                             dice.classList.remove('settling', 'glowing');
-                            console.log('Enhanced roll completed');
-                            resolve();
-                        }, 800);
-                    }, 600);
-                }, 2500);
-            }, 500);
+                            
+                            // Phase 5: Celebration effect
+                            dice.classList.add('celebrating');
+                            this.playEnhancedSound('success');
+                            
+                            setTimeout(() => {
+                                dice.classList.remove('celebrating');
+                                console.log('Lottie-style roll completed');
+                                resolve();
+                            }, 1500);
+                        }, 1000);
+                    }, 800);
+                }, 3000);
+            }, 600);
         });
     }
     
