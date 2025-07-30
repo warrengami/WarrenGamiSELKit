@@ -322,38 +322,55 @@ class EnhancedDiceRoll {
     async performEnhancedRoll(dice, targetFace) {
         return new Promise((resolve) => {
             console.log('Starting Lottie-style roll for face:', targetFace);
+            console.log('Dice element:', dice);
+            console.log('Dice classes:', dice.className);
+            
+            // Check if dice is enhanced
+            if (!dice.classList.contains('dice-enhanced')) {
+                console.log('Enhancing dice element...');
+                dice.classList.add('dice-enhanced');
+            }
             
             // Phase 1: Initial shake with Lottie-style timing
             dice.classList.add('shaking');
             this.playEnhancedSound('shake');
+            console.log('Phase 1: Shaking started');
             
             setTimeout(() => {
                 dice.classList.remove('shaking');
+                console.log('Phase 1: Shaking completed');
                 
                 // Phase 2: Lottie-style tumble with enhanced glow
                 dice.classList.add('rolling');
                 dice.classList.add('glowing');
+                console.log('Phase 2: Rolling started');
                 
                 setTimeout(() => {
                     dice.classList.remove('rolling');
+                    console.log('Phase 2: Rolling completed');
                     
                     // Phase 3: Lottie-style bounce with rotation
                     dice.classList.add('bouncing');
                     this.playEnhancedSound('bounce');
+                    console.log('Phase 3: Bouncing started');
                     
                     setTimeout(() => {
                         dice.classList.remove('bouncing');
+                        console.log('Phase 3: Bouncing completed');
                         
                         // Phase 4: Lottie-style settle to final position
                         this.setDiceFace(dice, targetFace);
                         dice.classList.add('settling');
+                        console.log('Phase 4: Settling started');
                         
                         setTimeout(() => {
                             dice.classList.remove('settling', 'glowing');
+                            console.log('Phase 4: Settling completed');
                             
                             // Phase 5: Celebration effect
                             dice.classList.add('celebrating');
                             this.playEnhancedSound('success');
+                            console.log('Phase 5: Celebration started');
                             
                             setTimeout(() => {
                                 dice.classList.remove('celebrating');

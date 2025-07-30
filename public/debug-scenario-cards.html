@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Scenario Cards - WarrenGami SEL</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        .debug-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        h1 {
+            text-align: center;
+            color: #002b5c;
+            margin-bottom: 30px;
+        }
+        .debug-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px solid #e0e6ed;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+        .debug-button {
+            background: #002b5c;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .debug-button:hover {
+            background: #00408a;
+            transform: translateY(-2px);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🐛 Debug Scenario Cards</h1>
+        
+        <div class="debug-section">
+            <h2>Test 1: Direct URL Test</h2>
+            <p>Test scenario cards with direct classroom-enhanced.html URLs</p>
+            <button class="debug-button" onclick="testDirectURL()">Test Direct URL</button>
+            <div id="test1-result"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h2>Test 2: File Parsing Test</h2>
+            <p>Test if scenario card files can be parsed correctly</p>
+            <button class="debug-button" onclick="testFileParsing()">Test File Parsing</button>
+            <div id="test2-result"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h2>Test 3: CSS Loading Test</h2>
+            <p>Test if scenario card CSS is loaded in classroom mode</p>
+            <button class="debug-button" onclick="testCSSLoading()">Test CSS Loading</button>
+            <div id="test3-result"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h2>Test 4: JavaScript Functionality Test</h2>
+            <p>Test if scenario card JavaScript functions work</p>
+            <button class="debug-button" onclick="testJSFunctionality()">Test JS Functionality</button>
+            <div id="test4-result"></div>
+        </div>
+        
+        <div class="debug-section">
+            <h2>Debug Log</h2>
+            <div id="debug-log" class="log"></div>
+        </div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logElement = document.getElementById('debug-log');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.innerHTML += `[${timestamp}] ${message}\n`;
+            logElement.scrollTop = logElement.scrollHeight;
+        }
+        
+        function testDirectURL() {
+            log('Testing direct URL access...');
+            const url = 'classroom-enhanced.html?type=scenarios&file=Scenario%20Cards%201.html';
+            
+            // Test if the URL is accessible
+            fetch('classroom-enhanced.html')
+                .then(response => {
+                    if (response.ok) {
+                        log('✅ classroom-enhanced.html is accessible');
+                        document.getElementById('test1-result').innerHTML = '<div class="status success">✅ Direct URL test passed</div>';
+                        window.open(url, '_blank');
+                    } else {
+                        log('❌ classroom-enhanced.html is not accessible');
+                        document.getElementById('test1-result').innerHTML = '<div class="status error">❌ Direct URL test failed</div>';
+                    }
+                })
+                .catch(error => {
+                    log(`❌ Error accessing classroom-enhanced.html: ${error.message}`);
+                    document.getElementById('test1-result').innerHTML = '<div class="status error">❌ Direct URL test failed</div>';
+                });
+        }
+        
+        function testFileParsing() {
+            log('Testing file parsing...');
+            const testFile = 'Scenario Cards 1.html';
+            
+            fetch(testFile)
+                .then(response => {
+                    if (response.ok) {
+                        log('✅ Scenario Cards 1.html is accessible');
+                        return response.text();
+                    } else {
+                        throw new Error('File not found');
+                    }
+                })
+                .then(html => {
+                    // Check if the file contains scenario card structure
+                    if (html.includes('scenario-card-container')) {
+                        log('✅ File contains scenario card structure');
+                        document.getElementById('test2-result').innerHTML = '<div class="status success">✅ File parsing test passed</div>';
+                    } else {
+                        log('❌ File does not contain scenario card structure');
+                        document.getElementById('test2-result').innerHTML = '<div class="status error">❌ File parsing test failed</div>';
+                    }
+                })
+                .catch(error => {
+                    log(`❌ Error parsing file: ${error.message}`);
+                    document.getElementById('test2-result').innerHTML = '<div class="status error">❌ File parsing test failed</div>';
+                });
+        }
+        
+        function testCSSLoading() {
+            log('Testing CSS loading...');
+            
+            // Check if classroom-enhanced.html has scenario card CSS
+            fetch('classroom-enhanced.html')
+                .then(response => response.text())
+                .then(html => {
+                    if (html.includes('scenario-controls') && html.includes('card-deck')) {
+                        log('✅ Scenario card CSS found in classroom-enhanced.html');
+                        document.getElementById('test3-result').innerHTML = '<div class="status success">✅ CSS loading test passed</div>';
+                    } else {
+                        log('❌ Scenario card CSS not found in classroom-enhanced.html');
+                        document.getElementById('test3-result').innerHTML = '<div class="status error">❌ CSS loading test failed</div>';
+                    }
+                })
+                .catch(error => {
+                    log(`❌ Error checking CSS: ${error.message}`);
+                    document.getElementById('test3-result').innerHTML = '<div class="status error">❌ CSS loading test failed</div>';
+                });
+        }
+        
+        function testJSFunctionality() {
+            log('Testing JavaScript functionality...');
+            
+            // Check if classroom-enhanced.js has scenario mode setup
+            fetch('classroom-enhanced.js')
+                .then(response => response.text())
+                .then(js => {
+                    if (js.includes('setupScenarioMode') && js.includes('scenario-card-container')) {
+                        log('✅ Scenario mode JavaScript found');
+                        document.getElementById('test4-result').innerHTML = '<div class="status success">✅ JavaScript functionality test passed</div>';
+                    } else {
+                        log('❌ Scenario mode JavaScript not found');
+                        document.getElementById('test4-result').innerHTML = '<div class="status error">❌ JavaScript functionality test failed</div>';
+                    }
+                })
+                .catch(error => {
+                    log(`❌ Error checking JavaScript: ${error.message}`);
+                    document.getElementById('test4-result').innerHTML = '<div class="status error">❌ JavaScript functionality test failed</div>';
+                });
+        }
+        
+        // Auto-run tests on page load
+        window.addEventListener('load', function() {
+            log('Debug page loaded');
+            document.getElementById('test1-result').innerHTML = '<div class="status info">ℹ️ Click the button above to test direct URL access</div>';
+            document.getElementById('test2-result').innerHTML = '<div class="status info">ℹ️ Click the button above to test file parsing</div>';
+            document.getElementById('test3-result').innerHTML = '<div class="status info">ℹ️ Click the button above to test CSS loading</div>';
+            document.getElementById('test4-result').innerHTML = '<div class="status info">ℹ️ Click the button above to test JavaScript functionality</div>';
+        });
+    </script>
+</body>
+</html> 

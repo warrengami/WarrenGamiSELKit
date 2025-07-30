@@ -81,7 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Initialize enhanced dice roll
             if (window.enhancedDiceRoll) {
+                console.log('Enhanced dice roll module found, initializing...');
                 window.enhancedDiceRoll.enhanceExistingDice();
+            } else {
+                console.log('Enhanced dice roll module not found');
             }
             
             // Add keyboard support
@@ -100,68 +103,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 rollBtn.disabled = true;
                 promptResultEl.textContent = '';
                 
+                // Generate random face for the roll
+                const randomFace = Math.floor(Math.random() * 6) + 1;
+                
                 // Use enhanced dice roll if available
                 if (window.enhancedDiceRoll && window.enhancedDiceRoll.isRolling === false) {
                     try {
-                        await window.enhancedDiceRoll.performEnhancedRoll(dice, Math.floor(Math.random() * 6) + 1);
-                        const randomFace = Math.floor(Math.random() * 6) + 1;
+                        console.log('Using enhanced dice roll module');
+                        await window.enhancedDiceRoll.performEnhancedRoll(dice, randomFace);
                         showEnhancedResult(randomFace, promptResultEl, dicePrompts);
                     } catch (error) {
                         console.log('Enhanced roll failed, using fallback:', error);
-                        // Fallback to enhanced physics-based animation
-                        const randomFace = Math.floor(Math.random() * 6) + 1;
-                        const rollDuration = 2500 + Math.random() * 1000; // 2.5-3.5 seconds
-                        
-                        // Enhanced multi-phase animation
-                        dice.classList.add('rolling', 'enhanced-tumble');
-                        
-                        // Add glow effect
-                        dice.classList.add('glowing');
-                        
-                        setTimeout(() => {
-                            dice.classList.remove('rolling', 'enhanced-tumble');
-                            dice.classList.add('bouncing');
-                            
-                            setTimeout(() => {
-                                dice.classList.remove('bouncing');
-                                setDiceFace(dice, randomFace);
-                                dice.classList.add('settling');
-                                
-                                setTimeout(() => {
-                                    dice.classList.remove('settling', 'glowing');
-                                    showEnhancedResult(randomFace, promptResultEl, dicePrompts);
-                                    rollBtn.disabled = false;
-                                }, 800);
-                            }, 600);
-                        }, rollDuration);
+                        // Fallback to Lottie-style animation
+                        await performFallbackRoll(dice, randomFace);
+                        showEnhancedResult(randomFace, promptResultEl, dicePrompts);
                     }
                 } else {
-                    // Fallback to enhanced physics-based animation
-                    const randomFace = Math.floor(Math.random() * 6) + 1;
-                    const rollDuration = 2500 + Math.random() * 1000; // 2.5-3.5 seconds
-                    
-                    // Enhanced multi-phase animation
-                    dice.classList.add('rolling', 'enhanced-tumble');
-                    
-                    // Add glow effect
-                    dice.classList.add('glowing');
-                    
-                    setTimeout(() => {
-                        dice.classList.remove('rolling', 'enhanced-tumble');
-                        dice.classList.add('bouncing');
-                        
-                        setTimeout(() => {
-                            dice.classList.remove('bouncing');
-                            setDiceFace(dice, randomFace);
-                            dice.classList.add('settling');
-                            
-                            setTimeout(() => {
-                                dice.classList.remove('settling', 'glowing');
-                                showEnhancedResult(randomFace, promptResultEl, dicePrompts);
-                                rollBtn.disabled = false;
-                            }, 800);
-                        }, 600);
-                    }, rollDuration);
+                    console.log('Enhanced dice roll module not available, using fallback');
+                    // Fallback to Lottie-style animation
+                    await performFallbackRoll(dice, randomFace);
+                    showEnhancedResult(randomFace, promptResultEl, dicePrompts);
                 }
                 
                 // Re-enable buttons after animation
@@ -169,6 +130,52 @@ document.addEventListener('DOMContentLoaded', () => {
                     rollBtn.disabled = false;
                 }, 3500);
             });
+            
+            // Fallback roll function with Lottie-style animations
+            async function performFallbackRoll(dice, targetFace) {
+                return new Promise((resolve) => {
+                    console.log('Performing fallback roll for face:', targetFace);
+                    
+                    // Phase 1: Initial shake
+                    dice.classList.add('shaking');
+                    
+                    setTimeout(() => {
+                        dice.classList.remove('shaking');
+                        
+                        // Phase 2: Lottie-style tumble with glow
+                        dice.classList.add('rolling');
+                        dice.classList.add('glowing');
+                        
+                        setTimeout(() => {
+                            dice.classList.remove('rolling');
+                            
+                            // Phase 3: Lottie-style bounce with rotation
+                            dice.classList.add('bouncing');
+                            
+                            setTimeout(() => {
+                                dice.classList.remove('bouncing');
+                                
+                                // Phase 4: Lottie-style settle to final position
+                                setDiceFace(dice, targetFace);
+                                dice.classList.add('settling');
+                                
+                                setTimeout(() => {
+                                    dice.classList.remove('settling', 'glowing');
+                                    
+                                    // Phase 5: Celebration effect
+                                    dice.classList.add('celebrating');
+                                    
+                                    setTimeout(() => {
+                                        dice.classList.remove('celebrating');
+                                        console.log('Fallback roll completed');
+                                        resolve();
+                                    }, 1500);
+                                }, 1000);
+                            }, 800);
+                        }, 3000);
+                    }, 600);
+                });
+            }
             
             // Enhanced dice face setting
             function setDiceFace(dice, face) {
@@ -486,17 +493,19 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     drawnCardWrapper.innerHTML = `
                         <div class="drawn-card" id="current-card">
-                            <div class="card-front ${drawn.bgColorClass}">
-                                <div class="card-title">${drawn.title}</div>
-                                <p class="card-text">${drawn.text}</p>
-                                <div class="card-tags">
-                                    ${drawn.selCompetencies.map(comp => `<span class="sel-tag">${comp}</span>`).join('')}
-                                    ${drawn.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                            <div class="card-inner">
+                                <div class="card-front ${drawn.bgColorClass}">
+                                    <div class="card-title">${drawn.title}</div>
+                                    <p class="card-text">${drawn.text}</p>
+                                    <div class="card-tags">
+                                        ${drawn.selCompetencies.map(comp => `<span class="sel-tag">${comp}</span>`).join('')}
+                                        ${drawn.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-back ${drawn.bgColorClass}">
-                                <div class="card-title">Guiding Questions</div>
-                                <ul class="guiding-questions">${drawn.questions}</ul>
+                                <div class="card-back ${drawn.bgColorClass}">
+                                    <div class="card-title">Guiding Questions</div>
+                                    <ul class="guiding-questions">${drawn.questions}</ul>
+                                </div>
                             </div>
                         </div>
                     `;
