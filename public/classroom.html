@@ -28,9 +28,10 @@
             flex-direction: column;
             padding: 2em;
             box-sizing: border-box;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
         .classroom-header {
             width: 100%;
@@ -68,12 +69,15 @@
             justify-content: center;
             width: 100%;
             position: relative;
+            min-height: 0;
         }
         .control-panel {
             margin-top: 2rem;
             flex-shrink: 0;
             display: flex;
             gap: 15px; /* Add space between buttons */
+            position: relative;
+            z-index: 10;
         }
         .control-panel button {
              background-color: var(--midnight-blue);
@@ -180,14 +184,14 @@
 
         /* --- TIMER SECTION --- */
         .timer-section {
-            margin-top: 20px;
+            margin: 20px auto;
             padding: 15px;
             background: var(--highlight-yellow);
             border-radius: 10px;
             text-align: center;
             max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            position: relative;
+            z-index: 1;
         }
         
         .timer-display {
@@ -379,6 +383,10 @@
     <main id="main-content">
         <!-- Content injected here will be either the dice or the cards -->
     </main>
+
+    <div id="timer-section" class="timer-section" style="display: none;">
+        <div id="timer-display" class="timer-display">00:00</div>
+    </div>
 
     <div id="control-panel" class="control-panel">
         <!-- Controls injected here -->

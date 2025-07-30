@@ -58,9 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
                 <div id="prompt-result"></div>
-                <div id="timer-section" class="timer-section" style="display: none;">
-                    <div id="timer-display" class="timer-display">00:00</div>
-                </div>
             `;
             
             // Enhanced control buttons for dice
@@ -249,9 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="card-back-design"></div>
                     </div>
                     <div class="drawn-card-wrapper" id="drawn-card-wrapper"></div>
-                </div>
-                <div id="timer-section" class="timer-section" style="display: none;">
-                    <div id="timer-display" class="timer-display">00:00</div>
                 </div>
             `;
             
