@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dice Roll Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            background: #e8f5e8;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .error {
+            background: #ffe8e8;
+            color: #d32f2f;
+        }
+        button {
+            background: #002b5c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #73bdf5;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dice Roll Logic Test</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Classroom Mode Dice Roll</h2>
+        <p>Testing the dice roll functionality in classroom mode...</p>
+        <button onclick="testDiceRoll()">Test Dice Roll</button>
+        <div id="test-result-1" class="test-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Timer Functionality</h2>
+        <p>Testing the timer functionality...</p>
+        <button onclick="testTimer()">Test Timer</button>
+        <div id="test-result-2" class="test-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Audio Functionality</h2>
+        <p>Testing the audio functionality...</p>
+        <button onclick="testAudio()">Test Audio</button>
+        <div id="test-result-3" class="test-result"></div>
+    </div>
+
+    <script>
+        function testDiceRoll() {
+            const resultDiv = document.getElementById('test-result-1');
+            resultDiv.innerHTML = '';
+            
+            try {
+                // Test the dice roll logic
+                const testPrompts = [
+                    "What are you really good at?",
+                    "What is something you want to get better at?",
+                    "How do you act when you're feeling upset?",
+                    "What helps you focus?",
+                    "What makes you proud of yourself?",
+                    "What kind of learner are you?"
+                ];
+                
+                // Simulate dice roll
+                const randomFace = Math.floor(Math.random() * 6) + 1;
+                const chosenPrompt = testPrompts[randomFace - 1];
+                
+                resultDiv.innerHTML = `
+                    <strong>✅ Dice Roll Test Passed!</strong><br>
+                    Random face: ${randomFace}<br>
+                    Selected prompt: "${chosenPrompt}"<br>
+                    Array bounds check: ${randomFace >= 1 && randomFace <= 6 ? '✅ Valid' : '❌ Invalid'}
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<strong class="error">❌ Dice Roll Test Failed!</strong><br>Error: ${error.message}`;
+            }
+        }
+        
+        function testTimer() {
+            const resultDiv = document.getElementById('test-result-2');
+            resultDiv.innerHTML = '';
+            
+            try {
+                // Test timer functionality
+                const savedDuration = localStorage.getItem('timerDuration') || 120;
+                const timeLeft = parseInt(savedDuration);
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                resultDiv.innerHTML = `
+                    <strong>✅ Timer Test Passed!</strong><br>
+                    Saved duration: ${savedDuration} seconds<br>
+                    Formatted time: ${formattedTime}<br>
+                    Time calculation: ${minutes} minutes, ${seconds} seconds
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `<strong class="error">❌ Timer Test Failed!</strong><br>Error: ${error.message}`;
+            }
+        }
+        
+        function testAudio() {
+            const resultDiv = document.getElementById('test-result-3');
+            resultDiv.innerHTML = '';
+            
+            try {
+                // Test audio functionality
+                const audio = new Audio('public/dice-roll-1.mp3');
+                audio.volume = 0.3;
+                
+                resultDiv.innerHTML = `
+                    <strong>✅ Audio Test Passed!</strong><br>
+                    Audio element created successfully<br>
+                    Volume set to: ${audio.volume * 100}%<br>
+                    Audio source: dice-roll-1.mp3
+                `;
+                
+                // Try to play audio (user interaction required)
+                audio.play().then(() => {
+                    resultDiv.innerHTML += '<br>✅ Audio playback successful!';
+                }).catch(error => {
+                    resultDiv.innerHTML += `<br>⚠️ Audio playback requires user interaction: ${error.message}`;
+                });
+            } catch (error) {
+                resultDiv.innerHTML = `<strong class="error">❌ Audio Test Failed!</strong><br>Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html> 

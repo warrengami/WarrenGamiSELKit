@@ -48,12 +48,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!promptsMatch) throw new Error('Could not find prompts array in the resource file.');
             
             const allPrompts = eval(promptsMatch[1]);
+            const dicePrompts = allPrompts.slice(0, 6); // Only use first 6 prompts for dice
             
             // Build enhanced 3D dice HTML
             mainContentEl.innerHTML = `
                 <div class="dice-scene">
                     <div class="dice" id="interactive-dice">
-                        ${allPrompts.slice(0, 6).map((prompt, i) => `<div class="face face-${i + 1}">${prompt}</div>`).join('')}
+                        ${dicePrompts.map((prompt, i) => `<div class="face face-${i + 1}">${prompt}</div>`).join('')}
                     </div>
                 </div>
                 <div id="prompt-result"></div>
@@ -109,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     dice.className = `dice show-${randomFace} settled`;
                     
                     // Select a random prompt from the visible dice faces (first 6 prompts)
-                    const chosenPrompt = currentPrompts[randomFace - 1];
+                    const chosenPrompt = dicePrompts[randomFace - 1];
                     promptResultEl.textContent = chosenPrompt;
                     
                     // Re-enable buttons
@@ -124,9 +125,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (currentTimer) {
                     stopTimer();
                     timerBtn.textContent = '⏱️ Start Timer';
+                    timerSection.style.display = 'none';
                 } else {
                     startTimer();
                     timerBtn.textContent = '⏹️ Stop Timer';
+                    timerSection.style.display = 'block';
                 }
             });
 
@@ -386,9 +389,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (currentTimer) {
                     stopTimer();
                     timerBtn.textContent = '⏱️ Start Timer';
+                    timerSection.style.display = 'none';
                 } else {
                     startTimer();
                     timerBtn.textContent = '⏹️ Stop Timer';
+                    timerSection.style.display = 'block';
                 }
             });
 
