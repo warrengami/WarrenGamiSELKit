@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Timer functions
             function startTimer() {
-                const savedDuration = localStorage.getItem('timerDuration') || 120;
+                const savedDuration = localStorage.getItem('timerDuration') || 180;
                 let timeLeft = parseInt(savedDuration);
                 currentTimer = setInterval(() => {
                     timeLeft--;
@@ -148,6 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (timeLeft <= 0) {
                         stopTimer();
                         timerDisplay.textContent = "Time's up!";
+                        timerSection.style.display = 'none';
                     }
                 }, 1000);
             }
@@ -276,6 +277,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Search and filter functionality
             searchInput.addEventListener('input', filterScenarios);
             selFilter.addEventListener('change', filterScenarios);
+            
+            // Initialize the deck with current filters
+            filterScenarios();
 
             function filterScenarios() {
                 const searchTerm = searchInput.value.toLowerCase();
@@ -412,6 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (timeLeft <= 0) {
                         stopTimer();
                         timerDisplay.textContent = "Time's up!";
+                        timerSection.style.display = 'none';
                     }
                 }, 1000);
             }

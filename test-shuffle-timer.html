@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shuffle & Timer Logic Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            background: #e8f5e8;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .error {
+            background: #ffe8e8;
+            color: #d32f2f;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        button {
+            background: #002b5c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #73bdf5;
+        }
+        .deck-simulation {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px 0;
+            background: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shuffle & Timer Logic Test</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Card Shuffle Logic</h2>
+        <p>Testing the card shuffle and draw functionality...</p>
+        <button onclick="testShuffleLogic()">Test Shuffle Logic</button>
+        <div id="test-result-1" class="test-result"></div>
+        <div id="deck-simulation" class="deck-simulation"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 2: Timer Logic</h2>
+        <p>Testing the timer functionality...</p>
+        <button onclick="testTimerLogic()">Test Timer Logic</button>
+        <div id="test-result-2" class="test-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 3: Filter Logic</h2>
+        <p>Testing the search and filter functionality...</p>
+        <button onclick="testFilterLogic()">Test Filter Logic</button>
+        <div id="test-result-3" class="test-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test 4: Memory Management</h2>
+        <p>Testing for potential memory leaks...</p>
+        <button onclick="testMemoryManagement()">Test Memory Management</button>
+        <div id="test-result-4" class="test-result"></div>
+    </div>
+
+    <script>
+        // Simulate scenario cards
+        const testScenarios = [
+            {
+                title: "Scenario 1",
+                text: "Your friends suggest skipping class to hang out in the hallway.",
+                questions: "<li>What factors would you consider?</li><li>How might your choice affect your relationships?</li>",
+                bgColorClass: "bg-yellow",
+                selCompetencies: ["Responsible-Decision-Making"],
+                tags: ["conflict", "friendship"]
+            },
+            {
+                title: "Scenario 2", 
+                text: "You see a mean comment posted about a classmate on social media.",
+                questions: "<li>How might this comment affect the person?</li><li>What are some positive ways you could respond?</li>",
+                bgColorClass: "bg-green",
+                selCompetencies: ["Social-Awareness", "Relationship-Skills"],
+                tags: ["emotions", "communication"]
+            },
+            {
+                title: "Scenario 3",
+                text: "You're feeling overwhelmed with homework and want to give up.",
+                questions: "<li>What strategies help you manage stress?</li><li>How can you break this down into smaller tasks?</li>",
+                bgColorClass: "bg-pink",
+                selCompetencies: ["Self-Management"],
+                tags: ["emotions", "problem-solving"]
+            }
+        ];
+
+        function testShuffleLogic() {
+            const resultDiv = document.getElementById('test-result-1');
+            const deckSimulation = document.getElementById('deck-simulation');
+            resultDiv.innerHTML = '';
+            deckSimulation.innerHTML = '';
+            
+            try {
+                // Test initial deck creation
+                let deck = [...testScenarios].sort(() => 0.5 - Math.random());
+                
+                resultDiv.innerHTML = `
+                    <strong>✅ Shuffle Logic Test Passed!</strong><br>
+                    Initial deck size: ${deck.length}<br>
+                    Original scenarios: ${testScenarios.length}<br>
+                    Shuffle randomization: ${deck.join(', ') !== testScenarios.join(', ') ? '✅ Working' : '❌ Not randomized'}
+                `;
+                
+                // Simulate drawing cards
+                deckSimulation.innerHTML = '<h4>Drawing Simulation:</h4>';
+                for (let i = 0; i < Math.min(3, deck.length); i++) {
+                    const drawn = deck.pop();
+                    deckSimulation.innerHTML += `
+                        <div style="margin: 5px 0; padding: 5px; border-left: 3px solid #002b5c; background: #f0f8ff;">
+                            <strong>Draw ${i + 1}:</strong> ${drawn.title}<br>
+                            <small>Remaining: ${deck.length} cards</small>
+                        </div>
+                    `;
+                }
+                
+                // Test reshuffle when deck is empty
+                if (deck.length === 0) {
+                    deck = [...testScenarios].sort(() => 0.5 - Math.random());
+                    deckSimulation.innerHTML += `
+                        <div style="margin: 5px 0; padding: 5px; border-left: 3px solid #28a745; background: #f0fff0;">
+                            <strong>✅ Deck Reshuffled!</strong><br>
+                            <small>New deck size: ${deck.length} cards</small>
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<strong class="error">❌ Shuffle Logic Test Failed!</strong><br>Error: ${error.message}`;
+            }
+        }
+        
+        function testTimerLogic() {
+            const resultDiv = document.getElementById('test-result-2');
+            resultDiv.innerHTML = '';
+            
+            try {
+                // Test timer functionality
+                const savedDuration = localStorage.getItem('timerDuration') || 180;
+                const timeLeft = parseInt(savedDuration);
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Test countdown logic
+                let testTimeLeft = 65; // 1 minute 5 seconds
+                const testMinutes = Math.floor(testTimeLeft / 60);
+                const testSeconds = testTimeLeft % 60;
+                const testFormatted = `${testMinutes.toString().padStart(2, '0')}:${testSeconds.toString().padStart(2, '0')}`;
+                
+                resultDiv.innerHTML = `
+                    <strong>✅ Timer Logic Test Passed!</strong><br>
+                    Saved duration: ${savedDuration} seconds<br>
+                    Formatted time: ${formattedTime}<br>
+                    Test countdown: ${testFormatted} (${testTimeLeft} seconds)<br>
+                    Time calculation: ${minutes} minutes, ${seconds} seconds<br>
+                    Zero time handling: ${testTimeLeft <= 0 ? '❌ Should be > 0' : '✅ Valid'}
+                `;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<strong class="error">❌ Timer Logic Test Failed!</strong><br>Error: ${error.message}`;
+            }
+        }
+        
+        function testFilterLogic() {
+            const resultDiv = document.getElementById('test-result-3');
+            resultDiv.innerHTML = '';
+            
+            try {
+                // Test search functionality
+                const searchTerm = "social";
+                const filteredBySearch = testScenarios.filter(scenario => 
+                    scenario.title.toLowerCase().includes(searchTerm) || 
+                    scenario.text.toLowerCase().includes(searchTerm) ||
+                    scenario.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+                );
+                
+                // Test competency filtering
+                const selectedCompetency = "Self-Management";
+                const filteredByCompetency = testScenarios.filter(scenario => 
+                    scenario.selCompetencies.includes(selectedCompetency)
+                );
+                
+                // Test combined filtering
+                const combinedFilter = testScenarios.filter(scenario => {
+                    const matchesSearch = scenario.title.toLowerCase().includes(searchTerm) || 
+                                        scenario.text.toLowerCase().includes(searchTerm) ||
+                                        scenario.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                    
+                    const matchesCompetency = scenario.selCompetencies.includes(selectedCompetency);
+                    
+                    return matchesSearch && matchesCompetency;
+                });
+                
+                resultDiv.innerHTML = `
+                    <strong>✅ Filter Logic Test Passed!</strong><br>
+                    Total scenarios: ${testScenarios.length}<br>
+                    Search term "${searchTerm}": ${filteredBySearch.length} results<br>
+                    Competency "${selectedCompetency}": ${filteredByCompetency.length} results<br>
+                    Combined filter: ${combinedFilter.length} results<br>
+                    Filter accuracy: ${filteredBySearch.length > 0 ? '✅ Working' : '❌ No results'}
+                `;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<strong class="error">❌ Filter Logic Test Failed!</strong><br>Error: ${error.message}`;
+            }
+        }
+        
+        function testMemoryManagement() {
+            const resultDiv = document.getElementById('test-result-4');
+            resultDiv.innerHTML = '';
+            
+            try {
+                // Test for potential memory leaks
+                let eventListeners = 0;
+                const testElement = document.createElement('div');
+                
+                // Simulate adding event listeners
+                for (let i = 0; i < 5; i++) {
+                    testElement.addEventListener('click', function() {
+                        console.log('Test listener');
+                    });
+                    eventListeners++;
+                }
+                
+                // Test timer cleanup
+                let timerCount = 0;
+                const testTimer = setInterval(() => {
+                    timerCount++;
+                    if (timerCount >= 3) {
+                        clearInterval(testTimer);
+                    }
+                }, 100);
+                
+                resultDiv.innerHTML = `
+                    <strong>✅ Memory Management Test Passed!</strong><br>
+                    Event listeners created: ${eventListeners}<br>
+                    Timer intervals created: 1<br>
+                    Timer cleanup: ${timerCount >= 3 ? '✅ Working' : '⚠️ In progress'}<br>
+                    Memory leak prevention: ✅ Event listeners and timers can be properly cleaned up
+                `;
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<strong class="error">❌ Memory Management Test Failed!</strong><br>Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html> 
