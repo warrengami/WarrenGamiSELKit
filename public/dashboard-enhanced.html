@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WarrenGami SEL - Enhanced Teacher Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Enhanced Color Palette */
+            --midnight-blue: #0f2c4d;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --white: #ffffff;
+            --soft-gray: #f7f9fc;
+            --border-color: #e0e6ed;
+            
+            /* Emotion-based Color Coding */
+            --emotion-joy: #ffd23f;
+            --emotion-calm: #4facfe;
+            --emotion-excited: #ff6b35;
+            --emotion-caring: #ff6b9d;
+            --emotion-confident: #7cba3d;
+            
+            /* SEL Competency Colors */
+            --tag-awareness: #ffc107;
+            --tag-management: #28a745;
+            --tag-social: #17a2b8;
+            --tag-relationship: #fd7e14;
+            --tag-decision: #6f42c1;
+            
+            /* Enhanced Gradients */
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            
+            /* Playful Colors */
+            --playful-orange: #ff6b35;
+            --warm-yellow: #ffd23f;
+            --soft-pink: #ff6b9d;
+            --lime-green: #7cba3d;
+            
+            /* Spacing System */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 30px;
+        }
+
+        /* Enhanced Body Styles */
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            background: var(--primary-gradient);
+            color: #333;
+            margin: 0;
+            padding: var(--spacing-md);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Container */
+        main.container {
+            max-width: 1200px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.95);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Enhanced Header */
+        .header {
+            text-align: center;
+            padding-bottom: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+            border-bottom: 4px solid var(--ice-blue);
+            position: relative;
+        }
+
+        .header::before {
+            content: "🌟";
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5em;
+            background: var(--warm-yellow);
+            border-radius: 50%;
+            padding: 15px;
+            box-shadow: 0 8px 25px rgba(255, 210, 63, 0.4);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            font-size: 3.5em;
+            margin: 0;
+            font-weight: 700;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.3em;
+            color: var(--sky-blue);
+            margin: 10px 0 0 0;
+            font-style: italic;
+        }
+
+        /* Enhanced Typography */
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            border-bottom: 3px solid var(--ice-blue);
+            padding-bottom: var(--spacing-sm);
+            margin-top: var(--spacing-xl);
+            font-size: 2em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        h2::before {
+            content: "✨ ";
+            margin-right: var(--spacing-sm);
+            font-size: 1.2em;
+        }
+
+        h3.resource-group-title {
+            font-family: 'Poppins', sans-serif;
+            color: var(--sky-blue);
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.4em;
+            padding-left: var(--spacing-xs);
+            border-bottom: 2px solid var(--ice-blue);
+        }
+
+        /* Enhanced Search Bar */
+        .search-bar-wrapper {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: var(--spacing-sm) var(--spacing-md);
+            padding-right: 50px;
+            border-radius: var(--radius-xl);
+            border: 2px solid var(--border-color);
+            font-size: 1em;
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--sky-blue);
+            box-shadow: 0 0 20px rgba(115, 189, 245, 0.3);
+            transform: scale(1.02);
+        }
+
+        #clear-search {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+            font-weight: bold;
+            display: none;
+            background: var(--soft-pink);
+            color: white;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        #clear-search:hover {
+            background: var(--playful-orange);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Enhanced Grid Layout */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: var(--spacing-lg);
+            margin-top: var(--spacing-lg);
+        }
+
+        /* Card-based Design */
+        .resource-list {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            gap: var(--spacing-md);
+        }
+
+        .resource-list li {
+            margin-bottom: 0;
+        }
+
+        .resource-list a {
+            text-decoration: none;
+            color: var(--midnight-blue);
+            font-size: 1.1em;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            border: 2px solid transparent;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            overflow: hidden;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+
+        .resource-list a::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.6s;
+        }
+
+        .resource-list a:hover::before {
+            left: 100%;
+        }
+
+        .resource-list a:hover, .resource-list a:focus {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--sky-blue);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(115, 189, 245, 0.25);
+        }
+
+        /* Enhanced Icons */
+        .icon {
+            margin-right: var(--spacing-md);
+            flex-shrink: 0;
+            width: 35px;
+            height: 35px;
+            opacity: 0.8;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .resource-list a:hover .icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .link-content { 
+            flex-grow: 1; 
+        }
+
+        .link-text { 
+            font-weight: 600; 
+            font-size: 1.1em;
+        }
+
+        /* Enhanced SEL Tags with Emotion-based Colors */
+        .sel-tag {
+            display: inline-block;
+            font-size: 0.8em;
+            font-weight: 600;
+            color: var(--midnight-blue);
+            padding: 6px 12px;
+            border-radius: var(--radius-xl);
+            margin-left: var(--spacing-sm);
+            vertical-align: middle;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sel-tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .sel-tag:hover::before {
+            left: 100%;
+        }
+
+        .sel-tag:hover, .sel-tag:focus {
+            transform: scale(1.15) rotate(2deg);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        /* Emotion-based Color Coding */
+        .sel-tag.self-awareness { 
+            background: linear-gradient(135deg, var(--emotion-joy) 0%, #ffd54f 100%);
+            color: var(--midnight-blue);
+        }
+        .sel-tag.self-management { 
+            background: linear-gradient(135deg, var(--emotion-calm) 0%, #4caf50 100%);
+            color: white;
+        }
+        .sel-tag.social-awareness { 
+            background: linear-gradient(135deg, var(--emotion-caring) 0%, #00bcd4 100%);
+            color: white;
+        }
+        .sel-tag.relationship-skills { 
+            background: linear-gradient(135deg, var(--emotion-excited) 0%, #ff9800 100%);
+            color: white;
+        }
+        .sel-tag.responsible-decision-making { 
+            background: linear-gradient(135deg, var(--emotion-confident) 0%, #9c27b0 100%);
+            color: white;
+        }
+        .sel-tag.all-competencies { 
+            background: linear-gradient(135deg, #dc3545 0%, #e91e63 100%);
+            color: white;
+        }
+
+        /* Enhanced Descriptions */
+        .description {
+            display: block;
+            font-size: 0.95em;
+            font-weight: normal;
+            margin-top: var(--spacing-xs);
+            color: #1b4a7e;
+            font-style: italic;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .resource-list a:hover .description, .resource-list a:focus .description {
+            max-height: 6em;
+            opacity: 1;
+        }
+
+        /* Floating Action Buttons */
+        .fab-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .fab {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .fab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .fab:hover::before {
+            left: 100%;
+        }
+
+        .fab:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .fab-menu {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: none;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .fab-menu.show {
+            display: flex;
+        }
+
+        .fab-item {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--secondary-gradient);
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(240, 147, 251, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab-item:hover {
+            transform: scale(1.15);
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.6);
+        }
+
+        /* Progress Indicators */
+        .progress-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e0e6ed;
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--success-gradient);
+            border-radius: var(--radius-xl);
+            transition: width 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        /* Enhanced Buttons */
+        .sel-data-btn {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-md) var(--spacing-lg);
+            font-size: 1.1em;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            margin-bottom: var(--spacing-sm);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sel-data-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .sel-data-btn:hover::before {
+            left: 100%;
+        }
+
+        .sel-data-btn:hover, .sel-data-btn:focus {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Enhanced Grid Layout */
+        .sel-data-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body { 
+                padding: var(--spacing-sm); 
+            }
+            
+            main.container { 
+                padding: var(--spacing-lg); 
+            }
+            
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            h2 { 
+                flex-direction: column; 
+                align-items: flex-start; 
+                font-size: 1.6em;
+            }
+            
+            .search-bar-wrapper { 
+                width: 100%; 
+                margin-top: var(--spacing-sm); 
+            }
+            
+            .fab-container {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .fab {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .resource-list a {
+                padding: var(--spacing-md);
+                font-size: 1em;
+            }
+            
+            .icon {
+                width: 25px;
+                height: 25px;
+                font-size: 1.4em;
+            }
+        }
+
+        /* Enhanced No Results Message */
+        #no-results-message {
+            display: none;
+            text-align: center;
+            margin-top: var(--spacing-lg);
+            color: #777;
+            font-style: italic;
+            background: rgba(255, 255, 255, 0.9);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            border: 2px dashed var(--border-color);
+        }
+
+        /* Quick Filter Buttons */
+        .quick-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin: var(--spacing-md) 0;
+        }
+
+        .filter-btn {
+            background: var(--secondary-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-xl);
+            padding: var(--spacing-xs) var(--spacing-md);
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(240, 147, 251, 0.4);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-gradient);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <div class="header">
+            <h1>Teacher Dashboard</h1>
+            <p>WarrenGami SEL Toolkit: Deepen Social-Emotional Learning. Welcome, Teacher!</p>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="progress-container">
+            <h3 style="margin-top: 0; color: var(--midnight-blue);">🎯 Your SEL Journey Progress</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 75%;"></div>
+            </div>
+            <p style="margin: var(--spacing-sm) 0 0 0; font-size: 0.9em; color: #666;">
+                You've completed 75% of available activities! Keep up the great work! 🌟
+            </p>
+        </div>
+
+        <!-- Quick Start Section -->
+        <h2>Quick Start for Educators</h2>
+        <div class="quick-filters">
+            <button class="filter-btn active" onclick="filterByType('all')">🌟 All Activities</button>
+            <button class="filter-btn" onclick="filterByType('dice')">🎲 Dice Games</button>
+            <button class="filter-btn" onclick="filterByType('cards')">🃏 Scenario Cards</button>
+            <button class="filter-btn" onclick="filterByType('emotions')">😊 Emotions</button>
+            <button class="filter-btn" onclick="filterByType('social')">🤝 Social Skills</button>
+            <button class="filter-btn" onclick="filterByType('quick')">⚡ Quick Activities</button>
+        </div>
+
+        <!-- Enhanced Resource Grid -->
+        <div class="resources-grid">
+            <div>
+                <h3 class="resource-group-title">🎲 Interactive Dice Resources</h3>
+                <ul class="resource-list">
+                    <li><a href="classroom.html" target="_blank">
+                        <span class="icon">🎲</span>
+                        <div class="link-content">
+                            <div class="link-text">Emotions & Feelings Dice</div>
+                            <span class="sel-tag self-awareness">Self-Awareness</span>
+                            <div class="description">Explore emotions through interactive dice activities</div>
+                        </div>
+                    </a></li>
+                    <li><a href="classroom.html" target="_blank">
+                        <span class="icon">🤝</span>
+                        <div class="link-content">
+                            <div class="link-text">Empathy & Kindness Dice</div>
+                            <span class="sel-tag social-awareness">Social-Awareness</span>
+                            <div class="description">Build empathy and kindness skills</div>
+                        </div>
+                    </a></li>
+                    <li><a href="classroom.html" target="_blank">
+                        <span class="icon">🧠</span>
+                        <div class="link-content">
+                            <div class="link-text">Self-Awareness Dice</div>
+                            <span class="sel-tag self-awareness">Self-Awareness</span>
+                            <div class="description">Develop self-awareness and emotional intelligence</div>
+                        </div>
+                    </a></li>
+                    <li><a href="classroom.html" target="_blank">
+                        <span class="icon">💪</span>
+                        <div class="link-content">
+                            <div class="link-text">Coping Strategies Dice</div>
+                            <span class="sel-tag self-management">Self-Management</span>
+                            <div class="description">Learn healthy coping strategies and self-regulation</div>
+                        </div>
+                    </a></li>
+                    <li><a href="classroom.html" target="_blank">
+                        <span class="icon">🎯</span>
+                        <div class="link-content">
+                            <div class="link-text">Problem Solving Dice</div>
+                            <span class="sel-tag responsible-decision-making">Responsible Decision-Making</span>
+                            <div class="description">Develop critical thinking and problem-solving skills</div>
+                        </div>
+                    </a></li>
+                    <li><a href="classroom.html" target="_blank">
+                        <span class="icon">🤗</span>
+                        <div class="link-content">
+                            <div class="link-text">Friendship & Social Skills Dice</div>
+                            <span class="sel-tag relationship-skills">Relationship Skills</span>
+                            <div class="description">Build positive relationships and social skills</div>
+                        </div>
+                    </a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="resource-group-title">🃏 Scenario Cards</h3>
+                <div class="search-bar-wrapper">
+                    <input type="text" id="search-input" class="search-bar" placeholder="Search cards by topic, emotion, or skill...">
+                    <span id="clear-search" onclick="clearSearch()">×</span>
+                </div>
+                <ul class="resource-list">
+                    <li><a href="All-Scenario-Cards.html" target="_blank">
+                        <span class="icon">📚</span>
+                        <div class="link-content">
+                            <div class="link-text">All Scenario Cards (Complete Set)</div>
+                            <span class="sel-tag all-competencies">All SEL Competencies</span>
+                            <div class="description">Complete collection of all scenario cards</div>
+                        </div>
+                    </a></li>
+                    <li><a href="Scenario Cards 1.html" target="_blank">
+                        <span class="icon">😊</span>
+                        <div class="link-content">
+                            <div class="link-text">Scenario Cards 1</div>
+                            <span class="sel-tag self-awareness">Self-Awareness</span>
+                            <div class="description">Self-awareness and emotional recognition scenarios</div>
+                        </div>
+                    </a></li>
+                    <li><a href="Scenario Cards 2.html" target="_blank">
+                        <span class="icon">🎯</span>
+                        <div class="link-content">
+                            <div class="link-text">Scenario Cards 2</div>
+                            <span class="sel-tag self-management">Self-Management</span>
+                            <div class="description">Self-regulation and coping strategy scenarios</div>
+                        </div>
+                    </a></li>
+                    <li><a href="Scenario Cards 3.html" target="_blank">
+                        <span class="icon">👥</span>
+                        <div class="link-content">
+                            <div class="link-text">Scenario Cards 3</div>
+                            <span class="sel-tag social-awareness">Social-Awareness</span>
+                            <div class="description">Empathy and social awareness scenarios</div>
+                        </div>
+                    </a></li>
+                    <li><a href="Scenario Cards 4.html" target="_blank">
+                        <span class="icon">🤝</span>
+                        <div class="link-content">
+                            <div class="link-text">Scenario Cards 4</div>
+                            <span class="sel-tag relationship-skills">Relationship Skills</span>
+                            <div class="description">Communication and relationship building scenarios</div>
+                        </div>
+                    </a></li>
+                    <li><a href="Scenario Cards 5.html" target="_blank">
+                        <span class="icon">🧠</span>
+                        <div class="link-content">
+                            <div class="link-text">Scenario Cards 5</div>
+                            <span class="sel-tag responsible-decision-making">Responsible Decision-Making</span>
+                            <div class="description">Critical thinking and decision-making scenarios</div>
+                        </div>
+                    </a></li>
+                    <li><a href="Blank Scenario Cards.html" target="_blank">
+                        <span class="icon">✏️</span>
+                        <div class="link-content">
+                            <div class="link-text">Blank Scenario Cards</div>
+                            <span class="sel-tag all-competencies">Custom</span>
+                            <div class="description">Create your own custom scenario cards</div>
+                        </div>
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Enhanced SEL Data Hub -->
+        <h2>SEL Data Hub</h2>
+        <div class="sel-data-buttons">
+            <button class="sel-data-btn" onclick="window.open('sel-data.html', '_blank')">
+                📊 View SEL Data Dashboard
+            </button>
+            <button class="sel-data-btn" onclick="window.open('log.html', '_blank')">
+                📝 Professional Observation Log
+            </button>
+        </div>
+
+        <!-- Enhanced Toolkit Guide -->
+        <h2>Toolkit Guide</h2>
+        <div class="resources-grid">
+            <div>
+                <h3 class="resource-group-title">📖 Toolkit Pages</h3>
+                <ul class="resource-list">
+                    <li><a href="Page 1 - Cover.html" target="_blank">
+                        <span class="icon">📄</span>
+                        <div class="link-content">
+                            <div class="link-text">Page 1: Cover</div>
+                            <span class="sel-tag all-competencies">Introduction</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Page 2 - Welcome to Your Interactive SEL Toolkit.html" target="_blank">
+                        <span class="icon">👋</span>
+                        <div class="link-content">
+                            <div class="link-text">Page 2: Welcome</div>
+                            <span class="sel-tag all-competencies">Welcome</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Page 3 - Discussion Dice How They Work.html" target="_blank">
+                        <span class="icon">🎲</span>
+                        <div class="link-content">
+                            <div class="link-text">Page 3: How Dice Work</div>
+                            <span class="sel-tag all-competencies">Instructions</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Page 4 - Emotion Exploration Dice.html" target="_blank">
+                        <span class="icon">😊</span>
+                        <div class="link-content">
+                            <div class="link-text">Page 4: Emotion Exploration</div>
+                            <span class="sel-tag self-awareness">Self-Awareness</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Page 5 - Social Scenarios Dice.html" target="_blank">
+                        <span class="icon">🤝</span>
+                        <div class="link-content">
+                            <div class="link-text">Page 5: Social Scenarios</div>
+                            <span class="sel-tag social-awareness">Social-Awareness</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Page 6 - Family Connection Activities.html" target="_blank">
+                        <span class="icon">👨‍👩‍👧‍👦</span>
+                        <div class="link-content">
+                            <div class="link-text">Page 6: Family Connections</div>
+                            <span class="sel-tag relationship-skills">Relationship Skills</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Page 7 - Assessment & Reflection Tools.html" target="_blank">
+                        <span class="icon">📊</span>
+                        <div class="link-content">
+                            <div class="link-text">Page 7: Assessment & Reflection</div>
+                            <span class="sel-tag self-awareness">Self-Awareness</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Page 8 - Advanced SEL Concepts.html" target="_blank">
+                        <span class="icon">🧠</span>
+                        <div class="link-content">
+                            <div class="link-text">Page 8: Advanced Concepts</div>
+                            <span class="sel-tag all-competencies">Advanced</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Page 9 - Integrating SEL Across the Curriculum.html" target="_blank">
+                        <span class="icon">📚</span>
+                        <div class="link-content">
+                            <div class="link-text">Page 9: Curriculum Integration</div>
+                            <span class="sel-tag all-competencies">Integration</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Page 10 - Digital Resources & Extensions.html" target="_blank">
+                        <span class="icon">💻</span>
+                        <div class="link-content">
+                            <div class="link-text">Page 10: Digital Resources</div>
+                            <span class="sel-tag all-competencies">Digital</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Page 11 - Glossary & Index.html" target="_blank">
+                        <span class="icon">📖</span>
+                        <div class="link-content">
+                            <div class="link-text">Page 11: Glossary & Index</div>
+                            <span class="sel-tag all-competencies">Reference</span>
+                        </div>
+                    </a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="resource-group-title">🖨️ Printable Resources</h3>
+                <ul class="resource-list">
+                    <li><a href="Emotions & Feelings Dice.html" target="_blank">
+                        <span class="icon">😊</span>
+                        <div class="link-content">
+                            <div class="link-text">Emotions & Feelings Dice</div>
+                            <span class="sel-tag self-awareness">Self-Awareness</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Coping Strategies Dice.html" target="_blank">
+                        <span class="icon">💪</span>
+                        <div class="link-content">
+                            <div class="link-text">Coping Strategies Dice</div>
+                            <span class="sel-tag self-management">Self-Management</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Self-Awareness Dice.html" target="_blank">
+                        <span class="icon">🧠</span>
+                        <div class="link-content">
+                            <div class="link-text">Self-Awareness Dice</div>
+                            <span class="sel-tag self-awareness">Self-Awareness</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Problem Solving Dice.html" target="_blank">
+                        <span class="icon">🎯</span>
+                        <div class="link-content">
+                            <div class="link-text">Problem Solving Dice</div>
+                            <span class="sel-tag responsible-decision-making">Responsible Decision-Making</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Friendship & Social Skills Dice.html" target="_blank">
+                        <span class="icon">🤝</span>
+                        <div class="link-content">
+                            <div class="link-text">Friendship & Social Skills Dice</div>
+                            <span class="sel-tag relationship-skills">Relationship Skills</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Empathy & Kindness Dice.html" target="_blank">
+                        <span class="icon">❤️</span>
+                        <div class="link-content">
+                            <div class="link-text">Empathy & Kindness Dice</div>
+                            <span class="sel-tag social-awareness">Social-Awareness</span>
+                        </div>
+                    </a></li>
+                    <li><a href="Blank Dice.html" target="_blank">
+                        <span class="icon">✏️</span>
+                        <div class="link-content">
+                            <div class="link-text">Blank Dice Template</div>
+                            <span class="sel-tag all-competencies">Custom</span>
+                        </div>
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="no-results-message">
+            <p>No resources found matching your search. Try different keywords or browse all resources.</p>
+        </div>
+    </main>
+
+    <!-- Floating Action Button -->
+    <div class="fab-container">
+        <button class="fab" onclick="toggleFabMenu()">+</button>
+        <div class="fab-menu" id="fabMenu">
+            <button class="fab-item" onclick="window.open('educator-quick-start-guide.html', '_blank')" title="Quick Start Guide">📖</button>
+            <button class="fab-item" onclick="window.open('sel-professional-development.html', '_blank')" title="SEL Training">🧠</button>
+            <button class="fab-item" onclick="window.open('educator-feedback-form.html', '_blank')" title="Share Feedback">💬</button>
+            <button class="fab-item" onclick="window.open('classroom.html', '_blank')" title="Classroom Mode">🎓</button>
+        </div>
+    </div>
+
+    <script src="dashboard-enhanced.js"></script>
+    <script>
+        // Enhanced search functionality
+        const searchInput = document.getElementById('search-input');
+        const clearSearchBtn = document.getElementById('clear-search');
+        const resourceLinks = document.querySelectorAll('.resource-list a');
+        const noResultsMessage = document.getElementById('no-results-message');
+
+        searchInput.addEventListener('input', performSearch);
+        clearSearchBtn.addEventListener('click', clearSearch);
+
+        function performSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            let visibleCount = 0;
+
+            resourceLinks.forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const isVisible = text.includes(searchTerm);
+                link.style.display = isVisible ? 'flex' : 'none';
+                if (isVisible) visibleCount++;
+            });
+
+            // Show/hide no results message
+            if (visibleCount === 0 && searchTerm.length > 0) {
+                noResultsMessage.style.display = 'block';
+            } else {
+                noResultsMessage.style.display = 'none';
+            }
+
+            // Show/hide clear button
+            clearSearchBtn.style.display = searchTerm.length > 0 ? 'flex' : 'none';
+        }
+
+        function clearSearch() {
+            searchInput.value = '';
+            resourceLinks.forEach(link => {
+                link.style.display = 'flex';
+            });
+            noResultsMessage.style.display = 'none';
+            clearSearchBtn.style.display = 'none';
+        }
+
+        // Floating Action Button functionality
+        function toggleFabMenu() {
+            const fabMenu = document.getElementById('fabMenu');
+            fabMenu.classList.toggle('show');
+        }
+
+        // Quick filter functionality
+        function filterByType(type) {
+            // Remove active class from all buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Filter logic would go here
+            console.log('Filtering by:', type);
+        }
+
+        // Close FAB menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const fabContainer = document.querySelector('.fab-container');
+            const fabMenu = document.getElementById('fabMenu');
+            
+            if (!fabContainer.contains(event.target)) {
+                fabMenu.classList.remove('show');
+            }
+        });
+
+        // Animate progress bar on load
+        window.addEventListener('load', function() {
+            const progressFill = document.querySelector('.progress-fill');
+            progressFill.style.width = '0%';
+            setTimeout(() => {
+                progressFill.style.width = '75%';
+            }, 500);
+        });
+    </script>
+</body>
+</html>
