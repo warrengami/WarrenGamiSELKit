@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WarrenGami SEL - Simplified Teacher Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight-blue: #0f2c4d;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --white: #ffffff;
+            --soft-gray: #f7f9fc;
+            --border-color: #e0e6ed;
+            --tag-awareness: #ffc107;
+            --tag-management: #28a745;
+            --tag-social: #17a2b8;
+            --tag-relationship: #fd7e14;
+            --tag-decision: #6f42c1;
+        }
+        
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            background-color: var(--soft-gray);
+            color: #333;
+            margin: 0;
+            padding: 1em;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background-color: var(--white);
+            padding: 2em;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+            border-bottom: 4px solid var(--ice-blue);
+        }
+        
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            font-size: 2.5em;
+            margin: 0;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            color: var(--sky-blue);
+            margin: 5px 0 0 0;
+            font-style: italic;
+        }
+        
+        .welcome-section {
+            background: linear-gradient(135deg, var(--ice-blue), var(--sky-blue));
+            padding: 1.5em;
+            border-radius: 12px;
+            margin-bottom: 2em;
+            text-align: center;
+            color: var(--midnight-blue);
+        }
+        
+        .welcome-section h2 {
+            margin: 0 0 0.5em 0;
+            font-size: 1.5em;
+        }
+        
+        .welcome-section p {
+            margin: 0;
+            opacity: 0.8;
+        }
+        
+        .main-sections {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2em;
+            margin-bottom: 2em;
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5em;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .section-card:hover {
+            border-color: var(--sky-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .section-card h3 {
+            color: var(--midnight-blue);
+            margin: 0 0 1em 0;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 0.5em;
+        }
+        
+        .resource-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .resource-list li {
+            margin-bottom: 0.8em;
+        }
+        
+        .resource-list a {
+            text-decoration: none;
+            color: var(--midnight-blue);
+            background-color: var(--soft-gray);
+            display: block;
+            padding: 0.8em;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .resource-list a:hover {
+            background-color: var(--ice-blue);
+            border-color: var(--sky-blue);
+            transform: translateX(5px);
+        }
+        
+        .sel-tag {
+            display: inline-block;
+            font-size: 0.7em;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 8px;
+            margin-left: 8px;
+        }
+        
+        .sel-tag.self-awareness { background-color: var(--tag-awareness); }
+        .sel-tag.self-management { background-color: var(--tag-management); color: white; }
+        .sel-tag.social-awareness { background-color: var(--tag-social); color: white; }
+        .sel-tag.relationship-skills { background-color: var(--tag-relationship); color: white; }
+        .sel-tag.responsible-decision-making { background-color: var(--tag-decision); color: white; }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1em;
+            margin-bottom: 2em;
+        }
+        
+        .action-btn {
+            background: linear-gradient(135deg, var(--sky-blue), var(--midnight-blue));
+            color: white;
+            border: none;
+            padding: 1em 1.5em;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(115,189,245,0.3);
+        }
+        
+        .timer-section {
+            background: linear-gradient(135deg, #28a745, #17a2b8);
+            color: white;
+            padding: 1.5em;
+            border-radius: 12px;
+            margin-bottom: 2em;
+            text-align: center;
+        }
+        
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1em;
+            margin-top: 1em;
+            flex-wrap: wrap;
+        }
+        
+        .timer-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.5em 1em;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .timer-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+        
+        .timer-btn.active {
+            background: rgba(255,255,255,0.4);
+            border-color: white;
+        }
+        
+        .collapsible-section {
+            margin-bottom: 1.5em;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: var(--soft-gray);
+            padding: 1em 1.5em;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .section-header:hover {
+            background: var(--ice-blue);
+        }
+        
+        .section-header h3 {
+            margin: 0;
+            color: var(--midnight-blue);
+            font-size: 1.2em;
+        }
+        
+        .section-content {
+            padding: 1.5em;
+            display: none;
+        }
+        
+        .section-content.active {
+            display: block;
+        }
+        
+        .feedback-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 1.5em;
+            border-radius: 12px;
+            margin-bottom: 2em;
+            text-align: center;
+        }
+        
+        .feedback-section h3 {
+            margin: 0 0 0.5em 0;
+        }
+        
+        .feedback-section p {
+            margin: 0 0 1em 0;
+            opacity: 0.9;
+        }
+        
+        .feedback-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 0.8em 1.5em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .feedback-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.05);
+        }
+        
+        @media (max-width: 768px) {
+            .main-sections {
+                grid-template-columns: 1fr;
+            }
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+            .timer-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Teacher Dashboard</h1>
+            <p>WarrenGami SEL: Where Play Meets Emotional Growth</p>
+        </header>
+        
+        <section class="welcome-section">
+            <h2>👋 Welcome, Teacher!</h2>
+            <p>Ready to support your students' social-emotional growth? Choose your path below.</p>
+        </section>
+        
+        <section class="quick-actions">
+            <a href="educator-quick-start-guide.html" class="action-btn" target="_blank">
+                📖 Quick Start Guide
+            </a>
+            <a href="classroom-enhanced.html" class="action-btn">
+                🎲 Start Activity
+            </a>
+            <a href="sel-professional-development.html" class="action-btn" target="_blank">
+                🧠 Learn SEL
+            </a>
+            <a href="sel-data.html" class="action-btn">
+                📊 Track Progress
+            </a>
+        </section>
+        
+        <section class="timer-section">
+            <h3>⏱️ Activity Timer</h3>
+            <p>Set timer for classroom discussions</p>
+            <div class="timer-controls">
+                <button class="timer-btn" onclick="setTimer(30)">30s</button>
+                <button class="timer-btn active" onclick="setTimer(60)">1min</button>
+                <button class="timer-btn" onclick="setTimer(120)">2min</button>
+                <button class="timer-btn" onclick="setTimer(300)">5min</button>
+            </div>
+            <p style="margin-top: 1em; opacity: 0.9;"><strong>Current:</strong> <span id="current-timer">1 minute</span></p>
+        </section>
+        
+        <div class="main-sections">
+            <div class="section-card">
+                <h3>🎲 Dice Activities</h3>
+                <ul class="resource-list">
+                    <li><a href="Emotions & Feelings Dice.html" target="_blank">
+                        Emotions & Feelings Dice <span class="sel-tag self-awareness">Self-Awareness</span>
+                    </a></li>
+                    <li><a href="Empathy & Kindness Dice.html" target="_blank">
+                        Empathy & Kindness Dice <span class="sel-tag social-awareness">Social Awareness</span>
+                    </a></li>
+                    <li><a href="Friendship & Social Skills Dice.html" target="_blank">
+                        Friendship & Social Skills <span class="sel-tag relationship-skills">Relationship Skills</span>
+                    </a></li>
+                    <li><a href="Coping Strategies Dice.html" target="_blank">
+                        Coping Strategies Dice <span class="sel-tag self-management">Self-Management</span>
+                    </a></li>
+                    <li><a href="Problem Solving Dice.html" target="_blank">
+                        Problem Solving Dice <span class="sel-tag responsible-decision-making">Decision-Making</span>
+                    </a></li>
+                </ul>
+            </div>
+            
+            <div class="section-card">
+                <h3>📄 Scenario Cards</h3>
+                <ul class="resource-list">
+                    <li><a href="All-Scenario-Cards.html" target="_blank">
+                        Complete Set (All 30 Cards)
+                    </a></li>
+                    <li><a href="Scenario Cards 1.html" target="_blank">
+                        Set 1: Self-Awareness <span class="sel-tag self-awareness">Self-Awareness</span>
+                    </a></li>
+                    <li><a href="Scenario Cards 2.html" target="_blank">
+                        Set 2: Social Awareness <span class="sel-tag social-awareness">Social Awareness</span>
+                    </a></li>
+                    <li><a href="Scenario Cards 3.html" target="_blank">
+                        Set 3: Self-Management <span class="sel-tag self-management">Self-Management</span>
+                    </a></li>
+                    <li><a href="Scenario Cards 4.html" target="_blank">
+                        Set 4: Relationship Skills <span class="sel-tag relationship-skills">Relationship Skills</span>
+                    </a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="collapsible-section">
+            <div class="section-header" onclick="toggleSection('resources')">
+                <h3>📚 Additional Resources</h3>
+                <span class="toggle-icon">▼</span>
+            </div>
+            <div class="section-content" id="resources-content">
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1em;">
+                    <div>
+                        <h4>🖨️ Printables</h4>
+                        <ul class="resource-list">
+                            <li><a href="toolkit.html?view=dice" target="_blank">Printable Dice</a></li>
+                            <li><a href="toolkit.html?view=cards" target="_blank">Printable Cards</a></li>
+                            <li><a href="Blank Dice.html" target="_blank">Blank Templates</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>📊 Assessment</h4>
+                        <ul class="resource-list">
+                            <li><a href="self-assessment.html" target="_blank">Student Self-Assessment</a></li>
+                            <li><a href="sel-data.html" target="_blank">Progress Tracking</a></li>
+                            <li><a href="log.html" target="_blank">Observation Log</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>📖 Toolkit Guide</h4>
+                        <ul class="resource-list">
+                            <li><a href="Page 2 - Welcome to Your Interactive SEL Toolkit.html" target="_blank">Welcome Guide</a></li>
+                            <li><a href="Page 3 - Discussion Dice How They Work.html" target="_blank">How Dice Work</a></li>
+                            <li><a href="Page 7 - Assessment & Reflection Tools.html" target="_blank">Assessment Tools</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <section class="feedback-section">
+            <h3>💡 Share Your Ideas</h3>
+            <p>Have suggestions for new prompts, features, or improvements? We'd love to hear from you!</p>
+            <a href="educator-feedback-form.html" class="feedback-btn" target="_blank">Share Feedback</a>
+        </section>
+    </div>
+    
+    <script>
+        // Timer management
+        function setTimer(seconds) {
+            localStorage.setItem('timerDuration', seconds);
+            
+            // Update active button
+            document.querySelectorAll('.timer-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Update display
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            const displayText = minutes > 0 ? 
+                `${minutes} minute${minutes > 1 ? 's' : ''}` : 
+                `${remainingSeconds} second${remainingSeconds > 1 ? 's' : ''}`;
+            
+            document.getElementById('current-timer').textContent = displayText;
+        }
+        
+        // Collapsible sections
+        function toggleSection(sectionId) {
+            const content = document.getElementById(sectionId + '-content');
+            const icon = event.target.querySelector('.toggle-icon') || event.target.parentElement.querySelector('.toggle-icon');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.textContent = '▼';
+            } else {
+                content.classList.add('active');
+                icon.textContent = '▲';
+            }
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Set default timer
+            const savedDuration = localStorage.getItem('timerDuration') || 60;
+            setTimer(parseInt(savedDuration));
+        });
+    </script>
+</body>
+</html> 
