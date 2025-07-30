@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Enhanced Classroom Mode</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .test-button {
+            background: linear-gradient(135deg, #ff6b35 0%, #f5576c 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+        .test-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        }
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #ffd23f;
+            font-size: 1.8em;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #ffd23f;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Enhanced Classroom Mode Test</h1>
+    
+    <div class="test-section">
+        <h2>✨ New Visual Features</h2>
+        <ul class="feature-list">
+            <li>🌟 <strong>Emotion-based Color Coding:</strong> Each dice face and card has emotion-specific colors</li>
+            <li>🎨 <strong>Enhanced Gradients:</strong> Beautiful gradient backgrounds throughout</li>
+            <li>🎭 <strong>Cultural Inclusivity:</strong> Diverse icons and celebration elements</li>
+            <li>🎯 <strong>Progress Tracking:</strong> Achievement badges and progress indicators</li>
+            <li>🔊 <strong>Enhanced Sound Effects:</strong> Improved audio feedback</li>
+            <li>👁️ <strong>Accessibility Features:</strong> High contrast mode and keyboard navigation</li>
+            <li>📱 <strong>Responsive Design:</strong> Works perfectly on all devices</li>
+            <li>🎪 <strong>Playful Animations:</strong> Engaging animations for all interactions</li>
+        </ul>
+    </div>
+    
+    <div class="test-section">
+        <h2>🧪 Test the Enhanced Features</h2>
+        <button class="test-button" onclick="testDiceMode()">🎲 Test Enhanced Dice Mode</button>
+        <button class="test-button" onclick="testCardMode()">🃏 Test Enhanced Card Mode</button>
+        <button class="test-button" onclick="testAccessibility()">👁️ Test Accessibility</button>
+        <button class="test-button" onclick="testProgress()">🎯 Test Progress Tracking</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>📊 Visual Improvements Summary</h2>
+        <ul class="feature-list">
+            <li><strong>Age-Appropriate Design:</strong> More playful and engaging for students</li>
+            <li><strong>Cultural Inclusivity:</strong> Diverse representation and celebration elements</li>
+            <li><strong>Emotional Intelligence:</strong> Color-coded emotions and visual cues</li>
+            <li><strong>Accessibility:</strong> High contrast mode and screen reader support</li>
+            <li><strong>Progress Visualization:</strong> Achievement badges and activity tracking</li>
+            <li><strong>Enhanced Animations:</strong> Smooth, engaging interactions</li>
+        </ul>
+    </div>
+
+    <script>
+        function testDiceMode() {
+            const url = 'classroom-enhanced.html?type=dice&file=Emotions%20%26%20Feelings%20Dice.html';
+            window.open(url, '_blank', 'width=1200,height=800');
+        }
+        
+        function testCardMode() {
+            const url = 'classroom-enhanced.html?type=cards&file=Scenario%20Cards%201.html';
+            window.open(url, '_blank', 'width=1200,height=800');
+        }
+        
+        function testAccessibility() {
+            alert('Accessibility features include:\n• High contrast mode toggle\n• Keyboard navigation\n• Screen reader support\n• ARIA labels\n• Focus indicators');
+        }
+        
+        function testProgress() {
+            alert('Progress tracking features:\n• Activity completion counter\n• Achievement badges\n• Visual progress indicators\n• Celebration animations');
+        }
+    </script>
+</body>
+</html>
