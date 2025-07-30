@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WarrenGami SEL Toolkit - Educator Feedback Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --midnight-blue: #0f2c4d;
+            --sky-blue: #73bdf5;
+            --ice-blue: #cfe9ff;
+            --white: #ffffff;
+            --soft-gray: #f7f9fc;
+            --border-color: #e0e6ed;
+        }
+        
+        body {
+            font-family: 'Atkinson Hyperlegible', sans-serif;
+            line-height: 1.6;
+            color: var(--midnight-blue);
+            background-color: var(--soft-gray);
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--white);
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            border-radius: 12px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid var(--sky-blue);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            font-size: 2.5em;
+            margin: 0;
+        }
+        
+        .header p {
+            color: var(--sky-blue);
+            font-size: 1.2em;
+            margin: 10px 0 0 0;
+        }
+        
+        h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            border-bottom: 2px solid var(--ice-blue);
+            padding-bottom: 8px;
+            margin-top: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--midnight-blue);
+        }
+        
+        input[type="text"], input[type="email"], textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+        
+        input[type="text"]:focus, input[type="email"]:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--sky-blue);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background: var(--soft-gray);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .radio-option:hover {
+            background: var(--ice-blue);
+        }
+        
+        .radio-option input[type="radio"] {
+            margin: 0;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: var(--soft-gray);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .checkbox-option:hover {
+            background: var(--ice-blue);
+        }
+        
+        .checkbox-option input[type="checkbox"] {
+            margin: 0;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, var(--sky-blue) 0%, var(--midnight-blue) 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(115, 189, 245, 0.3);
+        }
+        
+        .thank-you {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            background: var(--ice-blue);
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+        
+        .thank-you h3 {
+            color: var(--midnight-blue);
+            margin-bottom: 15px;
+        }
+        
+        .back-btn {
+            background: var(--midnight-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        
+        .back-btn:hover {
+            background: var(--sky-blue);
+        }
+        
+        @media (max-width: 600px) {
+            .form-container {
+                padding: 20px;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="header">
+            <h1>💬 Educator Feedback Form</h1>
+            <p>Help us improve the WarrenGami SEL Toolkit for you and your students</p>
+        </div>
+
+        <form id="feedbackForm">
+            <h2>👤 About You</h2>
+            
+            <div class="form-group">
+                <label for="name">Name (Optional)</label>
+                <input type="text" id="name" name="name" placeholder="Your name">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email (Optional)</label>
+                <input type="email" id="email" name="email" placeholder="your.email@school.edu">
+            </div>
+            
+            <div class="form-group">
+                <label for="role">Your Role</label>
+                <select id="role" name="role" required>
+                    <option value="">Select your role</option>
+                    <option value="elementary-teacher">Elementary Teacher</option>
+                    <option value="middle-school-teacher">Middle School Teacher</option>
+                    <option value="high-school-teacher">High School Teacher</option>
+                    <option value="special-education-teacher">Special Education Teacher</option>
+                    <option value="counselor">School Counselor</option>
+                    <option value="administrator">Administrator</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="experience">SEL Experience Level</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="beginner" name="experience" value="beginner" required>
+                        <label for="beginner">Beginner (New to SEL)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="intermediate" name="experience" value="intermediate">
+                        <label for="intermediate">Intermediate (Some experience)</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="advanced" name="experience" value="advanced">
+                        <label for="advanced">Advanced (Experienced with SEL)</label>
+                    </div>
+                </div>
+            </div>
+
+            <h2>🎯 Toolkit Usage</h2>
+            
+            <div class="form-group">
+                <label>Which activities have you used? (Select all that apply)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="emotions-dice" name="activities" value="emotions-dice">
+                        <label for="emotions-dice">Emotions & Feelings Dice</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="empathy-dice" name="activities" value="empathy-dice">
+                        <label for="empathy-dice">Empathy & Kindness Dice</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="friendship-dice" name="activities" value="friendship-dice">
+                        <label for="friendship-dice">Friendship & Social Skills Dice</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="coping-dice" name="activities" value="coping-dice">
+                        <label for="coping-dice">Coping Strategies Dice</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="problem-solving-dice" name="activities" value="problem-solving-dice">
+                        <label for="problem-solving-dice">Problem Solving Dice</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="self-awareness-dice" name="activities" value="self-awareness-dice">
+                        <label for="self-awareness-dice">Self-Awareness Dice</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="scenario-cards" name="activities" value="scenario-cards">
+                        <label for="scenario-cards">Scenario Cards</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="classroom-mode" name="activities" value="classroom-mode">
+                        <label for="classroom-mode">Classroom Mode (Projection)</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="assessment-tools" name="activities" value="assessment-tools">
+                        <label for="assessment-tools">Assessment & Reflection Tools</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="frequency">How often do you use the toolkit?</label>
+                <select id="frequency" name="frequency" required>
+                    <option value="">Select frequency</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="occasionally">Occasionally</option>
+                    <option value="first-time">This is my first time</option>
+                </select>
+            </div>
+
+            <h2>⭐ Experience & Effectiveness</h2>
+            
+            <div class="form-group">
+                <label>How easy was it to get started with the toolkit?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="very-easy" name="ease" value="very-easy" required>
+                        <label for="very-easy">Very Easy</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="easy" name="ease" value="easy">
+                        <label for="easy">Easy</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="neutral" name="ease" value="neutral">
+                        <label for="neutral">Neutral</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="difficult" name="ease" value="difficult">
+                        <label for="difficult">Difficult</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="very-difficult" name="ease" value="very-difficult">
+                        <label for="very-difficult">Very Difficult</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>How effective were the activities for your students?</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" id="very-effective" name="effectiveness" value="very-effective" required>
+                        <label for="very-effective">Very Effective</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="effective" name="effectiveness" value="effective">
+                        <label for="effective">Effective</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="somewhat-effective" name="effectiveness" value="somewhat-effective">
+                        <label for="somewhat-effective">Somewhat Effective</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="not-effective" name="effectiveness" value="not-effective">
+                        <label for="not-effective">Not Effective</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="student-engagement">How engaged were your students during activities?</label>
+                <select id="student-engagement" name="student-engagement" required>
+                    <option value="">Select engagement level</option>
+                    <option value="very-engaged">Very Engaged</option>
+                    <option value="engaged">Engaged</option>
+                    <option value="somewhat-engaged">Somewhat Engaged</option>
+                    <option value="not-engaged">Not Engaged</option>
+                </select>
+            </div>
+
+            <h2>🔧 Improvements & Suggestions</h2>
+            
+            <div class="form-group">
+                <label>What would make the toolkit more useful for you? (Select all that apply)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="more-scripts" name="improvements" value="more-scripts">
+                        <label for="more-scripts">More facilitation scripts</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="video-tutorials" name="improvements" value="video-tutorials">
+                        <label for="video-tutorials">Video tutorials</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="grade-specific" name="improvements" value="grade-specific">
+                        <label for="grade-specific">Grade-specific adaptations</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="more-activities" name="improvements" value="more-activities">
+                        <label for="more-activities">More activities</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="assessment-tools" name="improvements" value="assessment-tools">
+                        <label for="assessment-tools">Better assessment tools</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="mobile-app" name="improvements" value="mobile-app">
+                        <label for="mobile-app">Mobile app</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="professional-development" name="improvements" value="professional-development">
+                        <label for="professional-development">Professional development resources</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="other-improvements" name="improvements" value="other">
+                        <label for="other-improvements">Other (please specify below)</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="challenges">What challenges did you face when using the toolkit?</label>
+                <textarea id="challenges" name="challenges" placeholder="Describe any difficulties you encountered..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="successes">What worked well for you and your students?</label>
+                <textarea id="successes" name="successes" placeholder="Share your success stories..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="suggestions">What new features or activities would you like to see?</label>
+                <textarea id="suggestions" name="suggestions" placeholder="Your ideas for new features..."></textarea>
+            </div>
+
+            <h2>📊 Impact Assessment</h2>
+            
+            <div class="form-group">
+                <label>Which SEL competencies did you see improvement in? (Select all that apply)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="self-awareness-impact" name="impact" value="self-awareness">
+                        <label for="self-awareness-impact">Self-Awareness</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="self-management-impact" name="impact" value="self-management">
+                        <label for="self-management-impact">Self-Management</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="social-awareness-impact" name="impact" value="social-awareness">
+                        <label for="social-awareness-impact">Social Awareness</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="relationship-skills-impact" name="impact" value="relationship-skills">
+                        <label for="relationship-skills-impact">Relationship Skills</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="responsible-decision-making-impact" name="impact" value="responsible-decision-making">
+                        <label for="responsible-decision-making-impact">Responsible Decision-Making</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="no-impact-yet" name="impact" value="no-impact-yet">
+                        <label for="no-impact-yet">Too early to tell</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="classroom-culture">How has using the toolkit affected your classroom culture?</label>
+                <textarea id="classroom-culture" name="classroom-culture" placeholder="Describe any changes you've noticed..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">📤 Submit Feedback</button>
+        </form>
+
+        <div id="thankYou" class="thank-you">
+            <h3>🎉 Thank You!</h3>
+            <p>Your feedback is invaluable to us. We'll use your insights to make the WarrenGami SEL Toolkit even better for educators and students.</p>
+            <p>You'll receive a summary of improvements based on educator feedback in the coming weeks.</p>
+            <button class="back-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const feedback = {};
+            
+            for (let [key, value] of formData.entries()) {
+                if (feedback[key]) {
+                    if (Array.isArray(feedback[key])) {
+                        feedback[key].push(value);
+                    } else {
+                        feedback[key] = [feedback[key], value];
+                    }
+                } else {
+                    feedback[key] = value;
+                }
+            }
+            
+            // In a real implementation, you would send this data to your server
+            console.log('Feedback submitted:', feedback);
+            
+            // Show thank you message
+            document.getElementById('feedbackForm').style.display = 'none';
+            document.getElementById('thankYou').style.display = 'block';
+            
+            // Optional: Send to server or email
+            // sendFeedbackToServer(feedback);
+        });
+        
+        // Optional: Function to send feedback to server
+        function sendFeedbackToServer(feedback) {
+            // This would typically send to your backend server
+            // For now, we'll just log it
+            console.log('Sending feedback to server:', feedback);
+        }
+    </script>
+</body>
+</html> 
