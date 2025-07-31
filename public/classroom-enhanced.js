@@ -79,20 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const timerSection = document.getElementById('timer-section');
             const timerDisplay = document.getElementById('timer-display');
             
-            // Initialize enhanced dice roll
-            console.log('Checking for enhanced dice roll module...');
-            if (window.enhancedDiceRoll) {
-                console.log('✅ Enhanced dice roll module found');
-                try {
-                    window.enhancedDiceRoll.enhanceExistingDice();
-                    console.log('✅ Enhanced dice roll initialization successful');
-                } catch (error) {
-                    console.error('❌ Error initializing enhanced dice roll:', error);
-                }
-            } else {
-                console.log('❌ Enhanced dice roll module not found');
-                console.log('Available window properties:', Object.keys(window).filter(key => key.includes('dice')));
-            }
+
             
             // Add keyboard support
             document.addEventListener('keydown', (e) => {
@@ -102,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            // Enhanced roll function with Lottie-style animations
+            // Basic roll function
             rollBtn.addEventListener('click', async () => {
                 if (rollBtn.disabled) return;
                 
@@ -113,77 +100,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Generate random face for the roll
                 const randomFace = Math.floor(Math.random() * 6) + 1;
                 
-                // Use enhanced dice roll if available
-                console.log('Roll button clicked, checking enhanced dice roll module...');
-                if (window.enhancedDiceRoll && window.enhancedDiceRoll.isRolling === false) {
-                    try {
-                        console.log('✅ Using enhanced dice roll module');
-                        await window.enhancedDiceRoll.performEnhancedRoll(dice, randomFace);
-                        showEnhancedResult(randomFace, promptResultEl, dicePrompts);
-                    } catch (error) {
-                        console.log('❌ Enhanced roll failed, using fallback:', error);
-                        // Fallback to Lottie-style animation
-                        await performFallbackRoll(dice, randomFace);
-                        showEnhancedResult(randomFace, promptResultEl, dicePrompts);
-                    }
-                } else {
-                    console.log('❌ Enhanced dice roll module not available, using fallback');
-                    console.log('enhancedDiceRoll exists:', !!window.enhancedDiceRoll);
-                    console.log('isRolling:', window.enhancedDiceRoll?.isRolling);
-                    // Fallback to Lottie-style animation
-                    await performFallbackRoll(dice, randomFace);
-                    showEnhancedResult(randomFace, promptResultEl, dicePrompts);
-                }
+                // Perform basic roll animation
+                await performBasicRoll(dice, randomFace);
+                showBasicResult(randomFace, promptResultEl, dicePrompts);
                 
                 // Re-enable buttons after animation
                 setTimeout(() => {
                     rollBtn.disabled = false;
-                }, 3500);
+                }, 2000);
             });
             
-            // Fallback roll function with Lottie-style animations
-            async function performFallbackRoll(dice, targetFace) {
+            // Basic roll function
+            async function performBasicRoll(dice, targetFace) {
                 return new Promise((resolve) => {
-                    console.log('Performing fallback roll for face:', targetFace);
-                    
-                    // Phase 1: Initial shake
-                    dice.classList.add('shaking');
+                    // Simple roll animation
+                    dice.classList.add('rolling');
                     
                     setTimeout(() => {
-                        dice.classList.remove('shaking');
-                        
-                        // Phase 2: Lottie-style tumble with glow
-                        dice.classList.add('rolling');
-                        dice.classList.add('glowing');
-                        
-                        setTimeout(() => {
-                            dice.classList.remove('rolling');
-                            
-                            // Phase 3: Lottie-style bounce with rotation
-                            dice.classList.add('bouncing');
-                            
-                            setTimeout(() => {
-                                dice.classList.remove('bouncing');
-                                
-                                // Phase 4: Lottie-style settle to final position
-                                setDiceFace(dice, targetFace);
-                                dice.classList.add('settling');
-                                
-                                setTimeout(() => {
-                                    dice.classList.remove('settling', 'glowing');
-                                    
-                                    // Phase 5: Celebration effect
-                                    dice.classList.add('celebrating');
-                                    
-                                    setTimeout(() => {
-                                        dice.classList.remove('celebrating');
-                                        console.log('Fallback roll completed');
-                                        resolve();
-                                    }, 1500);
-                                }, 1000);
-                            }, 800);
-                        }, 3000);
-                    }, 600);
+                        dice.classList.remove('rolling');
+                        setDiceFace(dice, targetFace);
+                        resolve();
+                    }, 1000);
                 });
             }
             
@@ -201,68 +138,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 dice.style.transform = transforms[face];
             }
             
-            // Enhanced result display with celebration
-            function showEnhancedResult(face, resultEl, prompts) {
+            // Basic result display
+            function showBasicResult(face, resultEl, prompts) {
                 const prompt = prompts[face - 1];
-                
-                // Create particle effect
-                createParticleEffect(resultEl);
-                
-                // Show result with enhanced animation
-                resultEl.style.opacity = '0';
-                resultEl.style.transform = 'translateY(20px)';
                 resultEl.textContent = prompt;
-                
-                setTimeout(() => {
-                    resultEl.style.transition = 'all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-                    resultEl.style.opacity = '1';
-                    resultEl.style.transform = 'translateY(0px)';
-                    resultEl.classList.add('celebrating');
-                    
-                    setTimeout(() => {
-                        resultEl.classList.remove('celebrating');
-                    }, 1200);
-                }, 200);
             }
             
-            // Create particle effect
-            function createParticleEffect(element) {
-                const particles = document.createElement('div');
-                particles.className = 'dice-particles';
-                particles.style.cssText = `
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    pointer-events: none;
-                    z-index: 10;
-                `;
-                
-                // Create multiple particles
-                for (let i = 0; i < 8; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'particle';
-                    particle.style.cssText = `
-                        position: absolute;
-                        width: 6px;
-                        height: 6px;
-                        background: radial-gradient(circle, #ffd23f 0%, #ff6b35 100%);
-                        border-radius: 50%;
-                        left: ${Math.random() * 100}%;
-                        animation: particle-float 2.5s ease-out forwards;
-                        animation-delay: ${Math.random() * 0.5}s;
-                    `;
-                    particles.appendChild(particle);
-                }
-                
-                element.appendChild(particles);
-                
-                // Remove particles after animation
-                setTimeout(() => {
-                    particles.remove();
-                }, 2500);
-            }
+
 
 
 
@@ -594,248 +476,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Enhanced functionality for the new visual features
 
-// Progress tracking and achievement system
-let activityProgress = 0;
-let achievements = [];
-
-function updateProgress(increment = 1) {
-    activityProgress += increment;
-    
-    // Show progress indicator
-    const progressIndicator = document.getElementById('progress-indicator');
-    const progressText = document.getElementById('progress-text');
-    
-    if (progressIndicator && progressText) {
-        progressIndicator.style.display = 'block';
-        progressText.textContent = `🎯 Progress: ${activityProgress} activities completed`;
-        
-        // Check for achievements
-        checkAchievements();
-    }
-}
-
-function checkAchievements() {
-    const achievementBadge = document.getElementById('achievement-badge');
-    
-    if (activityProgress === 1 && !achievements.includes('first_activity')) {
-        showAchievement('first_activity', '🌟 First Activity!');
-    } else if (activityProgress === 5 && !achievements.includes('explorer')) {
-        showAchievement('explorer', '🚀 Explorer Badge!');
-    } else if (activityProgress === 10 && !achievements.includes('master')) {
-        showAchievement('master', '👑 SEL Master!');
-    }
-}
-
-function showAchievement(achievementId, message) {
-    achievements.push(achievementId);
-    const achievementBadge = document.getElementById('achievement-badge');
-    
-    if (achievementBadge) {
-        achievementBadge.textContent = message;
-        achievementBadge.style.display = 'inline-block';
-        
-        // Hide after 3 seconds
-        setTimeout(() => {
-            achievementBadge.style.display = 'none';
-        }, 3000);
-    }
-}
-
-// Enhanced dice functionality with emotion-based colors
-function setupEnhancedDiceMode() {
-    // Override the original dice setup with enhanced features
-    const originalSetupDiceMode = window.setupDiceMode;
-    
-    window.setupDiceMode = async function() {
-        await originalSetupDiceMode();
-        
-        // Add emotion-based color coding
-        const diceFaces = document.querySelectorAll('.dice .face');
-        diceFaces.forEach((face, index) => {
-            const emotionClass = getEmotionClass(index);
-            face.classList.add(emotionClass);
-        });
-        
-        // Add cultural celebration elements
-        addCulturalElements();
-        
-        // Initialize progress tracking
-        updateProgress();
-    };
-}
-
-function getEmotionClass(index) {
-    const emotions = ['joy', 'calm', 'excited', 'caring', 'confident', 'curious'];
-    return `emotion-${emotions[index]}`;
-}
-
-function addCulturalElements() {
-    // Add diverse cultural elements to the interface
-    const header = document.querySelector('.classroom-header h1');
-    if (header) {
-        const culturalIcons = ['🌟', '🌍', '🤝', '❤️', '🌈', '🎉'];
-        const randomIcon = culturalIcons[Math.floor(Math.random() * culturalIcons.length)];
-        header.innerHTML = header.innerHTML.replace('🌟', randomIcon);
-    }
-}
-
-// Enhanced scenario card functionality
-function setupEnhancedScenarioMode() {
-    // Override the original scenario setup with enhanced features
-    const originalSetupScenarioMode = window.setupScenarioMode;
-    
-    window.setupScenarioMode = async function() {
-        await originalSetupScenarioMode();
-        
-        // Add emotion-based color coding to cards
-        const cards = document.querySelectorAll('.card-front, .card-back');
-        cards.forEach(card => {
-            const emotionClass = getRandomEmotionClass();
-            card.classList.add(emotionClass);
-        });
-        
-        // Add accessibility features
-        addAccessibilityFeatures();
-        
-        // Initialize progress tracking
-        updateProgress();
-    };
-}
-
-function getRandomEmotionClass() {
-    const emotions = ['joy', 'calm', 'excited', 'caring', 'confident', 'curious'];
-    const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)];
-    return `emotion-${randomEmotion}`;
-}
-
-function addAccessibilityFeatures() {
-    // Add keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-            const drawnCard = document.querySelector('.drawn-card');
-            if (drawnCard) {
-                drawnCard.click();
-            }
-        }
-    });
-    
-    // Add ARIA labels
-    const cards = document.querySelectorAll('.drawn-card');
-    cards.forEach(card => {
-        card.setAttribute('role', 'button');
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('aria-label', 'Click to flip scenario card');
-    });
-}
-
-// Enhanced timer with visual feedback
-function setupEnhancedTimer() {
-    const timerSection = document.getElementById('timer-section');
-    const timerDisplay = document.getElementById('timer-display');
-    
-    if (timerSection && timerDisplay) {
-        // Add visual countdown animation
-        timerSection.addEventListener('animationend', function() {
-            if (timerDisplay.textContent === '00:00') {
-                timerSection.style.animation = 'timerGlow 0.5s ease-in-out infinite';
-            }
-        });
-    }
-}
-
-// Initialize enhanced features
-document.addEventListener('DOMContentLoaded', function() {
-    // Setup enhanced modes
-    setupEnhancedDiceMode();
-    setupEnhancedScenarioMode();
-    setupEnhancedTimer();
-});
-
-// Enhanced sound effects
-function playEnhancedSound(type) {
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    
-    switch(type) {
-        case 'dice_roll':
-            playDiceRollSound(audioContext);
-            break;
-        case 'card_flip':
-            playCardFlipSound(audioContext);
-            break;
-        case 'achievement':
-            playAchievementSound(audioContext);
-            break;
-    }
-}
-
-function playDiceRollSound(audioContext) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.5);
-    
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.5);
-}
-
-function playCardFlipSound(audioContext) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-    oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.2);
-    
-    gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.2);
-}
-
-function playAchievementSound(audioContext) {
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
-    oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1);
-    oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2);
-    
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.3);
-}
-
-// Override original sound functions to use enhanced versions
-const originalPlayDiceSound = window.playDiceSound;
-window.playDiceSound = function() {
-    if (originalPlayDiceSound) {
-        originalPlayDiceSound();
-    }
-    playEnhancedSound('dice_roll');
-};
-
-// Enhanced card flip with sound
-const originalCardFlip = window.cardFlip;
-window.cardFlip = function() {
-    if (originalCardFlip) {
-        originalCardFlip();
-    }
-    playEnhancedSound('card_flip');
-};
