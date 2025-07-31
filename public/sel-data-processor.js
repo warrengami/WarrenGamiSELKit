@@ -3,7 +3,7 @@
 
 class SELDataProcessor {
     constructor() {
-        this.debugMode = true;
+        this.debugMode = false; // Set to false for production
     }
 
     // ===== TEACHER OBSERVATION METHODS =====

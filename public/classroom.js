@@ -20,6 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
+    // HTML escaping function for security
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
     // --- SHARED FUNCTION ---
     async function fetchAndParse(file) {
         const response = await fetch(file);
@@ -47,18 +54,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             if (!promptsMatch) throw new Error('Could not find prompts array in the resource file.');
             
-            const allPrompts = eval(promptsMatch[1]);
+            const allPrompts = JSON.parse(promptsMatch[1]);
             const dicePrompts = allPrompts.slice(0, 6); // Only use first 6 prompts for dice
             
             // Build enhanced 3D dice HTML
-            mainContentEl.innerHTML = `
+            const diceHTML = `
                 <div class="dice-scene">
                     <div class="dice" id="interactive-dice">
-                        ${dicePrompts.map((prompt, i) => `<div class="face face-${i + 1}">${prompt}</div>`).join('')}
+                        ${dicePrompts.map((prompt, i) => `<div class="face face-${i + 1}">${escapeHtml(prompt)}</div>`).join('')}
                     </div>
                 </div>
                 <div id="prompt-result"></div>
             `;
+            mainContentEl.innerHTML = diceHTML;
             
             // Enhanced control buttons for dice
             const rollBtn = document.createElement('button');
@@ -157,13 +165,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            // Cleanup function for proper memory management
+            function cleanup() {
+                stopTimer();
+            }
+
+            // Handle page unload to prevent memory leaks
+            window.addEventListener('beforeunload', cleanup);
+
             // Sound function
             function playDiceSound() {
                 // Create audio element for dice rolling sound
                 const audio = new Audio('dice-roll-1.mp3');
                 audio.volume = 0.3; // Set volume to 30%
                 audio.play().catch(error => {
-                    console.log('Audio playback failed:', error);
+                    // Audio playback failed silently
                 });
             }
 
@@ -352,22 +368,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     deckEl.classList.remove('shuffling');
                     const drawn = deck.pop();
                     
-                    drawnCardWrapper.innerHTML = `
+                    const cardHTML = `
                         <div class="drawn-card" id="current-card">
-                            <div class="card-front ${drawn.bgColorClass}">
-                                <div class="card-title">${drawn.title}</div>
-                                <p class="card-text">${drawn.text}</p>
+                            <div class="card-front ${escapeHtml(drawn.bgColorClass)}">
+                                <div class="card-title">${escapeHtml(drawn.title)}</div>
+                                <p class="card-text">${escapeHtml(drawn.text)}</p>
                                 <div class="card-tags">
-                                    ${drawn.selCompetencies.map(comp => `<span class="sel-tag">${comp}</span>`).join('')}
-                                    ${drawn.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                                    ${drawn.selCompetencies.map(comp => `<span class="sel-tag">${escapeHtml(comp)}</span>`).join('')}
+                                    ${drawn.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
                                 </div>
                             </div>
-                            <div class="card-back ${drawn.bgColorClass}">
+                            <div class="card-back ${escapeHtml(drawn.bgColorClass)}">
                                 <div class="card-title">Guiding Questions</div>
-                                <ul class="guiding-questions">${drawn.questions}</ul>
+                                <ul class="guiding-questions">${escapeHtml(drawn.questions)}</ul>
                             </div>
                         </div>
                     `;
+                    drawnCardWrapper.innerHTML = cardHTML;
                     
                     document.getElementById('current-card').addEventListener('click', function() {
                         this.classList.toggle('flipped');
@@ -422,6 +439,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
+            // Cleanup function for scenario mode
+            function cleanupScenario() {
+                stopTimer();
+            }
+
+            // Handle page unload to prevent memory leaks
+            window.addEventListener('beforeunload', cleanupScenario);
+
         } catch (error) {
             handleError(error);
         }
@@ -430,7 +455,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleError(error) {
         console.error('Error loading resource:', error);
         titleEl.textContent = 'Error';
-        mainContentEl.innerHTML = `<p>There was an error loading the resource: ${error.message}</p>`;
+        mainContentEl.innerHTML = '<p>Unable to load resource. Please try again or contact support if the problem persists.</p>';
     }
 
     // --- ROUTER ---

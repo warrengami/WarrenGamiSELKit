@@ -2,7 +2,7 @@
 // Teacher Dashboard functionality - Enhanced with advanced search and filtering
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('Dashboard loaded - Enhanced search and filtering');
+    // Dashboard loaded successfully
     
     // Get DOM elements
     const resourceSearch = document.getElementById('resource-search');
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Please allow pop-ups for this site to use classroom mode.');
             }
         } catch (error) {
-            console.error('Error opening classroom mode:', error);
+            // Error opening classroom mode
             alert('Error opening classroom mode. Please try again.');
         }
     }
@@ -177,5 +177,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make setTimerDuration available globally
     window.setTimerDuration = setTimerDuration;
 
-    console.log('Enhanced dashboard initialization complete');
+    // Enhanced dashboard initialization complete
 });

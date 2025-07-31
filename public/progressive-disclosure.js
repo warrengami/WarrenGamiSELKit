@@ -57,7 +57,7 @@ const ProgressiveDisclosure = {
         this.setupExperienceSelector();
         this.addProgressiveHelp();
         
-        console.log('Progressive disclosure initialized');
+        // Progressive disclosure initialized
     },
     
     // Setup user preferences from localStorage
