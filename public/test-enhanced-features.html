@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Enhanced Features</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Enhanced Features</h1>
+    
+    <div class="test-section">
+        <h2>Test Enhanced Dice</h2>
+        <button class="test-button" onclick="testEnhancedDice()">Test Enhanced Dice Roll</button>
+        <button class="test-button" onclick="testClassroomMode()">Test Classroom Mode</button>
+        <div id="dice-test"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Debug Log</h2>
+        <div id="debug-log" class="log">Click a test button to see debug information...</div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logEl = document.getElementById('debug-log');
+            const timestamp = new Date().toLocaleTimeString();
+            logEl.textContent += `[${timestamp}] ${message}\n`;
+            console.log(message);
+        }
+
+        function testEnhancedDice() {
+            log('Testing enhanced dice roll module...');
+            
+            // Check if module is loaded
+            if (window.enhancedDiceRoll) {
+                log('✅ Enhanced dice roll module found');
+                log('Module properties: ' + Object.keys(window.enhancedDiceRoll));
+            } else {
+                log('❌ Enhanced dice roll module not found');
+            }
+            
+            // Create a test dice
+            const diceTest = document.getElementById('dice-test');
+            diceTest.innerHTML = `
+                <div class="dice" id="test-dice">
+                    <div class="face face-1">Test Face 1</div>
+                    <div class="face face-2">Test Face 2</div>
+                    <div class="face face-3">Test Face 3</div>
+                    <div class="face face-4">Test Face 4</div>
+                    <div class="face face-5">Test Face 5</div>
+                    <div class="face face-6">Test Face 6</div>
+                </div>
+                <button onclick="testRoll()">Roll Test Dice</button>
+            `;
+        }
+
+        function testRoll() {
+            log('Testing dice roll...');
+            if (window.enhancedDiceRoll) {
+                const dice = document.getElementById('test-dice');
+                const randomFace = Math.floor(Math.random() * 6) + 1;
+                log('Rolling to face: ' + randomFace);
+                
+                window.enhancedDiceRoll.performEnhancedRoll(dice, randomFace)
+                    .then(() => {
+                        log('✅ Enhanced roll completed');
+                    })
+                    .catch(error => {
+                        log('❌ Enhanced roll failed: ' + error);
+                    });
+            } else {
+                log('❌ Enhanced dice roll module not available');
+            }
+        }
+
+        function testClassroomMode() {
+            log('Testing classroom mode...');
+            
+            // Test if classroom-enhanced.html exists
+            fetch('classroom-enhanced.html')
+                .then(response => {
+                    if (response.ok) {
+                        log('✅ classroom-enhanced.html exists');
+                    } else {
+                        log('❌ classroom-enhanced.html not found');
+                    }
+                })
+                .catch(error => {
+                    log('❌ Error accessing classroom-enhanced.html: ' + error.message);
+                });
+            
+            // Test if dice-roll-enhanced.js exists
+            fetch('dice-roll-enhanced.js')
+                .then(response => {
+                    if (response.ok) {
+                        log('✅ dice-roll-enhanced.js exists');
+                    } else {
+                        log('❌ dice-roll-enhanced.js not found');
+                    }
+                })
+                .catch(error => {
+                    log('❌ Error accessing dice-roll-enhanced.js: ' + error.message);
+                });
+            
+            // Test opening classroom mode
+            const testUrl = 'classroom-enhanced.html?type=dice&file=Emotions%20%26%20Feelings%20Dice.html';
+            log('Opening test URL: ' + testUrl);
+            window.open(testUrl, '_blank');
+        }
+
+        // Check for enhanced modules on page load
+        window.addEventListener('load', () => {
+            log('Page loaded, checking for enhanced modules...');
+            
+            if (window.enhancedDiceRoll) {
+                log('✅ Enhanced dice roll module found on page load');
+            } else {
+                log('❌ Enhanced dice roll module not found on page load');
+            }
+        });
+    </script>
+</body>
+</html> 

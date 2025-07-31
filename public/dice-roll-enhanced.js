@@ -522,8 +522,10 @@ class EnhancedDiceRoll {
     
     // Public methods for external use
     enhanceExistingDice() {
+        console.log('🎲 enhanceExistingDice called');
         const dice = document.querySelector('.dice');
         if (dice) {
+            console.log('🎲 Found dice element, adding enhanced classes');
             dice.classList.add('dice-enhanced');
             
             // Enhance faces
@@ -532,9 +534,10 @@ class EnhancedDiceRoll {
                 face.classList.add('dice-face');
             });
             
-            console.log('Enhanced dice initialized:', dice);
+            console.log('✅ Enhanced dice initialized:', dice);
+            console.log('Dice classes:', dice.className);
         } else {
-            console.log('No dice element found for enhancement');
+            console.log('❌ No dice element found for enhancement');
         }
     }
     
@@ -563,10 +566,13 @@ class EnhancedDiceRoll {
 
 // Auto-initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🎲 DOM loaded, creating Enhanced Dice Roll instance...');
     window.enhancedDiceRoll = new EnhancedDiceRoll();
+    console.log('🎲 Enhanced Dice Roll instance created and assigned to window.enhancedDiceRoll');
     
     // Enhance existing dice if present
     setTimeout(() => {
+        console.log('🎲 Attempting to enhance existing dice...');
         window.enhancedDiceRoll.enhanceExistingDice();
     }, 100);
 });

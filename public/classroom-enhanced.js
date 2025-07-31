@@ -80,12 +80,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const timerDisplay = document.getElementById('timer-display');
             
             // Initialize enhanced dice roll
+            console.log('Checking for enhanced dice roll module...');
             if (window.enhancedDiceRoll) {
+                console.log('✅ Enhanced dice roll module found');
                 try {
                     window.enhancedDiceRoll.enhanceExistingDice();
+                    console.log('✅ Enhanced dice roll initialization successful');
                 } catch (error) {
-                    console.error('Error initializing enhanced dice roll:', error);
+                    console.error('❌ Error initializing enhanced dice roll:', error);
                 }
+            } else {
+                console.log('❌ Enhanced dice roll module not found');
+                console.log('Available window properties:', Object.keys(window).filter(key => key.includes('dice')));
             }
             
             // Add keyboard support
@@ -108,19 +114,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 const randomFace = Math.floor(Math.random() * 6) + 1;
                 
                 // Use enhanced dice roll if available
+                console.log('Roll button clicked, checking enhanced dice roll module...');
                 if (window.enhancedDiceRoll && window.enhancedDiceRoll.isRolling === false) {
                     try {
-                        console.log('Using enhanced dice roll module');
+                        console.log('✅ Using enhanced dice roll module');
                         await window.enhancedDiceRoll.performEnhancedRoll(dice, randomFace);
                         showEnhancedResult(randomFace, promptResultEl, dicePrompts);
                     } catch (error) {
-                        console.log('Enhanced roll failed, using fallback:', error);
+                        console.log('❌ Enhanced roll failed, using fallback:', error);
                         // Fallback to Lottie-style animation
                         await performFallbackRoll(dice, randomFace);
                         showEnhancedResult(randomFace, promptResultEl, dicePrompts);
                     }
                 } else {
-                    console.log('Enhanced dice roll module not available, using fallback');
+                    console.log('❌ Enhanced dice roll module not available, using fallback');
+                    console.log('enhancedDiceRoll exists:', !!window.enhancedDiceRoll);
+                    console.log('isRolling:', window.enhancedDiceRoll?.isRolling);
                     // Fallback to Lottie-style animation
                     await performFallbackRoll(dice, randomFace);
                     showEnhancedResult(randomFace, promptResultEl, dicePrompts);
