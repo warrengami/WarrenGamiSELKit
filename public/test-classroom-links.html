@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Classroom Links</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .log {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Classroom Mode Links</h1>
+    
+    <div class="test-section">
+        <h2>Test Enhanced Dice Links</h2>
+        <button class="test-button" onclick="testDiceLink('Emotions & Feelings Dice.html')">Test Emotions Dice</button>
+        <button class="test-button" onclick="testDiceLink('Empathy & Kindness Dice.html')">Test Empathy Dice</button>
+        <button class="test-button" onclick="testDiceLink('Friendship & Social Skills Dice.html')">Test Friendship Dice</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test Enhanced Scenario Links</h2>
+        <button class="test-button" onclick="testScenarioLink('All-Scenario-Cards.html')">Test All Scenario Cards</button>
+        <button class="test-button" onclick="testScenarioLink('Scenario Cards 1.html')">Test Scenario Cards 1</button>
+        <button class="test-button" onclick="testScenarioLink('Scenario Cards 2.html')">Test Scenario Cards 2</button>
+    </div>
+    
+    <div class="test-section">
+        <h2>Debug Log</h2>
+        <div id="debug-log" class="log">Click a test button to see debug information...</div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logEl = document.getElementById('debug-log');
+            const timestamp = new Date().toLocaleTimeString();
+            logEl.textContent += `[${timestamp}] ${message}\n`;
+            console.log(message);
+        }
+
+        function testDiceLink(file) {
+            log(`Testing dice link: ${file}`);
+            const url = `classroom-enhanced.html?type=dice&file=${encodeURIComponent(file)}`;
+            log(`Generated URL: ${url}`);
+            
+            // Test if the file exists
+            fetch(file)
+                .then(response => {
+                    if (response.ok) {
+                        log(`✅ File ${file} exists and is accessible`);
+                    } else {
+                        log(`❌ File ${file} not found (${response.status})`);
+                    }
+                })
+                .catch(error => {
+                    log(`❌ Error accessing ${file}: ${error.message}`);
+                });
+            
+            // Open the classroom mode
+            try {
+                window.open(url, '_blank');
+                log(`✅ Opened classroom mode with URL: ${url}`);
+            } catch (error) {
+                log(`❌ Error opening classroom mode: ${error.message}`);
+            }
+        }
+
+        function testScenarioLink(file) {
+            log(`Testing scenario link: ${file}`);
+            const url = `classroom-enhanced.html?type=scenarios&file=${encodeURIComponent(file)}`;
+            log(`Generated URL: ${url}`);
+            
+            // Test if the file exists
+            fetch(file)
+                .then(response => {
+                    if (response.ok) {
+                        log(`✅ File ${file} exists and is accessible`);
+                    } else {
+                        log(`❌ File ${file} not found (${response.status})`);
+                    }
+                })
+                .catch(error => {
+                    log(`❌ Error accessing ${file}: ${error.message}`);
+                });
+            
+            // Open the classroom mode
+            try {
+                window.open(url, '_blank');
+                log(`✅ Opened classroom mode with URL: ${url}`);
+            } catch (error) {
+                log(`❌ Error opening classroom mode: ${error.message}`);
+            }
+        }
+
+        // Test if classroom-enhanced.html exists
+        log('Testing if classroom-enhanced.html exists...');
+        fetch('classroom-enhanced.html')
+            .then(response => {
+                if (response.ok) {
+                    log('✅ classroom-enhanced.html exists and is accessible');
+                } else {
+                    log(`❌ classroom-enhanced.html not found (${response.status})`);
+                }
+            })
+            .catch(error => {
+                log(`❌ Error accessing classroom-enhanced.html: ${error.message}`);
+            });
+
+        // Test if dice-roll-enhanced.js exists
+        log('Testing if dice-roll-enhanced.js exists...');
+        fetch('dice-roll-enhanced.js')
+            .then(response => {
+                if (response.ok) {
+                    log('✅ dice-roll-enhanced.js exists and is accessible');
+                } else {
+                    log(`❌ dice-roll-enhanced.js not found (${response.status})`);
+                }
+            })
+            .catch(error => {
+                log(`❌ Error accessing dice-roll-enhanced.js: ${error.message}`);
+            });
+    </script>
+</body>
+</html> 
