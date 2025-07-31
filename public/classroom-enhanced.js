@@ -80,18 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const timerDisplay = document.getElementById('timer-display');
             
             // Initialize enhanced dice roll
-            console.log('Checking for enhanced dice roll module...');
             if (window.enhancedDiceRoll) {
-                console.log('✅ Enhanced dice roll module found, initializing...');
                 try {
                     window.enhancedDiceRoll.enhanceExistingDice();
-                    console.log('✅ Enhanced dice roll initialization successful');
                 } catch (error) {
-                    console.error('❌ Error initializing enhanced dice roll:', error);
+                    console.error('Error initializing enhanced dice roll:', error);
                 }
-            } else {
-                console.log('❌ Enhanced dice roll module not found');
-                console.log('Available window properties:', Object.keys(window).filter(key => key.includes('dice')));
             }
             
             // Add keyboard support
@@ -582,16 +576,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- ROUTER ---
-    console.log('Classroom Enhanced: Initializing with type:', resourceType, 'file:', resourceFile);
-    
     if (resourceType === 'dice') {
-        console.log('Setting up enhanced dice mode...');
         setupDiceMode();
     } else if (resourceType === 'scenarios') {
-        console.log('Setting up enhanced scenario mode...');
         setupScenarioMode();
     } else {
-        console.log('Unknown resource type:', resourceType);
         handleError(new Error('Unknown resource type specified.'));
     }
 });

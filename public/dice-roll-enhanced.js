@@ -1,8 +1,6 @@
 // Enhanced Dice Roll Module with Lottie-style Animations
 // Provides smooth, engaging dice roll animations with physics and visual effects
 
-console.log('🎲 Loading Enhanced Dice Roll Module...');
-
 class EnhancedDiceRoll {
     constructor() {
         this.isRolling = false;
@@ -26,11 +24,9 @@ class EnhancedDiceRoll {
     }
     
     init() {
-        console.log('🎲 Enhanced Dice Roll Module: Initializing...');
         this.setupAudio();
         this.createAnimationStyles();
         this.setupEventListeners();
-        console.log('🎲 Enhanced Dice Roll Module: Initialization complete');
     }
     
     setupAudio() {
@@ -567,13 +563,10 @@ class EnhancedDiceRoll {
 
 // Auto-initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🎲 DOM loaded, creating Enhanced Dice Roll instance...');
     window.enhancedDiceRoll = new EnhancedDiceRoll();
-    console.log('🎲 Enhanced Dice Roll instance created and assigned to window.enhancedDiceRoll');
     
     // Enhance existing dice if present
     setTimeout(() => {
-        console.log('🎲 Attempting to enhance existing dice...');
         window.enhancedDiceRoll.enhanceExistingDice();
     }, 100);
 });
