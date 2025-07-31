@@ -101,21 +101,27 @@ document.addEventListener('DOMContentLoaded', () => {
             rollBtn.addEventListener('click', async () => {
                 if (rollBtn.disabled) return;
                 
-                // Disable buttons during roll
-                rollBtn.disabled = true;
-                promptResultEl.textContent = '';
-                
-                // Generate random face for the roll
-                const randomFace = Math.floor(Math.random() * 6) + 1;
-                
-                // Perform basic roll animation
-                await performBasicRoll(dice, randomFace);
-                showBasicResult(randomFace, promptResultEl, dicePrompts);
-                
-                // Re-enable buttons after animation
-                setTimeout(() => {
+                try {
+                    // Disable buttons during roll
+                    rollBtn.disabled = true;
+                    promptResultEl.textContent = '';
+                    
+                    // Generate random face for the roll
+                    const randomFace = Math.floor(Math.random() * 6) + 1;
+                    
+                    // Perform basic roll animation
+                    await performBasicRoll(dice, randomFace);
+                    showBasicResult(randomFace, promptResultEl, dicePrompts);
+                    
+                    // Re-enable buttons after animation
+                    setTimeout(() => {
+                        rollBtn.disabled = false;
+                    }, 2000);
+                } catch (error) {
+                    console.error('Error during dice roll:', error);
                     rollBtn.disabled = false;
-                }, 2000);
+                    promptResultEl.textContent = 'Error rolling dice. Please try again.';
+                }
             });
             
             // Basic roll function
@@ -134,16 +140,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Enhanced dice face setting
             function setDiceFace(dice, face) {
-                const transforms = {
-                    1: 'rotateY(0deg)',
-                    2: 'rotateY(-90deg)',
-                    3: 'rotateY(-180deg)',
-                    4: 'rotateY(90deg)',
-                    5: 'rotateX(-90deg)',
-                    6: 'rotateX(90deg)'
-                };
-                
-                dice.style.transform = transforms[face];
+                // Remove all show-X classes first
+                dice.classList.remove('show-1', 'show-2', 'show-3', 'show-4', 'show-5', 'show-6');
+                // Add the correct show-X class
+                dice.classList.add(`show-${face}`);
             }
             
             // Basic result display
@@ -384,52 +384,70 @@ document.addEventListener('DOMContentLoaded', () => {
             drawBtn.addEventListener('click', () => {
                 if (drawBtn.disabled) return;
                 
-                if (deck.length === 0) {
-                    deck = [...scenarios].sort(() => 0.5 - Math.random());
-                    drawnCardWrapper.innerHTML = '<p style="font-size: 1.5em; text-align: center;">Deck reshuffled!</p>';
-                    drawBtn.textContent = 'Shuffle & Draw Card';
-                    deckCount.textContent = `${deck.length} cards remaining`;
-                    return;
-                }
+                try {
+                    if (deck.length === 0) {
+                        deck = [...scenarios].sort(() => 0.5 - Math.random());
+                        drawnCardWrapper.innerHTML = '<p style="font-size: 1.5em; text-align: center;">Deck reshuffled!</p>';
+                        drawBtn.textContent = 'Shuffle & Draw Card';
+                        deckCount.textContent = `${deck.length} cards remaining`;
+                        return;
+                    }
 
-                drawBtn.disabled = true;
-                deckEl.classList.add('shuffling');
+                    drawBtn.disabled = true;
+                    deckEl.classList.add('shuffling');
 
-                setTimeout(() => {
-                    deckEl.classList.remove('shuffling');
-                    const drawn = deck.pop();
-                    
-                    const cardHTML = `
-                        <div class="drawn-card" id="current-card">
-                            <div class="card-inner">
-                                <div class="card-front ${escapeHtml(drawn.bgColorClass)}">
-                                    <div class="card-title">${escapeHtml(drawn.title)}</div>
-                                    <p class="card-text">${escapeHtml(drawn.text)}</p>
-                                    <div class="card-tags">
-                                        ${drawn.selCompetencies.map(comp => `<span class="sel-tag">${escapeHtml(comp)}</span>`).join('')}
-                                        ${drawn.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
+                    setTimeout(() => {
+                        try {
+                            deckEl.classList.remove('shuffling');
+                            const drawn = deck.pop();
+                            
+                            if (!drawn) {
+                                throw new Error('No card available to draw');
+                            }
+                            
+                            const cardHTML = `
+                                <div class="drawn-card" id="current-card">
+                                    <div class="card-inner">
+                                        <div class="card-front ${escapeHtml(drawn.bgColorClass)}">
+                                            <div class="card-title">${escapeHtml(drawn.title)}</div>
+                                            <p class="card-text">${escapeHtml(drawn.text)}</p>
+                                            <div class="card-tags">
+                                                ${drawn.selCompetencies.map(comp => `<span class="sel-tag">${escapeHtml(comp)}</span>`).join('')}
+                                                ${drawn.tags.map(tag => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
+                                            </div>
+                                        </div>
+                                        <div class="card-back ${escapeHtml(drawn.bgColorClass)}">
+                                            <div class="card-title">Guiding Questions</div>
+                                            <ul class="guiding-questions">${escapeHtml(drawn.questions)}</ul>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="card-back ${escapeHtml(drawn.bgColorClass)}">
-                                    <div class="card-title">Guiding Questions</div>
-                                    <ul class="guiding-questions">${escapeHtml(drawn.questions)}</ul>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    drawnCardWrapper.innerHTML = cardHTML;
-                    
-                    document.getElementById('current-card').addEventListener('click', function() {
-                        this.classList.toggle('flipped');
-                    });
-                    
-                    deckCount.textContent = `${deck.length} cards remaining`;
+                            `;
+                            drawnCardWrapper.innerHTML = cardHTML;
+                            
+                            const currentCard = document.getElementById('current-card');
+                            if (currentCard) {
+                                currentCard.addEventListener('click', function() {
+                                    this.classList.toggle('flipped');
+                                });
+                            }
+                            
+                            deckCount.textContent = `${deck.length} cards remaining`;
 
-                    if (deck.length === 0) {
-                        drawBtn.textContent = 'Reshuffle Deck';
-                    }
+                            if (deck.length === 0) {
+                                drawBtn.textContent = 'Reshuffle Deck';
+                            }
+                        } catch (error) {
+                            console.error('Error drawing card:', error);
+                            drawnCardWrapper.innerHTML = '<p style="font-size: 1.5em; text-align: center; color: red;">Error drawing card. Please try again.</p>';
+                        } finally {
+                            drawBtn.disabled = false;
+                        }
+                    }, 500);
+                } catch (error) {
+                    console.error('Error in draw button handler:', error);
                     drawBtn.disabled = false;
-                }, 500);
+                }
             });
 
             // Timer functionality for scenarios

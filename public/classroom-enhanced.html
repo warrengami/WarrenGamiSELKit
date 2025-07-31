@@ -243,10 +243,6 @@
             transition: transform 1s ease-out;
         }
 
-        .dice.rolling {
-            animation: tumble 1.5s ease-out;
-        }
-
         .dice .face {
             position: absolute;
             width: 200px;
@@ -273,7 +269,19 @@
             50% { transform: scale(1.02); }
         }
 
+        /* Basic Tumble Animation */
+        @keyframes tumble {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+            }
+            100% {
+                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
+            }
+        }
 
+        .dice.rolling {
+            animation: tumble 1.5s ease-out;
+        }
 
         .face.face-1 { transform: rotateY(0deg) translateZ(100px); }
         .face.face-2 { transform: rotateY(90deg) translateZ(100px); }
@@ -308,25 +316,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-                @keyframes tumble {
-            from { transform: rotateX(0deg) rotateY(0deg); }
-            to { transform: rotateX(1080deg) rotateY(720deg); }
-        }
-
-        /* Enhanced Dice Features with Lottie-style animations */
-                .dice.rolling {
-            animation: tumble 1.5s ease-out;
-        }
-        
-        /* Basic Tumble Animation */
-        @keyframes tumble {
-            0% {
-                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
-            }
-            100% {
-                transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg);
-            }
-        }
+        /* Enhanced Dice Features */
         
         /* Particle Effects */
         @keyframes particle-float {

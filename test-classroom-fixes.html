@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom Mode Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .test-section {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        .test-button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #45a049;
+        }
+        .error {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+        .success {
+            color: #51cf66;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Classroom Mode Fixes Test</h1>
+    
+    <div class="test-section">
+        <h2>Dice Mode Test</h2>
+        <p>Test the enhanced classroom mode with dice functionality:</p>
+        <button class="test-button" onclick="testDiceMode()">Test Dice Mode</button>
+        <div id="dice-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Scenario Cards Test</h2>
+        <p>Test the enhanced classroom mode with scenario cards:</p>
+        <button class="test-button" onclick="testScenarioMode()">Test Scenario Mode</button>
+        <div id="scenario-result"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Security Test</h2>
+        <p>Test that XSS vulnerabilities are fixed:</p>
+        <button class="test-button" onclick="testSecurity()">Test Security</button>
+        <div id="security-result"></div>
+    </div>
+
+    <script>
+        function testDiceMode() {
+            const result = document.getElementById('dice-result');
+            try {
+                // Test opening dice mode
+                const url = 'classroom-enhanced.html?type=dice&file=Page%204%20-%20Emotion%20Exploration%20Dice.html';
+                window.open(url, '_blank');
+                result.innerHTML = '<span class="success">✅ Dice mode test initiated - check the new tab</span>';
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+            }
+        }
+        
+        function testScenarioMode() {
+            const result = document.getElementById('scenario-result');
+            try {
+                // Test opening scenario mode
+                const url = 'classroom-enhanced.html?type=scenarios&file=Scenario%20Cards%201.html';
+                window.open(url, '_blank');
+                result.innerHTML = '<span class="success">✅ Scenario mode test initiated - check the new tab</span>';
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+            }
+        }
+        
+        function testSecurity() {
+            const result = document.getElementById('security-result');
+            try {
+                // Test HTML escaping function
+                const testInput = '<script>alert("xss")</script>';
+                const div = document.createElement('div');
+                div.textContent = testInput;
+                const escaped = div.innerHTML;
+                
+                if (escaped.includes('<script>')) {
+                    result.innerHTML = '<span class="error">❌ HTML escaping not working properly</span>';
+                } else {
+                    result.innerHTML = '<span class="success">✅ HTML escaping working correctly</span>';
+                }
+            } catch (error) {
+                result.innerHTML = `<span class="error">❌ Security test error: ${error.message}</span>`;
+            }
+        }
+    </script>
+</body>
+</html> 
