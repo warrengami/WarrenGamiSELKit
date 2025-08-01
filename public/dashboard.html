@@ -210,23 +210,59 @@
             line-height: 1.4;
         }
         
-        /* Timer Section */
-        .timer-section {
-            background: var(--paper-white);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 30px var(--shadow-blue);
+        /* Recently Used Section */
+        .recently-used {
+            background: var(--ice-white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             border: 1px solid var(--soft-blue);
+            box-shadow: 0 2px 10px var(--shadow-blue);
         }
         
-        .timer-section h2 {
+        .recently-used h2 {
             color: var(--warren-blue);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            font-weight: 500;
         }
         
+        .recent-items {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .recent-item {
+            background: var(--paper-white);
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
+            border: 1px solid var(--soft-blue);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+        }
+        
+        .recent-item:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px var(--shadow-blue);
+            border-color: var(--warren-light-blue);
+        }
+        
+        .recent-item h4 {
+            font-size: 0.9rem;
+            margin: 0 0 0.2rem 0;
+            color: var(--warren-blue);
+        }
+        
+        .recent-item p {
+            font-size: 0.8rem;
+            margin: 0;
+            opacity: 0.7;
+        }
+        
+        /* Timer Controls */
         .timer-controls {
             display: flex;
             gap: 0.5rem;
@@ -249,43 +285,6 @@
         .timer-btn:hover {
             background: var(--warren-light-blue);
             color: var(--paper-white);
-        }
-        
-        /* Recently Used Section */
-        .recently-used {
-            background: var(--paper-white);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 30px var(--shadow-blue);
-            border: 1px solid var(--soft-blue);
-        }
-        
-        .recently-used h2 {
-            color: var(--warren-blue);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        
-        .recent-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-        
-        .recent-item {
-            background: var(--ice-white);
-            border-radius: 10px;
-            padding: 1rem;
-            border: 1px solid var(--soft-blue);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .recent-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--shadow-blue);
         }
         
         /* Cultural Inclusion Section */
@@ -428,46 +427,54 @@
         
         /* Search Bar */
         .search-container {
-            background: var(--paper-white);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 30px var(--shadow-blue);
+            background: var(--ice-white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             border: 1px solid var(--soft-blue);
+            box-shadow: 0 2px 10px var(--shadow-blue);
+        }
+        
+        .search-container h2 {
+            color: var(--warren-blue);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            font-weight: 500;
         }
         
         .search-bar-wrapper {
             position: relative;
-            max-width: 400px;
+            max-width: 300px;
             margin: 0 auto;
         }
         
         .search-bar {
             width: 100%;
-            padding: 12px 16px;
-            padding-right: 40px;
-            border-radius: 15px;
-            border: 2px solid var(--soft-blue);
-            font-size: 1rem;
+            padding: 8px 12px;
+            padding-right: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--soft-blue);
+            font-size: 0.9rem;
             font-family: 'Inter', sans-serif;
             box-sizing: border-box;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .search-bar:focus {
             outline: none;
             border-color: var(--warren-light-blue);
-            box-shadow: 0 0 0 3px var(--glow-blue);
+            box-shadow: 0 0 0 2px var(--glow-blue);
         }
         
         #clear-search {
             position: absolute;
-            right: 12px;
+            right: 8px;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
             color: var(--warren-light-blue);
             font-weight: bold;
+            font-size: 0.8rem;
             display: none;
         }
         
@@ -504,40 +511,48 @@
         <section class="quick-actions">
             <h2>Quick Actions</h2>
             <div class="actions-grid">
-                <div class="action-card" onclick="openActivity('educator-quick-start-guide.html')">
+                <div class="action-card" onclick="openFile('educator-quick-start-guide.html')">
                     <h3>📚 Quick Start Guide</h3>
                     <p>Get started with the toolkit</p>
                 </div>
-                <div class="action-card" onclick="openActivity('educator-feedback-form.html')">
+                <div class="action-card" onclick="openFile('educator-feedback-form.html')">
                     <h3>💬 Share Feedback</h3>
                     <p>Help us improve the toolkit</p>
                 </div>
-                <div class="action-card" onclick="openActivity('sel-professional-development.html')">
+                <div class="action-card" onclick="openFile('sel-professional-development.html')">
                     <h3>🧠 SEL Professional Development</h3>
                     <p>Learn SEL fundamentals</p>
                 </div>
-
-
+                <div class="action-card" onclick="openFile('classroom-enhanced.html')">
+                    <h3>📱 Classroom Mode</h3>
+                    <p>Interactive classroom activities</p>
+                </div>
+                <div class="action-card" onclick="alert('Test button works!')">
+                    <h3>🧪 Test Button</h3>
+                    <p>Click to test if events work</p>
+                </div>
             </div>
         </section>
         
-        <!-- Timer Section -->
-        <section class="timer-section">
-            <h2>⏱️ Timer Settings</h2>
-            <p>Set custom timer durations for classroom activities</p>
-            <div class="timer-controls">
-                <button class="timer-btn" onclick="setTimer(30)">30s</button>
-                <button class="timer-btn active" onclick="setTimer(60)">1min</button>
-                <button class="timer-btn" onclick="setTimer(120)">2min</button>
-                <button class="timer-btn" onclick="setTimer(180)">3min</button>
-                <button class="timer-btn" onclick="setTimer(300)">5min</button>
-                <button class="timer-btn" onclick="setTimer(600)">10min</button>
+        <!-- Recently Used Section -->
+        <section class="recently-used">
+            <h2>🕒 Recent</h2>
+            <div class="recent-items" id="recent-items">
+                <div class="recent-item">
+                    <p>No recent activities yet</p>
+                </div>
             </div>
         </section>
         
-
-        
-
+        <!-- Search Section -->
+        <section class="search-container">
+            <h2>🔍 Search</h2>
+            <div class="search-bar-wrapper">
+                <input type="text" id="search-bar" class="search-bar" placeholder="Search resources..." onkeyup="filterResources()">
+                <span id="clear-search" onclick="clearSearch()" style="display: none;">✕</span>
+            </div>
+            <div id="search-results"></div>
+        </section>
         
         <!-- Classroom Activities Section -->
         <section class="collapsible-section">
@@ -547,6 +562,18 @@
             </div>
             <div class="section-content" id="classroom-activities">
                 <div class="resources-grid">
+                    <div class="resource-section">
+                        <h3>⏱️ Timer Settings</h3>
+                        <div class="timer-controls">
+                            <button class="timer-btn" onclick="setTimer(30, event)">30s</button>
+                            <button class="timer-btn active" onclick="setTimer(60, event)">1min</button>
+                            <button class="timer-btn" onclick="setTimer(120, event)">2min</button>
+                            <button class="timer-btn" onclick="setTimer(180, event)">3min</button>
+                            <button class="timer-btn" onclick="setTimer(300, event)">5min</button>
+                            <button class="timer-btn" onclick="setTimer(600, event)">10min</button>
+                        </div>
+                    </div>
+                    
                     <div class="resource-section">
                         <h3>🎲 Dice Resources</h3>
                         <button class="resource-button dice-button" onclick="openClassroom('dice', 'Emotions & Feelings Dice.html')">Emotions & Feelings Dice <span class="sel-tag self-awareness">Self-Awareness</span></button>
@@ -580,39 +607,40 @@
                 <div class="resources-grid">
                     <div class="resource-section">
                         <h3>📖 Guides & Instructions</h3>
-                        <button class="resource-button" onclick="openActivity('educator-quick-start-guide.html')">Quick Start Guide</button>
-                        <button class="resource-button" onclick="openActivity('sel-professional-development.html')">Professional Development</button>
-                        <button class="resource-button" onclick="openActivity('educator-feedback-form.html')">Feedback Form</button>
-                        <button class="resource-button" onclick="openActivity('Page 2 - Welcome to Your Interactive SEL Toolkit.html')">Welcome Guide</button>
-                        <button class="resource-button" onclick="openActivity('Page 3 - Discussion Dice How They Work.html')">Dice Instructions</button>
-                        <button class="resource-button" onclick="openActivity('Page 4 - Emotion Exploration Dice.html')">Emotion Exploration</button>
-                        <button class="resource-button" onclick="openActivity('Page 5 - Social Scenarios Dice.html')">Social Scenarios</button>
-                        <button class="resource-button" onclick="openActivity('Page 6 - Family Connection Activities.html')">Family Connections</button>
-                        <button class="resource-button" onclick="openActivity('Page 7 - Assessment & Reflection Tools.html')">Assessment Tools</button>
-                        <button class="resource-button" onclick="openActivity('Page 8 - Advanced SEL Concepts.html')">Advanced Concepts</button>
-                        <button class="resource-button" onclick="openActivity('Page 9 - Integrating SEL Across the Curriculum.html')">Curriculum Integration</button>
-                        <button class="resource-button" onclick="openActivity('Page 10 - Digital Resources & Extensions.html')">Digital Resources</button>
-                        <button class="resource-button" onclick="openActivity('Page 11 - Glossary & Index.html')">Glossary & Index</button>
+                        <button class="resource-button" onclick="openFile('educator-quick-start-guide.html')">Quick Start Guide</button>
+                        <button class="resource-button" onclick="openFile('sel-professional-development.html')">Professional Development</button>
+                        <button class="resource-button" onclick="openFile('educator-feedback-form.html')">Feedback Form</button>
+                        <button class="resource-button" onclick="openFile('Page 1 - Cover.html')">Welcome Guide</button>
+                        <button class="resource-button" onclick="openFile('Page 2 - Welcome to Your Interactive SEL Toolkit.html')">Toolkit Overview</button>
+                        <button class="resource-button" onclick="openFile('Page 3 - Discussion Dice How They Work.html')">Dice Instructions</button>
+                        <button class="resource-button" onclick="openFile('Page 4 - Emotion Exploration Dice.html')">Emotion Exploration</button>
+                        <button class="resource-button" onclick="openFile('Page 5 - Social Scenarios Dice.html')">Social Scenarios</button>
+                        <button class="resource-button" onclick="openFile('Page 6 - Family Connection Activities.html')">Family Connections</button>
+                        <button class="resource-button" onclick="openFile('Page 7 - Assessment & Reflection Tools.html')">Assessment Tools</button>
+                        <button class="resource-button" onclick="openFile('Page 8 - Advanced SEL Concepts.html')">Advanced Concepts</button>
+                        <button class="resource-button" onclick="openFile('Page 9 - Integrating SEL Across the Curriculum.html')">Curriculum Integration</button>
+                        <button class="resource-button" onclick="openFile('Page 10 - Digital Resources & Extensions.html')">Digital Resources</button>
+                        <button class="resource-button" onclick="openFile('Page 11 - Glossary & Index.html')">Glossary & Index</button>
                     </div>
                     
                     <div class="resource-section">
                         <h3>🖨️ Printable Resources</h3>
-                        <button class="resource-button" onclick="openActivity('Blank Dice.html')">Blank Dice Template</button>
-                        <button class="resource-button" onclick="openActivity('Blank Scenario Cards.html')">Blank Scenario Cards</button>
-                        <button class="resource-button" onclick="openActivity('Scenario Card Instructions.html')">Scenario Card Instructions</button>
-                        <button class="resource-button" onclick="openActivity('All-Scenario-Cards.html')">All Scenario Cards (Printable)</button>
-                        <button class="resource-button" onclick="openActivity('Scenario Cards 1.html')">Scenario Cards 1 (Printable)</button>
-                        <button class="resource-button" onclick="openActivity('Scenario Cards 2.html')">Scenario Cards 2 (Printable)</button>
-                        <button class="resource-button" onclick="openActivity('Scenario Cards 3.html')">Scenario Cards 3 (Printable)</button>
-                        <button class="resource-button" onclick="openActivity('Scenario Cards 4.html')">Scenario Cards 4 (Printable)</button>
-                        <button class="resource-button" onclick="openActivity('Scenario Cards 5.html')">Scenario Cards 5 (Printable)</button>
-                        <button class="resource-button" onclick="openActivity('Emotions & Feelings Dice.html')">Emotions & Feelings Dice</button>
-                        <button class="resource-button" onclick="openActivity('Empathy & Kindness Dice.html')">Empathy & Kindness Dice</button>
-                        <button class="resource-button" onclick="openActivity('Friendship & Social Skills Dice.html')">Friendship & Social Skills Dice</button>
-                        <button class="resource-button" onclick="openActivity('Coping Strategies Dice.html')">Coping Strategies Dice</button>
-                        <button class="resource-button" onclick="openActivity('Problem Solving Dice.html')">Problem Solving Dice</button>
-                        <button class="resource-button" onclick="openActivity('Self-Awareness Dice.html')">Self-Awareness Dice</button>
-                        <button class="resource-button" onclick="openActivity('toolkit.html')">Toolkit Overview</button>
+                        <button class="resource-button" onclick="openFile('Blank Dice.html')">Blank Dice Template</button>
+                        <button class="resource-button" onclick="openFile('Blank Scenario Cards.html')">Blank Scenario Cards</button>
+                        <button class="resource-button" onclick="openFile('Scenario Card Instructions.html')">Scenario Card Instructions</button>
+                        <button class="resource-button" onclick="openFile('All-Scenario-Cards.html')">All Scenario Cards (Printable)</button>
+                        <button class="resource-button" onclick="openFile('Scenario Cards 1.html')">Scenario Cards 1 (Printable)</button>
+                        <button class="resource-button" onclick="openFile('Scenario Cards 2.html')">Scenario Cards 2 (Printable)</button>
+                        <button class="resource-button" onclick="openFile('Scenario Cards 3.html')">Scenario Cards 3 (Printable)</button>
+                        <button class="resource-button" onclick="openFile('Scenario Cards 4.html')">Scenario Cards 4 (Printable)</button>
+                        <button class="resource-button" onclick="openFile('Scenario Cards 5.html')">Scenario Cards 5 (Printable)</button>
+                        <button class="resource-button" onclick="openFile('Emotions & Feelings Dice.html')">Emotions & Feelings Dice</button>
+                        <button class="resource-button" onclick="openFile('Empathy & Kindness Dice.html')">Empathy & Kindness Dice</button>
+                        <button class="resource-button" onclick="openFile('Friendship & Social Skills Dice.html')">Friendship & Social Skills Dice</button>
+                        <button class="resource-button" onclick="openFile('Coping Strategies Dice.html')">Coping Strategies Dice</button>
+                        <button class="resource-button" onclick="openFile('Problem Solving Dice.html')">Problem Solving Dice</button>
+                        <button class="resource-button" onclick="openFile('Self-Awareness Dice.html')">Self-Awareness Dice</button>
+                        <button class="resource-button" onclick="openFile('toolkit.html')">Toolkit Overview</button>
                     </div>
                 </div>
             </div>
@@ -621,13 +649,39 @@
 
     </div>
     
-    <script src="dashboard.js"></script>
     <script>
         // Initialize the dashboard
         document.addEventListener('DOMContentLoaded', function() {
             loadRecentItems();
             initializeTimer();
         });
+        
+        // Robust file opening function
+        function openFile(url) {
+            console.log('Attempting to open:', url);
+            
+            try {
+                // Try direct window.open first
+                const newWindow = window.open(url, '_blank');
+                
+                // Check if popup was blocked
+                if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+                    console.log('Popup blocked, trying alternative method');
+                    
+                    // Alternative method: create a link and click it
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.target = '_blank';
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            } catch (error) {
+                console.error('Error opening file:', error);
+                alert('Unable to open file. Please check if popup blocker is enabled.');
+            }
+        }
         
         // Toggle collapsible sections
         function toggleSection(sectionId) {
@@ -645,11 +699,13 @@
         }
         
         // Timer functionality
-        function setTimer(seconds) {
+        function setTimer(seconds, event) {
             // Remove active class from all buttons
             document.querySelectorAll('.timer-btn').forEach(btn => btn.classList.remove('active'));
             // Add active class to clicked button
-            event.target.classList.add('active');
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
             
             // Save to localStorage
             localStorage.setItem('timerDuration', seconds);
@@ -677,33 +733,11 @@
             }
             
             container.innerHTML = recentItems.map(item => `
-                <div class="recent-item" onclick="openActivity('${item.url}')">
+                <div class="recent-item" onclick="openFile('${item.url}')">
                     <h4>${item.title}</h4>
                     <p>${item.type}</p>
                 </div>
             `).join('');
-        }
-        
-        function addToRecent(title, url, type) {
-            const recentItems = JSON.parse(localStorage.getItem('recentItems') || '[]');
-            const newItem = { title, url, type, timestamp: Date.now() };
-            
-            // Remove if already exists
-            const existingIndex = recentItems.findIndex(item => item.url === url);
-            if (existingIndex > -1) {
-                recentItems.splice(existingIndex, 1);
-            }
-            
-            // Add to beginning
-            recentItems.unshift(newItem);
-            
-            // Keep only last 6 items
-            if (recentItems.length > 6) {
-                recentItems.splice(6);
-            }
-            
-            localStorage.setItem('recentItems', JSON.stringify(recentItems));
-            loadRecentItems();
         }
         
         // Search functionality
@@ -727,29 +761,19 @@
             document.getElementById('search-results').innerHTML = '';
         }
         
-        // Open activity function
-        function openActivity(url) {
-            console.log('Opening activity:', url);
-            addToRecent('Activity', url, 'Resource');
-            try {
-                // Encode the URL to handle spaces and special characters
-                const encodedUrl = encodeURI(url);
-                window.open(encodedUrl, '_blank');
-            } catch (error) {
-                console.error('Error opening activity:', error);
-                alert('Error opening activity. Please check if the file exists.');
-            }
-        }
-        
         // Open classroom function
         function openClassroom(type, url) {
-            const title = url.replace('.html', '').replace(/-/g, ' ');
-            addToRecent(title, url, type === 'dice' ? 'Dice Activity' : 'Scenario Cards');
+            console.log('Opening classroom:', type, url);
             
-            if (type === 'dice') {
-                window.open(`classroom-enhanced.html?type=dice&file=${url}`, '_blank');
-            } else {
-                window.open(`classroom-enhanced.html?type=scenarios&file=${url}`, '_blank');
+            try {
+                if (type === 'dice') {
+                    openFile(`classroom-enhanced.html?type=dice&file=${encodeURIComponent(url)}`);
+                } else {
+                    openFile(`classroom-enhanced.html?type=scenarios&file=${encodeURIComponent(url)}`);
+                }
+            } catch (error) {
+                console.error('Error opening classroom:', error);
+                alert('Error opening classroom activity. Please check if the file exists.');
             }
         }
     </script>
