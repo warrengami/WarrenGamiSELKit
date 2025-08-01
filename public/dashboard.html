@@ -580,6 +580,9 @@
                 <div class="resources-grid">
                     <div class="resource-section">
                         <h3>📖 Guides & Instructions</h3>
+                        <button class="resource-button" onclick="openActivity('educator-quick-start-guide.html')">Quick Start Guide</button>
+                        <button class="resource-button" onclick="openActivity('sel-professional-development.html')">Professional Development</button>
+                        <button class="resource-button" onclick="openActivity('educator-feedback-form.html')">Feedback Form</button>
                         <button class="resource-button" onclick="openActivity('Page 2 - Welcome to Your Interactive SEL Toolkit.html')">Welcome Guide</button>
                         <button class="resource-button" onclick="openActivity('Page 3 - Discussion Dice How They Work.html')">Dice Instructions</button>
                         <button class="resource-button" onclick="openActivity('Page 4 - Emotion Exploration Dice.html')">Emotion Exploration</button>
@@ -726,8 +729,16 @@
         
         // Open activity function
         function openActivity(url) {
+            console.log('Opening activity:', url);
             addToRecent('Activity', url, 'Resource');
-            window.open(url, '_blank');
+            try {
+                // Encode the URL to handle spaces and special characters
+                const encodedUrl = encodeURI(url);
+                window.open(encodedUrl, '_blank');
+            } catch (error) {
+                console.error('Error opening activity:', error);
+                alert('Error opening activity. Please check if the file exists.');
+            }
         }
         
         // Open classroom function
@@ -742,5 +753,9 @@
             }
         }
     </script>
+
+    <!-- TIDIO CHATBOT SCRIPT -->
+    <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>
+
 </body>
 </html>
