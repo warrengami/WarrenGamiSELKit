@@ -357,14 +357,17 @@
             border: 2px solid var(--midnight-blue);
         }
         .card-front { background-color: var(--highlight-yellow); }
-        .card-back { transform: rotateY(180deg); }
+        .card-back { 
+            transform: rotateY(180deg); 
+            background-color: var(--highlight-yellow); /* Default fallback */
+        }
         
         /* --- ADDED: Scenario Card Background Color Classes --- */
-        .bg-yellow { background-color: var(--yellow); }
-        .bg-pink { background-color: var(--pink); }
-        .bg-red { background-color: var(--red); }
-        .bg-purple { background-color: var(--purple); }
-        .bg-green { background-color: var(--green); }
+        .bg-yellow { background-color: var(--yellow) !important; }
+        .bg-pink { background-color: var(--pink) !important; }
+        .bg-red { background-color: var(--red) !important; }
+        .bg-purple { background-color: var(--purple) !important; }
+        .bg-green { background-color: var(--green) !important; }
         
         .card-title { font-family: 'Poppins', sans-serif; font-size: 1.8em; font-weight: bold; margin-bottom: 15px; }
         .card-text { font-size: 1.5em; }
