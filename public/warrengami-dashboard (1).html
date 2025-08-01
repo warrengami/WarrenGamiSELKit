@@ -253,39 +253,54 @@
         
         /* Recently Used Section */
         .recently-used {
-            background: var(--paper-white);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 30px var(--shadow-blue);
+            background: var(--ice-white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             border: 1px solid var(--soft-blue);
+            box-shadow: 0 2px 10px var(--shadow-blue);
         }
         
         .recently-used h2 {
             color: var(--warren-blue);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            font-weight: 500;
         }
         
         .recent-items {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
         }
         
         .recent-item {
-            background: var(--ice-white);
-            border-radius: 10px;
-            padding: 1rem;
+            background: var(--paper-white);
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
             border: 1px solid var(--soft-blue);
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-dark);
         }
         
         .recent-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--shadow-blue);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px var(--shadow-blue);
+            border-color: var(--warren-light-blue);
+        }
+        
+        .recent-item h4 {
+            font-size: 0.9rem;
+            margin: 0 0 0.2rem 0;
+            color: var(--warren-blue);
+        }
+        
+        .recent-item p {
+            font-size: 0.8rem;
+            margin: 0;
+            opacity: 0.7;
         }
         
         /* Cultural Inclusion Section */
@@ -428,46 +443,54 @@
         
         /* Search Bar */
         .search-container {
-            background: var(--paper-white);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 30px var(--shadow-blue);
+            background: var(--ice-white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             border: 1px solid var(--soft-blue);
+            box-shadow: 0 2px 10px var(--shadow-blue);
+        }
+        
+        .search-container h2 {
+            color: var(--warren-blue);
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+            font-weight: 500;
         }
         
         .search-bar-wrapper {
             position: relative;
-            max-width: 400px;
+            max-width: 300px;
             margin: 0 auto;
         }
         
         .search-bar {
             width: 100%;
-            padding: 12px 16px;
-            padding-right: 40px;
-            border-radius: 15px;
-            border: 2px solid var(--soft-blue);
-            font-size: 1rem;
+            padding: 8px 12px;
+            padding-right: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--soft-blue);
+            font-size: 0.9rem;
             font-family: 'Inter', sans-serif;
             box-sizing: border-box;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
         
         .search-bar:focus {
             outline: none;
             border-color: var(--warren-light-blue);
-            box-shadow: 0 0 0 3px var(--glow-blue);
+            box-shadow: 0 0 0 2px var(--glow-blue);
         }
         
         #clear-search {
             position: absolute;
-            right: 12px;
+            right: 8px;
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
             color: var(--warren-light-blue);
             font-weight: bold;
+            font-size: 0.8rem;
             display: none;
         }
         
@@ -516,8 +539,10 @@
                     <h3>🧠 SEL Professional Development</h3>
                     <p>Learn SEL fundamentals</p>
                 </div>
-
-
+                <div class="action-card" onclick="openActivity('classroom-enhanced.html')">
+                    <h3>📱 Classroom Mode</h3>
+                    <p>Interactive classroom activities</p>
+                </div>
             </div>
         </section>
         
@@ -535,9 +560,25 @@
             </div>
         </section>
         
-
+        <!-- Recently Used Section -->
+        <section class="recently-used">
+            <h2>🕒 Recent</h2>
+            <div class="recent-items" id="recent-items">
+                <div class="recent-item">
+                    <p>No recent activities yet</p>
+                </div>
+            </div>
+        </section>
         
-
+        <!-- Search Section -->
+        <section class="search-container">
+            <h2>🔍 Search</h2>
+            <div class="search-bar-wrapper">
+                <input type="text" id="search-bar" class="search-bar" placeholder="Search resources..." onkeyup="filterResources()">
+                <span id="clear-search" onclick="clearSearch()" style="display: none;">✕</span>
+            </div>
+            <div id="search-results"></div>
+        </section>
         
         <!-- Classroom Activities Section -->
         <section class="collapsible-section">
@@ -583,7 +624,8 @@
                         <button class="resource-button" onclick="openActivity('educator-quick-start-guide.html')">Quick Start Guide</button>
                         <button class="resource-button" onclick="openActivity('sel-professional-development.html')">Professional Development</button>
                         <button class="resource-button" onclick="openActivity('educator-feedback-form.html')">Feedback Form</button>
-                        <button class="resource-button" onclick="openActivity('Page 2 - Welcome to Your Interactive SEL Toolkit.html')">Welcome Guide</button>
+                        <button class="resource-button" onclick="openActivity('Page 1 - Cover.html')">Welcome Guide</button>
+                        <button class="resource-button" onclick="openActivity('Page 2 - Welcome to Your Interactive SEL Toolkit.html')">Toolkit Overview</button>
                         <button class="resource-button" onclick="openActivity('Page 3 - Discussion Dice How They Work.html')">Dice Instructions</button>
                         <button class="resource-button" onclick="openActivity('Page 4 - Emotion Exploration Dice.html')">Emotion Exploration</button>
                         <button class="resource-button" onclick="openActivity('Page 5 - Social Scenarios Dice.html')">Social Scenarios</button>
@@ -733,7 +775,7 @@
             addToRecent('Activity', url, 'Resource');
             try {
                 // Encode the URL to handle spaces and special characters
-                const encodedUrl = encodeURI(url);
+                const encodedUrl = encodeURIComponent(url);
                 window.open(encodedUrl, '_blank');
             } catch (error) {
                 console.error('Error opening activity:', error);
@@ -747,9 +789,9 @@
             addToRecent(title, url, type === 'dice' ? 'Dice Activity' : 'Scenario Cards');
             
             if (type === 'dice') {
-                window.open(`classroom-enhanced.html?type=dice&file=${url}`, '_blank');
+                window.open(`classroom-enhanced.html?type=dice&file=${encodeURIComponent(url)}`, '_blank');
             } else {
-                window.open(`classroom-enhanced.html?type=scenarios&file=${url}`, '_blank');
+                window.open(`classroom-enhanced.html?type=scenarios&file=${encodeURIComponent(url)}`, '_blank');
             }
         }
     </script>
