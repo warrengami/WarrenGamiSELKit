@@ -210,58 +210,6 @@
             line-height: 1.4;
         }
         
-        /* Recently Used Section */
-        .recently-used {
-            background: var(--ice-white);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--soft-blue);
-            box-shadow: 0 2px 10px var(--shadow-blue);
-        }
-        
-        .recently-used h2 {
-            color: var(--warren-blue);
-            margin-bottom: 0.8rem;
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-        
-        .recent-items {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-        
-        .recent-item {
-            background: var(--paper-white);
-            border-radius: 8px;
-            padding: 0.5rem 0.8rem;
-            border: 1px solid var(--soft-blue);
-            transition: all 0.2s ease;
-            cursor: pointer;
-            font-size: 0.9rem;
-            color: var(--text-dark);
-        }
-        
-        .recent-item:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 8px var(--shadow-blue);
-            border-color: var(--warren-light-blue);
-        }
-        
-        .recent-item h4 {
-            font-size: 0.9rem;
-            margin: 0 0 0.2rem 0;
-            color: var(--warren-blue);
-        }
-        
-        .recent-item p {
-            font-size: 0.8rem;
-            margin: 0;
-            opacity: 0.7;
-        }
-        
         /* Timer Controls */
         .timer-controls {
             display: flex;
@@ -425,59 +373,6 @@
         .sel-tag.responsible-decision-making { background-color: var(--tag-decision); }
         .sel-tag.all-competencies { background-color: #dc3545; }
         
-        /* Search Bar */
-        .search-container {
-            background: var(--ice-white);
-            border-radius: 15px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--soft-blue);
-            box-shadow: 0 2px 10px var(--shadow-blue);
-        }
-        
-        .search-container h2 {
-            color: var(--warren-blue);
-            margin-bottom: 0.8rem;
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-        
-        .search-bar-wrapper {
-            position: relative;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-        
-        .search-bar {
-            width: 100%;
-            padding: 8px 12px;
-            padding-right: 30px;
-            border-radius: 10px;
-            border: 1px solid var(--soft-blue);
-            font-size: 0.9rem;
-            font-family: 'Inter', sans-serif;
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-        }
-        
-        .search-bar:focus {
-            outline: none;
-            border-color: var(--warren-light-blue);
-            box-shadow: 0 0 0 2px var(--glow-blue);
-        }
-        
-        #clear-search {
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-            color: var(--warren-light-blue);
-            font-weight: bold;
-            font-size: 0.8rem;
-            display: none;
-        }
-        
         /* Responsive Design */
         @media (max-width: 768px) {
             .container { padding: 0.5rem; }
@@ -485,7 +380,6 @@
             .actions-grid { grid-template-columns: 1fr; }
             .resources-grid { grid-template-columns: 1fr; }
             .timer-controls { justify-content: center; }
-            .recent-items { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -523,35 +417,7 @@
                     <h3>🧠 SEL Professional Development</h3>
                     <p>Learn SEL fundamentals</p>
                 </div>
-                <div class="action-card" onclick="openFile('classroom-enhanced.html')">
-                    <h3>📱 Classroom Mode</h3>
-                    <p>Interactive classroom activities</p>
-                </div>
-                <div class="action-card" onclick="alert('Test button works!')">
-                    <h3>🧪 Test Button</h3>
-                    <p>Click to test if events work</p>
-                </div>
             </div>
-        </section>
-        
-        <!-- Recently Used Section -->
-        <section class="recently-used">
-            <h2>🕒 Recent</h2>
-            <div class="recent-items" id="recent-items">
-                <div class="recent-item">
-                    <p>No recent activities yet</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Search Section -->
-        <section class="search-container">
-            <h2>🔍 Search</h2>
-            <div class="search-bar-wrapper">
-                <input type="text" id="search-bar" class="search-bar" placeholder="Search resources..." onkeyup="filterResources()">
-                <span id="clear-search" onclick="clearSearch()" style="display: none;">✕</span>
-            </div>
-            <div id="search-results"></div>
         </section>
         
         <!-- Classroom Activities Section -->
@@ -652,7 +518,6 @@
     <script>
         // Initialize the dashboard
         document.addEventListener('DOMContentLoaded', function() {
-            loadRecentItems();
             initializeTimer();
         });
         
@@ -722,54 +587,15 @@
             });
         }
         
-        // Recent items functionality
-        function loadRecentItems() {
-            const recentItems = JSON.parse(localStorage.getItem('recentItems') || '[]');
-            const container = document.getElementById('recent-items');
-            
-            if (recentItems.length === 0) {
-                container.innerHTML = '<div class="recent-item"><p>No recent activities yet</p></div>';
-                return;
-            }
-            
-            container.innerHTML = recentItems.map(item => `
-                <div class="recent-item" onclick="openFile('${item.url}')">
-                    <h4>${item.title}</h4>
-                    <p>${item.type}</p>
-                </div>
-            `).join('');
-        }
-        
-        // Search functionality
-        function filterResources() {
-            const searchTerm = document.getElementById('search-bar').value.toLowerCase();
-            const clearButton = document.getElementById('clear-search');
-            
-            if (searchTerm.length > 0) {
-                clearButton.style.display = 'block';
-            } else {
-                clearButton.style.display = 'none';
-            }
-            
-            // Implement search logic here
-            // This would search through all available resources
-        }
-        
-        function clearSearch() {
-            document.getElementById('search-bar').value = '';
-            document.getElementById('clear-search').style.display = 'none';
-            document.getElementById('search-results').innerHTML = '';
-        }
-        
         // Open classroom function
         function openClassroom(type, url) {
             console.log('Opening classroom:', type, url);
             
             try {
-                if (type === 'dice') {
-                    openFile(`classroom-enhanced.html?type=dice&file=${encodeURIComponent(url)}`);
-                } else {
-                    openFile(`classroom-enhanced.html?type=scenarios&file=${encodeURIComponent(url)}`);
+                const url = `classroom.html?type=${encodeURIComponent(type)}&file=${encodeURIComponent(url)}`;
+                const newWindow = window.open(url, '_blank');
+                if (!newWindow) {
+                    alert('Please allow pop-ups for this site to use classroom mode.');
                 }
             } catch (error) {
                 console.error('Error opening classroom:', error);
