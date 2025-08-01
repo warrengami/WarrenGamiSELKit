@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const doc = await fetchAndParse(resourceFile);
             titleEl.textContent = doc.querySelector('title')?.textContent.replace('(Interactive)', '').trim() || 'Dice';
 
-            // Extract prompts
+            // Extract prompts from script content
             const scriptContent = doc.querySelector('script:not([src])')?.innerHTML;
             if (!scriptContent) throw new Error('Could not find script content in the resource file.');
             
@@ -52,139 +52,145 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Try alternative format
                 promptsMatch = scriptContent.match(/const prompts\s*=\s*(\[[\s\S]*?\]);/);
             }
-            if (!promptsMatch) throw new Error('Could not find prompts array in the resource file.');
+            if (!promptsMatch) {
+                // Try to extract prompts from the dice faces in the HTML
+                const diceFaces = doc.querySelectorAll('.dice-face .prompt');
+                if (diceFaces.length > 0) {
+                    const dicePrompts = Array.from(diceFaces).map(face => face.textContent.trim());
+                    setupDiceWithPrompts(dicePrompts);
+                    return;
+                }
+                throw new Error('Could not find prompts array or dice faces in the resource file.');
+            }
             
             const allPrompts = JSON.parse(promptsMatch[1]);
             const dicePrompts = allPrompts.slice(0, 6); // Only use first 6 prompts for dice
             
-            // Build enhanced 3D dice HTML
-            const diceHTML = `
-                <div class="dice-scene">
-                    <div class="dice" id="interactive-dice">
-                        ${dicePrompts.map((prompt, i) => `<div class="face face-${i + 1}">${escapeHtml(prompt)}</div>`).join('')}
-                    </div>
-                </div>
-                <div id="prompt-result"></div>
-            `;
-            mainContentEl.innerHTML = diceHTML;
-            
-            // Enhanced control buttons for dice
-            const rollBtn = document.createElement('button');
-            rollBtn.textContent = '🎲 Roll the Dice';
-            rollBtn.className = 'enhanced-btn';
-            controlPanelEl.appendChild(rollBtn);
-
-
-
-            // Timer controls
-            const timerBtn = document.createElement('button');
-            timerBtn.textContent = '⏱️ Start Timer';
-            timerBtn.className = 'enhanced-btn timer-btn';
-            controlPanelEl.appendChild(timerBtn);
-            
-            const dice = document.getElementById('interactive-dice');
-            const promptResultEl = document.getElementById('prompt-result');
-            const timerSection = document.getElementById('timer-section');
-            const timerDisplay = document.getElementById('timer-display');
-
-            // Enhanced roll function with physics and sound
-            rollBtn.addEventListener('click', () => {
-                if (rollBtn.disabled) return;
-                
-                // Disable buttons during roll
-                rollBtn.disabled = true;
-                promptResultEl.textContent = '';
-                
-                // Play dice rolling sound
-                playDiceSound();
-                
-                // Enhanced physics-based animation
-                const randomFace = Math.floor(Math.random() * 6) + 1;
-                const rollDuration = 2000 + Math.random() * 1000; // 2-3 seconds
-                
-                // Multiple rotation phases for realistic physics
-                dice.className = 'dice rolling physics-roll';
-                
-                // Add bounce effect
-                setTimeout(() => {
-                    dice.classList.add('bounce');
-                }, 500);
-                
-                setTimeout(() => {
-                    dice.classList.remove('bounce');
-                    dice.className = `dice show-${randomFace} settled`;
-                    
-                    // Select a random prompt from the visible dice faces (first 6 prompts)
-                    const chosenPrompt = dicePrompts[randomFace - 1];
-                    promptResultEl.textContent = chosenPrompt;
-                    
-                    // Re-enable buttons
-                    rollBtn.disabled = false;
-                }, rollDuration);
-            });
-
-
-
-            // Timer functionality
-            timerBtn.addEventListener('click', () => {
-                if (currentTimer) {
-                    stopTimer();
-                    timerBtn.textContent = '⏱️ Start Timer';
-                    timerSection.style.display = 'none';
-                } else {
-                    startTimer();
-                    timerBtn.textContent = '⏹️ Stop Timer';
-                    timerSection.style.display = 'block';
-                }
-            });
-
-
-
-            // Timer functions
-            function startTimer() {
-                const savedDuration = localStorage.getItem('timerDuration') || 180;
-                let timeLeft = parseInt(savedDuration);
-                currentTimer = setInterval(() => {
-                    timeLeft--;
-                    const minutes = Math.floor(timeLeft / 60);
-                    const seconds = timeLeft % 60;
-                    timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    
-                    if (timeLeft <= 0) {
-                        stopTimer();
-                        timerDisplay.textContent = "Time's up!";
-                        timerSection.style.display = 'none';
-                    }
-                }, 1000);
-            }
-
-            function stopTimer() {
-                if (currentTimer) {
-                    clearInterval(currentTimer);
-                    currentTimer = null;
-                }
-            }
-
-            // Cleanup function for proper memory management
-            function cleanup() {
-                stopTimer();
-            }
-
-            // Handle page unload to prevent memory leaks
-            window.addEventListener('beforeunload', cleanup);
-
-            // Sound function
-            function playDiceSound() {
-                // Create audio element for dice rolling sound
-                const audio = new Audio('dice-roll-1.mp3');
-                audio.volume = 0.3; // Set volume to 30%
-                audio.play().catch(error => {
-                    // Audio playback failed silently
-                });
-            }
-
+            setupDiceWithPrompts(dicePrompts);
         } catch (error) {
             handleError(error);
+        }
+    }
+
+    function setupDiceWithPrompts(dicePrompts) {
+        // Build enhanced 3D dice HTML
+        const diceHTML = `
+            <div class="dice-scene">
+                <div class="dice" id="interactive-dice">
+                    ${dicePrompts.map((prompt, i) => `<div class="face face-${i + 1}">${escapeHtml(prompt)}</div>`).join('')}
+                </div>
+            </div>
+            <div id="prompt-result"></div>
+        `;
+        mainContentEl.innerHTML = diceHTML;
+        
+        // Enhanced control buttons for dice
+        const rollBtn = document.createElement('button');
+        rollBtn.textContent = '🎲 Roll the Dice';
+        rollBtn.className = 'enhanced-btn';
+        controlPanelEl.appendChild(rollBtn);
+
+        // Timer controls
+        const timerBtn = document.createElement('button');
+        timerBtn.textContent = '⏱️ Start Timer';
+        timerBtn.className = 'enhanced-btn timer-btn';
+        controlPanelEl.appendChild(timerBtn);
+        
+        const dice = document.getElementById('interactive-dice');
+        const promptResultEl = document.getElementById('prompt-result');
+        const timerSection = document.getElementById('timer-section');
+        const timerDisplay = document.getElementById('timer-display');
+
+        // Enhanced roll function with physics and sound
+        rollBtn.addEventListener('click', () => {
+            if (rollBtn.disabled) return;
+            
+            // Disable buttons during roll
+            rollBtn.disabled = true;
+            promptResultEl.textContent = '';
+            
+            // Play dice rolling sound
+            playDiceSound();
+            
+            // Enhanced physics-based animation
+            const randomFace = Math.floor(Math.random() * 6) + 1;
+            const rollDuration = 2000 + Math.random() * 1000; // 2-3 seconds
+            
+            // Multiple rotation phases for realistic physics
+            dice.className = 'dice rolling physics-roll';
+            
+            // Add bounce effect
+            setTimeout(() => {
+                dice.classList.add('bounce');
+            }, 500);
+            
+            setTimeout(() => {
+                dice.classList.remove('bounce');
+                dice.className = `dice show-${randomFace} settled`;
+                
+                // Select a random prompt from the visible dice faces (first 6 prompts)
+                const chosenPrompt = dicePrompts[randomFace - 1];
+                promptResultEl.textContent = chosenPrompt;
+                
+                // Re-enable buttons
+                rollBtn.disabled = false;
+            }, rollDuration);
+        });
+
+        // Timer functionality
+        timerBtn.addEventListener('click', () => {
+            if (currentTimer) {
+                stopTimer();
+                timerBtn.textContent = '⏱️ Start Timer';
+                timerSection.style.display = 'none';
+            } else {
+                startTimer();
+                timerBtn.textContent = '⏹️ Stop Timer';
+                timerSection.style.display = 'block';
+            }
+        });
+
+        // Timer functions
+        function startTimer() {
+            const savedDuration = localStorage.getItem('timerDuration') || 180;
+            let timeLeft = parseInt(savedDuration);
+            currentTimer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    stopTimer();
+                    timerDisplay.textContent = "Time's up!";
+                    timerSection.style.display = 'none';
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (currentTimer) {
+                clearInterval(currentTimer);
+                currentTimer = null;
+            }
+        }
+
+        // Cleanup function for proper memory management
+        function cleanup() {
+            stopTimer();
+        }
+
+        // Handle page unload to prevent memory leaks
+        window.addEventListener('beforeunload', cleanup);
+
+        // Sound function
+        function playDiceSound() {
+            // Create audio element for dice rolling sound
+            const audio = new Audio('dice-roll-1.mp3');
+            audio.volume = 0.3; // Set volume to 30%
+            audio.play().catch(error => {
+                // Audio playback failed silently
+            });
         }
     }
 
@@ -380,7 +386,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             <div class="card-back ${escapeHtml(drawn.bgColorClass)}">
                                 <div class="card-title">Guiding Questions</div>
-                                <ul class="guiding-questions">${escapeHtml(drawn.questions)}</ul>
+                                <ul class="guiding-questions">${drawn.questions}</ul>
                             </div>
                         </div>
                     `;
