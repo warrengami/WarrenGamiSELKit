@@ -543,6 +543,10 @@
                     <h3>📱 Classroom Mode</h3>
                     <p>Interactive classroom activities</p>
                 </div>
+                <div class="action-card" onclick="testClick()">
+                    <h3>🧪 Test Button</h3>
+                    <p>Click to test if events work</p>
+                </div>
             </div>
         </section>
         
@@ -551,12 +555,12 @@
             <h2>⏱️ Timer Settings</h2>
             <p>Set custom timer durations for classroom activities</p>
             <div class="timer-controls">
-                <button class="timer-btn" onclick="setTimer(30)">30s</button>
-                <button class="timer-btn active" onclick="setTimer(60)">1min</button>
-                <button class="timer-btn" onclick="setTimer(120)">2min</button>
-                <button class="timer-btn" onclick="setTimer(180)">3min</button>
-                <button class="timer-btn" onclick="setTimer(300)">5min</button>
-                <button class="timer-btn" onclick="setTimer(600)">10min</button>
+                <button class="timer-btn" onclick="setTimer(30, event)">30s</button>
+                <button class="timer-btn active" onclick="setTimer(60, event)">1min</button>
+                <button class="timer-btn" onclick="setTimer(120, event)">2min</button>
+                <button class="timer-btn" onclick="setTimer(180, event)">3min</button>
+                <button class="timer-btn" onclick="setTimer(300, event)">5min</button>
+                <button class="timer-btn" onclick="setTimer(600, event)">10min</button>
             </div>
         </section>
         
@@ -687,11 +691,13 @@
         }
         
         // Timer functionality
-        function setTimer(seconds) {
+        function setTimer(seconds, event) {
             // Remove active class from all buttons
             document.querySelectorAll('.timer-btn').forEach(btn => btn.classList.remove('active'));
             // Add active class to clicked button
-            event.target.classList.add('active');
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
             
             // Save to localStorage
             localStorage.setItem('timerDuration', seconds);
@@ -772,26 +778,43 @@
         // Open activity function
         function openActivity(url) {
             console.log('Opening activity:', url);
-            addToRecent('Activity', url, 'Resource');
+            
+            // Add to recent items
+            const title = url.replace('.html', '').replace(/-/g, ' ');
+            addToRecent(title, url, 'Resource');
+            
             try {
-                // Encode the URL to handle spaces and special characters
-                const encodedUrl = encodeURIComponent(url);
-                window.open(encodedUrl, '_blank');
+                // Try to open the file directly
+                console.log('Attempting to open:', url);
+                window.open(url, '_blank');
+                
             } catch (error) {
                 console.error('Error opening activity:', error);
                 alert('Error opening activity. Please check if the file exists.');
             }
         }
         
+        // Test function to verify clicks are working
+        function testClick() {
+            alert('Click is working!');
+        }
+        
         // Open classroom function
         function openClassroom(type, url) {
+            console.log('Opening classroom:', type, url);
+            
             const title = url.replace('.html', '').replace(/-/g, ' ');
             addToRecent(title, url, type === 'dice' ? 'Dice Activity' : 'Scenario Cards');
             
-            if (type === 'dice') {
-                window.open(`classroom-enhanced.html?type=dice&file=${encodeURIComponent(url)}`, '_blank');
-            } else {
-                window.open(`classroom-enhanced.html?type=scenarios&file=${encodeURIComponent(url)}`, '_blank');
+            try {
+                if (type === 'dice') {
+                    window.open(`classroom-enhanced.html?type=dice&file=${encodeURIComponent(url)}`, '_blank');
+                } else {
+                    window.open(`classroom-enhanced.html?type=scenarios&file=${encodeURIComponent(url)}`, '_blank');
+                }
+            } catch (error) {
+                console.error('Error opening classroom:', error);
+                alert('Error opening classroom activity. Please check if the file exists.');
             }
         }
     </script>
