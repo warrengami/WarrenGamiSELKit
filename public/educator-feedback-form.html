@@ -53,6 +53,32 @@
             margin: 10px 0 0 0;
         }
         
+        .nav-buttons {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .nav-btn, .print-btn {
+            background-color: var(--midnight-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            margin: 0 10px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .print-btn {
+            background-color: #28a745;
+        }
+        
+        .nav-btn:hover, .print-btn:hover {
+            opacity: 0.9;
+        }
+        
         h2 {
             font-family: 'Poppins', sans-serif;
             color: var(--midnight-blue);
@@ -207,6 +233,11 @@
         <div class="header">
             <h1>💬 Educator Feedback Form</h1>
             <p>Help us improve the WarrenGami SEL Toolkit for you and your students</p>
+        </div>
+        
+        <div class="nav-buttons">
+            <button class="nav-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
+            <button class="print-btn" onclick="window.print()">🖨️ Print Form</button>
         </div>
 
         <form id="feedbackForm">
