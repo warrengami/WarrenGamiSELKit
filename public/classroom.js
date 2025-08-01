@@ -46,33 +46,55 @@ document.addEventListener('DOMContentLoaded', () => {
             const scriptContent = doc.querySelector('script:not([src])')?.innerHTML;
             if (!scriptContent) throw new Error('Could not find script content in the resource file.');
             
+            console.log('Script content found:', scriptContent.substring(0, 200) + '...');
+            
             // Look for prompts array in multiple formats
-            let promptsMatch = scriptContent.match(/const prompts = (\[[\s\S]*?\]);/);
+            let promptsMatch = scriptContent.match(/const prompts\s*=\s*(\[[\s\S]*?\]);/);
+            console.log('Prompts match result:', promptsMatch ? 'Found' : 'Not found');
+            
             if (!promptsMatch) {
-                // Try alternative format
+                // Try alternative format with different spacing
                 promptsMatch = scriptContent.match(/const prompts\s*=\s*(\[[\s\S]*?\]);/);
+                console.log('Alternative prompts match result:', promptsMatch ? 'Found' : 'Not found');
             }
             if (!promptsMatch) {
                 // Try to extract prompts from the dice faces in the HTML
                 const diceFaces = doc.querySelectorAll('.dice-face .prompt');
+                console.log('Dice faces found:', diceFaces.length);
                 if (diceFaces.length > 0) {
                     const dicePrompts = Array.from(diceFaces).map(face => face.textContent.trim());
+                    console.log('Extracted prompts from HTML:', dicePrompts);
                     setupDiceWithPrompts(dicePrompts);
                     return;
                 }
                 throw new Error('Could not find prompts array or dice faces in the resource file.');
             }
             
-            const allPrompts = JSON.parse(promptsMatch[1]);
-            const dicePrompts = allPrompts.slice(0, 6); // Only use first 6 prompts for dice
-            
-            setupDiceWithPrompts(dicePrompts);
+            try {
+                const allPrompts = JSON.parse(promptsMatch[1]);
+                const dicePrompts = allPrompts.slice(0, 6); // Only use first 6 prompts for dice
+                console.log('Parsed prompts from array:', dicePrompts);
+                setupDiceWithPrompts(dicePrompts);
+            } catch (parseError) {
+                console.log('JSON parse error:', parseError);
+                // If JSON parsing fails, try to extract from HTML faces
+                const diceFaces = doc.querySelectorAll('.dice-face .prompt');
+                if (diceFaces.length > 0) {
+                    const dicePrompts = Array.from(diceFaces).map(face => face.textContent.trim());
+                    console.log('Extracted prompts from HTML after parse error:', dicePrompts);
+                    setupDiceWithPrompts(dicePrompts);
+                } else {
+                    throw new Error('Could not parse prompts array or find dice faces in the resource file.');
+                }
+            }
         } catch (error) {
             handleError(error);
         }
     }
 
     function setupDiceWithPrompts(dicePrompts) {
+        console.log('Setting up dice with prompts:', dicePrompts);
+        
         // Build enhanced 3D dice HTML
         const diceHTML = `
             <div class="dice-scene">
