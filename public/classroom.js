@@ -72,9 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
             
             try {
                 const allPrompts = JSON.parse(promptsMatch[1]);
-                const dicePrompts = allPrompts.slice(0, 6); // Only use first 6 prompts for dice
-                console.log('Parsed prompts from array:', dicePrompts);
-                setupDiceWithPrompts(dicePrompts);
+                console.log('All prompts from array:', allPrompts);
+                setupDiceWithPrompts(allPrompts); // Use all prompts, not just first 6
             } catch (parseError) {
                 console.log('JSON parse error:', parseError);
                 // If JSON parsing fails, try to extract from HTML faces
@@ -95,14 +94,21 @@ document.addEventListener('DOMContentLoaded', () => {
     function setupDiceWithPrompts(dicePrompts) {
         console.log('Setting up dice with prompts:', dicePrompts);
         
-        // Build enhanced 3D dice HTML
+        // Store all prompts globally for random selection
+        window.allDicePrompts = dicePrompts;
+        
+        // Build enhanced 3D dice HTML with first 6 prompts for display
+        const displayPrompts = dicePrompts.slice(0, 6);
         const diceHTML = `
             <div class="dice-scene">
                 <div class="dice" id="interactive-dice">
-                    ${dicePrompts.map((prompt, i) => `<div class="face face-${i + 1}">${escapeHtml(prompt)}</div>`).join('')}
+                    ${displayPrompts.map((prompt, i) => `<div class="face face-${i + 1}">${escapeHtml(prompt)}</div>`).join('')}
                 </div>
             </div>
             <div id="prompt-result"></div>
+            <div style="text-align: center; margin-top: 10px; font-size: 0.9em; color: #666;">
+                🎲 ${dicePrompts.length} prompts available
+            </div>
         `;
         mainContentEl.innerHTML = diceHTML;
         
@@ -150,8 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 dice.classList.remove('bounce');
                 dice.className = `dice show-${randomFace} settled`;
                 
-                // Select a random prompt from the visible dice faces (first 6 prompts)
-                const chosenPrompt = dicePrompts[randomFace - 1];
+                // Select a random prompt from ALL available prompts
+                const randomPromptIndex = Math.floor(Math.random() * window.allDicePrompts.length);
+                const chosenPrompt = window.allDicePrompts[randomPromptIndex];
                 promptResultEl.textContent = chosenPrompt;
                 
                 // Re-enable buttons
