@@ -106,9 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </div>
             <div id="prompt-result"></div>
-            <div style="text-align: center; margin-top: 10px; font-size: 0.9em; color: #666;">
-                🎲 ${dicePrompts.length} prompts available
-            </div>
         `;
         mainContentEl.innerHTML = diceHTML;
         
@@ -159,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Select a random prompt from ALL available prompts
                 const randomPromptIndex = Math.floor(Math.random() * window.allDicePrompts.length);
                 const chosenPrompt = window.allDicePrompts[randomPromptIndex];
+                console.log(`Selected prompt ${randomPromptIndex + 1} of ${window.allDicePrompts.length}: "${chosenPrompt}"`);
                 promptResultEl.textContent = chosenPrompt;
                 
                 // Re-enable buttons
