@@ -244,6 +244,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if(front && back) {
                     const colorClassMatch = front.className.match(/bg-\w+/);
                     const colorClass = colorClassMatch ? colorClassMatch[0] : '';
+                    
+                    console.log(`Card ${index + 1} color class:`, colorClass);
 
                     const title = front.querySelector('.card-title')?.textContent || '';
                     const text = front.querySelector('.card-text')?.textContent || '';
