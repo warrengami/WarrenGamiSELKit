@@ -210,47 +210,6 @@
             line-height: 1.4;
         }
         
-        /* Timer Section */
-        .timer-section {
-            background: var(--paper-white);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 8px 30px var(--shadow-blue);
-            border: 1px solid var(--soft-blue);
-        }
-        
-        .timer-section h2 {
-            color: var(--warren-blue);
-            margin-bottom: 1rem;
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-        
-        .timer-controls {
-            display: flex;
-            gap: 0.5rem;
-            margin: 1rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .timer-btn {
-            background: transparent;
-            border: 2px solid var(--warren-light-blue);
-            color: var(--warren-light-blue);
-            padding: 0.5rem 1rem;
-            border-radius: 15px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .timer-btn.active,
-        .timer-btn:hover {
-            background: var(--warren-light-blue);
-            color: var(--paper-white);
-        }
-        
         /* Recently Used Section */
         .recently-used {
             background: var(--ice-white);
@@ -301,6 +260,31 @@
             font-size: 0.8rem;
             margin: 0;
             opacity: 0.7;
+        }
+        
+        /* Timer Controls */
+        .timer-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .timer-btn {
+            background: transparent;
+            border: 2px solid var(--warren-light-blue);
+            color: var(--warren-light-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .timer-btn.active,
+        .timer-btn:hover {
+            background: var(--warren-light-blue);
+            color: var(--paper-white);
         }
         
         /* Cultural Inclusion Section */
@@ -527,40 +511,22 @@
         <section class="quick-actions">
             <h2>Quick Actions</h2>
             <div class="actions-grid">
-                <div class="action-card" onclick="openActivity('educator-quick-start-guide.html')">
+                <div class="action-card" onclick="window.open('educator-quick-start-guide.html', '_blank')">
                     <h3>📚 Quick Start Guide</h3>
                     <p>Get started with the toolkit</p>
                 </div>
-                <div class="action-card" onclick="openActivity('educator-feedback-form.html')">
+                <div class="action-card" onclick="window.open('educator-feedback-form.html', '_blank')">
                     <h3>💬 Share Feedback</h3>
                     <p>Help us improve the toolkit</p>
                 </div>
-                <div class="action-card" onclick="openActivity('sel-professional-development.html')">
+                <div class="action-card" onclick="window.open('sel-professional-development.html', '_blank')">
                     <h3>🧠 SEL Professional Development</h3>
                     <p>Learn SEL fundamentals</p>
                 </div>
-                <div class="action-card" onclick="openActivity('classroom-enhanced.html')">
+                <div class="action-card" onclick="window.open('classroom-enhanced.html', '_blank')">
                     <h3>📱 Classroom Mode</h3>
                     <p>Interactive classroom activities</p>
                 </div>
-                <div class="action-card" onclick="testClick()">
-                    <h3>🧪 Test Button</h3>
-                    <p>Click to test if events work</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Timer Section -->
-        <section class="timer-section">
-            <h2>⏱️ Timer Settings</h2>
-            <p>Set custom timer durations for classroom activities</p>
-            <div class="timer-controls">
-                <button class="timer-btn" onclick="setTimer(30, event)">30s</button>
-                <button class="timer-btn active" onclick="setTimer(60, event)">1min</button>
-                <button class="timer-btn" onclick="setTimer(120, event)">2min</button>
-                <button class="timer-btn" onclick="setTimer(180, event)">3min</button>
-                <button class="timer-btn" onclick="setTimer(300, event)">5min</button>
-                <button class="timer-btn" onclick="setTimer(600, event)">10min</button>
             </div>
         </section>
         
@@ -592,6 +558,18 @@
             </div>
             <div class="section-content" id="classroom-activities">
                 <div class="resources-grid">
+                    <div class="resource-section">
+                        <h3>⏱️ Timer Settings</h3>
+                        <div class="timer-controls">
+                            <button class="timer-btn" onclick="setTimer(30, event)">30s</button>
+                            <button class="timer-btn active" onclick="setTimer(60, event)">1min</button>
+                            <button class="timer-btn" onclick="setTimer(120, event)">2min</button>
+                            <button class="timer-btn" onclick="setTimer(180, event)">3min</button>
+                            <button class="timer-btn" onclick="setTimer(300, event)">5min</button>
+                            <button class="timer-btn" onclick="setTimer(600, event)">10min</button>
+                        </div>
+                    </div>
+                    
                     <div class="resource-section">
                         <h3>🎲 Dice Resources</h3>
                         <button class="resource-button dice-button" onclick="openClassroom('dice', 'Emotions & Feelings Dice.html')">Emotions & Feelings Dice <span class="sel-tag self-awareness">Self-Awareness</span></button>
@@ -625,40 +603,40 @@
                 <div class="resources-grid">
                     <div class="resource-section">
                         <h3>📖 Guides & Instructions</h3>
-                        <button class="resource-button" onclick="openActivity('educator-quick-start-guide.html')">Quick Start Guide</button>
-                        <button class="resource-button" onclick="openActivity('sel-professional-development.html')">Professional Development</button>
-                        <button class="resource-button" onclick="openActivity('educator-feedback-form.html')">Feedback Form</button>
-                        <button class="resource-button" onclick="openActivity('Page 1 - Cover.html')">Welcome Guide</button>
-                        <button class="resource-button" onclick="openActivity('Page 2 - Welcome to Your Interactive SEL Toolkit.html')">Toolkit Overview</button>
-                        <button class="resource-button" onclick="openActivity('Page 3 - Discussion Dice How They Work.html')">Dice Instructions</button>
-                        <button class="resource-button" onclick="openActivity('Page 4 - Emotion Exploration Dice.html')">Emotion Exploration</button>
-                        <button class="resource-button" onclick="openActivity('Page 5 - Social Scenarios Dice.html')">Social Scenarios</button>
-                        <button class="resource-button" onclick="openActivity('Page 6 - Family Connection Activities.html')">Family Connections</button>
-                        <button class="resource-button" onclick="openActivity('Page 7 - Assessment & Reflection Tools.html')">Assessment Tools</button>
-                        <button class="resource-button" onclick="openActivity('Page 8 - Advanced SEL Concepts.html')">Advanced Concepts</button>
-                        <button class="resource-button" onclick="openActivity('Page 9 - Integrating SEL Across the Curriculum.html')">Curriculum Integration</button>
-                        <button class="resource-button" onclick="openActivity('Page 10 - Digital Resources & Extensions.html')">Digital Resources</button>
-                        <button class="resource-button" onclick="openActivity('Page 11 - Glossary & Index.html')">Glossary & Index</button>
+                        <button class="resource-button" onclick="window.open('educator-quick-start-guide.html', '_blank')">Quick Start Guide</button>
+                        <button class="resource-button" onclick="window.open('sel-professional-development.html', '_blank')">Professional Development</button>
+                        <button class="resource-button" onclick="window.open('educator-feedback-form.html', '_blank')">Feedback Form</button>
+                        <button class="resource-button" onclick="window.open('Page 1 - Cover.html', '_blank')">Welcome Guide</button>
+                        <button class="resource-button" onclick="window.open('Page 2 - Welcome to Your Interactive SEL Toolkit.html', '_blank')">Toolkit Overview</button>
+                        <button class="resource-button" onclick="window.open('Page 3 - Discussion Dice How They Work.html', '_blank')">Dice Instructions</button>
+                        <button class="resource-button" onclick="window.open('Page 4 - Emotion Exploration Dice.html', '_blank')">Emotion Exploration</button>
+                        <button class="resource-button" onclick="window.open('Page 5 - Social Scenarios Dice.html', '_blank')">Social Scenarios</button>
+                        <button class="resource-button" onclick="window.open('Page 6 - Family Connection Activities.html', '_blank')">Family Connections</button>
+                        <button class="resource-button" onclick="window.open('Page 7 - Assessment & Reflection Tools.html', '_blank')">Assessment Tools</button>
+                        <button class="resource-button" onclick="window.open('Page 8 - Advanced SEL Concepts.html', '_blank')">Advanced Concepts</button>
+                        <button class="resource-button" onclick="window.open('Page 9 - Integrating SEL Across the Curriculum.html', '_blank')">Curriculum Integration</button>
+                        <button class="resource-button" onclick="window.open('Page 10 - Digital Resources & Extensions.html', '_blank')">Digital Resources</button>
+                        <button class="resource-button" onclick="window.open('Page 11 - Glossary & Index.html', '_blank')">Glossary & Index</button>
                     </div>
                     
                     <div class="resource-section">
                         <h3>🖨️ Printable Resources</h3>
-                        <button class="resource-button" onclick="openActivity('Blank Dice.html')">Blank Dice Template</button>
-                        <button class="resource-button" onclick="openActivity('Blank Scenario Cards.html')">Blank Scenario Cards</button>
-                        <button class="resource-button" onclick="openActivity('Scenario Card Instructions.html')">Scenario Card Instructions</button>
-                        <button class="resource-button" onclick="openActivity('All-Scenario-Cards.html')">All Scenario Cards (Printable)</button>
-                        <button class="resource-button" onclick="openActivity('Scenario Cards 1.html')">Scenario Cards 1 (Printable)</button>
-                        <button class="resource-button" onclick="openActivity('Scenario Cards 2.html')">Scenario Cards 2 (Printable)</button>
-                        <button class="resource-button" onclick="openActivity('Scenario Cards 3.html')">Scenario Cards 3 (Printable)</button>
-                        <button class="resource-button" onclick="openActivity('Scenario Cards 4.html')">Scenario Cards 4 (Printable)</button>
-                        <button class="resource-button" onclick="openActivity('Scenario Cards 5.html')">Scenario Cards 5 (Printable)</button>
-                        <button class="resource-button" onclick="openActivity('Emotions & Feelings Dice.html')">Emotions & Feelings Dice</button>
-                        <button class="resource-button" onclick="openActivity('Empathy & Kindness Dice.html')">Empathy & Kindness Dice</button>
-                        <button class="resource-button" onclick="openActivity('Friendship & Social Skills Dice.html')">Friendship & Social Skills Dice</button>
-                        <button class="resource-button" onclick="openActivity('Coping Strategies Dice.html')">Coping Strategies Dice</button>
-                        <button class="resource-button" onclick="openActivity('Problem Solving Dice.html')">Problem Solving Dice</button>
-                        <button class="resource-button" onclick="openActivity('Self-Awareness Dice.html')">Self-Awareness Dice</button>
-                        <button class="resource-button" onclick="openActivity('toolkit.html')">Toolkit Overview</button>
+                        <button class="resource-button" onclick="window.open('Blank Dice.html', '_blank')">Blank Dice Template</button>
+                        <button class="resource-button" onclick="window.open('Blank Scenario Cards.html', '_blank')">Blank Scenario Cards</button>
+                        <button class="resource-button" onclick="window.open('Scenario Card Instructions.html', '_blank')">Scenario Card Instructions</button>
+                        <button class="resource-button" onclick="window.open('All-Scenario-Cards.html', '_blank')">All Scenario Cards (Printable)</button>
+                        <button class="resource-button" onclick="window.open('Scenario Cards 1.html', '_blank')">Scenario Cards 1 (Printable)</button>
+                        <button class="resource-button" onclick="window.open('Scenario Cards 2.html', '_blank')">Scenario Cards 2 (Printable)</button>
+                        <button class="resource-button" onclick="window.open('Scenario Cards 3.html', '_blank')">Scenario Cards 3 (Printable)</button>
+                        <button class="resource-button" onclick="window.open('Scenario Cards 4.html', '_blank')">Scenario Cards 4 (Printable)</button>
+                        <button class="resource-button" onclick="window.open('Scenario Cards 5.html', '_blank')">Scenario Cards 5 (Printable)</button>
+                        <button class="resource-button" onclick="window.open('Emotions & Feelings Dice.html', '_blank')">Emotions & Feelings Dice</button>
+                        <button class="resource-button" onclick="window.open('Empathy & Kindness Dice.html', '_blank')">Empathy & Kindness Dice</button>
+                        <button class="resource-button" onclick="window.open('Friendship & Social Skills Dice.html', '_blank')">Friendship & Social Skills Dice</button>
+                        <button class="resource-button" onclick="window.open('Coping Strategies Dice.html', '_blank')">Coping Strategies Dice</button>
+                        <button class="resource-button" onclick="window.open('Problem Solving Dice.html', '_blank')">Problem Solving Dice</button>
+                        <button class="resource-button" onclick="window.open('Self-Awareness Dice.html', '_blank')">Self-Awareness Dice</button>
+                        <button class="resource-button" onclick="window.open('toolkit.html', '_blank')">Toolkit Overview</button>
                     </div>
                 </div>
             </div>
@@ -725,33 +703,11 @@
             }
             
             container.innerHTML = recentItems.map(item => `
-                <div class="recent-item" onclick="openActivity('${item.url}')">
+                <div class="recent-item" onclick="window.open('${item.url}', '_blank')">
                     <h4>${item.title}</h4>
                     <p>${item.type}</p>
                 </div>
             `).join('');
-        }
-        
-        function addToRecent(title, url, type) {
-            const recentItems = JSON.parse(localStorage.getItem('recentItems') || '[]');
-            const newItem = { title, url, type, timestamp: Date.now() };
-            
-            // Remove if already exists
-            const existingIndex = recentItems.findIndex(item => item.url === url);
-            if (existingIndex > -1) {
-                recentItems.splice(existingIndex, 1);
-            }
-            
-            // Add to beginning
-            recentItems.unshift(newItem);
-            
-            // Keep only last 6 items
-            if (recentItems.length > 6) {
-                recentItems.splice(6);
-            }
-            
-            localStorage.setItem('recentItems', JSON.stringify(recentItems));
-            loadRecentItems();
         }
         
         // Search functionality
@@ -775,36 +731,9 @@
             document.getElementById('search-results').innerHTML = '';
         }
         
-        // Open activity function
-        function openActivity(url) {
-            console.log('Opening activity:', url);
-            
-            // Add to recent items
-            const title = url.replace('.html', '').replace(/-/g, ' ');
-            addToRecent(title, url, 'Resource');
-            
-            try {
-                // Try to open the file directly
-                console.log('Attempting to open:', url);
-                window.open(url, '_blank');
-                
-            } catch (error) {
-                console.error('Error opening activity:', error);
-                alert('Error opening activity. Please check if the file exists.');
-            }
-        }
-        
-        // Test function to verify clicks are working
-        function testClick() {
-            alert('Click is working!');
-        }
-        
         // Open classroom function
         function openClassroom(type, url) {
             console.log('Opening classroom:', type, url);
-            
-            const title = url.replace('.html', '').replace(/-/g, ' ');
-            addToRecent(title, url, type === 'dice' ? 'Dice Activity' : 'Scenario Cards');
             
             try {
                 if (type === 'dice') {
