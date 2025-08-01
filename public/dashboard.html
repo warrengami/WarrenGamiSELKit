@@ -588,12 +588,12 @@
         }
         
         // Open classroom function
-        function openClassroom(type, url) {
-            console.log('Opening classroom:', type, url);
+        function openClassroom(type, file) {
+            console.log('Opening classroom:', type, file);
             
             try {
-                const url = `classroom.html?type=${encodeURIComponent(type)}&file=${encodeURIComponent(url)}`;
-                const newWindow = window.open(url, '_blank');
+                const classroomUrl = `classroom.html?type=${encodeURIComponent(type)}&file=${encodeURIComponent(file)}`;
+                const newWindow = window.open(classroomUrl, '_blank');
                 if (!newWindow) {
                     alert('Please allow pop-ups for this site to use classroom mode.');
                 }
