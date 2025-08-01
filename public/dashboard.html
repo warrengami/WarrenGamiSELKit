@@ -527,29 +527,17 @@
             <p>Set custom timer durations for classroom activities</p>
             <div class="timer-controls">
                 <button class="timer-btn" onclick="setTimer(30)">30s</button>
-                <button class="timer-btn" onclick="setTimer(60)">1min</button>
-                <button class="timer-btn active" onclick="setTimer(120)">2min</button>
+                <button class="timer-btn active" onclick="setTimer(60)">1min</button>
+                <button class="timer-btn" onclick="setTimer(120)">2min</button>
                 <button class="timer-btn" onclick="setTimer(180)">3min</button>
                 <button class="timer-btn" onclick="setTimer(300)">5min</button>
                 <button class="timer-btn" onclick="setTimer(600)">10min</button>
             </div>
         </section>
         
-        <!-- Recently Used Section -->
-        <section class="recently-used">
-            <h2>🕒 Recently Used</h2>
-            <div class="recent-items" id="recent-items">
-                <div class="recent-item">
-                    <p>No recent activities yet</p>
-                </div>
-            </div>
-        </section>
+
         
-        <!-- Cultural Inclusion Section -->
-        <section class="cultural-inclusion">
-            <h2>🌍 Cultural Inclusion</h2>
-            <p>Our toolkit includes diverse scenarios and inclusive content to support all students. Activities are designed to be culturally responsive and accessible to learners from various backgrounds.</p>
-        </section>
+
         
         <!-- Classroom Activities Section -->
         <section class="collapsible-section">
@@ -627,15 +615,7 @@
             </div>
         </section>
         
-        <!-- Search Section -->
-        <section class="search-container">
-            <h2>🔍 Search Resources</h2>
-            <div class="search-bar-wrapper">
-                <input type="text" id="search-bar" class="search-bar" placeholder="Search for activities, topics, or SEL competencies..." oninput="filterResources()">
-                <span id="clear-search" onclick="clearSearch()">✕</span>
-            </div>
-            <div id="search-results" style="margin-top: 1rem;"></div>
-        </section>
+
     </div>
     
     <script src="dashboard.js"></script>
@@ -673,7 +653,7 @@
         }
         
         function initializeTimer() {
-            const savedDuration = localStorage.getItem('timerDuration') || 120;
+            const savedDuration = localStorage.getItem('timerDuration') || 60;
             const buttons = document.querySelectorAll('.timer-btn');
             buttons.forEach(btn => {
                 const seconds = parseInt(btn.textContent.replace(/[^\d]/g, ''));

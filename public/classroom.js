@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Timer functions
         function startTimer() {
-            const savedDuration = localStorage.getItem('timerDuration') || 180;
+            const savedDuration = localStorage.getItem('timerDuration') || 60;
             let timeLeft = parseInt(savedDuration);
             currentTimer = setInterval(() => {
                 timeLeft--;
@@ -458,7 +458,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Timer functions (shared with dice)
             function startTimer() {
-                const savedDuration = localStorage.getItem('timerDuration') || 180;
+                const savedDuration = localStorage.getItem('timerDuration') || 60;
                 let timeLeft = parseInt(savedDuration);
                 currentTimer = setInterval(() => {
                     timeLeft--;
