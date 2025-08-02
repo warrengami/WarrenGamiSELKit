@@ -31,7 +31,7 @@
         }
         
         .guide-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background: var(--white);
             padding: 40px;
@@ -57,6 +57,148 @@
             color: var(--sky-blue);
             font-size: 1.2em;
             margin: 10px 0 0 0;
+        }
+        
+        /* Navigation Bar */
+        .nav-bar {
+            background: var(--soft-gray);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 20px;
+            z-index: 100;
+        }
+        
+        .nav-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            color: var(--midnight-blue);
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .nav-link {
+            background: var(--sky-blue);
+            color: var(--white);
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            background: var(--midnight-blue);
+            transform: translateY(-2px);
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            background: var(--soft-gray);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--sky-blue), var(--midnight-blue));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: var(--midnight-blue);
+        }
+        
+        /* Collapsible Sections */
+        .section {
+            background: var(--soft-gray);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        
+        .section-header {
+            background: var(--ice-blue);
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .section-header:hover {
+            background: var(--sky-blue);
+            color: var(--white);
+        }
+        
+        .section-header h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--midnight-blue);
+            margin: 0;
+            font-size: 1.3em;
+        }
+        
+        .section-header:hover h2 {
+            color: var(--white);
+        }
+        
+        .section-toggle {
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+        
+        .section-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .section-content.active {
+            padding: 20px;
+            max-height: 2000px;
+        }
+        
+        /* Back Button */
+        .back-btn {
+            background: var(--midnight-blue);
+            color: var(--white);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: var(--sky-blue);
+            transform: translateY(-2px);
         }
         
         h2 {
@@ -106,220 +248,367 @@
             margin-right: 10px;
         }
         
-        .tip-box {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 8px;
+        .timing-guide {
+            background: linear-gradient(135deg, var(--success-green), #20c997);
+            color: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
         }
         
-        .tip-box::before {
-            content: "💡 ";
-            font-size: 1.2em;
+        .timing-guide h3 {
+            color: var(--white);
+            margin-top: 0;
         }
         
         .troubleshooting {
-            background: #f8d7da;
-            border: 1px solid #f5c6cb;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 8px;
+            background: linear-gradient(135deg, var(--tag-relationship), #ff9a56);
+            color: var(--white);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
         }
         
-        .troubleshooting::before {
-            content: "⚠️ ";
-            font-size: 1.2em;
+        .troubleshooting h3 {
+            color: var(--white);
+            margin-top: 0;
         }
         
-        .competency-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 10px 0;
-        }
-        
-        .tag {
-            background: var(--tag-awareness);
-            color: var(--midnight-blue);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.9em;
+        .sel-tag {
+            display: inline-block;
+            font-size: 0.7rem;
             font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 0.5rem;
+            color: white;
         }
         
-        .tag.self-awareness { background: var(--tag-awareness); }
-        .tag.self-management { background: var(--tag-management); color: white; }
-        .tag.social-awareness { background: var(--tag-social); color: white; }
-        .tag.relationship-skills { background: var(--tag-relationship); color: white; }
-        .tag.responsible-decision-making { background: var(--tag-decision); color: white; }
+        .sel-tag.self-awareness { background-color: var(--tag-awareness); color: black; }
+        .sel-tag.self-management { background-color: var(--tag-management); }
+        .sel-tag.social-awareness { background-color: var(--tag-social); }
+        .sel-tag.relationship-skills { background-color: var(--tag-relationship); }
+        .sel-tag.responsible-decision-making { background-color: var(--tag-decision); }
         
-        @media print {
-            body { margin: 0; padding: 0; }
-            .guide-container { box-shadow: none; max-width: none; }
-            .step-box, .script-box, .tip-box, .troubleshooting { break-inside: avoid; }
+        ul {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .guide-container {
+                padding: 20px;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+            }
+            
+            .nav-link {
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="guide-container">
-        <div class="header">
-            <h1>🧑‍🏫 Educator Quick Start Guide</h1>
-            <p>WarrenGami SEL Toolkit - Getting Started in 5 Minutes</p>
-        </div>
-
-        <h2>🎯 What You'll Learn</h2>
-        <p>This guide will help you quickly implement SEL activities in your classroom, regardless of your experience level with social-emotional learning.</p>
-
-        <h2>⚡ 5-Minute Setup</h2>
+        <button class="back-btn" onclick="window.history.back()">← Back to Dashboard</button>
         
-        <div class="step-box">
-            <div class="step-number">1</div>
-            <strong>Choose Your Activity</strong><br>
-            • <strong>Dice Activities:</strong> Great for quick discussions and icebreakers<br>
-            • <strong>Scenario Cards:</strong> Perfect for deeper conversations and problem-solving<br>
-            • <strong>Classroom Mode:</strong> Project activities for whole-class participation
+        <div class="header">
+            <h1>Quick Start Guide</h1>
+            <p>Your Complete Guide to WarrenGami SEL Toolkit</p>
         </div>
-
-        <div class="step-box">
-            <div class="step-number">2</div>
-            <strong>Prepare Materials</strong><br>
-            • <strong>Print & Assemble:</strong> Dice take 5-10 minutes to assemble<br>
-            • <strong>Project:</strong> Use Classroom Mode for immediate use<br>
-            • <strong>Set Timer:</strong> Use built-in timer (2-5 minutes recommended)
+        
+        <!-- Navigation Bar -->
+        <div class="nav-bar">
+            <div class="nav-title">Jump to Section:</div>
+            <div class="nav-links">
+                <a href="#getting-started" class="nav-link">Getting Started</a>
+                <a href="#activity-timing" class="nav-link">Activity Timing</a>
+                <a href="#scripts" class="nav-link">Scripts</a>
+                <a href="#troubleshooting" class="nav-link">Troubleshooting</a>
+                <a href="#advanced-tips" class="nav-link">Advanced Tips</a>
+            </div>
         </div>
-
-        <div class="step-box">
-            <div class="step-number">3</div>
-            <strong>Facilitate the Activity</strong><br>
-            • <strong>Read Aloud:</strong> Present the prompt or scenario clearly<br>
-            • <strong>Encourage Discussion:</strong> Use the provided guiding questions<br>
-            • <strong>Support Participation:</strong> Allow think-pair-share for shy students
+        
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="progress-text" id="progress-text">0% Complete</div>
         </div>
-
-        <div class="step-box">
-            <div class="step-number">4</div>
-            <strong>Reflect & Connect</strong><br>
-            • <strong>Quick Reflection:</strong> "What did we learn today?"<br>
-            • <strong>Real-World Connection:</strong> "How can we use this skill?"<br>
-            • <strong>Celebrate Participation:</strong> Thank students for sharing
+        
+        <!-- Getting Started Section -->
+        <div class="section" id="getting-started">
+            <div class="section-header" onclick="toggleSection('getting-started')">
+                <h2>🚀 Getting Started</h2>
+                <span class="section-toggle">▼</span>
+            </div>
+            <div class="section-content">
+                <h3>Welcome to WarrenGami SEL!</h3>
+                <p>This toolkit is designed to make Social-Emotional Learning engaging and accessible for your classroom. Here's how to get started:</p>
+                
+                <div class="step-box">
+                    <div class="step-number">1</div>
+                    <strong>Set Up Your Timer</strong>
+                    <p>Choose an appropriate timer duration (30s to 10min) based on your students' age and attention span.</p>
+                </div>
+                
+                <div class="step-box">
+                    <div class="step-number">2</div>
+                    <strong>Choose Your Activity</strong>
+                    <p>Select from dice activities or scenario cards based on the SEL competency you want to focus on.</p>
+                </div>
+                
+                <div class="step-box">
+                    <div class="step-number">3</div>
+                    <strong>Prepare Your Space</strong>
+                    <p>Ensure students can see the screen clearly and are ready to participate actively.</p>
+                </div>
+                
+                <div class="step-box">
+                    <div class="step-number">4</div>
+                    <strong>Begin the Activity</strong>
+                    <p>Use the provided scripts to introduce the activity and guide student engagement.</p>
+                </div>
+            </div>
         </div>
-
-        <h2>🗣️ Ready-to-Use Scripts</h2>
-
-        <h3>Opening Scripts</h3>
-        <div class="script-box">
-            <strong>For Dice Activities:</strong><br>
-            <em>"Today we're going to use these special dice to help us talk about our feelings and how we work together. When I roll the dice, we'll discuss the question that comes up. There are no wrong answers - we're here to learn from each other!"</em>
+        
+        <!-- Activity Timing Guide Section -->
+        <div class="section" id="activity-timing">
+            <div class="section-header" onclick="toggleSection('activity-timing')">
+                <h2>⏱️ Activity Timing Guide</h2>
+                <span class="section-toggle">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="timing-guide">
+                    <h3>Recommended Timing by Age Group</h3>
+                    
+                    <h4>Pre-K to Kindergarten (3-5 years)</h4>
+                    <ul>
+                        <li><strong>30 seconds:</strong> Quick emotion identification</li>
+                        <li><strong>1 minute:</strong> Simple scenario discussion</li>
+                        <li><strong>2 minutes:</strong> Basic problem-solving activities</li>
+                    </ul>
+                    
+                    <h4>Grades 1-3 (6-8 years)</h4>
+                    <ul>
+                        <li><strong>1-2 minutes:</strong> Emotion exploration and empathy building</li>
+                        <li><strong>2-3 minutes:</strong> Friendship and social skills scenarios</li>
+                        <li><strong>3-5 minutes:</strong> Problem-solving and decision-making</li>
+                    </ul>
+                    
+                    <h4>Grades 4-6 (9-11 years)</h4>
+                    <ul>
+                        <li><strong>2-3 minutes:</strong> Complex emotion scenarios</li>
+                        <li><strong>3-5 minutes:</strong> Advanced social skills and conflict resolution</li>
+                        <li><strong>5-10 minutes:</strong> Extended problem-solving and reflection</li>
+                    </ul>
+                    
+                    <h4>Middle School (12-14 years)</h4>
+                    <ul>
+                        <li><strong>3-5 minutes:</strong> In-depth emotional exploration</li>
+                        <li><strong>5-10 minutes:</strong> Complex social scenarios and peer relationships</li>
+                        <li><strong>10+ minutes:</strong> Extended discussions and group activities</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-
-        <div class="script-box">
-            <strong>For Scenario Cards:</strong><br>
-            <em>"I'm going to show you a situation that might happen in real life. We'll talk about what we would do and why. This helps us practice making good decisions together."</em>
+        
+        <!-- Scripts Section -->
+        <div class="section" id="scripts">
+            <div class="section-header" onclick="toggleSection('scripts')">
+                <h2>📝 Teacher Scripts</h2>
+                <span class="section-toggle">▼</span>
+            </div>
+            <div class="section-content">
+                <h3>Introduction Script</h3>
+                <div class="script-box">
+                    <strong>Teacher:</strong> "Today we're going to explore our emotions and learn how to understand ourselves and others better. We'll be using some special tools that will help us talk about feelings, friendships, and how to solve problems together."
+                </div>
+                
+                <h3>Dice Activity Script</h3>
+                <div class="script-box">
+                    <strong>Teacher:</strong> "Watch as I roll the dice! When it stops, we'll talk about what we see. There's no right or wrong answer - we're just exploring together. Who wants to share what they think about this emotion/scenario?"
+                </div>
+                
+                <h3>Scenario Card Script</h3>
+                <div class="script-box">
+                    <strong>Teacher:</strong> "Here's a situation that might happen in our classroom or at school. Let's think about how the person in this scenario might be feeling, and what we could do to help or make the situation better."
+                </div>
+                
+                <h3>Discussion Prompts</h3>
+                <ul>
+                    <li>"How do you think this person is feeling?"</li>
+                    <li>"What might have caused this situation?"</li>
+                    <li>"What could we do to help?"</li>
+                    <li>"Have you ever felt this way?"</li>
+                    <li>"What would you do differently?"</li>
+                </ul>
+                
+                <h3>Closing Script</h3>
+                <div class="script-box">
+                    <strong>Teacher:</strong> "Thank you for sharing your thoughts! Remember, it's okay to have different feelings, and talking about them helps us understand each other better. We'll practice this more tomorrow."
+                </div>
+            </div>
         </div>
-
-        <h3>Transition Scripts</h3>
-        <div class="script-box">
-            <strong>Between Activities:</strong><br>
-            <em>"Great discussion! Let's take a moment to think about what we learned before we move on to our next activity."</em>
+        
+        <!-- Troubleshooting Section -->
+        <div class="section" id="troubleshooting">
+            <div class="section-header" onclick="toggleSection('troubleshooting')">
+                <h2>🔧 Troubleshooting</h2>
+                <span class="section-toggle">▼</span>
+            </div>
+            <div class="section-content">
+                <div class="troubleshooting">
+                    <h3>Common Challenges and Solutions</h3>
+                    
+                    <h4>Students are too quiet</h4>
+                    <ul>
+                        <li><strong>Solution:</strong> Start with simple yes/no questions, then build to more complex responses</li>
+                        <li><strong>Tip:</strong> Use "think-pair-share" - let students discuss with a partner first</li>
+                    </ul>
+                    
+                    <h4>Students are too excited/chaotic</h4>
+                    <ul>
+                        <li><strong>Solution:</strong> Use a calm-down signal (hand raise, quiet signal)</li>
+                        <li><strong>Tip:</strong> Take a brief "mindful moment" before starting</li>
+                    </ul>
+                    
+                    <h4>Students don't understand the scenario</h4>
+                    <ul>
+                        <li><strong>Solution:</strong> Simplify the language or act out the scenario</li>
+                        <li><strong>Tip:</strong> Use real examples from your classroom</li>
+                    </ul>
+                    
+                    <h4>Timer runs out too quickly</h4>
+                    <ul>
+                        <li><strong>Solution:</strong> Increase timer duration or pause for discussion</li>
+                        <li><strong>Tip:</strong> Let students know they can continue discussing after the timer</li>
+                    </ul>
+                    
+                    <h4>Students give inappropriate responses</h4>
+                    <ul>
+                        <li><strong>Solution:</strong> Redirect to appropriate alternatives</li>
+                        <li><strong>Tip:</strong> Use this as a teaching moment about respectful communication</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-
-        <div class="script-box">
-            <strong>For Group Work:</strong><br>
-            <em>"Now let's work with a partner to share our thoughts. Remember to listen carefully to what your partner says."</em>
-        </div>
-
-        <h3>Closure Scripts</h3>
-        <div class="script-box">
-            <strong>End of Activity:</strong><br>
-            <em>"Thank you for sharing your thoughts today. Remember, these skills help us not just in class, but everywhere we go!"</em>
-        </div>
-
-        <h2>🛠️ Troubleshooting Common Challenges</h2>
-
-        <div class="troubleshooting">
-            <strong>Students are shy or quiet:</strong><br>
-            • Allow think-pair-share before whole group discussion<br>
-            • Use journaling as a warm-up<br>
-            • Start with volunteers, then gently invite others<br>
-            • Praise participation without pressure
-        </div>
-
-        <div class="troubleshooting">
-            <strong>Students are off-task or disruptive:</strong><br>
-            • Use the timer to create structure<br>
-            • Set clear expectations before starting<br>
-            • Redirect to the activity with positive language<br>
-            • Consider shorter activities for younger students
-        </div>
-
-        <div class="troubleshooting">
-            <strong>Discussion gets off-topic:</strong><br>
-            • Gently redirect to the original prompt<br>
-            • Use follow-up questions to refocus<br>
-            • Acknowledge the connection, then bridge back<br>
-            • "That's interesting! How does that relate to our original question?"
-        </div>
-
-        <h2>📏 Activity Timing Guide</h2>
-
-        <h3>Quick Activities (5-10 minutes)</h3>
-        <ul>
-            <li><strong>Morning Meeting:</strong> One dice roll or scenario card</li>
-            <li><strong>Transition Time:</strong> Quick reflection question</li>
-            <li><strong>Exit Ticket:</strong> "What did you learn about yourself today?"</li>
-        </ul>
-
-        <h3>Full Activities (15-20 minutes)</h3>
-        <ul>
-            <li><strong>Multiple Dice Rolls:</strong> 2-3 different prompts</li>
-            <li><strong>Scenario Discussion:</strong> Deep dive with follow-up questions</li>
-            <li><strong>Group Work:</strong> Partner or small group discussions</li>
-        </ul>
-
-        <h2>🎯 SEL Competencies Covered</h2>
-        <div class="competency-tags">
-            <span class="tag self-awareness">Self-Awareness</span>
-            <span class="tag self-management">Self-Management</span>
-            <span class="tag social-awareness">Social Awareness</span>
-            <span class="tag relationship-skills">Relationship Skills</span>
-            <span class="tag responsible-decision-making">Responsible Decision-Making</span>
-        </div>
-
-        <h2>💡 Pro Tips for Success</h2>
-
-        <div class="tip-box">
-            <strong>Start Small:</strong> Begin with 5-minute activities and gradually increase time as students become comfortable.
-        </div>
-
-        <div class="tip-box">
-            <strong>Be Consistent:</strong> Use SEL activities regularly (even just once a week) to build a positive classroom culture.
-        </div>
-
-        <div class="tip-box">
-            <strong>Model Vulnerability:</strong> Share your own thoughts and feelings when appropriate to show it's okay to be open.
-        </div>
-
-        <div class="tip-box">
-            <strong>Celebrate Growth:</strong> Notice and acknowledge when students use SEL skills in real situations.
-        </div>
-
-        <h2>📞 Need Help?</h2>
-        <p>• <strong>Dashboard:</strong> Visit the main toolkit for more detailed guides<br>
-        • <strong>Feedback:</strong> Share your experience and suggestions<br>
-        • <strong>Resources:</strong> Explore the full toolkit guide for advanced techniques</p>
-
-        <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--ice-blue);">
-            <p><strong>Remember:</strong> Every educator has different strengths and challenges. Start where you're comfortable and grow from there!</p>
-            <div style="margin-top: 20px;">
-                <button class="back-btn" onclick="window.location.href='dashboard.html'" style="background-color: var(--midnight-blue); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-family: 'Poppins', sans-serif;">← Back to Dashboard</button>
-                <button class="print-btn" onclick="window.print()" style="margin-left: 15px; background-color: var(--success-green); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-family: 'Poppins', sans-serif;">🖨️ Print Guide</button>
+        
+        <!-- Advanced Tips Section -->
+        <div class="section" id="advanced-tips">
+            <div class="section-header" onclick="toggleSection('advanced-tips')">
+                <h2>💡 Advanced Tips</h2>
+                <span class="section-toggle">▼</span>
+            </div>
+            <div class="section-content">
+                <h3>Enhancing Your SEL Practice</h3>
+                
+                <h4>Integration Across Subjects</h4>
+                <ul>
+                    <li>Use emotion vocabulary in language arts</li>
+                    <li>Incorporate problem-solving scenarios in math</li>
+                    <li>Connect social skills to science group work</li>
+                    <li>Apply empathy in social studies discussions</li>
+                </ul>
+                
+                <h4>Assessment Strategies</h4>
+                <ul>
+                    <li>Observe student participation and engagement</li>
+                    <li>Note vocabulary development in discussions</li>
+                    <li>Track conflict resolution skills over time</li>
+                    <li>Document growth in emotional expression</li>
+                </ul>
+                
+                <h4>Family Connection</h4>
+                <ul>
+                    <li>Share scenarios with families for home discussion</li>
+                    <li>Send home emotion vocabulary lists</li>
+                    <li>Invite families to share cultural perspectives</li>
+                    <li>Create family-friendly versions of activities</li>
+                </ul>
+                
+                <h4>Differentiation Strategies</h4>
+                <ul>
+                    <li>Provide visual supports for complex scenarios</li>
+                    <li>Use simpler language for younger students</li>
+                    <li>Allow nonverbal responses (pointing, gestures)</li>
+                    <li>Create small group discussions for shy students</li>
+                </ul>
+                
+                <h4>Technology Integration</h4>
+                <ul>
+                    <li>Use the digital dice on interactive whiteboards</li>
+                    <li>Record student responses for reflection</li>
+                    <li>Create digital portfolios of SEL growth</li>
+                    <li>Use tablets for individual exploration</li>
+                </ul>
             </div>
         </div>
     </div>
-
-    <!-- TIDIO CHATBOT SCRIPT -->
-    <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>
-
+    
+    <script>
+        // Initialize the guide
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
+                        // Open the section if it's closed
+                        const sectionContent = targetSection.querySelector('.section-content');
+                        if (!sectionContent.classList.contains('active')) {
+                            toggleSection(targetId);
+                        }
+                    }
+                });
+            });
+        });
+        
+        // Toggle section visibility
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            const content = section.querySelector('.section-content');
+            const toggle = section.querySelector('.section-toggle');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                toggle.textContent = '▼';
+            } else {
+                content.classList.add('active');
+                toggle.textContent = '▲';
+            }
+            
+            updateProgress();
+        }
+        
+        // Update progress bar
+        function updateProgress() {
+            const sections = document.querySelectorAll('.section');
+            const activeSections = document.querySelectorAll('.section-content.active');
+            const progress = (activeSections.length / sections.length) * 100;
+            
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('progress-text').textContent = Math.round(progress) + '% Complete';
+        }
+        
+        // Auto-open first section
+        window.addEventListener('load', function() {
+            const firstSection = document.getElementById('getting-started');
+            if (firstSection) {
+                toggleSection('getting-started');
+            }
+        });
+    </script>
 </body>
 </html> 

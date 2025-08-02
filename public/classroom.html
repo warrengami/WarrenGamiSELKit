@@ -33,6 +33,87 @@
             overflow-x: hidden;
             overflow-y: auto;
         }
+        
+        /* Breadcrumb Navigation */
+        .breadcrumb {
+            background: var(--white);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--midnight-blue);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .breadcrumb-item:hover {
+            color: var(--sky-blue);
+        }
+        
+        .breadcrumb-separator {
+            color: var(--soft-gray);
+            font-weight: bold;
+        }
+        
+        .breadcrumb-current {
+            color: var(--sky-blue);
+            font-weight: 600;
+        }
+        
+        /* Category Selector */
+        .category-selector {
+            background: var(--white);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .category-selector h3 {
+            margin: 0 0 15px 0;
+            color: var(--midnight-blue);
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .category-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            background: var(--soft-gray);
+            border: 2px solid transparent;
+            color: var(--midnight-blue);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn:hover {
+            background: var(--ice-blue);
+            border-color: var(--sky-blue);
+        }
+        
+        .category-btn.active {
+            background: var(--sky-blue);
+            color: var(--white);
+            border-color: var(--sky-blue);
+        }
+        
         .classroom-header {
             width: 100%;
             display: flex;
@@ -201,7 +282,29 @@
             margin-bottom: 10px;
         }
         
-
+        /* Timer Notification */
+        .timer-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--midnight-blue);
+            color: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            animation: notification-pulse 2s ease-in-out;
+        }
+        
+        @keyframes notification-pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
 
         /* --- ENHANCED BUTTONS --- */
         .enhanced-btn {
@@ -271,6 +374,36 @@
             text-align: center;
             font-weight: bold;
             color: var(--midnight-blue);
+        }
+        
+        .card-counter {
+            background: var(--white);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            text-align: center;
+            font-weight: bold;
+            color: var(--midnight-blue);
+        }
+        
+        .card-history {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .card-history h4 {
+            margin: 0 0 10px 0;
+            color: var(--midnight-blue);
+        }
+        
+        .history-item {
+            padding: 5px 0;
+            border-bottom: 1px solid var(--soft-gray);
+            font-size: 0.9rem;
         }
         
         .card-tags {
@@ -382,12 +515,40 @@
 
         @keyframes shuffle-1 { 0% {transform: translateX(0) rotate(-3deg);} 50% {transform: translateX(-20px) rotate(-8deg);} 100% {transform: translateX(0) rotate(-3deg);} }
         @keyframes shuffle-2 { 0% {transform: translateX(0) rotate(2deg);} 50% {transform: translateX(20px) rotate(8deg);} 100% {transform: translateX(0) rotate(2deg);} }
+        
+        @media (max-width: 768px) {
+            body { padding: 1em; }
+            .classroom-header h1 { font-size: 2em; }
+            .breadcrumb { flex-direction: column; align-items: flex-start; }
+            .category-buttons { flex-direction: column; }
+            .search-filter-section { flex-direction: column; }
+        }
     </style>
 </head>
 <body>
+    <!-- Breadcrumb Navigation -->
+    <div class="breadcrumb">
+        <a href="dashboard.html" class="breadcrumb-item">Dashboard</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-item breadcrumb-current" id="breadcrumb-current">Loading...</span>
+    </div>
+    
+    <!-- Category Selector (for dice mode) -->
+    <div class="category-selector" id="category-selector" style="display: none;">
+        <h3>Switch Dice Category:</h3>
+        <div class="category-buttons">
+            <button class="category-btn" data-category="emotions">Emotions & Feelings</button>
+            <button class="category-btn" data-category="empathy">Empathy & Kindness</button>
+            <button class="category-btn" data-category="friendship">Friendship & Social Skills</button>
+            <button class="category-btn" data-category="coping">Coping Strategies</button>
+            <button class="category-btn" data-category="problem-solving">Problem Solving</button>
+            <button class="category-btn" data-category="self-awareness">Self-Awareness</button>
+        </div>
+    </div>
+
     <header class="classroom-header">
         <h1 id="resource-title">Loading Resource...</h1>
-        <button id="exit-btn" onclick="window.close()">Close</button>
+        <button id="exit-btn" onclick="window.history.back()">← Back to Dashboard</button>
     </header>
 
     <main id="main-content">
@@ -400,6 +561,12 @@
 
     <div id="control-panel" class="control-panel">
         <!-- Controls injected here -->
+    </div>
+    
+    <!-- Timer Notification -->
+    <div class="timer-notification" id="timer-notification">
+        <div>⏰ Time's Up!</div>
+        <div style="font-size: 1rem; margin-top: 10px;">Activity completed</div>
     </div>
 
     <script src="classroom.js"></script>
