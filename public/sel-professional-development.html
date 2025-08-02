@@ -16,6 +16,8 @@
             --success-green: #28a745;
             --warning-yellow: #ffc107;
             --info-blue: #17a2b8;
+            --accent-orange: #fd7e14;
+            --accent-purple: #6f42c1;
         }
         
         body {
@@ -24,55 +26,188 @@
             color: var(--midnight-blue);
             background-color: var(--soft-gray);
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
         
         .pd-container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
             background: var(--white);
-            padding: 40px;
             box-shadow: 0 0 20px rgba(0,0,0,0.1);
             border-radius: 12px;
+            overflow: hidden;
         }
         
+        /* Progress Bar */
+        .progress-container {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            padding: 15px 30px;
+            border-bottom: 2px solid var(--ice-blue);
+            z-index: 100;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--ice-blue);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--sky-blue), var(--info-blue));
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+        
+        .progress-text {
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--midnight-blue);
+            margin-top: 8px;
+            font-weight: 500;
+        }
+        
+        /* Navigation */
+        .nav-container {
+            background: var(--white);
+            padding: 20px 30px;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 60px;
+            z-index: 99;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+        
+        .nav-tab {
+            background: var(--soft-gray);
+            border: 2px solid transparent;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9em;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+            color: var(--midnight-blue);
+        }
+        
+        .nav-tab:hover {
+            background: var(--ice-blue);
+            border-color: var(--sky-blue);
+        }
+        
+        .nav-tab.active {
+            background: var(--sky-blue);
+            color: var(--white);
+            border-color: var(--sky-blue);
+        }
+        
+        .nav-tab.completed {
+            background: var(--success-green);
+            color: var(--white);
+            border-color: var(--success-green);
+        }
+        
+        /* Content Sections */
+        .content-container {
+            padding: 30px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--white);
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, var(--ice-blue), var(--soft-gray));
+            padding: 20px 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .section-header:hover {
+            background: linear-gradient(135deg, var(--sky-blue), var(--ice-blue));
+            color: var(--white);
+        }
+        
+        .section-header h2 {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.3em;
+            color: inherit;
+        }
+        
+        .section-header .toggle-icon {
+            font-size: 1.2em;
+            transition: transform 0.3s ease;
+        }
+        
+        .section-header.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+        
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.3s ease;
+            padding: 0 25px;
+        }
+        
+        .section-content.active {
+            max-height: 2000px;
+            padding: 25px;
+        }
+        
+        /* Header */
         .header {
             text-align: center;
-            border-bottom: 3px solid var(--sky-blue);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
+            padding: 40px 30px;
+            background: linear-gradient(135deg, var(--midnight-blue), var(--sky-blue));
+            color: var(--white);
         }
         
         .header h1 {
             font-family: 'Poppins', sans-serif;
-            color: var(--midnight-blue);
             font-size: 2.5em;
             margin: 0;
         }
         
         .header p {
-            color: var(--sky-blue);
             font-size: 1.2em;
             margin: 10px 0 0 0;
+            opacity: 0.9;
         }
         
-        h2 {
-            font-family: 'Poppins', sans-serif;
-            color: var(--midnight-blue);
-            border-bottom: 2px solid var(--ice-blue);
-            padding-bottom: 8px;
-            margin-top: 30px;
-        }
-        
+        /* Content Styles */
         h3 {
             font-family: 'Poppins', sans-serif;
             color: var(--midnight-blue);
             margin-top: 25px;
+            font-size: 1.2em;
         }
         
         .competency-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin: 20px 0;
         }
@@ -86,21 +221,21 @@
         }
         
         .competency-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(115,189,245,0.2);
         }
         
         .competency-card h4 {
             color: var(--midnight-blue);
             margin-top: 0;
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
         
-        .competency-card.self-awareness { border-color: #ffc107; }
-        .competency-card.self-management { border-color: #28a745; }
-        .competency-card.social-awareness { border-color: #17a2b8; }
-        .competency-card.relationship-skills { border-color: #fd7e14; }
-        .competency-card.responsible-decision-making { border-color: #6f42c1; }
+        .competency-card.self-awareness { border-color: var(--warning-yellow); }
+        .competency-card.self-management { border-color: var(--success-green); }
+        .competency-card.social-awareness { border-color: var(--info-blue); }
+        .competency-card.relationship-skills { border-color: var(--accent-orange); }
+        .competency-card.responsible-decision-making { border-color: var(--accent-purple); }
         
         .research-box {
             background: var(--ice-blue);
@@ -139,22 +274,6 @@
             background: var(--midnight-blue);
         }
         
-        .back-btn {
-            background: var(--midnight-blue);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1em;
-            margin-top: 20px;
-            transition: background-color 0.3s ease;
-        }
-        
-        .back-btn:hover {
-            background: var(--sky-blue);
-        }
-        
         .highlight {
             background: #fff3cd;
             border: 1px solid #ffeaa7;
@@ -168,179 +287,411 @@
             font-size: 1.2em;
         }
         
+        .action-buttons {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: var(--soft-gray);
+            border-radius: 8px;
+        }
+        
+        .btn {
+            background: var(--midnight-blue);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 0 10px;
+            transition: background-color 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .btn:hover {
+            background: var(--sky-blue);
+        }
+        
+        .btn-secondary {
+            background: var(--success-green);
+        }
+        
+        .btn-secondary:hover {
+            background: #218838;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-tabs {
+                flex-wrap: wrap;
+            }
+            
+            .nav-tab {
+                font-size: 0.8em;
+                padding: 8px 15px;
+            }
+            
+            .competency-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+        
         @media print {
-            body { margin: 0; padding: 0; }
-            .pd-container { box-shadow: none; max-width: none; }
-            .competency-card { break-inside: avoid; }
+            .nav-container, .progress-container { display: none; }
+            .section-content { max-height: none !important; padding: 20px !important; }
+            .section-header { cursor: default; }
         }
     </style>
 </head>
 <body>
     <div class="pd-container">
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0% Complete</div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="nav-container">
+            <div class="nav-tabs" id="navTabs">
+                <div class="nav-tab active" data-section="overview">📋 Overview</div>
+                <div class="nav-tab" data-section="competencies">🧠 Competencies</div>
+                <div class="nav-tab" data-section="implementation">✅ Best Practices</div>
+                <div class="nav-tab" data-section="getting-started">🚀 Getting Started</div>
+                <div class="nav-tab" data-section="resources">📚 Resources</div>
+                <div class="nav-tab" data-section="assessment">🎯 Assessment</div>
+            </div>
+        </div>
+        
+        <!-- Header -->
         <div class="header">
             <h1>🧠 SEL Professional Development</h1>
             <p>Essential knowledge for implementing Social-Emotional Learning in your classroom</p>
         </div>
+        
+        <!-- Content -->
+        <div class="content-container">
+            <!-- Overview Section -->
+            <div class="section" id="overview">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>📋 What is Social-Emotional Learning (SEL)?</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <p>Social-Emotional Learning is the process through which children and adults acquire and effectively apply the knowledge, attitudes, and skills necessary to understand and manage emotions, set and achieve positive goals, feel and show empathy for others, establish and maintain positive relationships, and make responsible decisions.</p>
 
-        <h2>🎯 What is Social-Emotional Learning (SEL)?</h2>
-        <p>Social-Emotional Learning is the process through which children and adults acquire and effectively apply the knowledge, attitudes, and skills necessary to understand and manage emotions, set and achieve positive goals, feel and show empathy for others, establish and maintain positive relationships, and make responsible decisions.</p>
-
-        <div class="research-box">
-            <h3>📊 Research Foundation</h3>
-            <p><strong>Why SEL Matters:</strong> Research shows that SEL programs improve academic performance by 11 percentile points, reduce conduct problems, and increase positive social behaviors. Students with strong SEL skills are more likely to graduate high school, attend college, and have successful careers.</p>
-            <p><strong>Source:</strong> Collaborative for Academic, Social, and Emotional Learning (CASEL)</p>
-        </div>
-
-        <h2>🏗️ The Five Core SEL Competencies</h2>
-        <div class="competency-grid">
-            <div class="competency-card self-awareness">
-                <h4>🧠 Self-Awareness</h4>
-                <p><strong>Definition:</strong> Understanding one's emotions, thoughts, and values and how they influence behavior.</p>
-                <p><strong>Key Skills:</strong></p>
-                <ul>
-                    <li>Identifying emotions</li>
-                    <li>Recognizing strengths and limitations</li>
-                    <li>Developing a growth mindset</li>
-                    <li>Understanding self-efficacy</li>
-                </ul>
+                    <div class="research-box">
+                        <h3>📊 Research Foundation</h3>
+                        <p><strong>Why SEL Matters:</strong> Research shows that SEL programs improve academic performance by 11 percentile points, reduce conduct problems, and increase positive social behaviors. Students with strong SEL skills are more likely to graduate high school, attend college, and have successful careers.</p>
+                        <p><strong>Source:</strong> Collaborative for Academic, Social, and Emotional Learning (CASEL)</p>
+                    </div>
+                </div>
             </div>
+            
+            <!-- Competencies Section -->
+            <div class="section" id="competencies">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>🧠 The Five Core SEL Competencies</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="competency-grid">
+                        <div class="competency-card self-awareness">
+                            <h4>🧠 Self-Awareness</h4>
+                            <p><strong>Definition:</strong> Understanding one's emotions, thoughts, and values and how they influence behavior.</p>
+                            <p><strong>Key Skills:</strong></p>
+                            <ul>
+                                <li>Identifying emotions</li>
+                                <li>Recognizing strengths and limitations</li>
+                                <li>Developing a growth mindset</li>
+                                <li>Understanding self-efficacy</li>
+                            </ul>
+                        </div>
 
-            <div class="competency-card self-management">
-                <h4>⚡ Self-Management</h4>
-                <p><strong>Definition:</strong> Successfully regulating one's emotions, thoughts, and behaviors in different situations.</p>
-                <p><strong>Key Skills:</strong></p>
-                <ul>
-                    <li>Managing stress</li>
-                    <li>Controlling impulses</li>
-                    <li>Setting and achieving goals</li>
-                    <li>Motivating oneself</li>
-                </ul>
+                        <div class="competency-card self-management">
+                            <h4>⚡ Self-Management</h4>
+                            <p><strong>Definition:</strong> Successfully regulating one's emotions, thoughts, and behaviors in different situations.</p>
+                            <p><strong>Key Skills:</strong></p>
+                            <ul>
+                                <li>Managing stress</li>
+                                <li>Controlling impulses</li>
+                                <li>Setting and achieving goals</li>
+                                <li>Motivating oneself</li>
+                            </ul>
+                        </div>
+
+                        <div class="competency-card social-awareness">
+                            <h4>👥 Social Awareness</h4>
+                            <p><strong>Definition:</strong> Understanding the perspectives of others and empathizing with them.</p>
+                            <p><strong>Key Skills:</strong></p>
+                            <ul>
+                                <li>Taking others' perspectives</li>
+                                <li>Recognizing social cues</li>
+                                <li>Understanding social norms</li>
+                                <li>Appreciating diversity</li>
+                            </ul>
+                        </div>
+
+                        <div class="competency-card relationship-skills">
+                            <h4>🤝 Relationship Skills</h4>
+                            <p><strong>Definition:</strong> Establishing and maintaining healthy and rewarding relationships.</p>
+                            <p><strong>Key Skills:</strong></p>
+                            <ul>
+                                <li>Communicating clearly</li>
+                                <li>Listening actively</li>
+                                <li>Cooperating with others</li>
+                                <li>Resolving conflicts</li>
+                            </ul>
+                        </div>
+
+                        <div class="competency-card responsible-decision-making">
+                            <h4>🎯 Responsible Decision-Making</h4>
+                            <p><strong>Definition:</strong> Making constructive choices about personal behavior and social interactions.</p>
+                            <p><strong>Key Skills:</strong></p>
+                            <ul>
+                                <li>Identifying problems</li>
+                                <li>Analyzing situations</li>
+                                <li>Solving problems</li>
+                                <li>Evaluating consequences</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
+            <!-- Implementation Section -->
+            <div class="section" id="implementation">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>✅ Best Practices for SEL Implementation</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="best-practice">
+                        <h4>🏫 School-Wide Approach</h4>
+                        <p>SEL is most effective when integrated throughout the school environment, not just in isolated lessons. This includes classroom practices, school policies, and family engagement.</p>
+                    </div>
 
-            <div class="competency-card social-awareness">
-                <h4>👥 Social Awareness</h4>
-                <p><strong>Definition:</strong> Understanding the perspectives of others and empathizing with them.</p>
-                <p><strong>Key Skills:</strong></p>
-                <ul>
-                    <li>Taking others' perspectives</li>
-                    <li>Recognizing social cues</li>
-                    <li>Understanding social norms</li>
-                    <li>Appreciating diversity</li>
-                </ul>
+                    <div class="best-practice">
+                        <h4>📚 Academic Integration</h4>
+                        <p>Weave SEL into existing academic content rather than treating it as an add-on. For example, discuss character motivations in literature or collaborative problem-solving in math.</p>
+                    </div>
+
+                    <div class="best-practice">
+                        <h4>🎭 Modeling and Practice</h4>
+                        <p>Students learn SEL skills best when educators model them consistently and provide opportunities for practice in real situations.</p>
+                    </div>
+
+                    <div class="best-practice">
+                        <h4>📊 Assessment and Reflection</h4>
+                        <p>Regular assessment of SEL skills helps students track their growth and educators adjust their teaching strategies.</p>
+                    </div>
+
+                    <div class="best-practice">
+                        <h4>🏠 Family Partnership</h4>
+                        <p>Engage families in SEL efforts by sharing strategies, celebrating growth, and providing resources for home use.</p>
+                    </div>
+                </div>
             </div>
+            
+            <!-- Getting Started Section -->
+            <div class="section" id="getting-started">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>🚀 Getting Started with SEL</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <div class="highlight">
+                        <strong>Start Small:</strong> Begin with simple activities like morning check-ins, emotion vocabulary lessons, or cooperative learning structures. Build gradually as you and your students become comfortable.
+                    </div>
 
-            <div class="competency-card relationship-skills">
-                <h4>🤝 Relationship Skills</h4>
-                <p><strong>Definition:</strong> Establishing and maintaining healthy and rewarding relationships.</p>
-                <p><strong>Key Skills:</strong></p>
-                <ul>
-                    <li>Communicating clearly</li>
-                    <li>Listening actively</li>
-                    <li>Cooperating with others</li>
-                    <li>Resolving conflicts</li>
-                </ul>
+                    <div class="highlight">
+                        <strong>Be Consistent:</strong> Regular, brief SEL activities are more effective than occasional longer sessions. Even 5-10 minutes daily can make a significant difference.
+                    </div>
+
+                    <div class="highlight">
+                        <strong>Create a Safe Environment:</strong> Establish clear expectations, model vulnerability, and celebrate all attempts at SEL skill development, not just perfect execution.
+                    </div>
+                </div>
             </div>
+            
+            <!-- Resources Section -->
+            <div class="section" id="resources">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>📚 Further Reading & Resources</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <h3>Essential Reading</h3>
+                    <ul>
+                        <li><strong>"The Social-Emotional Learning Playbook"</strong> by Nancy Frey, Douglas Fisher, and Dominique Smith</li>
+                        <li><strong>"All Learning is Social and Emotional"</strong> by Nancy Frey, Douglas Fisher, and Dominique Smith</li>
+                        <li><strong>"The Growth Mindset Coach"</strong> by Annie Brock and Heather Hundley</li>
+                    </ul>
 
-            <div class="competency-card responsible-decision-making">
-                <h4>🎯 Responsible Decision-Making</h4>
-                <p><strong>Definition:</strong> Making constructive choices about personal behavior and social interactions.</p>
-                <p><strong>Key Skills:</strong></p>
-                <ul>
-                    <li>Identifying problems</li>
-                    <li>Analyzing situations</li>
-                    <li>Solving problems</li>
-                    <li>Evaluating consequences</li>
-                </ul>
+                    <h3>Online Resources</h3>
+                    <div style="margin: 20px 0;">
+                        <a href="https://casel.org" target="_blank" class="resource-link">CASEL - Collaborative for Academic, Social, and Emotional Learning</a>
+                        <a href="https://www.edutopia.org/topic/social-emotional-learning" target="_blank" class="resource-link">Edutopia SEL Resources</a>
+                        <a href="https://www.ascd.org/topics/social-emotional-learning" target="_blank" class="resource-link">ASCD SEL Resources</a>
+                    </div>
+
+                    <h3>Professional Development Opportunities</h3>
+                    <ul>
+                        <li><strong>CASEL Webinars:</strong> Free monthly webinars on SEL topics</li>
+                        <li><strong>Local Workshops:</strong> Check with your school district for SEL training</li>
+                        <li><strong>Online Courses:</strong> Coursera and edX offer SEL courses for educators</li>
+                    </ul>
+                </div>
             </div>
-        </div>
+            
+            <!-- Assessment Section -->
+            <div class="section" id="assessment">
+                <div class="section-header" onclick="toggleSection(this)">
+                    <h2>🎯 Assessment & Growth</h2>
+                    <span class="toggle-icon">▼</span>
+                </div>
+                <div class="section-content">
+                    <p>Track your SEL implementation progress with these questions:</p>
+                    <ul>
+                        <li>How often do I integrate SEL into my daily routine?</li>
+                        <li>What SEL skills am I modeling for my students?</li>
+                        <li>How do I respond when students struggle with SEL skills?</li>
+                        <li>What feedback do I receive from students and families?</li>
+                        <li>How can I improve my own SEL competencies?</li>
+                    </ul>
 
-        <h2>✅ Best Practices for SEL Implementation</h2>
-
-        <div class="best-practice">
-            <h4>🏫 School-Wide Approach</h4>
-            <p>SEL is most effective when integrated throughout the school environment, not just in isolated lessons. This includes classroom practices, school policies, and family engagement.</p>
-        </div>
-
-        <div class="best-practice">
-            <h4>📚 Academic Integration</h4>
-            <p>Weave SEL into existing academic content rather than treating it as an add-on. For example, discuss character motivations in literature or collaborative problem-solving in math.</p>
-        </div>
-
-        <div class="best-practice">
-            <h4>🎭 Modeling and Practice</h4>
-            <p>Students learn SEL skills best when educators model them consistently and provide opportunities for practice in real situations.</p>
-        </div>
-
-        <div class="best-practice">
-            <h4>📊 Assessment and Reflection</h4>
-            <p>Regular assessment of SEL skills helps students track their growth and educators adjust their teaching strategies.</p>
-        </div>
-
-        <div class="best-practice">
-            <h4>🏠 Family Partnership</h4>
-            <p>Engage families in SEL efforts by sharing strategies, celebrating growth, and providing resources for home use.</p>
-        </div>
-
-        <h2>🚀 Getting Started with SEL</h2>
-
-        <div class="highlight">
-            <strong>Start Small:</strong> Begin with simple activities like morning check-ins, emotion vocabulary lessons, or cooperative learning structures. Build gradually as you and your students become comfortable.
-        </div>
-
-        <div class="highlight">
-            <strong>Be Consistent:</strong> Regular, brief SEL activities are more effective than occasional longer sessions. Even 5-10 minutes daily can make a significant difference.
-        </div>
-
-        <div class="highlight">
-            <strong>Create a Safe Environment:</strong> Establish clear expectations, model vulnerability, and celebrate all attempts at SEL skill development, not just perfect execution.
-        </div>
-
-        <h2>📚 Further Reading & Resources</h2>
-
-        <h3>Essential Reading</h3>
-        <ul>
-            <li><strong>"The Social-Emotional Learning Playbook"</strong> by Nancy Frey, Douglas Fisher, and Dominique Smith</li>
-            <li><strong>"All Learning is Social and Emotional"</strong> by Nancy Frey, Douglas Fisher, and Dominique Smith</li>
-            <li><strong>"The Growth Mindset Coach"</strong> by Annie Brock and Heather Hundley</li>
-        </ul>
-
-        <h3>Online Resources</h3>
-        <div style="margin: 20px 0;">
-            <a href="https://casel.org" target="_blank" class="resource-link">CASEL - Collaborative for Academic, Social, and Emotional Learning</a>
-            <a href="https://www.edutopia.org/topic/social-emotional-learning" target="_blank" class="resource-link">Edutopia SEL Resources</a>
-            <a href="https://www.ascd.org/topics/social-emotional-learning" target="_blank" class="resource-link">ASCD SEL Resources</a>
-        </div>
-
-        <h3>Professional Development Opportunities</h3>
-        <ul>
-            <li><strong>CASEL Webinars:</strong> Free monthly webinars on SEL topics</li>
-            <li><strong>Local Workshops:</strong> Check with your school district for SEL training</li>
-            <li><strong>Online Courses:</strong> Coursera and edX offer SEL courses for educators</li>
-        </ul>
-
-        <h2>🎯 Assessment & Growth</h2>
-
-        <p>Track your SEL implementation progress with these questions:</p>
-        <ul>
-            <li>How often do I integrate SEL into my daily routine?</li>
-            <li>What SEL skills am I modeling for my students?</li>
-            <li>How do I respond when students struggle with SEL skills?</li>
-            <li>What feedback do I receive from students and families?</li>
-            <li>How can I improve my own SEL competencies?</li>
-        </ul>
-
-        <div class="highlight">
-            <strong>Remember:</strong> SEL is a journey, not a destination. Every educator starts somewhere, and the most important thing is to begin and keep growing.
-        </div>
-
-        <div style="text-align: center; margin-top: 40px;">
-            <button class="back-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
-            <button class="print-btn" onclick="window.print()" style="margin-left: 15px; background-color: var(--success-green); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-family: 'Poppins', sans-serif;">🖨️ Print Guide</button>
+                    <div class="highlight">
+                        <strong>Remember:</strong> SEL is a journey, not a destination. Every educator starts somewhere, and the most important thing is to begin and keep growing.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
+                <button class="btn btn-secondary" onclick="window.print()">🖨️ Print Guide</button>
+            </div>
         </div>
     </div>
 
+    <script>
+        // Section management
+        function toggleSection(header) {
+            const content = header.nextElementSibling;
+            const isActive = content.classList.contains('active');
+            
+            // Close all sections
+            document.querySelectorAll('.section-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.section-header').forEach(header => {
+                header.classList.remove('active');
+            });
+            
+            // Open clicked section if it wasn't active
+            if (!isActive) {
+                content.classList.add('active');
+                header.classList.add('active');
+            }
+            
+            updateProgress();
+        }
+        
+        // Navigation tabs
+        function setupNavigation() {
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                    
+                    // Open corresponding section
+                    const sectionId = tab.getAttribute('data-section');
+                    const section = document.getElementById(sectionId);
+                    const header = section.querySelector('.section-header');
+                    const content = section.querySelector('.section-content');
+                    
+                    // Close all sections first
+                    document.querySelectorAll('.section-content').forEach(s => {
+                        s.classList.remove('active');
+                    });
+                    document.querySelectorAll('.section-header').forEach(h => {
+                        h.classList.remove('active');
+                    });
+                    
+                    // Open target section
+                    content.classList.add('active');
+                    header.classList.add('active');
+                    
+                    // Scroll to section
+                    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    
+                    updateProgress();
+                });
+            });
+        }
+        
+        // Progress tracking
+        function updateProgress() {
+            const sections = document.querySelectorAll('.section');
+            const totalSections = sections.length;
+            let completedSections = 0;
+            
+            sections.forEach(section => {
+                const content = section.querySelector('.section-content');
+                if (content.classList.contains('active')) {
+                    completedSections++;
+                }
+            });
+            
+            const progressPercentage = Math.round((completedSections / totalSections) * 100);
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            progressFill.style.width = progressPercentage + '%';
+            progressText.textContent = progressPercentage + '% Complete';
+            
+            // Update nav tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach((tab, index) => {
+                if (index < completedSections) {
+                    tab.classList.add('completed');
+                    tab.classList.remove('active');
+                } else if (index === completedSections) {
+                    tab.classList.add('active');
+                    tab.classList.remove('completed');
+                } else {
+                    tab.classList.remove('active', 'completed');
+                }
+            });
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            setupNavigation();
+            
+            // Open first section by default
+            const firstSection = document.querySelector('.section');
+            const firstHeader = firstSection.querySelector('.section-header');
+            const firstContent = firstSection.querySelector('.section-content');
+            
+            firstContent.classList.add('active');
+            firstHeader.classList.add('active');
+            
+            updateProgress();
+        });
+    </script>
+
     <!-- TIDIO CHATBOT SCRIPT -->
     <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>
-
 </body>
 </html> 
