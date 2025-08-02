@@ -388,23 +388,67 @@ document.addEventListener('DOMContentLoaded', () => {
     function extractScenariosFromDocument(doc) {
         const scenarios = [];
         
-        // Look for scenario elements
-        const scenarioElements = doc.querySelectorAll('.scenario, .card, [data-scenario]');
+        // Look for scenario elements with the correct structure
+        const scenarioElements = doc.querySelectorAll('.scenario-card-container');
         
         scenarioElements.forEach((element, index) => {
-            const title = element.querySelector('.title, .card-title, h3, h4')?.textContent || `Scenario ${index + 1}`;
-            const text = element.querySelector('.text, .card-text, p')?.textContent || element.textContent;
-            const competency = element.dataset.competency || element.className.match(/self-awareness|self-management|social-awareness|relationship-skills|responsible-decision-making/)?.[0] || 'general';
+            const cardFront = element.querySelector('.card-front');
+            const cardBack = element.querySelector('.card-back');
             
-            scenarios.push({
-                title: title.trim(),
-                text: text.trim(),
-                competency: competency,
-                tags: extractTags(text)
-            });
+            if (cardFront) {
+                const titleElement = cardFront.querySelector('.card-title');
+                const textElement = cardFront.querySelector('.card-text, p');
+                
+                const title = titleElement?.textContent || `Scenario ${index + 1}`;
+                const text = textElement?.textContent || cardFront.textContent;
+                
+                // Determine competency from background class
+                let competency = 'general';
+                if (cardFront.classList.contains('bg-self-awareness')) competency = 'self-awareness';
+                else if (cardFront.classList.contains('bg-self-management')) competency = 'self-management';
+                else if (cardFront.classList.contains('bg-social-awareness')) competency = 'social-awareness';
+                else if (cardFront.classList.contains('bg-relationship-skills')) competency = 'relationship-skills';
+                else if (cardFront.classList.contains('bg-responsible-decision')) competency = 'responsible-decision-making';
+                
+                // Extract guiding questions from card back
+                let guidingQuestions = [];
+                if (cardBack) {
+                    const questionsList = cardBack.querySelector('.guiding-questions');
+                    if (questionsList) {
+                        const questions = questionsList.querySelectorAll('li');
+                        guidingQuestions = Array.from(questions).map(q => q.textContent.trim());
+                    }
+                }
+                
+                scenarios.push({
+                    title: title.trim(),
+                    text: text.trim(),
+                    competency: competency,
+                    tags: extractTags(text),
+                    guidingQuestions: guidingQuestions
+                });
+            }
         });
         
-        // If no scenarios found, try to extract from script
+        // If no scenarios found with scenario-card-container, try alternative selectors
+        if (scenarios.length === 0) {
+            const alternativeElements = doc.querySelectorAll('.scenario, .card, [data-scenario]');
+            
+            alternativeElements.forEach((element, index) => {
+                const title = element.querySelector('.title, .card-title, h3, h4')?.textContent || `Scenario ${index + 1}`;
+                const text = element.querySelector('.text, .card-text, p')?.textContent || element.textContent;
+                const competency = element.dataset.competency || element.className.match(/self-awareness|self-management|social-awareness|relationship-skills|responsible-decision-making/)?.[0] || 'general';
+                
+                scenarios.push({
+                    title: title.trim(),
+                    text: text.trim(),
+                    competency: competency,
+                    tags: extractTags(text)
+                });
+            });
+        }
+        
+        // If still no scenarios found, try to extract from script
         if (scenarios.length === 0) {
             const scriptContent = doc.querySelector('script:not([src])')?.innerHTML;
             if (scriptContent) {
@@ -425,6 +469,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
         
+        console.log(`Extracted ${scenarios.length} scenarios from document`);
         return scenarios;
     }
 
@@ -486,11 +531,14 @@ document.addEventListener('DOMContentLoaded', () => {
         cardBack.innerHTML = `
             <div class="card-title">Guiding Questions</div>
             <ul class="guiding-questions">
-                <li>How do you think the person in this scenario feels?</li>
-                <li>What might have caused this situation?</li>
-                <li>What could be done to help or improve the situation?</li>
-                <li>Have you ever been in a similar situation?</li>
-                <li>What would you do differently?</li>
+                ${scenario.guidingQuestions && scenario.guidingQuestions.length > 0 
+                    ? scenario.guidingQuestions.map(q => `<li>${escapeHtml(q)}</li>`).join('')
+                    : `<li>How do you think the person in this scenario feels?</li>
+                       <li>What might have caused this situation?</li>
+                       <li>What could be done to help or improve the situation?</li>
+                       <li>Have you ever been in a similar situation?</li>
+                       <li>What would you do differently?</li>`
+                }
             </ul>
         `;
         

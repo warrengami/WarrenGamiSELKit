@@ -89,6 +89,24 @@
             66% { transform: translateY(10px) rotate(240deg); }
         }
 
+        /* Logo Styling */
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo-image {
+            max-width: 200px;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .logo-image:hover {
+            transform: scale(1.05);
+        }
+
         /* Main Container */
         .container {
             background: var(--paper-white);
@@ -344,7 +362,9 @@
 
     <div class="container">
         <div class="brand-section">
-            <div class="logo"></div>
+            <div class="logo">
+                <img src="warrengamilogo.png" alt="WarrenGami Logo" class="logo-image">
+            </div>
             <h1>WarrenGami SEL Toolkit</h1>
             <p class="subtitle">Please enter the access code provided to your school.</p>
         </div>
