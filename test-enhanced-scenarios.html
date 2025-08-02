@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Enhanced Scenario Cards</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #002b5c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .test-button:hover {
+            background: #73bdf5;
+        }
+        .feature-list {
+            background: #e8f4fd;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        .feature-list h3 {
+            margin-top: 0;
+            color: #002b5c;
+        }
+        .feature-list ul {
+            margin: 10px 0;
+        }
+        .feature-list li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Enhanced Scenario Cards</h1>
+    
+    <div class="test-section">
+        <h2>✅ Enhanced Filter Functionality</h2>
+        <div class="feature-list">
+            <h3>🎯 Auto-Refresh Cards</h3>
+            <ul>
+                <li><strong>Instant Filter Response:</strong> Cards automatically refresh when filters are applied</li>
+                <li><strong>No Confirmation Dialogs:</strong> Smooth transitions without interrupting workflow</li>
+                <li><strong>Visual Feedback:</strong> Cards fade out/in during transitions</li>
+                <li><strong>Smart Filtering:</strong> Shows "No cards match" message when appropriate</li>
+            </ul>
+        </div>
+        
+        <h3>Test Steps:</h3>
+        <ol>
+            <li>Click the button below to open scenario cards in classroom mode</li>
+            <li>Draw a card to see the current card</li>
+            <li>Apply a competency filter (e.g., "Self-Awareness")</li>
+            <li>Notice the card automatically refreshes to match the filter</li>
+            <li>Try searching for specific terms to see instant filtering</li>
+        </ol>
+        
+        <button class="test-button" onclick="testEnhancedFilters()">
+            🎯 Test Enhanced Filtering
+        </button>
+    </div>
+    
+    <div class="test-section">
+        <h2>✅ Enhanced Card Tracking</h2>
+        <div class="feature-list">
+            <h3>📊 Improved Counter & History</h3>
+            <ul>
+                <li><strong>Detailed Counter:</strong> Shows remaining, drawn, and total cards</li>
+                <li><strong>Enhanced History:</strong> Timestamps and competency tags for each card</li>
+                <li><strong>Filter Status:</strong> Shows "X of Y cards" when filters are active</li>
+                <li><strong>Visual Progress:</strong> Clear indication of activity progress</li>
+            </ul>
+        </div>
+        
+        <h3>Test Steps:</h3>
+        <ol>
+            <li>Open scenario cards in classroom mode</li>
+            <li>Draw several cards to build history</li>
+            <li>Check the enhanced counter showing detailed stats</li>
+            <li>Click "History" to see timestamps and competency tags</li>
+            <li>Apply filters and notice the filter status indicator</li>
+        </ol>
+        
+        <button class="test-button" onclick="testCardTracking()">
+            📊 Test Card Tracking
+        </button>
+    </div>
+    
+    <div class="test-section">
+        <h2>✅ Enhanced Timer Notifications</h2>
+        <div class="feature-list">
+            <h3>⏰ Improved Timer Experience</h3>
+            <ul>
+                <li><strong>Visual Warnings:</strong> Timer turns red and pulses when time is low</li>
+                <li><strong>Enhanced Notifications:</strong> Centered popup with clear messaging</li>
+                <li><strong>Gentle Sound:</strong> Lower volume notification sound</li>
+                <li><strong>Browser Notifications:</strong> System notifications if permitted</li>
+                <li><strong>Auto-dismiss:</strong> Notifications disappear after 5 seconds</li>
+            </ul>
+        </div>
+        
+        <h3>Test Steps:</h3>
+        <ol>
+            <li>Open scenario cards in classroom mode</li>
+            <li>Start a timer (set to 30 seconds for testing)</li>
+            <li>Watch for visual warnings when time runs low</li>
+            <li>When timer ends, notice the enhanced notification popup</li>
+            <li>Allow browser notifications if prompted</li>
+        </ol>
+        
+        <button class="test-button" onclick="testTimerNotifications()">
+            ⏰ Test Timer Notifications
+        </button>
+    </div>
+    
+    <div class="test-section">
+        <h2>✅ All Enhanced Features</h2>
+        <div class="feature-list">
+            <h3>🚀 Complete Enhanced Experience</h3>
+            <ul>
+                <li><strong>Seamless Integration:</strong> All features work together smoothly</li>
+                <li><strong>Fallback Support:</strong> Original functionality preserved if enhanced features fail</li>
+                <li><strong>Cross-Browser Compatible:</strong> Works in all modern browsers</li>
+                <li><strong>Mobile Responsive:</strong> Enhanced features work on mobile devices</li>
+            </ul>
+        </div>
+        
+        <h3>Test Steps:</h3>
+        <ol>
+            <li>Open scenario cards in classroom mode</li>
+            <li>Test all features together: filtering, tracking, and timing</li>
+            <li>Verify smooth transitions and clear feedback</li>
+            <li>Check that all information is clearly displayed</li>
+        </ol>
+        
+        <button class="test-button" onclick="testAllFeatures()">
+            🚀 Test All Enhanced Features
+        </button>
+    </div>
+    
+    <script>
+        function testEnhancedFilters() {
+            const resultDiv = document.createElement('div');
+            resultDiv.innerHTML = '<div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin: 10px 0;">✅ Opening scenario cards with enhanced filtering...</div>';
+            document.querySelector('.test-section').appendChild(resultDiv);
+            
+            // Open scenario cards in classroom mode
+            const url = 'classroom.html?type=scenario&file=All-Scenario-Cards.html';
+            window.open(url, '_blank');
+            
+            setTimeout(() => {
+                resultDiv.innerHTML = '<div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin: 10px 0;">✅ Classroom mode opened! Test the enhanced filtering features.</div>';
+            }, 1000);
+        }
+        
+        function testCardTracking() {
+            const resultDiv = document.createElement('div');
+            resultDiv.innerHTML = '<div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin: 10px 0;">✅ Opening scenario cards with enhanced tracking...</div>';
+            document.querySelector('.test-section').appendChild(resultDiv);
+            
+            // Open scenario cards in classroom mode
+            const url = 'classroom.html?type=scenario&file=All-Scenario-Cards.html';
+            window.open(url, '_blank');
+            
+            setTimeout(() => {
+                resultDiv.innerHTML = '<div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin: 10px 0;">✅ Classroom mode opened! Test the enhanced card tracking features.</div>';
+            }, 1000);
+        }
+        
+        function testTimerNotifications() {
+            const resultDiv = document.createElement('div');
+            resultDiv.innerHTML = '<div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin: 10px 0;">✅ Opening scenario cards with enhanced timer notifications...</div>';
+            document.querySelector('.test-section').appendChild(resultDiv);
+            
+            // Open scenario cards in classroom mode
+            const url = 'classroom.html?type=scenario&file=All-Scenario-Cards.html';
+            window.open(url, '_blank');
+            
+            setTimeout(() => {
+                resultDiv.innerHTML = '<div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin: 10px 0;">✅ Classroom mode opened! Test the enhanced timer notification features.</div>';
+            }, 1000);
+        }
+        
+        function testAllFeatures() {
+            const resultDiv = document.createElement('div');
+            resultDiv.innerHTML = '<div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin: 10px 0;">✅ Opening scenario cards with all enhanced features...</div>';
+            document.querySelector('.test-section').appendChild(resultDiv);
+            
+            // Open scenario cards in classroom mode
+            const url = 'classroom.html?type=scenario&file=All-Scenario-Cards.html';
+            window.open(url, '_blank');
+            
+            setTimeout(() => {
+                resultDiv.innerHTML = '<div style="background: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin: 10px 0;">✅ Classroom mode opened! Test all enhanced features together.</div>';
+            }, 1000);
+        }
+    </script>
+</body>
+</html> 

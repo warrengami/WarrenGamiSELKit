@@ -225,37 +225,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startTimer() {
-        const savedDuration = localStorage.getItem('timerDuration') || 60;
-        const duration = parseInt(savedDuration);
-        
-        if (currentTimer) {
-            clearInterval(currentTimer);
-        }
-        
-        let timeLeft = duration;
-        const timerDisplay = document.getElementById('timer-display');
-        const timerSection = document.getElementById('timer-section');
-        
-        timerSection.style.display = 'block';
-        updateTimerDisplay(timeLeft);
-        
-        currentTimer = setInterval(() => {
-            timeLeft--;
+        // Use enhanced timer function if available
+        if (typeof enhancedStartTimer === 'function') {
+            enhancedStartTimer();
+        } else {
+            // Fallback to original implementation
+            const savedDuration = localStorage.getItem('timerDuration') || 60;
+            const duration = parseInt(savedDuration);
+            
+            if (currentTimer) {
+                clearInterval(currentTimer);
+            }
+            
+            let timeLeft = duration;
+            const timerDisplay = document.getElementById('timer-display');
+            const timerSection = document.getElementById('timer-section');
+            
+            timerSection.style.display = 'block';
             updateTimerDisplay(timeLeft);
             
-            if (timeLeft <= 0) {
-                stopTimer();
-                showTimerNotification();
-            }
-        }, 1000);
+            currentTimer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay(timeLeft);
+                
+                if (timeLeft <= 0) {
+                    stopTimer();
+                    showTimerNotification();
+                }
+            }, 1000);
+        }
     }
 
     function stopTimer() {
-        if (currentTimer) {
-            clearInterval(currentTimer);
-            currentTimer = null;
+        // Use enhanced stop timer function if available
+        if (typeof enhancedStopTimer === 'function') {
+            enhancedStopTimer();
+        } else {
+            // Fallback to original implementation
+            if (currentTimer) {
+                clearInterval(currentTimer);
+                currentTimer = null;
+            }
+            document.getElementById('timer-section').style.display = 'none';
         }
-        document.getElementById('timer-section').style.display = 'none';
     }
 
     function updateTimerDisplay(seconds) {
@@ -362,6 +374,11 @@ document.addEventListener('DOMContentLoaded', () => {
             window.toggleHistory = toggleHistory;
             window.startTimer = startTimer;
             window.stopTimer = stopTimer;
+            
+            // Initialize enhanced features if available
+            if (typeof initEnhancedScenarioFeatures === 'function') {
+                initEnhancedScenarioFeatures();
+            }
             
         } catch (error) {
             handleError(error);
@@ -501,47 +518,65 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function filterScenarios() {
-        const searchTerm = document.querySelector('.search-input').value.toLowerCase();
-        const competencyFilter = document.querySelector('.filter-select').value;
-        
-        window.filteredScenarios = window.allScenarios.filter(scenario => {
-            const matchesSearch = !searchTerm || 
-                scenario.title.toLowerCase().includes(searchTerm) || 
-                scenario.text.toLowerCase().includes(searchTerm);
+        // Use enhanced filter function if available
+        if (typeof enhancedFilterScenarios === 'function') {
+            enhancedFilterScenarios();
+        } else {
+            // Fallback to original implementation
+            const searchTerm = document.querySelector('.search-input').value.toLowerCase();
+            const competencyFilter = document.querySelector('.filter-select').value;
             
-            const matchesCompetency = !competencyFilter || 
-                scenario.competency === competencyFilter;
+            window.filteredScenarios = window.allScenarios.filter(scenario => {
+                const matchesSearch = !searchTerm || 
+                    scenario.title.toLowerCase().includes(searchTerm) || 
+                    scenario.text.toLowerCase().includes(searchTerm);
+                
+                const matchesCompetency = !competencyFilter || 
+                    scenario.competency === competencyFilter;
+                
+                return matchesSearch && matchesCompetency;
+            });
             
-            return matchesSearch && matchesCompetency;
-        });
-        
-        remainingCards = window.filteredScenarios.length;
-        updateCardCounter();
-        
-        // Auto-draw new card if current card doesn't match filter
-        const drawnCardWrapper = document.getElementById('drawn-card-wrapper');
-        if (drawnCardWrapper.style.display !== 'none' && remainingCards > 0) {
-            setTimeout(() => {
-                if (confirm('The current card no longer matches the filter. Draw a new card?')) {
-                    drawCard();
-                }
-            }, 500);
+            remainingCards = window.filteredScenarios.length;
+            updateCardCounter();
+            
+            // Auto-draw new card if current card doesn't match filter
+            const drawnCardWrapper = document.getElementById('drawn-card-wrapper');
+            if (drawnCardWrapper.style.display !== 'none' && remainingCards > 0) {
+                setTimeout(() => {
+                    if (confirm('The current card no longer matches the filter. Draw a new card?')) {
+                        drawCard();
+                    }
+                }, 500);
+            }
         }
     }
 
     function updateCardCounter() {
-        const counter = document.getElementById('card-counter');
-        if (counter) {
-            counter.textContent = `Cards remaining: ${remainingCards}`;
+        // Use enhanced counter function if available
+        if (typeof updateEnhancedCardCounter === 'function') {
+            updateEnhancedCardCounter();
+        } else {
+            // Fallback to original implementation
+            const counter = document.getElementById('card-counter');
+            if (counter) {
+                counter.textContent = `Cards remaining: ${remainingCards}`;
+            }
         }
     }
 
     function updateHistoryDisplay() {
-        const historyList = document.getElementById('history-list');
-        if (historyList) {
-            historyList.innerHTML = cardHistory.map((scenario, index) => 
-                `<div class="history-item">${index + 1}. ${escapeHtml(scenario.title)}</div>`
-            ).join('');
+        // Use enhanced history function if available
+        if (typeof updateEnhancedHistoryDisplay === 'function') {
+            updateEnhancedHistoryDisplay();
+        } else {
+            // Fallback to original implementation
+            const historyList = document.getElementById('history-list');
+            if (historyList) {
+                historyList.innerHTML = cardHistory.map((scenario, index) => 
+                    `<div class="history-item">${index + 1}. ${escapeHtml(scenario.title)}</div>`
+                ).join('');
+            }
         }
     }
 
