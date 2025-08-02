@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Logo Updates</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-button {
+            background: #002b5c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px;
+            font-size: 16px;
+        }
+        .test-button:hover {
+            background: #73bdf5;
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Logo Updates</h1>
+    
+    <div class="test-section">
+        <h2>✅ Logo Improvements</h2>
+        <div class="info">
+            <h3>🎨 Changes Made:</h3>
+            <ul>
+                <li><strong>Brain Icon Removed:</strong> No more brain emoji in the logo area</li>
+                <li><strong>Larger Logo Size:</strong> Increased from 200px to 280px max width</li>
+                <li><strong>Enhanced Shadow:</strong> Improved drop shadow for better visual depth</li>
+                <li><strong>Responsive Design:</strong> Logo scales to 220px on mobile devices</li>
+                <li><strong>Cleaner Design:</strong> Removed circular background and animations</li>
+            </ul>
+        </div>
+        
+        <h3>Test Steps:</h3>
+        <ol>
+            <li>Click the button below to open the access page</li>
+            <li>Verify the brain icon is completely removed</li>
+            <li>Check that the WarrenGami logo is larger and more prominent</li>
+            <li>Test on different screen sizes to ensure responsive design</li>
+            <li>Verify the logo has a nice drop shadow effect</li>
+        </ol>
+        
+        <button class="test-button" onclick="testLogoUpdates()">
+            🎨 Test Logo Updates
+        </button>
+        
+        <div id="test-result"></div>
+    </div>
+    
+    <script>
+        function testLogoUpdates() {
+            const resultDiv = document.getElementById('test-result');
+            resultDiv.innerHTML = '<div class="status info">✅ Opening access page to test logo updates...</div>';
+            
+            const url = 'index.html';
+            window.open(url, '_blank');
+            
+            setTimeout(() => {
+                resultDiv.innerHTML = '<div class="status success">✅ Access page opened! Verify the logo improvements:</div>';
+            }, 1000);
+        }
+    </script>
+</body>
+</html> 

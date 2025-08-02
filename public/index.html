@@ -95,11 +95,11 @@
         }
 
         .logo-image {
-            max-width: 200px;
+            max-width: 280px;
             height: auto;
             margin: 0 auto;
             display: block;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
             transition: transform 0.3s ease;
         }
 
@@ -128,27 +128,13 @@
         }
 
         .logo {
-            width: 80px;
-            height: 80px;
             margin: 0 auto 20px;
-            background: linear-gradient(135deg, var(--warren-blue), var(--warren-light-blue));
-            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 30px var(--shadow-blue);
-            animation: pulse 2s ease-in-out infinite;
         }
 
-        .logo::before {
-            content: "🧠";
-            font-size: 2.5rem;
-        }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
 
         /* Typography */
         h1 {
@@ -315,6 +301,10 @@
             .container {
                 padding: 30px 20px;
                 margin: 10px;
+            }
+
+            .logo-image {
+                max-width: 220px;
             }
 
             h1 {
