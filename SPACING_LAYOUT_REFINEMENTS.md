@@ -118,7 +118,7 @@ This document outlines the comprehensive spacing and layout refinements implemen
 }
 
 .quick-actions {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
 }
 ```
 
@@ -178,7 +178,7 @@ This document outlines the comprehensive spacing and layout refinements implemen
 - **Card-to-card**: 24px (1.5rem)
 - **Section-to-section**: 48px (3rem)
 - **Header-to-content**: 24px (1.5rem)
-- **Quick actions to sections**: 64px (4rem)
+- **Quick actions to sections**: 32px (2rem)
 
 ### Horizontal Spacing
 - **Column gutters**: 24px (1.5rem)
