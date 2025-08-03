@@ -176,10 +176,19 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            margin-bottom: var(--card-spacing);
+            margin-bottom: 0;
         }
         
         .activity-card:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Quick Actions specific overrides */
+        .quick-actions .activity-card {
+            margin-bottom: 0;
+        }
+        
+        .quick-actions .activity-card:last-child {
             margin-bottom: 0;
         }
         
@@ -461,6 +470,7 @@
             max-width: 1200px;
             margin: 0 auto;
             align-items: start;
+            margin-bottom: 0;
         }
         
         /* Collapsible Sections */
@@ -473,6 +483,11 @@
             overflow: hidden;
             position: relative;
             backdrop-filter: blur(10px);
+        }
+        
+        /* Remove top margin from first collapsible section */
+        .collapsible-section:first-of-type {
+            margin-top: 0;
         }
         
         .collapsible-section::before {
@@ -520,6 +535,7 @@
             padding: var(--section-padding);
             display: none;
             background: var(--section-gradient);
+            margin-top: 0;
         }
         
         .section-content.active {
