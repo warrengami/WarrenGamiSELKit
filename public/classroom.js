@@ -154,28 +154,33 @@ document.addEventListener('DOMContentLoaded', () => {
         // Store all prompts globally for random selection
         window.allDicePrompts = dicePrompts;
         
-        // Build enhanced 3D dice HTML with first 6 prompts for display
-        const diceHTML = `
-            <div class="dice-scene">
-                <div class="dice" id="dice">
-                    <div class="face face-1">${escapeHtml(dicePrompts[0] || 'Prompt 1')}</div>
-                    <div class="face face-2">${escapeHtml(dicePrompts[1] || 'Prompt 2')}</div>
-                    <div class="face face-3">${escapeHtml(dicePrompts[2] || 'Prompt 3')}</div>
-                    <div class="face face-4">${escapeHtml(dicePrompts[3] || 'Prompt 4')}</div>
-                    <div class="face face-5">${escapeHtml(dicePrompts[4] || 'Prompt 5')}</div>
-                    <div class="face face-6">${escapeHtml(dicePrompts[5] || 'Prompt 6')}</div>
+        // Use the dashboard-aligned dice interface
+        if (window.dashboardDice) {
+            window.dashboardDice.initDiceInterface(dicePrompts, 'Emotions & Feelings');
+        } else {
+            // Fallback to original implementation
+            const diceHTML = `
+                <div class="dice-scene">
+                    <div class="dice" id="dice">
+                        <div class="face face-1">${escapeHtml(dicePrompts[0] || 'Prompt 1')}</div>
+                        <div class="face face-2">${escapeHtml(dicePrompts[1] || 'Prompt 2')}</div>
+                        <div class="face face-3">${escapeHtml(dicePrompts[2] || 'Prompt 3')}</div>
+                        <div class="face face-4">${escapeHtml(dicePrompts[3] || 'Prompt 4')}</div>
+                        <div class="face face-5">${escapeHtml(dicePrompts[4] || 'Prompt 5')}</div>
+                        <div class="face face-6">${escapeHtml(dicePrompts[5] || 'Prompt 6')}</div>
+                    </div>
                 </div>
-            </div>
-            <div id="prompt-result"></div>
-        `;
+                <div id="prompt-result"></div>
+            `;
+            
+            mainContentEl.innerHTML = diceHTML;
+        }
         
-        mainContentEl.innerHTML = diceHTML;
-        
-        // Build control panel
+        // Build control panel with dashboard-aligned design
         const controlHTML = `
-            <button class="enhanced-btn" onclick="rollDice()">🎲 Roll Dice</button>
-            <button class="enhanced-btn timer-btn" onclick="startTimer()">⏱️ Start Timer</button>
-            <button class="enhanced-btn" onclick="stopTimer()">⏹️ Stop Timer</button>
+            <button class="enhanced-btn" onclick="rollDice()">Roll Dice</button>
+            <button class="enhanced-btn timer-btn" onclick="startTimer()">Start Timer</button>
+            <button class="enhanced-btn stop-btn" onclick="stopTimer()">Stop Timer</button>
         `;
         controlPanelEl.innerHTML = controlHTML;
         

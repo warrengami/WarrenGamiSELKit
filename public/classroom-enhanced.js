@@ -68,17 +68,15 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             mainContentEl.innerHTML = diceHTML;
             
-            // Enhanced control buttons for dice
+            // Enhanced control buttons for dice - Dashboard aligned
             const rollBtn = document.createElement('button');
-            rollBtn.textContent = '🎲 Roll the Dice';
+            rollBtn.textContent = 'Roll Dice';
             rollBtn.className = 'enhanced-btn';
             controlPanelEl.appendChild(rollBtn);
 
-
-
             // Timer controls
             const timerBtn = document.createElement('button');
-            timerBtn.textContent = '⏱️ Start Timer';
+            timerBtn.textContent = 'Start Timer';
             timerBtn.className = 'enhanced-btn timer-btn';
             controlPanelEl.appendChild(timerBtn);
             

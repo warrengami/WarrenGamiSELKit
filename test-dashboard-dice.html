@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Classroom Mode - WarrenGami SEL</title>
+    <title>Dashboard-Aligned Dice Test - WarrenGami SEL</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -53,42 +53,51 @@
             padding: 2rem;
         }
         
-        /* Breadcrumb Navigation */
-        .breadcrumb {
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
             background: var(--paper-white);
-            padding: 1rem 1.5rem;
-            border-radius: var(--card-border-radius);
-            margin-bottom: 1.5rem;
-            box-shadow: var(--card-shadow);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            flex-wrap: wrap;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 15px 40px var(--shadow-blue);
+            position: relative;
+            overflow: hidden;
             border: 1px solid var(--soft-blue);
+            z-index: 1;
         }
         
-        .breadcrumb-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-dark);
-            text-decoration: none;
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(106, 182, 255, 0.05) 0%, rgba(74, 144, 226, 0.05) 100%);
+            pointer-events: none;
+        }
+        
+        .header h1 {
+            color: var(--warren-blue);
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--warren-blue), var(--warren-light-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            color: var(--warren-light-blue);
+            font-size: 1.1rem;
             font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .breadcrumb-item:hover {
-            color: var(--warren-light-blue);
-        }
-        
-        .breadcrumb-separator {
-            color: var(--text-muted);
-            font-weight: bold;
-        }
-        
-        .breadcrumb-current {
-            color: var(--warren-light-blue);
-            font-weight: 600;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
         }
         
         /* Category Selector - Dashboard Aligned */
@@ -173,72 +182,6 @@
             color: var(--paper-white);
             border-color: var(--warren-light-blue);
             box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
-        }
-        
-        .classroom-header {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--paper-white);
-            border-radius: var(--card-border-radius);
-            padding: 1.5rem 2rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--soft-blue);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .classroom-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--header-gradient);
-            opacity: 0.1;
-        }
-        
-        .classroom-header h1 {
-            font-weight: 700;
-            font-size: 1.8rem;
-            margin: 0;
-            color: var(--text-dark);
-            position: relative;
-            z-index: 1;
-        }
-        
-        #exit-btn {
-            background: linear-gradient(135deg, var(--warren-blue), var(--warren-light-blue));
-            color: var(--paper-white);
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.2);
-            position: relative;
-            z-index: 1;
-        }
-        
-        #exit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(30, 58, 95, 0.3);
-        }
-        
-        main {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            position: relative;
-            min-height: 0;
         }
         
         /* Enhanced Dice Scene - Dashboard Aligned */
@@ -509,8 +452,7 @@
         
         @media (max-width: 768px) {
             body { padding: 1rem; }
-            .classroom-header h1 { font-size: 1.5rem; }
-            .breadcrumb { flex-direction: column; align-items: flex-start; }
+            .header h1 { font-size: 1.8rem; }
             .category-buttons { flex-direction: column; }
             .control-panel { flex-direction: column; align-items: center; }
             .dice-scene { width: 240px; height: 240px; }
@@ -522,18 +464,17 @@
     </style>
 </head>
 <body>
-    <!-- Breadcrumb Navigation -->
-    <div class="breadcrumb">
-        <a href="dashboard.html" class="breadcrumb-item">Dashboard</a>
-        <span class="breadcrumb-separator">›</span>
-        <span class="breadcrumb-item breadcrumb-current" id="breadcrumb-current">Loading...</span>
+    <!-- Header -->
+    <div class="header">
+        <h1>Dashboard-Aligned Dice Interface</h1>
+        <div class="subtitle">WarrenGami SEL - Clean, Modern, and Playful Design</div>
     </div>
     
-    <!-- Category Selector (for dice mode) -->
-    <div class="category-selector" id="category-selector" style="display: none;">
+    <!-- Category Selector -->
+    <div class="category-selector">
         <h3>Switch Dice Category</h3>
         <div class="category-buttons">
-            <button class="category-btn" data-category="emotions">Emotions & Feelings</button>
+            <button class="category-btn active" data-category="emotions">Emotions & Feelings</button>
             <button class="category-btn" data-category="empathy">Empathy & Kindness</button>
             <button class="category-btn" data-category="friendship">Friendship & Social Skills</button>
             <button class="category-btn" data-category="coping">Coping Strategies</button>
@@ -542,21 +483,19 @@
         </div>
     </div>
 
-    <header class="classroom-header">
-        <h1 id="resource-title">Loading Resource...</h1>
-        <button id="exit-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
-    </header>
-
+    <!-- Main Content -->
     <main id="main-content">
-        <!-- Content injected here will be either the dice or the cards -->
+        <!-- Content will be injected here by the dice interface -->
     </main>
 
+    <!-- Timer Section -->
     <div id="timer-section" class="timer-section" style="display: none;">
         <div id="timer-display" class="timer-display">00:00</div>
     </div>
 
+    <!-- Control Panel -->
     <div id="control-panel" class="control-panel">
-        <!-- Controls injected here -->
+        <!-- Controls will be injected here -->
     </div>
     
     <!-- Timer Notification -->
@@ -565,12 +504,154 @@
         <div style="font-size: 1rem; margin-top: 10px;">Activity completed</div>
     </div>
 
-    <script src="dice-navigation.js"></script>
-    <script src="classroom.js"></script>
-    <script src="classroom-enhanced-scenarios.js"></script>
+    <script>
+        // Sample prompts for testing
+        const samplePrompts = [
+            "How do you feel when someone shares something exciting with you?",
+            "What makes you feel proud of yourself?",
+            "How do you help a friend who is feeling sad?",
+            "What do you do when you feel frustrated?",
+            "How do you show kindness to others?",
+            "What makes you feel calm and peaceful?",
+            "How do you handle disagreements with friends?",
+            "What do you do when you need help with something?",
+            "How do you celebrate someone else's success?",
+            "What helps you feel better when you're worried?"
+        ];
 
-    <!-- TIDIO CHATBOT SCRIPT -->
-    <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>
+        // Initialize the dashboard dice interface
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create the dice interface
+            const diceInterface = `
+                <div class="dice-prompt-container">
+                    <div class="category-tag">Emotions & Feelings</div>
+                    <div class="dice-prompt-text" id="dice-prompt-text">
+                        Click "Roll Dice" to get started
+                    </div>
+                </div>
+                
+                <div class="dice-scene">
+                    <div class="dice" id="dashboard-dice">
+                        ${samplePrompts.slice(0, 6).map((prompt, i) => 
+                            `<div class="face face-${i + 1}">${prompt}</div>`
+                        ).join('')}
+                    </div>
+                </div>
+                
+                <div id="prompt-result"></div>
+            `;
+            
+            document.getElementById('main-content').innerHTML = diceInterface;
+            
+            // Create control panel
+            const controlHTML = `
+                <button class="enhanced-btn" onclick="rollDice()">Roll Dice</button>
+                <button class="enhanced-btn timer-btn" onclick="startTimer()">Start Timer</button>
+                <button class="enhanced-btn stop-btn" onclick="stopTimer()">Stop Timer</button>
+            `;
+            document.getElementById('control-panel').innerHTML = controlHTML;
+            
+            // Setup category buttons
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const category = btn.textContent;
+                    const categoryTag = document.querySelector('.category-tag');
+                    if (categoryTag) {
+                        categoryTag.textContent = category;
+                    }
+                });
+            });
+        });
 
+        // Dice roll function
+        function rollDice() {
+            const dice = document.getElementById('dashboard-dice');
+            const promptText = document.getElementById('dice-prompt-text');
+            const resultDiv = document.getElementById('prompt-result');
+            
+            if (!dice) return;
+            
+            // Add rolling animation
+            dice.classList.add('rolling');
+            
+            // Show rolling state
+            promptText.textContent = 'Rolling...';
+            
+            // Randomly select a prompt
+            const randomIndex = Math.floor(Math.random() * samplePrompts.length);
+            const selectedPrompt = samplePrompts[randomIndex];
+            
+            // Calculate which face to show (1-6)
+            const faceNumber = (randomIndex % 6) + 1;
+            
+            // Stop rolling after animation
+            setTimeout(() => {
+                dice.classList.remove('rolling');
+                dice.className = `dice show-${faceNumber}`;
+                
+                // Show result
+                promptText.textContent = selectedPrompt;
+                resultDiv.textContent = selectedPrompt;
+            }, 2000);
+        }
+
+        // Timer functions
+        let currentTimer = null;
+        
+        function startTimer() {
+            const duration = 60;
+            
+            if (currentTimer) {
+                clearInterval(currentTimer);
+            }
+            
+            let timeLeft = duration;
+            const timerDisplay = document.getElementById('timer-display');
+            const timerSection = document.getElementById('timer-section');
+            
+            timerSection.style.display = 'block';
+            updateTimerDisplay(timeLeft);
+            
+            currentTimer = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay(timeLeft);
+                
+                if (timeLeft <= 0) {
+                    clearInterval(currentTimer);
+                    currentTimer = null;
+                    showTimerNotification();
+                    timerSection.style.display = 'none';
+                }
+            }, 1000);
+        }
+        
+        function stopTimer() {
+            if (currentTimer) {
+                clearInterval(currentTimer);
+                currentTimer = null;
+            }
+            
+            const timerSection = document.getElementById('timer-section');
+            timerSection.style.display = 'none';
+        }
+        
+        function updateTimerDisplay(seconds) {
+            const timerDisplay = document.getElementById('timer-display');
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+        }
+        
+        function showTimerNotification() {
+            const notification = document.getElementById('timer-notification');
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    </script>
 </body>
-</html>
+</html> 
