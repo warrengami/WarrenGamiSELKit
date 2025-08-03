@@ -114,11 +114,11 @@ This document outlines the comprehensive spacing and layout refinements implemen
 #### Section Spacing
 ```css
 .collapsible-section {
-    margin-bottom: 3rem;
+    margin-bottom: 1.5rem;
 }
 
 .quick-actions {
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
 ```
 
@@ -176,9 +176,9 @@ This document outlines the comprehensive spacing and layout refinements implemen
 
 ### Vertical Spacing
 - **Card-to-card**: 24px (1.5rem)
-- **Section-to-section**: 48px (3rem)
+- **Section-to-section**: 24px (1.5rem)
 - **Header-to-content**: 24px (1.5rem)
-- **Quick actions to sections**: 16px (1rem)
+- **Quick actions to sections**: 0px (0rem)
 
 ### Horizontal Spacing
 - **Column gutters**: 24px (1.5rem)
