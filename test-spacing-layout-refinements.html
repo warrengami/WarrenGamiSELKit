@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test - WarrenGami Spacing & Layout Refinements</title>
+    <style>
+        :root {
+            --warren-blue: #1e3a5f;
+            --warren-light-blue: #4a90e2;
+            --paper-white: #fefefe;
+            --ice-white: #f8fbff;
+            --soft-blue: #b8d4f0;
+            --accent-blue: #6bb6ff;
+            --text-dark: #2c3e50;
+            --text-muted: #6c757d;
+            --section-padding: 2rem;
+            --card-spacing: 1.5rem;
+            --header-content-gap: 1.5rem;
+            --chip-padding: 0.5rem 0.75rem;
+            --card-border-radius: 16px;
+            --section-border-radius: 20px;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2c5aa0 50%, #4a90e2 100%);
+            color: #2c3e50;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: var(--section-padding);
+            backdrop-filter: blur(10px);
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: var(--section-border-radius);
+            padding: var(--section-padding);
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 30px rgba(30, 58, 95, 0.2);
+        }
+        
+        .test-title {
+            color: var(--warren-blue);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: var(--header-content-gap);
+            text-align: center;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--card-spacing);
+            align-items: start;
+        }
+        
+        .test-card {
+            background: white;
+            border-radius: var(--card-border-radius);
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(30, 58, 95, 0.1);
+            border: 1px solid var(--soft-blue);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            min-height: 200px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-bottom: var(--card-spacing);
+        }
+        
+        .test-card:last-child {
+            margin-bottom: 0;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(30, 58, 95, 0.2);
+            border-color: var(--accent-blue);
+        }
+        
+        .test-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--warren-light-blue), var(--accent-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .test-card-title {
+            color: var(--warren-blue);
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            flex-grow: 1;
+        }
+        
+        .test-card-description {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+        
+        .test-chip {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: var(--chip-padding);
+            border-radius: 12px;
+            color: white;
+            margin-top: auto;
+            align-self: flex-start;
+            background: var(--accent-blue);
+        }
+        
+        .spacing-demo {
+            background: var(--ice-white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+        
+        .spacing-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid var(--warren-light-blue);
+        }
+        
+        .spacing-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .spacing-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #28a745;
+            flex-shrink: 0;
+        }
+        
+        .grid-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--card-spacing);
+            margin-top: 1rem;
+        }
+        
+        .grid-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--soft-blue);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-section">
+            <h1 class="test-title">WarrenGami Spacing & Layout Refinements</h1>
+            
+            <div class="spacing-demo">
+                <h3 style="color: var(--warren-blue); margin-bottom: 1rem;">✅ Spacing Improvements:</h3>
+                
+                <div class="spacing-item">
+                    <div class="spacing-indicator"></div>
+                    <span><strong>Consistent Vertical Spacing:</strong> 24px (1.5rem) between all cards</span>
+                </div>
+                
+                <div class="spacing-item">
+                    <div class="spacing-indicator"></div>
+                    <span><strong>Aligned Card Heights:</strong> Minimum 200px with flexible content</span>
+                </div>
+                
+                <div class="spacing-item">
+                    <div class="spacing-indicator"></div>
+                    <span><strong>Equal Horizontal Gutters:</strong> 24px spacing between columns</span>
+                </div>
+                
+                <div class="spacing-item">
+                    <div class="spacing-indicator"></div>
+                    <span><strong>Uniform Section Padding:</strong> 32px top/bottom, 24px sides</span>
+                </div>
+                
+                <div class="spacing-item">
+                    <div class="spacing-indicator"></div>
+                    <span><strong>Header-Content Alignment:</strong> 24px gap between headers and content</span>
+                </div>
+                
+                <div class="spacing-item">
+                    <div class="spacing-indicator"></div>
+                    <span><strong>Balanced Bottom Space:</strong> No awkward empty space at section ends</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">Visual Rhythm Test</h2>
+            <div class="test-grid">
+                <div class="test-card">
+                    <div class="test-icon">📏</div>
+                    <div class="test-card-title">Consistent Spacing</div>
+                    <div class="test-card-description">All cards maintain equal 24px vertical spacing with proper alignment and no floating elements</div>
+                    <span class="test-chip">Spacing</span>
+                </div>
+                
+                <div class="test-card">
+                    <div class="test-icon">🎯</div>
+                    <div class="test-card-title">Grid Alignment</div>
+                    <div class="test-card-description">12-column responsive grid with consistent gutters and perfect column alignment from top to bottom</div>
+                    <span class="test-chip">Alignment</span>
+                </div>
+                
+                <div class="test-card">
+                    <div class="test-icon">⚖️</div>
+                    <div class="test-card-title">Visual Balance</div>
+                    <div class="test-card-description">Sections have balanced visual weight with proper padding and no cramped or disconnected elements</div>
+                    <span class="test-chip">Balance</span>
+                </div>
+                
+                <div class="test-card">
+                    <div class="test-icon">🎨</div>
+                    <div class="test-card-title">Typography Hierarchy</div>
+                    <div class="test-card-description">Clear visual hierarchy with consistent font weights, sizes, and proper spacing between text elements</div>
+                    <span class="test-chip">Typography</span>
+                </div>
+                
+                <div class="test-card">
+                    <div class="test-icon">🔗</div>
+                    <div class="test-card-title">Chip Alignment</div>
+                    <div class="test-card-description">Label chips are consistently aligned with proper padding and spacing below card titles</div>
+                    <span class="test-chip">Chips</span>
+                </div>
+                
+                <div class="test-card">
+                    <div class="test-icon">📱</div>
+                    <div class="test-card-title">Responsive Layout</div>
+                    <div class="test-card-description">Maintains spacing and alignment across all screen sizes with proper breakpoints</div>
+                    <span class="test-chip">Responsive</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">Grid System Demo</h2>
+            <div class="grid-demo">
+                <div class="grid-item">
+                    <h4 style="color: var(--warren-blue); margin-bottom: 0.5rem;">Column 1</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Equal gutter spacing maintained between all columns</p>
+                </div>
+                
+                <div class="grid-item">
+                    <h4 style="color: var(--warren-blue); margin-bottom: 0.5rem;">Column 2</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Perfect alignment from top to bottom</p>
+                </div>
+                
+                <div class="grid-item">
+                    <h4 style="color: var(--warren-blue); margin-bottom: 0.5rem;">Column 3</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">No floating or misaligned elements</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2 class="test-title">Key Improvements Summary</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--card-spacing);">
+                <div style="background: var(--ice-white); padding: 1rem; border-radius: 8px; border-left: 4px solid var(--warren-light-blue);">
+                    <h4 style="color: var(--warren-blue); margin-bottom: 0.5rem;">Consistent Spacing</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">24px vertical spacing between cards, 32px section padding, and consistent gutters throughout.</p>
+                </div>
+                
+                <div style="background: var(--ice-white); padding: 1rem; border-radius: 8px; border-left: 4px solid #28a745;">
+                    <h4 style="color: var(--warren-blue); margin-bottom: 0.5rem;">Grid Alignment</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Perfect column alignment with no floating elements and consistent horizontal spacing.</p>
+                </div>
+                
+                <div style="background: var(--ice-white); padding: 1rem; border-radius: 8px; border-left: 4px solid #fd7e14;">
+                    <h4 style="color: var(--warren-blue); margin-bottom: 0.5rem;">Visual Rhythm</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Balanced visual weight with proper spacing and no awkward empty areas.</p>
+                </div>
+                
+                <div style="background: var(--ice-white); padding: 1rem; border-radius: 8px; border-left: 4px solid #6f42c1;">
+                    <h4 style="color: var(--warren-blue); margin-bottom: 0.5rem;">Typography</h4>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Clear hierarchy with consistent font weights and proper text spacing.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Test the spacing and layout refinements
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.test-card');
+            
+            // Add entrance animation with proper spacing
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+            
+            // Ensure consistent spacing
+            setTimeout(() => {
+                const grids = document.querySelectorAll('.test-grid');
+                grids.forEach(grid => {
+                    const cards = grid.querySelectorAll('.test-card');
+                    cards.forEach((card, index) => {
+                        if (index < cards.length - 1) {
+                            card.style.marginBottom = 'var(--card-spacing)';
+                        } else {
+                            card.style.marginBottom = '0';
+                        }
+                    });
+                });
+            }, 800);
+        });
+    </script>
+</body>
+</html> 

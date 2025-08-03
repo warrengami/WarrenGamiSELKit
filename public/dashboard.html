@@ -32,6 +32,10 @@
             --grid-gutter: 1.5rem;
             --card-border-radius: 16px;
             --section-border-radius: 20px;
+            --section-padding: 2rem;
+            --card-spacing: 1.5rem;
+            --header-content-gap: 1.5rem;
+            --chip-padding: 0.5rem 0.75rem;
         }
         
         * {
@@ -87,7 +91,7 @@
             z-index: 1;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 1rem;
+            padding: var(--section-padding);
             display: grid;
             grid-template-columns: repeat(12, 1fr);
             gap: var(--grid-gutter);
@@ -167,10 +171,16 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
-            height: 200px;
+            min-height: 200px;
+            height: auto;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            margin-bottom: var(--card-spacing);
+        }
+        
+        .activity-card:last-child {
+            margin-bottom: 0;
         }
         
         .activity-card::before {
@@ -233,10 +243,11 @@
             display: inline-block;
             font-size: 0.7rem;
             font-weight: 600;
-            padding: 3px 8px;
+            padding: var(--chip-padding);
             border-radius: 12px;
             color: white;
-            margin-top: 0.5rem;
+            margin-top: auto;
+            align-self: flex-start;
         }
         
         /* Micro-animations for icons */
@@ -343,7 +354,7 @@
             position: sticky;
             top: 0;
             background: var(--header-gradient);
-            padding: 1.5rem;
+            padding: 1.5rem var(--section-padding);
             border-radius: var(--section-border-radius) var(--section-border-radius) 0 0;
             margin-bottom: 0;
             box-shadow: 0 4px 20px var(--shadow-blue);
@@ -404,7 +415,7 @@
         
         /* Quick Actions Section */
         .quick-actions {
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
             position: relative;
         }
         
@@ -449,13 +460,14 @@
             gap: var(--grid-gutter);
             max-width: 1200px;
             margin: 0 auto;
+            align-items: start;
         }
         
         /* Collapsible Sections */
         .collapsible-section {
             background: var(--paper-white);
             border-radius: var(--section-border-radius);
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             box-shadow: var(--card-hover-shadow);
             border: 1px solid var(--soft-blue);
             overflow: hidden;
@@ -505,7 +517,7 @@
         }
         
         .section-content {
-            padding: 1.5rem;
+            padding: var(--section-padding);
             display: none;
             background: var(--section-gradient);
         }
@@ -535,17 +547,19 @@
             gap: var(--grid-gutter);
             position: relative;
             z-index: 1;
+            align-items: start;
         }
         
         .resource-category {
             background: var(--section-gradient);
             border-radius: var(--card-border-radius);
-            padding: 1.5rem;
+            padding: var(--section-padding);
             border: 1px solid var(--soft-blue);
             position: relative;
             box-shadow: var(--card-shadow);
             transition: all 0.3s ease;
             backdrop-filter: blur(5px);
+            height: fit-content;
         }
         
         .resource-category::before {
@@ -565,15 +579,36 @@
             box-shadow: 0 4px 15px var(--shadow-blue);
         }
         
+        /* Grid alignment utilities */
+        .grid-align-start {
+            align-items: start;
+        }
+        
+        .grid-align-center {
+            align-items: center;
+        }
+        
+        .grid-align-end {
+            align-items: end;
+        }
+        
+        .grid-justify-center {
+            justify-items: center;
+        }
+        
+        .grid-justify-start {
+            justify-items: start;
+        }
+        
         .category-header {
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: var(--header-content-gap);
             color: var(--warren-blue);
             font-size: 1.3rem;
             font-weight: 700;
-            padding-bottom: 0.5rem;
+            padding-bottom: 0.75rem;
             border-bottom: 2px solid var(--soft-blue);
         }
         
@@ -644,30 +679,57 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .container { 
-                padding: 0.5rem; 
+                padding: 1rem; 
                 grid-template-columns: 1fr;
                 gap: 1rem;
             }
             .header h1 { font-size: 1.8rem; }
             .quick-actions-grid { 
                 grid-template-columns: 1fr; 
-                gap: 1rem;
+                gap: var(--card-spacing);
             }
             .resources-grid { 
                 grid-template-columns: 1fr; 
-                gap: 1rem;
+                gap: var(--card-spacing);
             }
             .timer-controls { justify-content: center; }
-            .activity-card { height: auto; min-height: 180px; }
-            .section-header { position: relative; }
+            .activity-card { 
+                height: auto; 
+                min-height: 180px; 
+                margin-bottom: var(--card-spacing);
+            }
+            .section-header { 
+                position: relative; 
+                padding: 1rem var(--section-padding);
+            }
+            .section-content { 
+                padding: var(--section-padding);
+            }
+            .resource-category {
+                padding: var(--section-padding);
+            }
         }
         
         @media (max-width: 480px) {
-            .container { padding: 0.25rem; }
-            .header { padding: 1rem; }
-            .activity-card { padding: 1rem; }
-            .section-header { padding: 1rem; }
-            .section-content { padding: 1rem; }
+            .container { 
+                padding: 0.75rem; 
+            }
+            .header { 
+                padding: 1.5rem; 
+            }
+            .activity-card { 
+                padding: 1.25rem; 
+                margin-bottom: var(--card-spacing);
+            }
+            .section-header { 
+                padding: 1rem var(--section-padding); 
+            }
+            .section-content { 
+                padding: var(--section-padding); 
+            }
+            .resource-category {
+                padding: var(--section-padding);
+            }
         }
     </style>
 </head>
@@ -1081,6 +1143,14 @@
             
             // Add hover effects for better interactivity
             addEnhancedHoverEffects();
+            
+            // Ensure consistent spacing and alignment
+            ensureConsistentSpacing();
+            
+            // Re-apply spacing after animations complete
+            setTimeout(() => {
+                ensureConsistentSpacing();
+            }, 1000);
         });
         
         // Updated file opening function - opens in same tab
@@ -1155,6 +1225,35 @@
                 header.addEventListener('mouseleave', function() {
                     this.style.transform = 'translateY(0)';
                 });
+            });
+        }
+        
+        // Ensure consistent spacing and alignment
+        function ensureConsistentSpacing() {
+            const grids = document.querySelectorAll('.resources-grid, .quick-actions-grid');
+            
+            grids.forEach(grid => {
+                // Ensure all cards have consistent spacing
+                const cards = grid.querySelectorAll('.activity-card');
+                cards.forEach((card, index) => {
+                    if (index < cards.length - 1) {
+                        card.style.marginBottom = 'var(--card-spacing)';
+                    } else {
+                        card.style.marginBottom = '0';
+                    }
+                });
+                
+                // Align grid items to start
+                grid.style.alignItems = 'start';
+            });
+            
+            // Ensure section content has proper spacing
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(section => {
+                const lastElement = section.lastElementChild;
+                if (lastElement && lastElement.classList.contains('resources-grid')) {
+                    lastElement.style.marginBottom = '0';
+                }
             });
         }
         
