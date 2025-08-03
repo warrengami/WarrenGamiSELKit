@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Capa_1" width="512" height="512" enable-background="new 0 0 510 510" viewBox="0 0 510 510">
+  <linearGradient id="lg1">
+    <stop offset="0" stop-color="#60b7ff"/>
+    <stop offset="1" stop-color="#0268b4"/>
+  </linearGradient>
+  <linearGradient xlink:href="#lg1" id="SVGID_1_" x1="162.615" x2="391.48" y1="254.342" y2="483.207" gradientUnits="userSpaceOnUse"/>
+  <linearGradient id="lg2">
+    <stop offset="0" stop-color="#024c67" stop-opacity="0"/>
+    <stop offset="1" stop-color="#024c67"/>
+  </linearGradient>
+  <linearGradient xlink:href="#lg2" id="SVGID_2_" x1="269.626" x2="224.583" y1="327.289" y2="184.458" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg2" id="SVGID_3_" x1="265.796" x2="295.429" y1="277.115" y2="254.001" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg1" id="SVGID_4_" x1="440.139" x2="557.09" y1="354.592" y2="450.998" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg2" id="SVGID_5_" x1="502.486" x2="462.975" y1="389.817" y2="374.012" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg1" id="SVGID_6_" x1="255.711" x2="605.995" y1="136.551" y2="486.835" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg2" id="SVGID_7_" x1="327.289" x2="273.357" y1="202.852" y2="167.886" gradientUnits="userSpaceOnUse"/>
+  <linearGradient id="lg3">
+    <stop offset="0" stop-color="#d8ecfe"/>
+    <stop offset="1" stop-color="#9acfe5"/>
+  </linearGradient>
+  <linearGradient xlink:href="#lg3" id="SVGID_8_" x1="41.159" x2="122.064" y1="279.105" y2="279.105" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg2" id="SVGID_9_" x1="45.911" x2="147.058" y1="261.397" y2="267.719" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg2" id="SVGID_10_" x1="61.22" x2="82.556" y1="228.599" y2="189.878" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg1" id="SVGID_11_" x1="246.769" x2="259.61" y1="233.173" y2="262.411" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg2" id="SVGID_12_" x1="255.332" x2="245.701" y1="236.968" y2="225.411" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg3" id="SVGID_13_" x1="205.597" x2="203.819" y1="49.018" y2="65.613" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg1" id="SVGID_14_" x1="83.036" x2="446.122" y1="42.332" y2="405.418" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg2" id="SVGID_15_" x1="96.239" x2="489.765" y1="135.847" y2="302.581" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg2" id="SVGID_16_" x1="256.116" x2="231.224" y1="437.305" y2="404.116" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg2" id="SVGID_17_" x1="21.769" x2="42.71" y1="357.144" y2="397.642" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg2" id="SVGID_18_" x1="9.103" x2="5.152" y1="347.171" y2="389.25" gradientUnits="userSpaceOnUse"/>
+  <g>
+    <path fill="url(#SVGID_1_)" d="m164.297 240.806 35.798 197.27c.831 4.58 4.029 8.376 8.401 9.974l26.903 9.83c3.922 1.433 8.259-.617 9.64-4.558l23.048-65.754c.86-2.453 2.299-4.662 4.196-6.439l72.183-67.624-80.602-107.469z"/>
+    <path fill="url(#SVGID_2_)" d="m285.409 368.832 59.057-55.327-80.602-107.469-99.567 34.77 1.533 8.447z"/>
+    <path fill="url(#SVGID_3_)" d="m190.656 231.601 113.193 119.956 40.617-38.052-80.602-107.469z"/>
+    <path fill="url(#SVGID_4_)" d="m488.877 290.812 21.055 155.658c.577 4.267-2.606 8.12-6.905 8.359l-63.143 3.508z"/>
+    <path fill="url(#SVGID_5_)" d="m488.877 290.812 21.055 155.658c.577 4.267-2.606 8.12-6.905 8.359l-63.143 3.508z"/>
+    <path fill="url(#SVGID_6_)" d="m308.552 118.323 122.829 55.093c3.894 1.747 7.222 4.543 9.61 8.075l59.498 88.008c2.84 4.201 3.574 9.477 1.986 14.291l-55.882 169.505c-1.849 5.608-9.241 6.846-12.822 2.148l-191.244-250.88z"/>
+    <path fill="url(#SVGID_7_)" d="m308.552 118.323-66.024 86.24 53.704 70.45 111.987-111.987z"/>
+    <path fill="url(#SVGID_8_)" d="m40.234 178.599v164.887c0 3.123-2.165 5.829-5.212 6.515l-13.326 2.998c-2.234.503-4.569-.174-6.188-1.793l-11.958-11.957c-1.481-1.481-3.976-.086-3.488 1.951l5.953 24.892c.639 2.67 2.639 4.806 5.262 5.618l24.38 7.546c2.816.872 5.882.113 7.967-1.972l33.103-33.103c1.961-1.961 3.246-4.497 3.668-7.238l19.896-129.327z"/>
+    <path fill="url(#SVGID_9_)" d="m40.234 178.599v164.887l45.038-143.126z"/>
+    <path fill="url(#SVGID_10_)" d="m40.234 260.561h51.911l8.145-52.944-60.056-29.018z"/>
+    <path fill="url(#SVGID_11_)" d="m206.771 265.302 64.74-21.078c1.919-.625 3.218-2.414 3.218-4.433v-66.154z"/>
+    <path fill="url(#SVGID_12_)" d="m206.771 265.302 64.74-21.078c1.919-.625 3.218-2.414 3.218-4.433v-66.154z"/>
+    <path fill="url(#SVGID_13_)" d="m127.135 59.284 143.115-7.608c5.333-.284 9.813 3.965 9.813 9.305v15.065z"/>
+    <path fill="url(#SVGID_14_)" d="m50.024 194.104 147.224 70.107c5.38 2.562 11.783 1.546 16.105-2.556l110.594-104.959c3.802-3.608 5.023-9.167 3.085-14.037l-26.902-67.567c-2.35-5.903-7.966-9.861-14.315-10.09l-158.679-5.718c-4.043-.146-7.985 1.277-11.004 3.97l-70.157 62.591c-3.652 3.258-5.741 7.92-5.741 12.815v39.939c0 6.624 3.809 12.657 9.79 15.505z"/>
+    <path fill="url(#SVGID_15_)" d="m120.466 60.53c-1.569.664-3.04 1.569-4.335 2.724l-70.157 62.591c-3.652 3.258-5.741 7.92-5.741 12.815v39.939c0 6.624 3.81 12.657 9.79 15.505l147.224 70.107c2.562 1.22 5.354 1.619 8.045 1.27z"/>
+    <path fill="url(#SVGID_16_)" d="m208.496 448.05 26.903 9.83c3.922 1.433 8.259-.617 9.64-4.558l23.048-65.754c.86-2.453 2.299-4.662 4.196-6.439l-69.647 62.603c1.489 1.929 3.493 3.453 5.86 4.318z"/>
+    <path fill="url(#SVGID_17_)" d="m37.757 348.652c-.781.636-1.701 1.116-2.736 1.348l-13.326 2.998c-1.145.258-2.315.201-3.403-.129l-10.583 16.496c.936 1.08 2.156 1.908 3.567 2.345l21.769 6.738 2.61.808c1.482.459 3.031.454 4.472.054z"/>
+    <path fill="url(#SVGID_18_)" d="m15.512 351.206c.782.794 1.742 1.363 2.774 1.671l-10.57 16.483c-.805-.923-1.402-2.031-1.699-3.266l-5.95-24.892c-.498-2.039 2.003-3.437 3.485-1.956z"/>
+  </g>
+</svg>

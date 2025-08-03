@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="Capa_1" width="512" height="512" enable-background="new 0 0 510 510" viewBox="0 0 510 510">
+  <linearGradient id="lg1">
+    <stop offset="0" stop-color="#60b7ff"/>
+    <stop offset="1" stop-color="#0268b4"/>
+  </linearGradient>
+  <linearGradient xlink:href="#lg1" id="SVGID_1_" x1="171.264" x2="522.776" y1="30.821" y2="382.334" gradientUnits="userSpaceOnUse"/>
+  <linearGradient id="lg2">
+    <stop offset="0" stop-color="#024c67" stop-opacity="0"/>
+    <stop offset="1" stop-color="#024c67"/>
+  </linearGradient>
+  <linearGradient xlink:href="#lg2" id="SVGID_2_" x1="218.496" x2="178.37" y1="294.561" y2="350.955" gradientUnits="userSpaceOnUse"/>
+  <linearGradient xlink:href="#lg1" id="SVGID_3_" x1="378.483" x2="260.258" y1="331.66" y2="144.931" gradientUnits="userSpaceOnUse"/>
+  <linearGradient id="SVGID_4_" x1="152.206" x2="186.206" y1="348.237" y2="386.237" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#d8ecfe"/>
+    <stop offset="1" stop-color="#9acfe5"/>
+  </linearGradient>
+  <linearGradient xlink:href="#lg2" id="SVGID_5_" x1="186.872" x2="208.774" y1="346.917" y2="313.176" gradientUnits="userSpaceOnUse"/>
+  <g>
+    <path fill="url(#SVGID_1_)" d="m493.47 45.824-482.995 111.149c-11.286 2.597-14.271 17.271-4.897 24.071l387.216 280.905c7.762 5.631 18.755 1.596 21.031-7.72l95.778-392.054c2.384-9.756-6.346-18.603-16.133-16.351z"/>
+    <path fill="url(#SVGID_2_)" d="m162.854 121.907-152.379 35.066c-11.286 2.597-14.271 17.271-4.897 24.071l387.216 280.905c7.762 5.631 18.755 1.596 21.031-7.72l31.443-128.709z"/>
+    <path fill="url(#SVGID_3_)" d="m125.472 268.034v135.852c0 5.333 3.535 9.206 7.862 10.483 3.565 1.052 6.938-1.012 10.044-4.118l65.19-77.432-23.991-21.922 316.825-256.586c2.031-2.031-.487-5.297-2.968-3.85z"/>
+    <path fill="url(#SVGID_4_)" d="m133.336 414.362c3.565 1.052 7.666.349 10.772-2.757l75.382-75.382-34.913-25.326z"/>
+    <path fill="url(#SVGID_5_)" d="m160.237 360.044 20.535 14.897 38.718-38.718-34.913-25.326z"/>
+  </g>
+</svg>

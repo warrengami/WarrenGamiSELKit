@@ -24,6 +24,8 @@
             --tag-social: #17a2b8;
             --tag-relationship: #fd7e14;
             --tag-decision: #6f42c1;
+            --card-shadow: 0 4px 20px rgba(30, 58, 95, 0.1);
+            --card-hover-shadow: 0 8px 30px rgba(30, 58, 95, 0.2);
         }
         
         * {
@@ -82,7 +84,7 @@
             padding: 1rem;
         }
         
-        /* Reduced header size */
+        /* Header */
         .header {
             text-align: center;
             margin-bottom: 1.5rem;
@@ -101,114 +103,256 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--warren-blue), var(--warren-light-blue), var(--accent-blue));
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(106, 182, 255, 0.05) 0%, rgba(74, 144, 226, 0.05) 100%);
+            pointer-events: none;
         }
         
         .brand-logo {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 0.5rem auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            box-shadow: 0 6px 20px var(--shadow-blue);
-            border-radius: 50%;
-            background: var(--paper-white);
-            padding: 6px;
+            margin-bottom: 1rem;
         }
         
         .brand-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            border-radius: 50%;
+            height: 60px;
+            width: auto;
         }
         
         .header h1 {
-            font-family: 'Inter', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
             color: var(--warren-blue);
-            margin-bottom: 0.2rem;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--warren-blue), var(--warren-light-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        .header .subtitle {
-            font-size: 0.9rem;
+        .subtitle {
             color: var(--warren-light-blue);
-            font-weight: 400;
-            font-style: italic;
+            font-size: 1.1rem;
+            font-weight: 500;
             margin-bottom: 0.5rem;
         }
         
         .user-welcome {
-            color: var(--warren-light-blue);
-            font-size: 0.8rem;
+            color: var(--text-dark);
+            font-size: 1rem;
+            opacity: 0.8;
         }
         
-        /* Quick Actions Section */
-        .quick-actions {
+        /* Visual Activity Cards */
+        .activity-card {
             background: var(--paper-white);
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 8px 30px var(--shadow-blue);
+            box-shadow: var(--card-shadow);
             border: 1px solid var(--soft-blue);
-        }
-        
-        .quick-actions h2 {
-            color: var(--warren-blue);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-            font-weight: 600;
-        }
-        
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-        
-        .action-card {
-            background: linear-gradient(135deg, var(--ice-white) 0%, var(--paper-white) 100%);
-            border-radius: 15px;
-            padding: 1.2rem;
-            border: 2px solid var(--soft-blue);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
             position: relative;
             overflow: hidden;
         }
         
-        .action-card::before {
+        .activity-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--warren-blue), var(--warren-light-blue));
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(106, 182, 255, 0.02) 0%, rgba(74, 144, 226, 0.02) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
-        .action-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px var(--shadow-blue);
-            border-color: var(--warren-light-blue);
+        .activity-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--card-hover-shadow);
         }
         
-        .action-card h3 {
+        .activity-card:hover::before {
+            opacity: 1;
+        }
+        
+        .card-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .activity-card:hover .card-icon {
+            transform: scale(1.1);
+        }
+        
+        .card-title {
             color: var(--warren-blue);
+            font-size: 1.1rem;
+            font-weight: 600;
             margin-bottom: 0.5rem;
-            font-size: 1rem;
+            line-height: 1.3;
+        }
+        
+        .card-description {
+            color: var(--text-dark);
+            opacity: 0.8;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 12px;
+            color: white;
+            margin-top: 0.5rem;
+        }
+        
+        /* Micro-animations for icons */
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes diceRoll {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(90deg); }
+            50% { transform: rotate(180deg); }
+            75% { transform: rotate(270deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes paperFlip {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(180deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        
+        @keyframes planeTilt {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(15deg); }
+        }
+        
+        .activity-card:hover .card-icon.dice-icon {
+            animation: diceRoll 0.6s ease-in-out;
+        }
+        
+        .activity-card:hover .card-icon.card-icon {
+            animation: paperFlip 0.8s ease-in-out;
+        }
+        
+        .activity-card:hover .card-icon.plane-icon {
+            animation: planeTilt 0.5s ease-in-out;
+        }
+        
+        .activity-card:hover .card-icon.heart-icon {
+            animation: iconPulse 0.6s ease-in-out;
+        }
+        
+        /* Quick Actions Section */
+        .quick-actions {
+            margin-bottom: 2rem;
+        }
+        
+        .quick-actions h2 {
+            color: var(--warren-blue);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        /* Collapsible Sections */
+        .collapsible-section {
+            background: var(--paper-white);
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 30px var(--shadow-blue);
+            border: 1px solid var(--soft-blue);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, var(--soft-blue), var(--ice-white));
+            padding: 1.2rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .section-header:hover {
+            background: linear-gradient(135deg, var(--warren-light-blue), var(--accent-blue));
+            color: var(--paper-white);
+        }
+        
+        .section-header h2 {
+            color: var(--warren-blue);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .section-header:hover h2 {
+            color: var(--paper-white);
+        }
+        
+        .section-content {
+            padding: 1.5rem;
+            display: none;
+        }
+        
+        .section-content.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Resources Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .resource-category {
+            background: var(--ice-white);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid var(--soft-blue);
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--warren-blue);
+            font-size: 1.2rem;
             font-weight: 600;
         }
         
-        .action-card p {
-            color: var(--text-dark);
-            opacity: 0.8;
-            font-size: 0.85rem;
-            line-height: 1.4;
+        .category-icon {
+            width: 32px;
+            height: 32px;
         }
         
         /* Timer Controls */
@@ -252,110 +396,6 @@
             font-weight: 600;
         }
         
-        /* Collapsible Sections */
-        .collapsible-section {
-            background: var(--paper-white);
-            border-radius: 20px;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 8px 30px var(--shadow-blue);
-            border: 1px solid var(--soft-blue);
-            overflow: hidden;
-        }
-        
-        .section-header {
-            background: linear-gradient(135deg, var(--soft-blue), var(--ice-white));
-            padding: 1.2rem 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-        
-        .section-header:hover {
-            background: linear-gradient(135deg, var(--warren-light-blue), var(--accent-blue));
-            color: var(--paper-white);
-        }
-        
-        .section-header h2 {
-            color: var(--warren-blue);
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin: 0;
-        }
-        
-        .section-header:hover h2 {
-            color: var(--paper-white);
-        }
-        
-        .section-content {
-            padding: 1.5rem;
-            display: none;
-        }
-        
-        .section-content.active {
-            display: block;
-            animation: slideDown 0.3s ease;
-        }
-        
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Resources Grid */
-        .resources-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        .resource-section {
-            background: var(--ice-white);
-            border-radius: 15px;
-            padding: 1.2rem;
-            border: 1px solid var(--soft-blue);
-        }
-        
-        .resource-section h3 {
-            color: var(--warren-blue);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-        
-        .resource-button {
-            display: block;
-            width: 100%;
-            background: linear-gradient(135deg, var(--warren-blue), var(--warren-light-blue));
-            color: var(--paper-white);
-            text-decoration: none;
-            padding: 0.7rem;
-            border-radius: 10px;
-            margin-bottom: 0.5rem;
-            text-align: center;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-        
-        .resource-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--glow-blue);
-        }
-        
-        .resource-button.dice-button {
-            background: linear-gradient(135deg, var(--warren-light-blue), var(--accent-blue));
-        }
-        
-        .resource-button.card-button {
-            background: linear-gradient(135deg, var(--warning-orange), #ff9a56);
-        }
-        
         /* SEL Tags */
         .sel-tag {
             display: inline-block;
@@ -378,7 +418,7 @@
         @media (max-width: 768px) {
             .container { padding: 0.5rem; }
             .header h1 { font-size: 1.8rem; }
-            .actions-grid { grid-template-columns: 1fr; }
+            .quick-actions-grid { grid-template-columns: 1fr; }
             .resources-grid { grid-template-columns: 1fr; }
             .timer-controls { justify-content: center; }
         }
@@ -405,18 +445,23 @@
         <!-- Quick Actions Section -->
         <section class="quick-actions">
             <h2>Quick Actions</h2>
-            <div class="actions-grid">
-                <div class="action-card" onclick="openFile('educator-quick-start-guide.html')">
-                    <h3>📚 Quick Start Guide</h3>
-                    <p>Get started with the toolkit</p>
+            <div class="quick-actions-grid">
+                <div class="activity-card" onclick="openFile('educator-quick-start-guide.html')">
+                    <img src="origami-63/png-128/paper-plane-128x128-12480693.png" alt="Quick Start" class="card-icon plane-icon">
+                    <div class="card-title">Quick Start Guide</div>
+                    <div class="card-description">Get started with the toolkit and learn the basics</div>
                 </div>
-                <div class="action-card" onclick="openFile('educator-feedback-form.html')">
-                    <h3>💬 Share Feedback</h3>
-                    <p>Help us improve the toolkit</p>
+                
+                <div class="activity-card" onclick="openFile('educator-feedback-form.html')">
+                    <img src="origami-63/png-128/heart-128x128-12480667.png" alt="Feedback" class="card-icon heart-icon">
+                    <div class="card-title">Share Feedback</div>
+                    <div class="card-description">Help us improve the toolkit with your insights</div>
                 </div>
-                <div class="action-card" onclick="openFile('sel-professional-development.html')">
-                    <h3>🧠 SEL Professional Development</h3>
-                    <p>Learn SEL fundamentals</p>
+                
+                <div class="activity-card" onclick="openFile('sel-professional-development.html')">
+                                                    <img src="origami-63/png-128/star-128x128-12480709.png" alt="Professional Development" class="card-icon">
+                    <div class="card-title">SEL Professional Development</div>
+                    <div class="card-description">Learn SEL fundamentals and best practices</div>
                 </div>
             </div>
         </section>
@@ -429,8 +474,11 @@
             </div>
             <div class="section-content" id="classroom-activities">
                 <div class="resources-grid">
-                    <div class="resource-section">
-                        <h3>⏱️ Timer Settings</h3>
+                    <div class="resource-category">
+                        <div class="category-header">
+                            <img src="origami-63/png-128/fold-128x128-12480680.png" alt="Timer" class="category-icon">
+                            <span>⏱️ Timer Settings</span>
+                        </div>
                         <div class="timer-controls">
                             <button class="timer-btn" onclick="setTimer(30, event)">30s</button>
                             <button class="timer-btn active" onclick="setTimer(60, event)">1min</button>
@@ -441,24 +489,104 @@
                         </div>
                     </div>
                     
-                    <div class="resource-section">
-                        <h3>🎲 Dice Resources</h3>
-                        <button class="resource-button dice-button" onclick="openClassroom('dice', 'Emotions & Feelings Dice.html')">Emotions & Feelings Dice <span class="sel-tag self-awareness">Self-Awareness</span></button>
-                        <button class="resource-button dice-button" onclick="openClassroom('dice', 'Empathy & Kindness Dice.html')">Empathy & Kindness Dice <span class="sel-tag social-awareness">Social Awareness</span></button>
-                        <button class="resource-button dice-button" onclick="openClassroom('dice', 'Friendship & Social Skills Dice.html')">Friendship & Social Skills Dice <span class="sel-tag relationship-skills">Relationship Skills</span></button>
-                        <button class="resource-button dice-button" onclick="openClassroom('dice', 'Coping Strategies Dice.html')">Coping Strategies Dice <span class="sel-tag self-management">Self-Management</span></button>
-                        <button class="resource-button dice-button" onclick="openClassroom('dice', 'Problem Solving Dice.html')">Problem Solving Dice <span class="sel-tag responsible-decision-making">Responsible Decision-Making</span></button>
-                        <button class="resource-button dice-button" onclick="openClassroom('dice', 'Self-Awareness Dice.html')">Self-Awareness Dice <span class="sel-tag self-awareness">Self-Awareness</span></button>
+                    <div class="resource-category">
+                        <div class="category-header">
+                                                            <img src="origami-63/png-128/shuriken-128x128-12480706.png" alt="Dice" class="category-icon">
+                            <span>🎲 Dice Resources</span>
+                        </div>
+                        <div class="resources-grid">
+                            <div class="activity-card" onclick="openClassroom('dice', 'Emotions & Feelings Dice.html')">
+                                <img src="origami-63/png-128/heart-128x128-12480667.png" alt="Emotions" class="card-icon dice-icon">
+                                <div class="card-title">Emotions & Feelings Dice</div>
+                                <div class="card-description">Helps students identify and articulate their emotions</div>
+                                <span class="card-tag sel-tag self-awareness">Self-Awareness</span>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openClassroom('dice', 'Empathy & Kindness Dice.html')">
+                                <img src="origami-63/png-128/dove-128x128-12480668.png" alt="Empathy" class="card-icon dice-icon">
+                                <div class="card-title">Empathy & Kindness Dice</div>
+                                <div class="card-description">Develops understanding and compassion for others</div>
+                                <span class="card-tag sel-tag social-awareness">Social Awareness</span>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openClassroom('dice', 'Friendship & Social Skills Dice.html')">
+                                <img src="origami-63/png-128/butterfly-128x128-12480670.png" alt="Friendship" class="card-icon dice-icon">
+                                <div class="card-title">Friendship & Social Skills Dice</div>
+                                <div class="card-description">Builds positive relationships and communication</div>
+                                <span class="card-tag sel-tag relationship-skills">Relationship Skills</span>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openClassroom('dice', 'Coping Strategies Dice.html')">
+                                <img src="origami-63/png-128/mountain-128x128-12480689.png" alt="Coping" class="card-icon dice-icon">
+                                <div class="card-title">Coping Strategies Dice</div>
+                                <div class="card-description">Teaches healthy ways to manage emotions</div>
+                                <span class="card-tag sel-tag self-management">Self-Management</span>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openClassroom('dice', 'Problem Solving Dice.html')">
+                                <img src="origami-63/png-128/fox-128x128-12480681.png" alt="Problem Solving" class="card-icon dice-icon">
+                                <div class="card-title">Problem Solving Dice</div>
+                                <div class="card-description">Develops critical thinking and decision-making</div>
+                                <span class="card-tag sel-tag responsible-decision-making">Responsible Decision-Making</span>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openClassroom('dice', 'Self-Awareness Dice.html')">
+                                <img src="origami-63/png-128/star-128x128-12480710.png" alt="Self-Awareness" class="card-icon dice-icon">
+                                <div class="card-title">Self-Awareness Dice</div>
+                                <div class="card-description">Deepens understanding of personal strengths</div>
+                                <span class="card-tag sel-tag self-awareness">Self-Awareness</span>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="resource-section">
-                        <h3>📄 Scenario Cards</h3>
-                        <button class="resource-button card-button" onclick="openClassroom('scenarios', 'All-Scenario-Cards.html')">All Scenario Cards <span class="sel-tag all-competencies">All SEL Competencies</span></button>
-                        <button class="resource-button card-button" onclick="openClassroom('scenarios', 'Scenario Cards 1.html')">Scenario Cards 1 (1-6) <span class="sel-tag self-awareness">Self-Awareness</span></button>
-                        <button class="resource-button card-button" onclick="openClassroom('scenarios', 'Scenario Cards 2.html')">Scenario Cards 2 (7-12) <span class="sel-tag social-awareness">Social Awareness</span></button>
-                        <button class="resource-button card-button" onclick="openClassroom('scenarios', 'Scenario Cards 3.html')">Scenario Cards 3 (13-18) <span class="sel-tag self-management">Self-Management</span></button>
-                        <button class="resource-button card-button" onclick="openClassroom('scenarios', 'Scenario Cards 4.html')">Scenario Cards 4 (19-24) <span class="sel-tag relationship-skills">Relationship Skills</span></button>
-                        <button class="resource-button card-button" onclick="openClassroom('scenarios', 'Scenario Cards 5.html')">Scenario Cards 5 (25-30) <span class="sel-tag responsible-decision-making">Responsible Decision-Making</span></button>
+                    <div class="resource-category">
+                        <div class="category-header">
+                            <img src="origami-63/png-128/paper-128x128-12480692.png" alt="Cards" class="category-icon">
+                            <span>📄 Scenario Cards</span>
+                        </div>
+                        <div class="resources-grid">
+                            <div class="activity-card" onclick="openClassroom('scenarios', 'All-Scenario-Cards.html')">
+                                <img src="origami-63/png-128/paper-128x128-12480697.png" alt="All Cards" class="card-icon card-icon">
+                                <div class="card-title">All Scenario Cards</div>
+                                <div class="card-description">Complete collection of social-emotional scenarios</div>
+                                <span class="card-tag sel-tag all-competencies">All SEL Competencies</span>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openClassroom('scenarios', 'Scenario Cards 1.html')">
+                                <img src="origami-63/png-128/heart-128x128-12480667.png" alt="Cards 1" class="card-icon card-icon">
+                                <div class="card-title">Scenario Cards 1 (1-6)</div>
+                                <div class="card-description">Self-awareness focused scenarios</div>
+                                <span class="card-tag sel-tag self-awareness">Self-Awareness</span>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openClassroom('scenarios', 'Scenario Cards 2.html')">
+                                <img src="origami-63/png-128/dove-128x128-12480668.png" alt="Cards 2" class="card-icon card-icon">
+                                <div class="card-title">Scenario Cards 2 (7-12)</div>
+                                <div class="card-description">Social awareness focused scenarios</div>
+                                <span class="card-tag sel-tag social-awareness">Social Awareness</span>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openClassroom('scenarios', 'Scenario Cards 3.html')">
+                                <img src="origami-63/png-128/mountain-128x128-12480689.png" alt="Cards 3" class="card-icon card-icon">
+                                <div class="card-title">Scenario Cards 3 (13-18)</div>
+                                <div class="card-description">Self-management focused scenarios</div>
+                                <span class="card-tag sel-tag self-management">Self-Management</span>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openClassroom('scenarios', 'Scenario Cards 4.html')">
+                                <img src="origami-63/png-128/butterfly-128x128-12480670.png" alt="Cards 4" class="card-icon card-icon">
+                                <div class="card-title">Scenario Cards 4 (19-24)</div>
+                                <div class="card-description">Relationship skills focused scenarios</div>
+                                <span class="card-tag sel-tag relationship-skills">Relationship Skills</span>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openClassroom('scenarios', 'Scenario Cards 5.html')">
+                                <img src="origami-63/png-128/fox-128x128-12480681.png" alt="Cards 5" class="card-icon card-icon">
+                                <div class="card-title">Scenario Cards 5 (25-30)</div>
+                                <div class="card-description">Responsible decision-making scenarios</div>
+                                <span class="card-tag sel-tag responsible-decision-making">Responsible Decision-Making</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -472,53 +600,216 @@
             </div>
             <div class="section-content" id="toolkit-resources">
                 <div class="resources-grid">
-                    <div class="resource-section">
-                        <h3>📖 Guides & Instructions</h3>
-                        <button class="resource-button" onclick="openFile('educator-quick-start-guide.html')">Quick Start Guide</button>
-                        <button class="resource-button" onclick="openFile('sel-professional-development.html')">Professional Development</button>
-                        <button class="resource-button" onclick="openFile('educator-feedback-form.html')">Feedback Form</button>
-                        <button class="resource-button" onclick="openFile('Page 1 - Cover.html')">Cover Page</button>
-                        <button class="resource-button" onclick="openFile('Page 2 - Welcome to Your Interactive SEL Toolkit.html')">Welcome Guide</button>
-                        <button class="resource-button" onclick="openFile('Page 3 - Discussion Dice How They Work.html')">Dice Instructions</button>
-                        <button class="resource-button" onclick="openFile('Page 4 - Emotion Exploration Dice.html')">Emotion Exploration</button>
-                        <button class="resource-button" onclick="openFile('Page 5 - Social Scenarios Dice.html')">Social Scenarios</button>
-                        <button class="resource-button" onclick="openFile('Page 6 - Family Connection Activities.html')">Family Connections</button>
-                        <button class="resource-button" onclick="openFile('Page 7 - Assessment & Reflection Tools.html')">Assessment Tools</button>
-                        <button class="resource-button" onclick="openFile('Page 8 - Advanced SEL Concepts.html')">Advanced Concepts</button>
-                        <button class="resource-button" onclick="openFile('Page 9 - Integrating SEL Across the Curriculum.html')">Curriculum Integration</button>
-                        <button class="resource-button" onclick="openFile('Page 10 - Digital Resources & Extensions.html')">Digital Resources</button>
-                        <button class="resource-button" onclick="openFile('Page 11 - Glossary & Index.html')">Glossary & Index</button>
-                        <button class="resource-button" onclick="openFile('Scenario Card Instructions.html')">Scenario Card Instructions</button>
+                    <div class="resource-category">
+                        <div class="category-header">
+                            <img src="origami-63/png-128/paper-plane-128x128-12480694.png" alt="Guides" class="category-icon">
+                            <span>📖 Guides & Instructions</span>
+                        </div>
+                        <div class="resources-grid">
+                            <div class="activity-card" onclick="openFile('educator-quick-start-guide.html')">
+                                <img src="origami-63/png-128/paper-plane-128x128-12480693.png" alt="Quick Start" class="card-icon plane-icon">
+                                <div class="card-title">Quick Start Guide</div>
+                                <div class="card-description">Essential guide to get you started</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('sel-professional-development.html')">
+                                <img src="origami-63/png-128/star-128x128-12480609.png" alt="Professional Development" class="card-icon">
+                                <div class="card-title">Professional Development</div>
+                                <div class="card-description">SEL fundamentals and best practices</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('educator-feedback-form.html')">
+                                <img src="origami-63/png-128/heart-128x128-12480667.png" alt="Feedback" class="card-icon heart-icon">
+                                <div class="card-title">Feedback Form</div>
+                                <div class="card-description">Share your thoughts and suggestions</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Page 1 - Cover.html')">
+                                <img src="origami-63/png-128/crane-128x128-12480673.png" alt="Cover" class="card-icon">
+                                <div class="card-title">Cover Page</div>
+                                <div class="card-description">Toolkit introduction and overview</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Page 2 - Welcome to Your Interactive SEL Toolkit.html')">
+                                <img src="origami-63/png-128/dove-128x128-12480668.png" alt="Welcome" class="card-icon">
+                                <div class="card-title">Welcome Guide</div>
+                                <div class="card-description">Getting started with your toolkit</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Page 3 - Discussion Dice How They Work.html')">
+                                <img src="origami-63/png-128/shuriken-128x128-12480706.png" alt="Dice Instructions" class="card-icon">
+                                <div class="card-title">Dice Instructions</div>
+                                <div class="card-description">How to use discussion dice effectively</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Page 4 - Emotion Exploration Dice.html')">
+                                <img src="origami-63/png-128/heart-128x128-12480667.png" alt="Emotion Exploration" class="card-icon">
+                                <div class="card-title">Emotion Exploration</div>
+                                <div class="card-description">Understanding and exploring emotions</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Page 5 - Social Scenarios Dice.html')">
+                                <img src="origami-63/png-128/butterfly-128x128-12480670.png" alt="Social Scenarios" class="card-icon">
+                                <div class="card-title">Social Scenarios</div>
+                                <div class="card-description">Real-world social situations</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Page 6 - Family Connection Activities.html')">
+                                <img src="origami-63/png-128/heart-128x128-12480667.png" alt="Family Connections" class="card-icon">
+                                <div class="card-title">Family Connections</div>
+                                <div class="card-description">Activities for home-school connection</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Page 7 - Assessment & Reflection Tools.html')">
+                                <img src="origami-63/png-128/star-128x128-12480709.png" alt="Assessment Tools" class="card-icon">
+                                <div class="card-title">Assessment Tools</div>
+                                <div class="card-description">Tools for measuring SEL progress</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Page 8 - Advanced SEL Concepts.html')">
+                                <img src="origami-63/png-128/fox-128x128-12480681.png" alt="Advanced Concepts" class="card-icon">
+                                <div class="card-title">Advanced Concepts</div>
+                                <div class="card-description">Deep dive into SEL theory</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Page 9 - Integrating SEL Across the Curriculum.html')">
+                                <img src="origami-63/png-128/paper-128x128-12480692.png" alt="Curriculum Integration" class="card-icon">
+                                <div class="card-title">Curriculum Integration</div>
+                                <div class="card-description">Connecting SEL to academic subjects</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Page 10 - Digital Resources & Extensions.html')">
+                                <img src="origami-63/png-128/paper-plane-128x128-12480694.png" alt="Digital Resources" class="card-icon plane-icon">
+                                <div class="card-title">Digital Resources</div>
+                                <div class="card-description">Online tools and extensions</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Page 11 - Glossary & Index.html')">
+                                <img src="origami-63/png-128/paper-128x128-12480697.png" alt="Glossary" class="card-icon">
+                                <div class="card-title">Glossary & Index</div>
+                                <div class="card-description">Key terms and quick reference</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Scenario Card Instructions.html')">
+                                <img src="origami-63/png-128/paper-128x128-12480692.png" alt="Scenario Instructions" class="card-icon">
+                                <div class="card-title">Scenario Card Instructions</div>
+                                <div class="card-description">How to use scenario cards effectively</div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="resource-section">
-                        <h3>🖨️ Printable Resources</h3>
-                        <button class="resource-button" onclick="openFile('Blank Dice.html')">🎲 Blank Dice Template</button>
-                        <button class="resource-button" onclick="openFile('Blank Scenario Cards.html')">Blank Scenario Cards</button>
-                        <button class="resource-button" onclick="openFile('All-Scenario-Cards.html')">All Scenario Cards (Printable)</button>
-                        <button class="resource-button" onclick="openFile('Scenario Cards 1.html')">Scenario Cards 1 (Printable)</button>
-                        <button class="resource-button" onclick="openFile('Scenario Cards 2.html')">Scenario Cards 2 (Printable)</button>
-                        <button class="resource-button" onclick="openFile('Scenario Cards 3.html')">Scenario Cards 3 (Printable)</button>
-                        <button class="resource-button" onclick="openFile('Scenario Cards 4.html')">Scenario Cards 4 (Printable)</button>
-                        <button class="resource-button" onclick="openFile('Scenario Cards 5.html')">Scenario Cards 5 (Printable)</button>
-                        <button class="resource-button" onclick="openFile('Emotions & Feelings Dice.html')">🎲 Emotions & Feelings Dice</button>
-                        <button class="resource-button" onclick="openFile('Empathy & Kindness Dice.html')">🎲 Empathy & Kindness Dice</button>
-                        <button class="resource-button" onclick="openFile('Friendship & Social Skills Dice.html')">🎲 Friendship & Social Skills Dice</button>
-                                                   <button class="resource-button" onclick="openFile('Coping Strategies Dice.html')">🎲 Coping Strategies Dice</button>
-                           <button class="resource-button" onclick="openFile('Problem Solving Dice.html')">🎲 Problem Solving Dice</button>
-                           <button class="resource-button" onclick="openFile('Self-Awareness Dice.html')">🎲 Self-Awareness Dice</button>
+                    <div class="resource-category">
+                        <div class="category-header">
+                            <img src="origami-63/png-128/paper-128x128-12480697.png" alt="Printables" class="category-icon">
+                            <span>🖨️ Printable Resources</span>
+                        </div>
+                        <div class="resources-grid">
+                            <div class="activity-card" onclick="openFile('Blank Dice.html')">
+                                <img src="origami-63/png-128/shuriken-128x128-12480706.png" alt="Blank Dice" class="card-icon dice-icon">
+                                <div class="card-title">Blank Dice Template</div>
+                                <div class="card-description">Create your own custom dice</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Blank Scenario Cards.html')">
+                                <img src="origami-63/png-128/paper-128x128-12480692.png" alt="Blank Cards" class="card-icon card-icon">
+                                <div class="card-title">Blank Scenario Cards</div>
+                                <div class="card-description">Create your own scenarios</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('All-Scenario-Cards.html')">
+                                <img src="origami-63/png-128/paper-128x128-12480697.png" alt="All Cards" class="card-icon card-icon">
+                                <div class="card-title">All Scenario Cards (Printable)</div>
+                                <div class="card-description">Complete set for printing</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Scenario Cards 1.html')">
+                                <img src="origami-63/png-128/heart-128x128-12480667.png" alt="Cards 1" class="card-icon card-icon">
+                                <div class="card-title">Scenario Cards 1 (Printable)</div>
+                                <div class="card-description">Self-awareness scenarios</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Scenario Cards 2.html')">
+                                <img src="origami-63/png-128/dove-128x128-12480668.png" alt="Cards 2" class="card-icon card-icon">
+                                <div class="card-title">Scenario Cards 2 (Printable)</div>
+                                <div class="card-description">Social awareness scenarios</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Scenario Cards 3.html')">
+                                <img src="origami-63/png-128/mountain-128x128-12480689.png" alt="Cards 3" class="card-icon card-icon">
+                                <div class="card-title">Scenario Cards 3 (Printable)</div>
+                                <div class="card-description">Self-management scenarios</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Scenario Cards 4.html')">
+                                <img src="origami-63/png-128/butterfly-128x128-12480670.png" alt="Cards 4" class="card-icon card-icon">
+                                <div class="card-title">Scenario Cards 4 (Printable)</div>
+                                <div class="card-description">Relationship skills scenarios</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Scenario Cards 5.html')">
+                                <img src="origami-63/png-128/fox-128x128-12480681.png" alt="Cards 5" class="card-icon card-icon">
+                                <div class="card-title">Scenario Cards 5 (Printable)</div>
+                                <div class="card-description">Responsible decision-making scenarios</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Emotions & Feelings Dice.html')">
+                                <img src="origami-63/png-128/heart-128x128-12480667.png" alt="Emotions Dice" class="card-icon dice-icon">
+                                <div class="card-title">Emotions & Feelings Dice</div>
+                                <div class="card-description">Printable emotions dice template</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Empathy & Kindness Dice.html')">
+                                <img src="origami-63/png-128/dove-128x128-12480668.png" alt="Empathy Dice" class="card-icon dice-icon">
+                                <div class="card-title">Empathy & Kindness Dice</div>
+                                <div class="card-description">Printable empathy dice template</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Friendship & Social Skills Dice.html')">
+                                <img src="origami-63/png-128/butterfly-128x128-12480670.png" alt="Friendship Dice" class="card-icon dice-icon">
+                                <div class="card-title">Friendship & Social Skills Dice</div>
+                                <div class="card-description">Printable friendship dice template</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Coping Strategies Dice.html')">
+                                <img src="origami-63/png-128/mountain-128x128-12480689.png" alt="Coping Dice" class="card-icon dice-icon">
+                                <div class="card-title">Coping Strategies Dice</div>
+                                <div class="card-description">Printable coping strategies dice template</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Problem Solving Dice.html')">
+                                <img src="origami-63/png-128/fox-128x128-12480681.png" alt="Problem Solving Dice" class="card-icon dice-icon">
+                                <div class="card-title">Problem Solving Dice</div>
+                                <div class="card-description">Printable problem solving dice template</div>
+                            </div>
+                            
+                            <div class="activity-card" onclick="openFile('Self-Awareness Dice.html')">
+                                <img src="origami-63/png-128/star-128x128-12480710.png" alt="Self-Awareness Dice" class="card-icon dice-icon">
+                                <div class="card-title">Self-Awareness Dice</div>
+                                <div class="card-description">Printable self-awareness dice template</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        
-
     </div>
     
     <script>
         // Initialize the dashboard
         document.addEventListener('DOMContentLoaded', function() {
             initializeTimer();
+            // Add subtle pulse animation to cards on load
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.activity-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.animation = 'iconPulse 0.6s ease-in-out';
+                        setTimeout(() => {
+                            card.style.animation = '';
+                        }, 600);
+                    }, index * 100);
+                });
+            }, 500);
         });
         
         // Updated file opening function - opens in same tab
