@@ -186,10 +186,10 @@
         
         /* Enhanced Dice Scene - Dashboard Aligned */
         .dice-scene {
-            width: 280px;
-            height: 280px;
-            perspective: 1200px;
-            margin: 0 auto 2rem auto;
+            width: 200px;
+            height: 200px;
+            perspective: 1000px;
+            margin: 0 auto 1.5rem auto;
             position: relative;
             display: flex;
             align-items: center;
@@ -202,7 +202,7 @@
             position: relative;
             transform-style: preserve-3d;
             transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 20px;
+            border-radius: 16px;
             margin: 0 auto;
         }
         
@@ -212,21 +212,21 @@
         
         .dice .face {
             position: absolute;
-            width: 280px;
-            height: 280px;
+            width: 200px;
+            height: 200px;
             background: linear-gradient(135deg, var(--paper-white) 0%, var(--ice-white) 100%);
-            padding: 2.5rem;
+            padding: 1.5rem;
             box-sizing: border-box;
             text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.3rem;
-            line-height: 1.5;
+            font-size: 1rem;
+            line-height: 1.4;
             font-weight: 600;
             color: var(--text-dark);
-            border-radius: 20px;
-            box-shadow: 0 8px 25px rgba(30, 58, 95, 0.15);
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(30, 58, 95, 0.15);
             border: 2px solid var(--soft-blue);
             transition: all 0.3s ease;
             backface-visibility: hidden;
@@ -234,16 +234,16 @@
         }
         
         .dice .face:hover {
-            box-shadow: 0 12px 35px rgba(30, 58, 95, 0.25);
+            box-shadow: 0 10px 30px rgba(30, 58, 95, 0.25);
             transform: scale(1.02);
         }
         
-        .face.face-1 { transform: rotateY(0deg) translateZ(140px); }
-        .face.face-2 { transform: rotateY(90deg) translateZ(140px); }
-        .face.face-3 { transform: rotateY(180deg) translateZ(140px); }
-        .face.face-4 { transform: rotateY(-90deg) translateZ(140px); }
-        .face.face-5 { transform: rotateX(90deg) translateZ(140px); }
-        .face.face-6 { transform: rotateX(-90deg) translateZ(140px); }
+        .face.face-1 { transform: rotateY(0deg) translateZ(100px); }
+        .face.face-2 { transform: rotateY(90deg) translateZ(100px); }
+        .face.face-3 { transform: rotateY(180deg) translateZ(100px); }
+        .face.face-4 { transform: rotateY(-90deg) translateZ(100px); }
+        .face.face-5 { transform: rotateX(90deg) translateZ(100px); }
+        .face.face-6 { transform: rotateX(-90deg) translateZ(100px); }
 
         .dice.show-1 { transform: rotateY(0deg); }
         .dice.show-2 { transform: rotateY(-90deg); }
@@ -276,21 +276,21 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%;
-            height: 80%;
+            width: 85%;
+            height: 85%;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            font-size: 1.2rem;
-            line-height: 1.4;
+            font-size: 0.9rem;
+            line-height: 1.3;
             font-weight: 600;
             color: var(--text-dark);
             z-index: 5;
             background: rgba(255, 255, 255, 0.9);
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 3px 10px rgba(30, 58, 95, 0.1);
         }
         
         @keyframes enhanced-dice-roll {
@@ -322,29 +322,34 @@
         
         /* Enhanced Control Panel - Dashboard Aligned */
         .control-panel {
-            margin-top: 2rem;
+            margin-top: 1.5rem;
             display: flex;
-            gap: 1rem;
+            gap: 0.75rem;
             position: relative;
             z-index: 10;
             flex-wrap: wrap;
             justify-content: center;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .enhanced-btn {
             background: linear-gradient(135deg, var(--warren-blue) 0%, var(--warren-light-blue) 100%);
             color: var(--paper-white);
             border: none;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
+            padding: 0.75rem 1.25rem;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 4px 15px rgba(30, 58, 95, 0.2);
-            min-width: 140px;
+            min-width: 120px;
             position: relative;
             overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .enhanced-btn::before {
@@ -354,14 +359,14 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
         
         .enhanced-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(30, 58, 95, 0.3);
+            box-shadow: 0 8px 25px rgba(30, 58, 95, 0.35);
         }
         
         .enhanced-btn:hover::before {
@@ -447,32 +452,43 @@
             50% { transform: translate(-50%, -50%) scale(1.05); }
         }
         
-        /* Category Tag Badge */
+        /* Enhanced Category Tag Badge */
         .category-tag {
             display: inline-block;
-            font-size: 0.8rem;
-            font-weight: 600;
+            font-size: 0.75rem;
+            font-weight: 700;
             padding: 0.5rem 1rem;
             border-radius: 20px;
             color: var(--paper-white);
             margin-bottom: 1rem;
             background: linear-gradient(135deg, var(--warren-light-blue), var(--accent-blue));
-            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+            box-shadow: 0 3px 12px rgba(74, 144, 226, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
         }
         
-        /* Dice Prompt Box */
+        .category-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.5);
+        }
+        
+        /* Enhanced Dice Prompt Box */
         .dice-prompt-container {
             background: linear-gradient(135deg, var(--ice-white) 0%, var(--soft-blue) 100%);
-            border-radius: var(--card-border-radius);
-            padding: 2rem;
-            margin-bottom: 2rem;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             box-shadow: var(--card-shadow);
             border: 1px solid var(--soft-blue);
             text-align: center;
             position: relative;
             overflow: hidden;
-            max-width: 600px;
+            max-width: 500px;
             width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            transition: all 0.3s ease;
         }
         
         .dice-prompt-container::before {
@@ -486,78 +502,126 @@
             opacity: 0.2;
         }
         
+        .dice-prompt-container:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
         .dice-prompt-text {
-            font-size: 1.3rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--text-dark);
             line-height: 1.5;
             position: relative;
             z-index: 1;
-        }
-        
-        /* New styles for enhanced dice interface */
-        .dice-content-panel {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .help-tooltip {
-            background: var(--ice-white);
-            color: var(--warren-blue);
-            border: 2px solid var(--soft-blue);
-            padding: 0.75rem 1.25rem;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 500;
-            font-size: 0.9rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08);
-            position: relative;
-            overflow: hidden;
+            min-height: 2.5em;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
-            font-size: 1.5rem;
-            line-height: 1;
         }
-
-        .help-tooltip:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.15);
-            border-color: var(--accent-blue);
-        }
-
-        .help-tooltip:hover::before {
-            opacity: 1;
-        }
-
-        .progress-tracker {
-            background: var(--ice-white);
-            border: 2px solid var(--soft-blue);
-            border-radius: 12px;
-            padding: 0.75rem 1.25rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-dark);
-            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08);
+        
+        /* White Content Panel */
+        .dice-content-panel {
+            background: var(--paper-white);
+            border-radius: var(--card-border-radius);
+            padding: 2rem 1.5rem;
+            margin: 1.5rem auto;
+            max-width: 600px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--soft-blue);
             position: relative;
             overflow: hidden;
         }
         
+        .dice-content-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--section-gradient);
+            opacity: 0.1;
+        }
+        
+        /* Progress Tracker */
+        .progress-tracker {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        /* Help Tooltip */
+        .help-tooltip {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--paper-white);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            font-size: 0.8rem;
+        }
+        
+        .help-tooltip:hover {
+            transform: scale(1.1);
+            background: var(--warren-light-blue);
+        }
+        
         @media (max-width: 768px) {
-            body { padding: 1rem; }
-            .header h1 { font-size: 1.8rem; }
+            body { padding: 0.75rem; }
+            .header h1 { font-size: 1.3rem; }
             .category-buttons { flex-direction: column; }
-            .control-panel { flex-direction: column; align-items: center; }
-            .dice-scene { width: 240px; height: 240px; }
-            .dice .face { width: 240px; height: 240px; padding: 1.5rem; font-size: 1rem; }
+            .control-panel { 
+                flex-direction: column; 
+                align-items: center;
+                gap: 0.5rem;
+            }
+            .enhanced-btn {
+                width: 100%;
+                max-width: 250px;
+                font-size: 0.8rem;
+                padding: 0.6rem 1rem;
+            }
+            .dice-scene { width: 160px; height: 160px; }
+            .dice .face { 
+                width: 160px; 
+                height: 160px; 
+                padding: 1.25rem; 
+                font-size: 0.85rem; 
+                border-radius: 12px;
+            }
             .face.face-1, .face.face-2, .face.face-3, .face.face-4, .face.face-5, .face.face-6 {
-                transform: translateZ(120px);
+                transform: translateZ(80px);
+            }
+            .dice-prompt-container {
+                padding: 1.25rem;
+                margin-bottom: 1.25rem;
+            }
+            .dice-prompt-text {
+                font-size: 1rem;
+            }
+            .dice-content-panel {
+                padding: 1.5rem 1rem;
+                margin: 1rem;
+            }
+            .category-tag {
+                font-size: 0.7rem;
+                padding: 0.4rem 0.8rem;
+            }
+            .prompt-display {
+                font-size: 0.8rem;
+                padding: 0.75rem;
             }
         }
     </style>
