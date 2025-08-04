@@ -1468,7 +1468,14 @@
         // Updated classroom function - opens in same tab
         function openClassroom(type, file) {
             console.log('Opening classroom:', type, file);
-            const classroomUrl = `classroom.html?type=${encodeURIComponent(type)}&file=${encodeURIComponent(file)}`;
+            let classroomUrl;
+            if (type === 'dice') {
+                classroomUrl = `classroom.html?type=dice&file=${encodeURIComponent(file)}`;
+            } else if (type === 'scenarios' || type === 'cards') {
+                classroomUrl = `classroom-cards.html?file=${encodeURIComponent(file)}`;
+            } else {
+                classroomUrl = `classroom.html?type=${encodeURIComponent(type)}&file=${encodeURIComponent(file)}`;
+            }
             window.location.href = classroomUrl;
         }
     </script>

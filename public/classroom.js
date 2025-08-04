@@ -238,69 +238,69 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function startTimer() {
-        // Use enhanced timer function if available
-        if (typeof enhancedStartTimer === 'function') {
-            enhancedStartTimer();
-        } else {
-            // Fallback to original implementation
-            const savedDuration = localStorage.getItem('timerDuration') || 60;
-            const duration = parseInt(savedDuration);
-            
-            if (currentTimer) {
-                clearInterval(currentTimer);
-            }
-            
-            let timeLeft = duration;
-            const timerDisplay = document.getElementById('timer-display');
-            const timerSection = document.getElementById('timer-section');
-            
+        const savedDuration = localStorage.getItem('timerDuration') || 60;
+        const duration = parseInt(savedDuration);
+        
+        if (currentTimer) {
+            clearInterval(currentTimer);
+        }
+        
+        let timeLeft = duration;
+        const timerDisplay = document.getElementById('timer-display');
+        const timerSection = document.getElementById('timer-section');
+        
+        if (timerSection) {
             timerSection.style.display = 'block';
+        }
+        
+        updateTimerDisplay(timeLeft);
+        
+        currentTimer = setInterval(() => {
+            timeLeft--;
             updateTimerDisplay(timeLeft);
             
-            currentTimer = setInterval(() => {
-                timeLeft--;
-                updateTimerDisplay(timeLeft);
-                
-                if (timeLeft <= 0) {
-                    stopTimer();
-                    showTimerNotification();
-                }
-            }, 1000);
-        }
+            if (timeLeft <= 0) {
+                stopTimer();
+                showTimerNotification();
+            }
+        }, 1000);
     }
 
     function stopTimer() {
-        // Use enhanced stop timer function if available
-        if (typeof enhancedStopTimer === 'function') {
-            enhancedStopTimer();
-        } else {
-            // Fallback to original implementation
-            if (currentTimer) {
-                clearInterval(currentTimer);
-                currentTimer = null;
-            }
-            document.getElementById('timer-section').style.display = 'none';
+        if (currentTimer) {
+            clearInterval(currentTimer);
+            currentTimer = null;
+        }
+        
+        const timerSection = document.getElementById('timer-section');
+        if (timerSection) {
+            timerSection.style.display = 'none';
         }
     }
 
     function updateTimerDisplay(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = seconds % 60;
-        const display = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-        document.getElementById('timer-display').textContent = display;
+        const timerDisplay = document.getElementById('timer-display');
+        if (timerDisplay) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            const display = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+            timerDisplay.textContent = display;
+        }
     }
 
     function showTimerNotification() {
         const notification = document.getElementById('timer-notification');
-        notification.style.display = 'block';
-        
-        // Play notification sound if available
-        const audio = new Audio('dice-roll-1.mp3');
-        audio.play().catch(e => console.log('Audio play failed:', e));
-        
-        setTimeout(() => {
-            notification.style.display = 'none';
-        }, 3000);
+        if (notification) {
+            notification.style.display = 'block';
+            
+            // Play notification sound if available
+            const audio = new Audio('dice-roll-1.mp3');
+            audio.play().catch(e => console.log('Audio play failed:', e));
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
     }
 
     function playDiceSound() {
@@ -689,40 +689,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         
         return tags;
-    }
-
-    function startTimer() {
-        const savedDuration = localStorage.getItem('timerDuration') || 60;
-        const duration = parseInt(savedDuration);
-        
-        if (currentTimer) {
-            clearInterval(currentTimer);
-        }
-        
-        let timeLeft = duration;
-        const timerDisplay = document.getElementById('timer-display');
-        const timerSection = document.getElementById('timer-section');
-        
-        timerSection.style.display = 'block';
-        updateTimerDisplay(timeLeft);
-        
-        currentTimer = setInterval(() => {
-            timeLeft--;
-            updateTimerDisplay(timeLeft);
-            
-            if (timeLeft <= 0) {
-                stopTimer();
-                showTimerNotification();
-            }
-        }, 1000);
-    }
-
-    function stopTimer() {
-        if (currentTimer) {
-            clearInterval(currentTimer);
-            currentTimer = null;
-        }
-        document.getElementById('timer-section').style.display = 'none';
     }
 
     function cleanupScenario() {

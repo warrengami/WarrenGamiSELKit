@@ -305,6 +305,28 @@
             animation: enhanced-dice-roll 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
+        .dice.physics-roll {
+            animation: enhanced-dice-roll 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .dice.bounce {
+            animation: dice-bounce 0.6s ease-out;
+        }
+        
+        .dice.settled {
+            animation: dice-settle 0.5s ease-in-out;
+        }
+        
+        @keyframes dice-bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes dice-settle {
+            0% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
         .dice .face {
             position: absolute;
             width: 250px;

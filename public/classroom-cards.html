@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scenario Cards Classroom Mode - FeelReady</title>
+    <!-- REFINED: Added Nunito for the logotype -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* --- FINAL: AUTHENTIC & SUBSTANTIVE COLOR PALETTE --- */
+        :root {
+            --grounded-indigo: #4C518C;
+            --empathetic-rose: #D87BAA;
+            --illuminating-marigold: #FFC759;
+            
+            --misty-white: #F9FAFB;
+            --neutral-border: #F0F2F4;
+            --slate-charcoal: #333F48;
+            --slate-charcoal-light: #52606D;
+            
+            /* --- NEW: UI Component Colors --- */
+            --cta-background: var(--grounded-indigo);
+            --cta-hover-background: var(--empathetic-rose);
+            --link-color: var(--grounded-indigo);
+            --link-hover-color: var(--empathetic-rose);
+            
+            /* --- NEW: Animation & Transition Variables --- */
+            --transition-speed: 0.4s;
+            --transition-curve: cubic-bezier(0.23, 1, 0.32, 1);
+            
+            /* Legacy colors for backward compatibility */
+            --base-teal: var(--grounded-indigo);
+            --apex-green: var(--illuminating-marigold);
+            --neutral-bg: var(--misty-white);
+            --neutral-text: var(--slate-charcoal);
+            --neutral-text-light: var(--slate-charcoal-light);
+            --paper-white: #FFFFFF;
+            --ice-white: var(--misty-white);
+            --soft-teal: rgba(76, 81, 140, 0.1);
+            --accent-teal: var(--grounded-indigo);
+            --shadow-teal: rgba(76, 81, 140, 0.15);
+            --glow-teal: rgba(76, 81, 140, 0.3);
+            --text-dark: var(--slate-charcoal);
+            --text-muted: var(--slate-charcoal-light);
+            --success-green: #28a745;
+            --warning-orange: #fd7e14;
+            --tag-awareness: var(--illuminating-marigold);
+            --tag-management: #28a745;
+            --tag-social: var(--empathetic-rose);
+            --tag-relationship: #fd7e14;
+            --tag-decision: var(--grounded-indigo);
+            --card-shadow: 0 4px 20px rgba(76, 81, 140, 0.1);
+            --card-hover-shadow: 0 8px 30px rgba(76, 81, 140, 0.2);
+            --section-gradient: linear-gradient(135deg, rgba(76, 81, 140, 0.05) 0%, rgba(255, 199, 89, 0.05) 100%);
+            --header-gradient: linear-gradient(135deg, rgba(76, 81, 140, 0.1), var(--misty-white));
+            --grid-gutter: 1.5rem;
+            --card-border-radius: 16px;
+            --section-border-radius: 20px;
+            --section-padding: 2rem;
+            --card-spacing: 1.5rem;
+            --header-content-gap: 1.5rem;
+            --chip-padding: 0.5rem 0.75rem;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--misty-white);
+            color: var(--slate-charcoal);
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 1rem;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        /* Enhanced Breadcrumb Navigation */
+        .breadcrumb {
+            background: var(--paper-white);
+            padding: 1.25rem 1.75rem;
+            border-radius: var(--card-border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            border: 1px solid var(--neutral-border);
+            font-size: 0.95rem;
+        }
+        
+        .breadcrumb-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color var(--transition-speed) var(--transition-curve);
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+        }
+        
+        .breadcrumb-item:hover {
+            color: var(--cta-background);
+            background-color: var(--soft-teal);
+        }
+        
+        .breadcrumb-separator {
+            color: var(--text-muted);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .breadcrumb-current {
+            color: var(--cta-background);
+            font-weight: 600;
+        }
+        
+        /* Enhanced Classroom Header */
+        .classroom-header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--paper-white);
+            border-radius: var(--card-border-radius);
+            padding: 2rem 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--neutral-border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .classroom-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--header-gradient);
+            opacity: 0.1;
+        }
+        
+        .classroom-header h1 {
+            font-weight: 700;
+            font-size: 2rem;
+            margin: 0;
+            color: var(--text-dark);
+            position: relative;
+            z-index: 1;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        #exit-btn {
+            background: linear-gradient(135deg, var(--grounded-indigo), var(--empathetic-rose));
+            color: var(--paper-white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all var(--transition-speed) var(--transition-curve);
+            box-shadow: 0 4px 15px rgba(76, 81, 140, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+        
+        #exit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 81, 140, 0.3);
+        }
+        
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+            min-height: 0;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Scenario Card Styles */
+        .scenario-controls {
+            background: var(--paper-white);
+            padding: 1.5rem;
+            border-radius: var(--card-border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--neutral-border);
+        }
+        
+        .search-filter-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-input, .filter-select {
+            padding: 0.75rem;
+            border: 1px solid var(--neutral-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .deck-info {
+            text-align: center;
+        }
+        
+        .card-counter {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .deck-container {
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .card-deck {
+            position: relative;
+            width: 200px;
+            height: 280px;
+        }
+        
+        .card-back-design {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--grounded-indigo), var(--empathetic-rose));
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .card-back-design:nth-child(1) {
+            transform: translateY(-4px) rotate(-2deg);
+        }
+        
+        .card-back-design:nth-child(2) {
+            transform: translateY(-2px) rotate(1deg);
+        }
+        
+        .card-back-design:nth-child(3) {
+            transform: translateY(0px) rotate(-1deg);
+        }
+        
+        .drawn-card-wrapper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            max-width: 400px;
+            max-height: 280px;
+        }
+        
+        .drawn-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        
+        .drawn-card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .card-front {
+            background: linear-gradient(135deg, var(--paper-white) 0%, var(--misty-white) 100%);
+            border: 2px solid var(--neutral-border);
+        }
+        
+        .card-back {
+            background: linear-gradient(135deg, var(--grounded-indigo) 0%, var(--empathetic-rose) 100%);
+            color: var(--white);
+            transform: rotateY(180deg);
+        }
+        
+        .card-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .card-back .card-title {
+            color: var(--white);
+        }
+        
+        .card-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        .card-back .card-text {
+            color: var(--white);
+        }
+        
+        .guiding-questions {
+            text-align: left;
+            margin: 0;
+            padding-left: 1rem;
+        }
+        
+        .guiding-questions li {
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .card-history {
+            background: var(--paper-white);
+            padding: 1.5rem;
+            border-radius: var(--card-border-radius);
+            margin-top: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--neutral-border);
+        }
+        
+        .card-history h4 {
+            margin: 0 0 1rem 0;
+            color: var(--text-dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .history-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--neutral-border);
+            font-size: 0.9rem;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Enhanced Control Panel */
+        .control-panel {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            position: relative;
+            z-index: 10;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .enhanced-btn {
+            background: linear-gradient(135deg, var(--grounded-indigo) 0%, var(--empathetic-rose) 100%);
+            color: var(--paper-white);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all var(--transition-speed) var(--transition-curve);
+            box-shadow: 0 4px 15px rgba(76, 81, 140, 0.2);
+            min-width: 140px;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .enhanced-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            opacity: 0;
+            transition: opacity var(--transition-speed) var(--transition-curve);
+        }
+        
+        .enhanced-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76, 81, 140, 0.35);
+        }
+        
+        .enhanced-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .enhanced-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .enhanced-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 8px rgba(76, 81, 140, 0.1);
+        }
+        
+        .timer-btn {
+            background: linear-gradient(135deg, var(--success-green) 0%, #20c997 100%);
+        }
+        
+        .stop-btn {
+            background: linear-gradient(135deg, var(--warning-orange) 0%, #fd7e14 100%);
+        }
+        
+        /* Enhanced Timer Display */
+        #timer-display {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-align: center;
+            margin: 1rem 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        /* Timer Section */
+        .timer-section {
+            margin: 1.5rem auto;
+            padding: 1.5rem;
+            background: var(--paper-white);
+            border-radius: var(--card-border-radius);
+            text-align: center;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--neutral-border);
+            overflow: hidden;
+        }
+        
+        .timer-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--section-gradient);
+            opacity: 0.3;
+        }
+        
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Timer Notification */
+        .timer-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--paper-white);
+            color: var(--text-dark);
+            padding: 2rem;
+            border-radius: var(--card-border-radius);
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(76, 81, 140, 0.3);
+            z-index: 1000;
+            display: none;
+            animation: notification-pulse 2s ease-in-out;
+            border: 2px solid var(--grounded-indigo);
+        }
+        
+        @keyframes notification-pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+                font-size: 14px;
+            }
+            
+            .breadcrumb {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .classroom-header {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .classroom-header h1 {
+                font-size: 1.5rem;
+            }
+            
+            #exit-btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .scenario-controls {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .search-filter-section {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            
+            .search-input, .filter-select {
+                min-width: auto;
+            }
+            
+            .control-panel {
+                gap: 0.75rem;
+                margin-top: 1.5rem;
+            }
+            
+            .enhanced-btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+                min-width: 120px;
+            }
+            
+            #timer-display {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Enhanced Breadcrumb Navigation -->
+    <div class="breadcrumb">
+        <a href="dashboard.html" class="breadcrumb-item">
+            <span>🏠</span>
+            <span>Dashboard</span>
+        </a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current" id="current-page">FeelReady - Scenario Cards</span>
+    </div>
+    
+    <!-- Enhanced Classroom Header -->
+    <div class="classroom-header">
+        <h1 id="page-title">FeelReady - Scenario Cards</h1>
+        <button id="exit-btn" onclick="exitClassroom()">Exit Classroom</button>
+    </div>
+    
+    <main id="main-content">
+        <!-- Scenario Controls -->
+        <div class="scenario-controls">
+            <div class="search-filter-section">
+                <input type="text" class="search-input" placeholder="Search scenarios..." onkeyup="filterScenarios()">
+                <select class="filter-select" onchange="filterScenarios()">
+                    <option value="">All Competencies</option>
+                    <option value="self-awareness">Self-Awareness</option>
+                    <option value="self-management">Self-Management</option>
+                    <option value="social-awareness">Social Awareness</option>
+                    <option value="relationship-skills">Relationship Skills</option>
+                    <option value="responsible-decision-making">Responsible Decision-Making</option>
+                </select>
+            </div>
+            <div class="deck-info">
+                <div class="card-counter" id="card-counter">
+                    Cards remaining: 0
+                </div>
+            </div>
+        </div>
+        
+        <!-- Deck Container -->
+        <div class="deck-container">
+            <div class="card-deck" id="card-deck">
+                <div class="card-back-design"></div>
+                <div class="card-back-design"></div>
+                <div class="card-back-design"></div>
+            </div>
+            <div class="drawn-card-wrapper" id="drawn-card-wrapper" style="display: none;">
+                <div class="drawn-card" id="drawn-card">
+                    <div class="card-front" id="card-front"></div>
+                    <div class="card-back" id="card-back"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Card History -->
+        <div class="card-history" id="card-history" style="display: none;">
+            <h4>Recently Drawn Cards:</h4>
+            <div id="history-list"></div>
+        </div>
+        
+        <!-- Enhanced Control Panel -->
+        <div id="control-panel" class="control-panel">
+            <button class="enhanced-btn" onclick="drawCard()">📄 Draw Card</button>
+            <button class="enhanced-btn" onclick="shuffleDeck()">🔀 Shuffle</button>
+            <button class="enhanced-btn timer-btn" onclick="startTimer()">⏱️ Start Timer</button>
+            <button class="enhanced-btn stop-btn" onclick="stopTimer()">⏹️ Stop Timer</button>
+            <button class="enhanced-btn" onclick="toggleHistory()">📋 History</button>
+        </div>
+        
+        <!-- Enhanced Timer Display -->
+        <div id="timer-display"></div>
+        
+        <!-- Timer Section -->
+        <div id="timer-section" class="timer-section" style="display: none;">
+            <div id="timer-display" class="timer-display">00:00</div>
+        </div>
+        
+        <!-- Timer Notification -->
+        <div class="timer-notification" id="timer-notification">
+            <div>Time's Up!</div>
+            <div style="font-size: 1rem; margin-top: 10px;">Activity completed</div>
+        </div>
+    </main>
+    
+    <script src="auth.js"></script>
+    <script src="classroom-enhanced-scenarios.js"></script>
+    <script src="classroom-cards.js"></script>
+    <!-- TIDIO CHATBOT SCRIPT -->
+    <script src="//code.tidio.co/al0nn6gytvaa7zsgua0omcgzljz8yl0e.js" async></script>
+</body>
+</html> 
