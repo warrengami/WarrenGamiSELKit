@@ -191,11 +191,30 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function rollDice() {
-        const dice = document.getElementById('dice');
+        console.log('Classroom rollDice called');
+        // Check if we're using the dashboard interface
+        const dashboardDice = document.getElementById('dashboard-dice');
+        const regularDice = document.getElementById('dice');
+        const dice = dashboardDice || regularDice;
         const resultDiv = document.getElementById('prompt-result');
         
-        if (!dice || !window.allDicePrompts) return;
+        console.log('Dashboard dice element:', dashboardDice);
+        console.log('Regular dice element:', regularDice);
+        console.log('Window dashboardDice:', window.dashboardDice);
         
+        if (!dice || !window.allDicePrompts) {
+            console.log('Missing dice or prompts');
+            return;
+        }
+        
+        // If using dashboard interface, use its roll function
+        if (window.dashboardDice && dashboardDice) {
+            console.log('Using dashboard dice interface');
+            window.dashboardDice.rollDice();
+            return;
+        }
+        
+        // Fallback to original implementation
         // Add rolling animation
         dice.classList.add('rolling', 'physics-roll');
         

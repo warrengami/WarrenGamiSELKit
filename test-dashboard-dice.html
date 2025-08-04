@@ -685,59 +685,22 @@
         let rollCount = 0;
         
         function rollDice() {
+            console.log('Test rollDice called');
+            alert('Roll dice button clicked!'); // Temporary debug alert
+            
             const dice = document.getElementById('dashboard-dice');
             const promptText = document.getElementById('dice-prompt-text');
             const resultDiv = document.getElementById('prompt-result');
             const progressTracker = document.getElementById('progress-tracker');
             const lottieContainer = document.getElementById('lottie-container');
-            const lottieAnimation = document.getElementById('lottie-animation');
             
-            if (!dice) return;
+            if (!dice) {
+                console.log('No dice element found');
+                return;
+            }
             
             // Clear any existing classes
             dice.className = 'dice';
-            
-            // Show Lottie animation
-            if (lottieContainer) {
-                lottieContainer.classList.add('visible');
-            }
-            
-            // Load and play Lottie animation
-            try {
-                if (lottieAnimation && typeof lottie !== 'undefined') {
-                    // Load the Lottie animation
-                    const animation = lottie.loadAnimation({
-                        container: lottieAnimation,
-                        renderer: 'svg',
-                        loop: false,
-                        autoplay: true,
-                        path: 'icon-3D-cube-rotating.json' // Path to your Lottie file
-                    });
-                    
-                    // Wait for animation to complete
-                    animation.addEventListener('complete', () => {
-                        showDiceResult(dice, promptText, resultDiv, lottieContainer, progressTracker);
-                    });
-                    
-                    // Fallback if animation doesn't load
-                    setTimeout(() => {
-                        showDiceResult(dice, promptText, resultDiv, lottieContainer, progressTracker);
-                    }, 3000);
-                } else {
-                    // Fallback to CSS animation if Lottie fails
-                    dice.classList.add('rolling');
-                    setTimeout(() => {
-                        showDiceResult(dice, promptText, resultDiv, lottieContainer, progressTracker);
-                    }, 2500);
-                }
-            } catch (error) {
-                console.log('Lottie animation failed, using CSS fallback:', error);
-                // Fallback to CSS animation
-                dice.classList.add('rolling');
-                setTimeout(() => {
-                    showDiceResult(dice, promptText, resultDiv, lottieContainer, progressTracker);
-                }, 2500);
-            }
             
             // Show rolling state
             promptText.textContent = 'Rolling...';
@@ -747,6 +710,14 @@
             if (progressTracker) {
                 progressTracker.textContent = `Roll ${rollCount} of ${samplePrompts.length} prompts`;
             }
+            
+            // Use CSS animation
+            dice.classList.add('rolling');
+            
+            // Stop rolling after animation
+            setTimeout(() => {
+                showDiceResult(dice, promptText, resultDiv, lottieContainer, progressTracker);
+            }, 2500);
         }
         
         function showDiceResult(dice, promptText, resultDiv, lottieContainer, progressTracker) {

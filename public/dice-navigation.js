@@ -88,9 +88,13 @@ class DashboardDiceInterface {
         window.showHelp = () => this.showHelp();
     }
 
-    // Enhanced dice roll with Lottie animation
+    // Enhanced dice roll with CSS animation (Lottie fallback)
     async rollDice() {
-        if (this.isRolling) return;
+        console.log('Roll dice called');
+        if (this.isRolling) {
+            console.log('Already rolling, returning');
+            return;
+        }
         
         this.isRolling = true;
         const dice = document.getElementById('dashboard-dice');
@@ -99,57 +103,16 @@ class DashboardDiceInterface {
         const lottieContainer = document.getElementById('lottie-container');
         const lottieAnimation = document.getElementById('lottie-animation');
         
-        if (!dice || !this.dicePrompts.length) return;
+        console.log('Dice element:', dice);
+        console.log('Dice prompts:', this.dicePrompts);
+        
+        if (!dice || !this.dicePrompts.length) {
+            console.log('Missing dice element or prompts');
+            return;
+        }
         
         // Clear any existing classes
         dice.className = 'dice';
-        
-        // Show Lottie animation
-        if (lottieContainer) {
-            lottieContainer.classList.add('visible');
-        }
-        
-        // Load and play Lottie animation
-        try {
-            if (lottieAnimation) {
-                // Load the Lottie animation
-                const animation = lottie.loadAnimation({
-                    container: lottieAnimation,
-                    renderer: 'svg',
-                    loop: false,
-                    autoplay: true,
-                    path: 'icon-3D-cube-rotating.json' // Path to your Lottie file
-                });
-                
-                // Wait for animation to complete
-                animation.addEventListener('complete', () => {
-                    this.showDiceResult(dice, promptText, resultDiv, lottieContainer);
-                });
-                
-                // Fallback if animation doesn't load
-                setTimeout(() => {
-                    if (this.isRolling) {
-                        this.showDiceResult(dice, promptText, resultDiv, lottieContainer);
-                    }
-                }, 3000);
-            } else {
-                // Fallback to CSS animation if Lottie fails
-                dice.classList.add('rolling');
-                setTimeout(() => {
-                    this.showDiceResult(dice, promptText, resultDiv, lottieContainer);
-                }, 2500);
-            }
-        } catch (error) {
-            console.log('Lottie animation failed, using CSS fallback:', error);
-            // Fallback to CSS animation
-            dice.classList.add('rolling');
-            setTimeout(() => {
-                this.showDiceResult(dice, promptText, resultDiv, lottieContainer);
-            }, 2500);
-        }
-        
-        // Play sound if available
-        this.playDiceSound();
         
         // Show rolling state in prompt box
         promptText.textContent = 'Rolling...';
@@ -157,6 +120,17 @@ class DashboardDiceInterface {
         // Update progress
         this.rollCount++;
         this.updateProgressTracker();
+        
+        // Play sound if available
+        this.playDiceSound();
+        
+        // Use CSS animation for now (Lottie can be added later)
+        dice.classList.add('rolling');
+        
+        // Stop rolling after animation
+        setTimeout(() => {
+            this.showDiceResult(dice, promptText, resultDiv, lottieContainer);
+        }, 2500);
     }
     
     // Show dice result after animation
@@ -393,4 +367,7 @@ const dashboardDice = new DashboardDiceInterface();
 
 // Export for use in other files
 window.DashboardDiceInterface = DashboardDiceInterface;
-window.dashboardDice = dashboardDice; 
+window.dashboardDice = dashboardDice;
+
+// Debug log to confirm script is loaded
+console.log('Dashboard Dice Interface loaded:', dashboardDice); 
