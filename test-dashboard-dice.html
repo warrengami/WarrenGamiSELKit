@@ -450,6 +450,60 @@
             z-index: 1;
         }
         
+        /* New styles for enhanced dice interface */
+        .dice-content-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .help-tooltip {
+            background: var(--ice-white);
+            color: var(--warren-blue);
+            border: 2px solid var(--soft-blue);
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .help-tooltip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.15);
+            border-color: var(--accent-blue);
+        }
+
+        .help-tooltip:hover::before {
+            opacity: 1;
+        }
+
+        .progress-tracker {
+            background: var(--ice-white);
+            border: 2px solid var(--soft-blue);
+            border-radius: 12px;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        
         @media (max-width: 768px) {
             body { padding: 1rem; }
             .header h1 { font-size: 1.8rem; }
@@ -521,24 +575,32 @@
 
         // Initialize the dashboard dice interface
         document.addEventListener('DOMContentLoaded', () => {
-            // Create the dice interface
+            // Create the dice interface with enhanced features
             const diceInterface = `
-                <div class="dice-prompt-container">
-                    <div class="category-tag">Emotions & Feelings</div>
-                    <div class="dice-prompt-text" id="dice-prompt-text">
-                        Click "Roll Dice" to get started
+                <div class="dice-content-panel">
+                    <div class="help-tooltip" title="Click for help" onclick="showHelp()">?</div>
+                    
+                    <div class="progress-tracker" id="progress-tracker">
+                        Roll 0 of ${samplePrompts.length} prompts
                     </div>
-                </div>
-                
-                <div class="dice-scene">
-                    <div class="dice" id="dashboard-dice">
-                        ${samplePrompts.slice(0, 6).map((prompt, i) => 
-                            `<div class="face face-${i + 1}">${prompt}</div>`
-                        ).join('')}
+                    
+                    <div class="dice-prompt-container">
+                        <div class="category-tag">Emotions & Feelings</div>
+                        <div class="dice-prompt-text" id="dice-prompt-text">
+                            Click "Roll Dice" to get started
+                        </div>
                     </div>
+                    
+                    <div class="dice-scene">
+                        <div class="dice" id="dashboard-dice">
+                            ${samplePrompts.slice(0, 6).map((prompt, i) => 
+                                `<div class="face face-${i + 1}">${prompt}</div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    
+                    <div id="prompt-result"></div>
                 </div>
-                
-                <div id="prompt-result"></div>
             `;
             
             document.getElementById('main-content').innerHTML = diceInterface;
@@ -566,11 +628,14 @@
             });
         });
 
-        // Dice roll function
+        // Enhanced dice roll function with progress tracking
+        let rollCount = 0;
+        
         function rollDice() {
             const dice = document.getElementById('dashboard-dice');
             const promptText = document.getElementById('dice-prompt-text');
             const resultDiv = document.getElementById('prompt-result');
+            const progressTracker = document.getElementById('progress-tracker');
             
             if (!dice) return;
             
@@ -579,6 +644,12 @@
             
             // Show rolling state
             promptText.textContent = 'Rolling...';
+            
+            // Update progress
+            rollCount++;
+            if (progressTracker) {
+                progressTracker.textContent = `Roll ${rollCount} of ${samplePrompts.length} prompts`;
+            }
             
             // Randomly select a prompt
             const randomIndex = Math.floor(Math.random() * samplePrompts.length);
@@ -592,10 +663,58 @@
                 dice.classList.remove('rolling');
                 dice.className = `dice show-${faceNumber}`;
                 
-                // Show result
-                promptText.textContent = selectedPrompt;
-                resultDiv.textContent = selectedPrompt;
-            }, 2000);
+                // Show result with fade-in effect
+                fadeInText(promptText, selectedPrompt);
+                fadeInText(resultDiv, selectedPrompt);
+            }, 2500);
+        }
+
+        // Fade in text with smooth transition
+        function fadeInText(element, text) {
+            element.style.opacity = '0';
+            element.textContent = text;
+            
+            setTimeout(() => {
+                element.style.transition = 'opacity 0.5s ease';
+                element.style.opacity = '1';
+            }, 100);
+        }
+
+        // Show help tooltip
+        function showHelp() {
+            const helpText = `
+                <div style="background: var(--paper-white); padding: 1.5rem; border-radius: 12px; box-shadow: var(--card-shadow); max-width: 400px; margin: 1rem;">
+                    <h3 style="color: var(--warren-blue); margin-bottom: 1rem;">How to Use the Dice</h3>
+                    <ul style="text-align: left; line-height: 1.6;">
+                        <li><strong>Roll Dice:</strong> Click or press Spacebar to roll</li>
+                        <li><strong>Start Timer:</strong> Begin a 60-second discussion timer</li>
+                        <li><strong>Stop Timer:</strong> End the current timer</li>
+                        <li><strong>Switch Categories:</strong> Choose different prompt types</li>
+                    </ul>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+                        Each roll selects a random prompt from the current category.
+                    </p>
+                </div>
+            `;
+            
+            // Create a modal
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 1000;
+            `;
+            modal.innerHTML = helpText;
+            modal.onclick = () => document.body.removeChild(modal);
+            
+            document.body.appendChild(modal);
         }
 
         // Timer functions

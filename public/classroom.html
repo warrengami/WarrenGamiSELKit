@@ -245,7 +245,7 @@
         .dice-scene {
             width: 280px;
             height: 280px;
-            perspective: 1000px;
+            perspective: 1200px;
             margin-bottom: 2rem;
             position: relative;
         }
@@ -255,32 +255,38 @@
             height: 100%;
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
         }
         
         .dice.rolling {
-            animation: dashboard-tumble 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: enhanced-dice-roll 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
         
         .dice .face {
             position: absolute;
             width: 280px;
             height: 280px;
-            border: 3px solid var(--warren-blue);
             background: linear-gradient(135deg, var(--paper-white) 0%, var(--ice-white) 100%);
-            padding: 2rem;
+            padding: 2.5rem;
             box-sizing: border-box;
             text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            line-height: 1.4;
-            font-weight: 500;
+            font-size: 1.3rem;
+            line-height: 1.5;
+            font-weight: 600;
             color: var(--text-dark);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(30, 58, 95, 0.15);
             border: 2px solid var(--soft-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .dice .face:hover {
+            box-shadow: 0 12px 35px rgba(30, 58, 95, 0.25);
+            transform: scale(1.02);
         }
         
         .face.face-1 { transform: rotateY(0deg) translateZ(140px); }
@@ -297,20 +303,52 @@
         .dice.show-5 { transform: rotateX(-90deg); }
         .dice.show-6 { transform: rotateX(90deg); }
         
+        @keyframes enhanced-dice-roll {
+            0% { 
+                transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg) scale(1);
+            }
+            15% { 
+                transform: rotateX(180deg) rotateY(90deg) rotateZ(45deg) scale(1.1);
+            }
+            30% { 
+                transform: rotateX(360deg) rotateY(180deg) rotateZ(90deg) scale(1.05);
+            }
+            45% { 
+                transform: rotateX(540deg) rotateY(270deg) rotateZ(135deg) scale(1.15);
+            }
+            60% { 
+                transform: rotateX(720deg) rotateY(360deg) rotateZ(180deg) scale(1.08);
+            }
+            75% { 
+                transform: rotateX(900deg) rotateY(450deg) rotateZ(225deg) scale(1.12);
+            }
+            90% { 
+                transform: rotateX(1080deg) rotateY(540deg) rotateZ(270deg) scale(1.03);
+            }
+            100% { 
+                transform: rotateX(1260deg) rotateY(630deg) rotateZ(315deg) scale(1);
+            }
+        }
+        
+        /* Enhanced Prompt Result */
         #prompt-result {
             margin-top: 1.5rem;
             font-size: 1.4rem;
             font-weight: 600;
             text-align: center;
-            height: 3em;
+            min-height: 4em;
             color: var(--text-dark);
             background: var(--paper-white);
-            padding: 1rem 1.5rem;
+            padding: 1.5rem 2rem;
             border-radius: var(--card-border-radius);
             box-shadow: var(--card-shadow);
             border: 1px solid var(--soft-blue);
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
         
         #prompt-result::before {
@@ -324,12 +362,9 @@
             opacity: 0.3;
         }
         
-        @keyframes dashboard-tumble {
-            0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
-            25% { transform: rotateX(360deg) rotateY(180deg) rotateZ(90deg); }
-            50% { transform: rotateX(720deg) rotateY(360deg) rotateZ(180deg); }
-            75% { transform: rotateX(1080deg) rotateY(540deg) rotateZ(270deg); }
-            100% { transform: rotateX(1440deg) rotateY(720deg) rotateZ(360deg); }
+        #prompt-result:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--card-hover-shadow);
         }
         
         /* Enhanced Control Panel - Dashboard Aligned */
@@ -341,22 +376,27 @@
             z-index: 10;
             flex-wrap: wrap;
             justify-content: center;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .enhanced-btn {
             background: linear-gradient(135deg, var(--warren-blue) 0%, var(--warren-light-blue) 100%);
             color: var(--paper-white);
             border: none;
-            padding: 1rem 1.5rem;
-            border-radius: 12px;
+            padding: 1.2rem 2rem;
+            border-radius: 25px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.2);
-            min-width: 140px;
+            box-shadow: 0 6px 20px rgba(30, 58, 95, 0.2);
+            min-width: 160px;
             position: relative;
             overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .enhanced-btn::before {
@@ -366,14 +406,14 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
         
         .enhanced-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(30, 58, 95, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(30, 58, 95, 0.35);
         }
         
         .enhanced-btn:hover::before {
@@ -381,7 +421,7 @@
         }
         
         .enhanced-btn:active {
-            transform: translateY(-1px);
+            transform: translateY(-2px);
         }
         
         .enhanced-btn:disabled {
@@ -459,32 +499,43 @@
             50% { transform: translate(-50%, -50%) scale(1.05); }
         }
         
-        /* Category Tag Badge */
+        /* Enhanced Category Tag Badge */
         .category-tag {
             display: inline-block;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
             color: var(--paper-white);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             background: linear-gradient(135deg, var(--warren-light-blue), var(--accent-blue));
-            box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
         }
         
-        /* Dice Prompt Box */
+        .category-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.5);
+        }
+        
+        /* Enhanced Dice Prompt Box */
         .dice-prompt-container {
             background: linear-gradient(135deg, var(--ice-white) 0%, var(--soft-blue) 100%);
-            border-radius: var(--card-border-radius);
-            padding: 2rem;
-            margin-bottom: 2rem;
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
             box-shadow: var(--card-shadow);
             border: 1px solid var(--soft-blue);
             text-align: center;
             position: relative;
             overflow: hidden;
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            transition: all 0.3s ease;
         }
         
         .dice-prompt-container::before {
@@ -498,13 +549,79 @@
             opacity: 0.2;
         }
         
+        .dice-prompt-container:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
         .dice-prompt-text {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: 600;
             color: var(--text-dark);
-            line-height: 1.5;
+            line-height: 1.6;
             position: relative;
             z-index: 1;
+            min-height: 3em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* White Content Panel */
+        .dice-content-panel {
+            background: var(--paper-white);
+            border-radius: var(--card-border-radius);
+            padding: 3rem 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--soft-blue);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dice-content-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--section-gradient);
+            opacity: 0.1;
+        }
+        
+        /* Progress Tracker */
+        .progress-tracker {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        /* Help Tooltip */
+        .help-tooltip {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--paper-white);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .help-tooltip:hover {
+            transform: scale(1.1);
+            background: var(--warren-light-blue);
         }
         
         @media (max-width: 768px) {
@@ -512,11 +629,36 @@
             .classroom-header h1 { font-size: 1.5rem; }
             .breadcrumb { flex-direction: column; align-items: flex-start; }
             .category-buttons { flex-direction: column; }
-            .control-panel { flex-direction: column; align-items: center; }
+            .control-panel { 
+                flex-direction: column; 
+                align-items: center;
+                gap: 0.75rem;
+            }
+            .enhanced-btn {
+                width: 100%;
+                max-width: 300px;
+            }
             .dice-scene { width: 240px; height: 240px; }
-            .dice .face { width: 240px; height: 240px; padding: 1.5rem; font-size: 1rem; }
+            .dice .face { 
+                width: 240px; 
+                height: 240px; 
+                padding: 2rem; 
+                font-size: 1.1rem; 
+                border-radius: 16px;
+            }
             .face.face-1, .face.face-2, .face.face-3, .face.face-4, .face.face-5, .face.face-6 {
                 transform: translateZ(120px);
+            }
+            .dice-prompt-container {
+                padding: 2rem;
+                margin-bottom: 2rem;
+            }
+            .dice-prompt-text {
+                font-size: 1.2rem;
+            }
+            .dice-content-panel {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
             }
         }
     </style>
