@@ -61,7 +61,7 @@ function createGlobalHeader(userData) {
                 top: 0;
                 left: 0;
                 right: 0;
-                background: linear-gradient(135deg, #002b5c 0%, #00408a 100%);
+                background: linear-gradient(135deg, #4C518C 0%, #D87BAA 100%);
                 color: white;
                 padding: 12px 20px;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -83,21 +83,24 @@ function createGlobalHeader(userData) {
                 gap: 15px;
             }
             .global-header .brand {
-                font-weight: 700;
+                font-weight: 800;
                 font-size: 16px;
-                color: #73bdf5;
+                color: #FFC759;
+                font-family: 'Nunito', sans-serif;
             }
             .global-header .dashboard-link {
                 color: white;
                 text-decoration: none;
                 padding: 6px 12px;
-                border-radius: 6px;
-                background-color: rgba(255,255,255,0.1);
-                transition: background-color 0.3s;
+                border-radius: 8px;
+                background-color: rgba(255,255,255,0.15);
+                transition: all 0.3s ease;
                 font-size: 13px;
+                font-weight: 600;
             }
             .global-header .dashboard-link:hover {
-                background-color: rgba(255,255,255,0.2);
+                background-color: rgba(255,255,255,0.25);
+                transform: translateY(-1px);
             }
             .global-header .user-info {
                 display: flex;
@@ -107,24 +110,26 @@ function createGlobalHeader(userData) {
                 opacity: 0.9;
             }
             .global-header .user-info span {
-                background-color: rgba(255,255,255,0.1);
+                background-color: rgba(255,255,255,0.15);
                 padding: 4px 8px;
-                border-radius: 4px;
+                border-radius: 6px;
                 font-size: 11px;
+                font-weight: 500;
             }
             .global-header .logout-btn {
-                background-color: #ef5350;
+                background-color: #dc3545;
                 color: white;
                 border: none;
                 padding: 6px 12px;
-                border-radius: 6px;
+                border-radius: 8px;
                 cursor: pointer;
                 font-size: 12px;
                 font-weight: 600;
-                transition: background-color 0.3s;
+                transition: all 0.3s ease;
             }
             .global-header .logout-btn:hover {
-                background-color: #d32f2f;
+                background-color: #c82333;
+                transform: translateY(-1px);
             }
             /* Adjust body padding to account for fixed header */
             body {
@@ -163,13 +168,13 @@ function createGlobalHeader(userData) {
     const headerHTML = `
         <div id="global-header" class="global-header">
             <div class="header-left">
-                <div class="brand">WarrenGami SEL Toolkit</div>
+                <div class="brand">FeelReady</div>
                 <a href="dashboard.html" class="dashboard-link">🏠 Teacher Dashboard</a>
             </div>
             <div class="header-right">
                 <div class="user-info">
                     <span>🏫 ${userData.user}</span>
-                    <span>⭐ ${userData.tier} Tier</span>
+                    <span>⭐ Premium Tier</span>
                 </div>
                 <button class="logout-btn" onclick="logout()">Log out</button>
             </div>
