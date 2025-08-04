@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FeelReady - Access</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <!-- REFINED: Added Nunito for the logotype -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* --- FINAL: AUTHENTIC & SUBSTANTIVE COLOR PALETTE --- */
         :root {
@@ -16,6 +17,16 @@
             --neutral-border: #F0F2F4;
             --slate-charcoal: #333F48;
             --slate-charcoal-light: #52606D;
+            
+            /* --- NEW: UI Component Colors --- */
+            --cta-background: var(--grounded-indigo);
+            --cta-hover-background: var(--empathetic-rose);
+            --link-color: var(--grounded-indigo);
+            --link-hover-color: var(--empathetic-rose);
+            
+            /* --- NEW: Animation & Transition Variables --- */
+            --transition-speed: 0.4s;
+            --transition-curve: cubic-bezier(0.23, 1, 0.32, 1);
             
             /* Legacy colors for backward compatibility */
             --base-teal: var(--grounded-indigo);
@@ -51,6 +62,16 @@
             padding: 20px;
             position: relative;
             overflow: hidden;
+            /* NEW: Smooth page load animation */
+            animation: fadeInUp 0.8s var(--transition-curve) forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Animated Background Elements */
@@ -107,13 +128,23 @@
         }
 
         .feelready-spark-logo {
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
+            transition: all var(--transition-speed) var(--transition-curve);
+            /* NEW: Gentle glow animation */
+            animation: sparkGlow 4s ease-in-out infinite;
+        }
+        
+        @keyframes sparkGlow {
+            0%, 100% {
+                filter: drop-shadow(0 10px 20px rgba(76, 81, 140, 0.15));
+            }
+            50% {
+                filter: drop-shadow(0 12px 25px rgba(216, 123, 170, 0.2));
+            }
         }
 
         .logo:hover .feelready-spark-logo {
             transform: scale(1.1);
-            filter: drop-shadow(0 16px 32px rgba(216, 123, 170, 0.2));
+            animation-duration: 2s; /* Speed up glow on hover */
         }
 
         /* Main Container */
@@ -128,7 +159,7 @@
             max-width: 450px;
             width: 100%;
             border: 1px solid var(--neutral-border);
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all var(--transition-speed) var(--transition-curve);
         }
 
         /* Logo/Brand Section */
@@ -143,16 +174,15 @@
             justify-content: center;
         }
 
-
-
         /* Typography */
         h1 {
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            /* REFINED: Logotype uses the softer "Nunito" font */
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 2.2rem;
-            font-weight: 600;
+            font-weight: 800;
             color: var(--slate-charcoal);
             margin-bottom: 10px;
-            letter-spacing: -0.04em;
+            letter-spacing: -0.05em;
         }
 
         .subtitle {
@@ -205,7 +235,7 @@
 
         /* Button Styling */
         .submit-btn {
-            background: var(--grounded-indigo);
+            background: var(--cta-background);
             color: var(--white);
             border: none;
             padding: 15px 30px;
@@ -213,7 +243,7 @@
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all var(--transition-speed) var(--transition-curve);
             width: 100%;
             font-family: 'Inter', sans-serif;
             position: relative;
@@ -236,7 +266,7 @@
         }
 
         .submit-btn:hover {
-            background: var(--empathetic-rose);
+            background: var(--cta-hover-background);
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(216, 123, 170, 0.3);
         }

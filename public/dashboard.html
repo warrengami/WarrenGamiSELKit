@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FeelReady - Teacher Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <!-- REFINED: Added Nunito for the logotype -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* --- FINAL: AUTHENTIC & SUBSTANTIVE COLOR PALETTE --- */
         :root {
@@ -38,6 +39,16 @@
             --tag-social: var(--empathetic-rose);
             --tag-relationship: #fd7e14;
             --tag-decision: var(--grounded-indigo);
+            
+            /* --- NEW: UI Component Colors --- */
+            --cta-background: var(--grounded-indigo);
+            --cta-hover-background: var(--empathetic-rose);
+            --link-color: var(--grounded-indigo);
+            --link-hover-color: var(--empathetic-rose);
+            
+            /* --- NEW: Animation & Transition Variables --- */
+            --transition-speed: 0.4s;
+            --transition-curve: cubic-bezier(0.23, 1, 0.32, 1);
             --card-shadow: 0 4px 20px rgba(76, 81, 140, 0.1);
             --card-hover-shadow: 0 8px 30px rgba(76, 81, 140, 0.2);
             --section-gradient: linear-gradient(135deg, rgba(76, 81, 140, 0.05) 0%, rgba(255, 199, 89, 0.05) 100%);
@@ -827,6 +838,32 @@
                 padding: var(--section-padding);
             }
         }
+        /* Icon Styles */
+        .icon { display: inline-block; width: 1.2em; height: 1.2em; fill: var(--slate-charcoal-light); stroke: none; vertical-align: middle; }
+        .icon-category { fill: var(--grounded-indigo); }
+        .icon-gradient { fill: url(#spark-gradient-v9); }
+        
+        /* NEW: Enhanced logo styling */
+        .brand-logo h1 {
+            /* REFINED: Logotype uses the softer "Nunito" font */
+            font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+        }
+        
+        .feelready-spark-logo {
+            /* NEW: Gentle glow animation */
+            animation: sparkGlow 4s ease-in-out infinite;
+        }
+        
+        @keyframes sparkGlow {
+            0%, 100% {
+                filter: drop-shadow(0 10px 20px rgba(76, 81, 140, 0.15));
+            }
+            50% {
+                filter: drop-shadow(0 12px 25px rgba(216, 123, 170, 0.2));
+            }
+        }
     </style>
 </head>
 <body>
@@ -846,6 +883,44 @@
                 <!-- The Foundation/Vessel -->
                 <path d="M20 90 C 20 70, 30 60, 50 60 C 70 60, 80 70, 80 90 Z" />
             </symbol>
+            
+            <!-- Core SEL Competencies -->
+            <symbol id="icon-self-awareness" viewBox="0 0 24 24"><path d="M12 3.5c-3 0-5.5 2-5.5 5.5s4 6.5 5.5 9c1.5-2.5 5.5-5.5 5.5-9S15 3.5 12 3.5z"/></symbol>
+            <symbol id="icon-self-management" viewBox="0 0 24 24"><path d="M12 21.23l-1.06-1.06a5.5 5.5 0 010-7.78l1.06-1.06 1.06 1.06a5.5 5.5 0 010 7.78L12 21.23z" opacity=".4"/><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></symbol>
+            <symbol id="icon-social-awareness" viewBox="0 0 24 24"><path d="M12 12a5 5 0 100-10 5 5 0 000 10z" opacity=".4"/><path d="M12 14c-3.86 0-7 1.79-7 4v2h14v-2c0-2.21-3.14-4-7-4z"/><path d="M18.5 3.5c-1 0-2 1-2 2.5s2.5 4 4 5.5c1-1.5 4-3.5 4-5.5s-1.5-2.5-2-2.5z"/></symbol>
+            <symbol id="icon-relationship-skills" viewBox="0 0 24 24"><path d="M10 17a4 4 0 11-4-4c0 2.5 2 4.5 4 6.5s4.5 1.5 6.5-1a4 4 0 11-4 4c0-2.5-2-4.5-4-6.5s-4.5-1.5-6.5 1z"/></symbol>
+            <symbol id="icon-decision-making" viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity=".4"/><path d="M12 3.5c-3 0-5.5 2-5.5 5.5s4 6.5 5.5 9c1.5-2.5 5.5-5.5 5.5-9S15 3.5 12 3.5z"/></symbol>
+            
+            <!-- Category Headers -->
+            <symbol id="icon-get-ready" viewBox="0 0 24 24"><path d="M12 3.5c-3 0-5.5 2-5.5 5.5s4 6.5 5.5 9c1.5-2.5 5.5-5.5 5.5-9S15 3.5 12 3.5z"/><path d="M5 21a10 10 0 018-4 3 3 0 01-5-1.5 3 3 0 01-6 0 3 3 0 01-5 1.5 10 10 0 018 4z" opacity=".6"/></symbol>
+            <symbol id="icon-teaching-tools" viewBox="0 0 24 24"><path d="M22 7l-10 5-10-5 10-5 10 5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+            <symbol id="icon-resource-library" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20v2H6.5A2.5 2.5 0 014 19.5zM4 5.5A2.5 2.5 0 016.5 3H20v2H6.5A2.5 2.5 0 014 5.5z"/></symbol>
+            <symbol id="icon-dice-category" viewBox="0 0 24 24"><path d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM9.5 14.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></symbol>
+            <symbol id="icon-cards-category" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"/></symbol>
+            <symbol id="icon-guides-category" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20v2H6.5A2.5 2.5 0 014 19.5zM4 5.5A2.5 2.5 0 016.5 3H20v2H6.5A2.5 2.5 0 014 5.5z"/></symbol>
+            <symbol id="icon-printables-category" viewBox="0 0 24 24"><path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+            
+            <!-- Specific Resources -->
+            <symbol id="icon-quick-start" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></symbol>
+            <symbol id="icon-prof-dev" viewBox="0 0 24 24"><path d="M3 13l6-6 4 4 8-8"/></symbol>
+            <symbol id="icon-feedback" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></symbol>
+            <symbol id="icon-cover-page" viewBox="0 0 24 24"><path d="M9 4.5a3.5 3.5 0 00-3.5 3.5v9A3.5 3.5 0 009 20.5h6a3.5 3.5 0 003.5-3.5v-9A3.5 3.5 0 0015 4.5h-1.5v1a1 1 0 01-2 0v-1H9z" opacity=".4"/><path d="M12 3.5c-2 0-3.5 1.5-3.5 3.5s2.5 4.5 3.5 6c1-1.5 3.5-3.5 3.5-6S14 3.5 12 3.5z"/></symbol>
+            <symbol id="icon-welcome" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></symbol>
+            <symbol id="icon-dice-instructions" viewBox="0 0 24 24"><path d="M16 4H8a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V6a2 2 0 00-2-2zM12.5 15.5a1 1 0 11-2 0 1 1 0 012 0zM17 8H3m4 4H3m4 4H3"/></symbol>
+            <symbol id="icon-exploration" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></symbol>
+            <symbol id="icon-scenarios" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a3.001 3.001 0 015.688 0M12 12a3 3 0 100-6 3 3 0 000 6z"/></symbol>
+            <symbol id="icon-family" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+            <symbol id="icon-assessment" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></symbol>
+            <symbol id="icon-advanced" viewBox="0 0 24 24"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h8a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.903 16s.47-2 3.097-2h2c2.627 0 3.097 2 3.097 2M12 12a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/><path d="M12 3.5c-3 0-5.5 2-5.5 5.5s4 6.5 5.5 9c1.5-2.5 5.5-5.5 5.5-9S15 3.5 12 3.5z" opacity=".4"/></symbol>
+            <symbol id="icon-integration" viewBox="0 0 24 24"><path d="M4 12h16M4 18h16M4 6h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".4"/><path d="M12 4v16m8-12l-8 8-8-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+            <symbol id="icon-digital" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></symbol>
+            <symbol id="icon-glossary" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></symbol>
+            <symbol id="icon-scenario-instructions" viewBox="0 0 24 24"><path d="M15 21l-5-4-5 4V7a2 2 0 012-2h6a2 2 0 012 2v14zM17 8H3m4 4H3m4 4H3"/></symbol>
+            <symbol id="icon-blank-template" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+            
+            <!-- Timer and Settings Icons -->
+            <symbol id="icon-timer" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12 6v6l4 2"/></symbol>
+            <symbol id="icon-settings" viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00-.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09a1.65 1.65 0 00-1-1.51z"/></symbol>
         </defs>
     </svg>
     
@@ -908,14 +983,14 @@
         <!-- Classroom Activities Section -->
         <section class="collapsible-section">
             <div class="section-header" onclick="toggleSection('classroom-activities')">
-                <h2><img src="valentine-2017/png-128/love-128x128-75953.png" alt="Classroom" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Your FeelReady Teaching Tools</h2>
+                <h2><svg class="icon icon-category" aria-hidden="true" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;"><use href="#icon-teaching-tools" /></svg>Your FeelReady Teaching Tools</h2>
                 <span class="toggle-icon">▼</span>
             </div>
             <div class="section-content" id="classroom-activities">
                 <div class="resources-grid">
                     <div class="resource-category">
                         <div class="category-header">
-                            <img src="valentine-2017/png-128/target-128x128-75973.png" alt="Timer" class="category-icon">
+                            <svg class="icon icon-category" aria-hidden="true"><use href="#icon-timer" /></svg>
                             <span>Timer Settings</span>
                         </div>
                         <div class="timer-controls">
@@ -930,47 +1005,47 @@
                     
                     <div class="resource-category">
                         <div class="category-header">
-                                                            <img src="valentine-2017/png-128/love-128x128-75956.png" alt="Dice" class="category-icon">
+                                                            <svg class="icon icon-category" aria-hidden="true"><use href="#icon-dice-category" /></svg>
                             <span>Dice Resources</span>
                         </div>
                         <div class="resources-grid">
                             <div class="activity-card" onclick="openClassroom('dice', 'Emotions & Feelings Dice.html')">
-                                <img src="valentine-2017/png-128/heart-128x128-75953.png" alt="Emotions" class="card-icon dice-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-awareness" /></svg>
                                 <div class="card-title">Emotions & Feelings Dice</div>
                                 <div class="card-description">Guide students to recognize and express their feelings with confidence</div>
                                 <span class="card-tag sel-tag self-awareness">Self-Awareness</span>
                             </div>
                             
                             <div class="activity-card" onclick="openClassroom('dice', 'Empathy & Kindness Dice.html')">
-                                <img src="valentine-2017/png-128/love-128x128-75955.png" alt="Empathy" class="card-icon dice-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-social-awareness" /></svg>
                                 <div class="card-title">Empathy & Kindness Dice</div>
                                 <div class="card-description">Nurture empathy and kindness in your classroom community</div>
                                 <span class="card-tag sel-tag social-awareness">Social Awareness</span>
                             </div>
                             
                             <div class="activity-card" onclick="openClassroom('dice', 'Friendship & Social Skills Dice.html')">
-                                <img src="valentine-2017/png-128/love-128x128-75962.png" alt="Friendship" class="card-icon dice-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-relationship-skills" /></svg>
                                 <div class="card-title">Friendship & Social Skills Dice</div>
                                 <div class="card-description">Strengthen friendships and social connections through meaningful activities</div>
                                 <span class="card-tag sel-tag relationship-skills">Relationship Skills</span>
                             </div>
                             
                             <div class="activity-card" onclick="openClassroom('dice', 'Coping Strategies Dice.html')">
-                                <img src="valentine-2017/png-128/love-128x128-75963.png" alt="Coping" class="card-icon dice-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-management" /></svg>
                                 <div class="card-title">Coping Strategies Dice</div>
                                 <div class="card-description">Empower students with practical strategies for emotional regulation</div>
                                 <span class="card-tag sel-tag self-management">Self-Management</span>
                             </div>
                             
                             <div class="activity-card" onclick="openClassroom('dice', 'Problem Solving Dice.html')">
-                                <img src="valentine-2017/png-128/love-128x128-75964.png" alt="Problem Solving" class="card-icon dice-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-decision-making" /></svg>
                                 <div class="card-title">Problem Solving Dice</div>
                                 <div class="card-description">Guide students toward thoughtful choices and responsible actions</div>
                                 <span class="card-tag sel-tag responsible-decision-making">Responsible Decision-Making</span>
                             </div>
                             
                             <div class="activity-card" onclick="openClassroom('dice', 'Self-Awareness Dice.html')">
-                                <img src="valentine-2017/png-128/love-128x128-75965.png" alt="Self-Awareness" class="card-icon dice-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-awareness" /></svg>
                                 <div class="card-title">Self-Awareness Dice</div>
                                 <div class="card-description">Help students discover and celebrate their unique qualities</div>
                                 <span class="card-tag sel-tag self-awareness">Self-Awareness</span>
@@ -980,47 +1055,47 @@
                     
                     <div class="resource-category">
                         <div class="category-header">
-                            <img src="valentine-2017/png-128/valentine-128x128-75957.png" alt="Cards" class="category-icon">
+                            <svg class="icon icon-category" aria-hidden="true"><use href="#icon-cards-category" /></svg>
                             <span>Scenario Cards</span>
                         </div>
                         <div class="resources-grid">
                             <div class="activity-card" onclick="openClassroom('scenarios', 'All-Scenario-Cards.html')">
-                                <img src="valentine-2017/png-128/valentine-128x128-75957.png" alt="All Cards" class="card-icon card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-cards-category" /></svg>
                                 <div class="card-title">All Scenario Cards</div>
                                 <div class="card-description">Comprehensive scenarios to support every aspect of emotional growth</div>
                                 <span class="card-tag sel-tag all-competencies">All SEL Competencies</span>
                             </div>
                             
                             <div class="activity-card" onclick="openClassroom('scenarios', 'Scenario Cards 1.html')">
-                                <img src="valentine-2017/png-128/heart-128x128-75953.png" alt="Cards 1" class="card-icon card-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-awareness" /></svg>
                                 <div class="card-title">Scenario Cards 1 (1-6)</div>
                                 <div class="card-description">Scenarios that help students understand themselves better</div>
                                 <span class="card-tag sel-tag self-awareness">Self-Awareness</span>
                             </div>
                             
                             <div class="activity-card" onclick="openClassroom('scenarios', 'Scenario Cards 2.html')">
-                                <img src="valentine-2017/png-128/love-128x128-75955.png" alt="Cards 2" class="card-icon card-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-social-awareness" /></svg>
                                 <div class="card-title">Scenario Cards 2 (7-12)</div>
                                 <div class="card-description">Scenarios that build empathy and understanding of others</div>
                                 <span class="card-tag sel-tag social-awareness">Social Awareness</span>
                             </div>
                             
                             <div class="activity-card" onclick="openClassroom('scenarios', 'Scenario Cards 3.html')">
-                                <img src="valentine-2017/png-128/love-128x128-75963.png" alt="Cards 3" class="card-icon card-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-management" /></svg>
                                 <div class="card-title">Scenario Cards 3 (13-18)</div>
                                 <div class="card-description">Scenarios that teach emotional regulation and self-control</div>
                                 <span class="card-tag sel-tag self-management">Self-Management</span>
                             </div>
                             
                             <div class="activity-card" onclick="openClassroom('scenarios', 'Scenario Cards 4.html')">
-                                <img src="valentine-2017/png-128/love-128x128-75962.png" alt="Cards 4" class="card-icon card-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-relationship-skills" /></svg>
                                 <div class="card-title">Scenario Cards 4 (19-24)</div>
                                 <div class="card-description">Scenarios that strengthen communication and collaboration</div>
                                 <span class="card-tag sel-tag relationship-skills">Relationship Skills</span>
                             </div>
                             
                             <div class="activity-card" onclick="openClassroom('scenarios', 'Scenario Cards 5.html')">
-                                <img src="valentine-2017/png-128/love-128x128-75964.png" alt="Cards 5" class="card-icon card-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-decision-making" /></svg>
                                 <div class="card-title">Scenario Cards 5 (25-30)</div>
                                 <div class="card-description">Scenarios that guide thoughtful choices and ethical thinking</div>
                                 <span class="card-tag sel-tag responsible-decision-making">Responsible Decision-Making</span>
@@ -1034,103 +1109,103 @@
         <!-- Toolkit Resources Section -->
         <section class="collapsible-section">
             <div class="section-header" onclick="toggleSection('toolkit-resources')">
-                <h2><img src="valentine-2017/png-128/gift-128x128-75983.png" alt="Toolkit" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;">Your FeelReady Resource Library</h2>
+                <h2><svg class="icon icon-category" aria-hidden="true" style="width: 24px; height: 24px; vertical-align: middle; margin-right: 8px;"><use href="#icon-resource-library" /></svg>Your FeelReady Resource Library</h2>
                 <span class="toggle-icon">▼</span>
             </div>
             <div class="section-content" id="toolkit-resources">
                 <div class="resources-grid">
                     <div class="resource-category">
                         <div class="category-header">
-                            <img src="valentine-2017/png-128/gift-128x128-75986.png" alt="Guides" class="category-icon">
+                            <svg class="icon icon-category" aria-hidden="true"><use href="#icon-guides-category" /></svg>
                             <span>Guides & Instructions</span>
                         </div>
                         <div class="resources-grid">
                             <div class="activity-card" onclick="openFile('educator-quick-start-guide.html')">
-                                <img src="valentine-2017/png-128/love-128x128-75967.png" alt="Quick Start" class="card-icon plane-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-quick-start" /></svg>
                                 <div class="card-title">Quick Start Guide</div>
                                 <div class="card-description">Your essential companion for confident SEL teaching</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('sel-professional-development.html')">
-                                <img src="valentine-2017/png-128/love-128x128-75970.png" alt="Professional Development" class="card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-prof-dev" /></svg>
                                 <div class="card-title">Professional Development</div>
                                 <div class="card-description">Build your expertise with proven SEL strategies</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('educator-feedback-form.html')">
-                                <img src="valentine-2017/png-128/heart-128x128-75953.png" alt="Feedback" class="card-icon heart-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-feedback" /></svg>
                                 <div class="card-title">Feedback Form</div>
                                 <div class="card-description">Help us grow together - share your valuable insights</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Page 1 - Cover.html')">
-                                <img src="origami-3/png-128/origami-crane-128x128-3262038.png" alt="Cover" class="card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-cover-page" /></svg>
                                 <div class="card-title">Cover Page</div>
                                 <div class="card-description">Welcome to your FeelReady journey</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Page 2 - Welcome to Your Interactive SEL Toolkit.html')">
-                                <img src="origami-3/png-128/origami-dove-128x128-3262043.png" alt="Welcome" class="card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-welcome" /></svg>
                                 <div class="card-title">Welcome Guide</div>
                                 <div class="card-description">Begin your FeelReady adventure with confidence</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Page 3 - Discussion Dice How They Work.html')">
-                                <img src="origami-63/png-128/shuriken-128x128-12480706.png" alt="Dice Instructions" class="card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-dice-instructions" /></svg>
                                 <div class="card-title">Dice Instructions</div>
                                 <div class="card-description">Master the art of engaging dice-based discussions</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Page 4 - Emotion Exploration Dice.html')">
-                                <img src="origami-63/png-128/heart-128x128-12480667.png" alt="Emotion Exploration" class="card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-exploration" /></svg>
                                 <div class="card-title">Emotion Exploration</div>
                                 <div class="card-description">Guide students through emotional discovery and expression</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Page 5 - Social Scenarios Dice.html')">
-                                <img src="origami-3/png-128/origami-butter-fly-128x128-3262035.png" alt="Social Scenarios" class="card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-scenarios" /></svg>
                                 <div class="card-title">Social Scenarios</div>
                                 <div class="card-description">Connect learning to real-life social experiences</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Page 6 - Family Connection Activities.html')">
-                                <img src="origami-63/png-128/heart-128x128-12480667.png" alt="Family Connections" class="card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-family" /></svg>
                                 <div class="card-title">Family Connections</div>
                                 <div class="card-description">Strengthen the bridge between classroom and home</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Page 7 - Assessment & Reflection Tools.html')">
-                                <img src="origami-63/png-128/star-128x128-12480709.png" alt="Assessment Tools" class="card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-assessment" /></svg>
                                 <div class="card-title">Assessment Tools</div>
                                 <div class="card-description">Track and celebrate your students' emotional growth</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Page 8 - Advanced SEL Concepts.html')">
-                                <img src="origami-63/png-128/fox-128x128-12480681.png" alt="Advanced Concepts" class="card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-advanced" /></svg>
                                 <div class="card-title">Advanced Concepts</div>
                                 <div class="card-description">Explore advanced concepts to deepen your SEL expertise</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Page 9 - Integrating SEL Across the Curriculum.html')">
-                                <img src="origami-3/png-128/origami-leaf-128x128-3262058.png" alt="Curriculum Integration" class="card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-integration" /></svg>
                                 <div class="card-title">Curriculum Integration</div>
                                 <div class="card-description">Seamlessly weave SEL into your existing curriculum</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Page 10 - Digital Resources & Extensions.html')">
-                                <img src="origami-3/png-128/origami-flying-bird-128x128-3262051.png" alt="Digital Resources" class="card-icon plane-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-digital" /></svg>
                                 <div class="card-title">Digital Resources</div>
                                 <div class="card-description">Discover digital resources to enhance your SEL practice</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Page 11 - Glossary & Index.html')">
-                                <img src="origami-3/png-128/origami-owl-128x128-3262060.png" alt="Glossary" class="card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-glossary" /></svg>
                                 <div class="card-title">Glossary & Index</div>
                                 <div class="card-description">Your go-to reference for SEL terminology and concepts</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Scenario Card Instructions.html')">
-                                <img src="origami-3/png-128/origami-pin-wheel-128x128-3262063.png" alt="Scenario Instructions" class="card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-scenario-instructions" /></svg>
                                 <div class="card-title">Scenario Card Instructions</div>
                                 <div class="card-description">Learn to facilitate powerful scenario-based discussions</div>
                             </div>
@@ -1139,90 +1214,90 @@
                     
                     <div class="resource-category">
                         <div class="category-header">
-                            <img src="valentine-2017/png-128/valentine-128x128-75978.png" alt="Printables" class="category-icon">
+                            <svg class="icon icon-category" aria-hidden="true"><use href="#icon-printables-category" /></svg>
                             <span>Printable Resources</span>
                         </div>
                         <div class="resources-grid">
                             <div class="activity-card" onclick="openFile('Blank Dice.html')">
-                                <img src="origami-63/png-128/shuriken-128x128-12480706.png" alt="Blank Dice" class="card-icon dice-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-blank-template" /></svg>
                                 <div class="card-title">Blank Dice Template</div>
                                 <div class="card-description">Design personalized dice for your unique classroom needs</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Blank Scenario Cards.html')">
-                                <img src="origami-3/png-128/origami-boat-128x128-3262033.png" alt="Blank Cards" class="card-icon card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-blank-template" /></svg>
                                 <div class="card-title">Blank Scenario Cards</div>
                                 <div class="card-description">Craft scenarios that resonate with your students' experiences</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('All-Scenario-Cards.html')">
-                                <img src="origami-3/png-128/origami-flower-128x128-3262048.png" alt="All Cards" class="card-icon card-icon">
+                                <svg class="icon" aria-hidden="true"><use href="#icon-cards-category" /></svg>
                                 <div class="card-title">All Scenario Cards (Printable)</div>
                                 <div class="card-description">Ready-to-print collection for your classroom</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Scenario Cards 1.html')">
-                                <img src="origami-63/png-128/heart-128x128-12480667.png" alt="Cards 1" class="card-icon card-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-awareness" /></svg>
                                 <div class="card-title">Scenario Cards 1 (Printable)</div>
                                 <div class="card-description">Self-awareness scenarios</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Scenario Cards 2.html')">
-                                <img src="origami-63/png-128/dove-128x128-12480668.png" alt="Cards 2" class="card-icon card-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-social-awareness" /></svg>
                                 <div class="card-title">Scenario Cards 2 (Printable)</div>
                                 <div class="card-description">Social awareness scenarios</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Scenario Cards 3.html')">
-                                <img src="origami-63/png-128/mountain-128x128-12480689.png" alt="Cards 3" class="card-icon card-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-management" /></svg>
                                 <div class="card-title">Scenario Cards 3 (Printable)</div>
                                 <div class="card-description">Self-management scenarios</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Scenario Cards 4.html')">
-                                <img src="origami-63/png-128/butterfly-128x128-12480670.png" alt="Cards 4" class="card-icon card-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-relationship-skills" /></svg>
                                 <div class="card-title">Scenario Cards 4 (Printable)</div>
                                 <div class="card-description">Relationship skills scenarios</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Scenario Cards 5.html')">
-                                <img src="origami-63/png-128/fox-128x128-12480681.png" alt="Cards 5" class="card-icon card-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-decision-making" /></svg>
                                 <div class="card-title">Scenario Cards 5 (Printable)</div>
                                 <div class="card-description">Responsible decision-making scenarios</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Emotions & Feelings Dice.html')">
-                                <img src="origami-63/png-128/heart-128x128-12480667.png" alt="Emotions Dice" class="card-icon dice-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-awareness" /></svg>
                                 <div class="card-title">Emotions & Feelings Dice</div>
                                 <div class="card-description">Printable emotions dice template</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Empathy & Kindness Dice.html')">
-                                <img src="origami-63/png-128/dove-128x128-12480668.png" alt="Empathy Dice" class="card-icon dice-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-social-awareness" /></svg>
                                 <div class="card-title">Empathy & Kindness Dice</div>
                                 <div class="card-description">Printable empathy dice template</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Friendship & Social Skills Dice.html')">
-                                <img src="origami-63/png-128/butterfly-128x128-12480670.png" alt="Friendship Dice" class="card-icon dice-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-relationship-skills" /></svg>
                                 <div class="card-title">Friendship & Social Skills Dice</div>
                                 <div class="card-description">Printable friendship dice template</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Coping Strategies Dice.html')">
-                                <img src="origami-63/png-128/mountain-128x128-12480689.png" alt="Coping Dice" class="card-icon dice-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-management" /></svg>
                                 <div class="card-title">Coping Strategies Dice</div>
                                 <div class="card-description">Printable coping strategies dice template</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Problem Solving Dice.html')">
-                                <img src="origami-63/png-128/fox-128x128-12480681.png" alt="Problem Solving Dice" class="card-icon dice-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-decision-making" /></svg>
                                 <div class="card-title">Problem Solving Dice</div>
                                 <div class="card-description">Printable problem solving dice template</div>
                             </div>
                             
                             <div class="activity-card" onclick="openFile('Self-Awareness Dice.html')">
-                                <img src="origami-63/png-128/star-128x128-12480710.png" alt="Self-Awareness Dice" class="card-icon dice-icon">
+                                <svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-awareness" /></svg>
                                 <div class="card-title">Self-Awareness Dice</div>
                                 <div class="card-description">Printable self-awareness dice template</div>
                             </div>

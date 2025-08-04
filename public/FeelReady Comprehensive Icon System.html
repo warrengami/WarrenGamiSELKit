@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FeelReady - Final Icon System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --grounded-indigo: #4C518C; --empathetic-rose: #D87BAA; --illuminating-marigold: #FFC759;
+            --misty-white: #F9FAFB; --neutral-border: #F0F2F4; --slate-charcoal: #333F48;
+            --slate-charcoal-light: #52606D; --white: #FFFFFF;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--misty-white); color: var(--slate-charcoal); padding: 2rem; }
+        .container { max-width: 1400px; margin: 0 auto; background: var(--white); padding: 3rem; border-radius: 24px; box-shadow: 0 10px 40px rgba(51, 63, 72, 0.08); }
+        header { text-align: center; margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--neutral-border); }
+        h1 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 2.5rem; margin-bottom: 0.5rem; color: var(--grounded-indigo); }
+        .intro { font-size: 1.1rem; color: var(--slate-charcoal-light); max-width: 700px; margin: 0 auto; line-height: 1.6; }
+        .icon-section { margin-bottom: 3rem; }
+        h2 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.8rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--neutral-border); display: flex; align-items: center; gap: 0.75em; color: var(--grounded-indigo); }
+        .icon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+        .icon-card { background-color: var(--misty-white); border: 1px solid var(--neutral-border); border-radius: 16px; padding: 1.5rem; text-align: center; transition: all 0.3s ease; }
+        .icon-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(51, 63, 72, 0.1); }
+        .icon-display { padding: 1.5rem; margin-bottom: 1rem; font-size: 2rem; display: flex; align-items: center; justify-content: center; }
+        .icon-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; font-weight: 600; min-height: 2.5em; }
+        
+        /* Icon Styles */
+        .icon { display: inline-block; width: 1.2em; height: 1.2em; fill: var(--slate-charcoal-light); stroke: none; vertical-align: middle; }
+        .icon-category { fill: var(--grounded-indigo); }
+        .icon-gradient { fill: url(#spark-gradient-v9); }
+    </style>
+</head>
+<body>
+
+    <!-- Master FeelReady SVG Icon Sprite (Final Version) -->
+    <svg width="0" height="0" style="position:absolute">
+      <defs>
+        <linearGradient id="spark-gradient-v9" x1="50%" y1="100%" x2="50%" y2="0%">
+            <stop offset="0%" stop-color="var(--grounded-indigo)"/><stop offset="50%" stop-color="var(--empathetic-rose)"/><stop offset="100%" stop-color="var(--illuminating-marigold)"/>
+        </linearGradient>
+      
+        <!-- Core SEL Competencies -->
+        <symbol id="icon-self-awareness" viewBox="0 0 24 24"><path d="M12 3.5c-3 0-5.5 2-5.5 5.5s4 6.5 5.5 9c1.5-2.5 5.5-5.5 5.5-9S15 3.5 12 3.5z"/></symbol>
+        <symbol id="icon-self-management" viewBox="0 0 24 24"><path d="M12 21.23l-1.06-1.06a5.5 5.5 0 010-7.78l1.06-1.06 1.06 1.06a5.5 5.5 0 010 7.78L12 21.23z" opacity=".4"/><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></symbol>
+        <symbol id="icon-social-awareness" viewBox="0 0 24 24"><path d="M12 12a5 5 0 100-10 5 5 0 000 10z" opacity=".4"/><path d="M12 14c-3.86 0-7 1.79-7 4v2h14v-2c0-2.21-3.14-4-7-4z"/><path d="M18.5 3.5c-1 0-2 1-2 2.5s2.5 4 4 5.5c1-1.5 4-3.5 4-5.5s-1.5-2.5-2-2.5z"/></symbol>
+        <symbol id="icon-relationship-skills" viewBox="0 0 24 24"><path d="M10 17a4 4 0 11-4-4c0 2.5 2 4.5 4 6.5s4.5 1.5 6.5-1a4 4 0 11-4 4c0-2.5-2-4.5-4-6.5s-4.5-1.5-6.5 1z"/></symbol>
+        <symbol id="icon-decision-making" viewBox="0 0 24 24"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" opacity=".4"/><path d="M12 3.5c-3 0-5.5 2-5.5 5.5s4 6.5 5.5 9c1.5-2.5 5.5-5.5 5.5-9S15 3.5 12 3.5z"/></symbol>
+        
+        <!-- Category Headers -->
+        <symbol id="icon-get-ready" viewBox="0 0 24 24"><path d="M12 3.5c-3 0-5.5 2-5.5 5.5s4 6.5 5.5 9c1.5-2.5 5.5-5.5 5.5-9S15 3.5 12 3.5z"/><path d="M5 21a10 10 0 018-4 3 3 0 01-5-1.5 3 3 0 01-6 0 3 3 0 01-5 1.5 10 10 0 018 4z" opacity=".6"/></symbol>
+        <symbol id="icon-teaching-tools" viewBox="0 0 24 24"><path d="M22 7l-10 5-10-5 10-5 10 5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+        <symbol id="icon-resource-library" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20v2H6.5A2.5 2.5 0 014 19.5zM4 5.5A2.5 2.5 0 016.5 3H20v2H6.5A2.5 2.5 0 014 5.5z"/></symbol>
+        <symbol id="icon-dice-category" viewBox="0 0 24 24"><path d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM9.5 14.5a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm5 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></symbol>
+        <symbol id="icon-cards-category" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2v16z"/></symbol>
+        <symbol id="icon-guides-category" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20v2H6.5A2.5 2.5 0 014 19.5zM4 5.5A2.5 2.5 0 016.5 3H20v2H6.5A2.5 2.5 0 014 5.5z"/></symbol>
+        <symbol id="icon-printables-category" viewBox="0 0 24 24"><path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+        
+        <!-- Specific Resources -->
+        <symbol id="icon-quick-start" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></symbol>
+        <symbol id="icon-prof-dev" viewBox="0 0 24 24"><path d="M3 13l6-6 4 4 8-8"/></symbol>
+        <symbol id="icon-feedback" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></symbol>
+        <symbol id="icon-cover-page" viewBox="0 0 24 24"><path d="M9 4.5a3.5 3.5 0 00-3.5 3.5v9A3.5 3.5 0 009 20.5h6a3.5 3.5 0 003.5-3.5v-9A3.5 3.5 0 0015 4.5h-1.5v1a1 1 0 01-2 0v-1H9z" opacity=".4"/><path d="M12 3.5c-2 0-3.5 1.5-3.5 3.5s2.5 4.5 3.5 6c1-1.5 3.5-3.5 3.5-6S14 3.5 12 3.5z"/></symbol>
+        <symbol id="icon-welcome" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></symbol>
+        <symbol id="icon-dice-instructions" viewBox="0 0 24 24"><path d="M16 4H8a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V6a2 2 0 00-2-2zM12.5 15.5a1 1 0 11-2 0 1 1 0 012 0zM17 8H3m4 4H3m4 4H3"/></symbol>
+        <symbol id="icon-exploration" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></symbol>
+        <symbol id="icon-scenarios" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a3.001 3.001 0 015.688 0M12 12a3 3 0 100-6 3 3 0 000 6z"/></symbol>
+        <symbol id="icon-family" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+        <symbol id="icon-assessment" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></symbol>
+        <symbol id="icon-advanced" viewBox="0 0 24 24"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2h8a2 2 0 002-2v-1a2 2 0 012-2h1.945M7.903 16s.47-2 3.097-2h2c2.627 0 3.097 2 3.097 2M12 12a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"/><path d="M12 3.5c-3 0-5.5 2-5.5 5.5s4 6.5 5.5 9c1.5-2.5 5.5-5.5 5.5-9S15 3.5 12 3.5z" opacity=".4"/></symbol>
+        <symbol id="icon-integration" viewBox="0 0 24 24"><path d="M4 12h16M4 18h16M4 6h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".4"/><path d="M12 4v16m8-12l-8 8-8-8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+        <symbol id="icon-digital" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></symbol>
+        <symbol id="icon-glossary" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></symbol>
+        <symbol id="icon-scenario-instructions" viewBox="0 0 24 24"><path d="M15 21l-5-4-5 4V7a2 2 0 012-2h6a2 2 0 012 2v14zM17 8H3m4 4H3m4 4H3"/></symbol>
+        <symbol id="icon-blank-template" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></symbol>
+      </defs>
+    </svg>
+
+    <div class="container">
+        <header>
+            <h1>FeelReady Comprehensive Icon System</h1>
+            <p class="intro">A complete and cohesive set of custom icons for the FeelReady SEL Toolkit, designed to be clear, supportive, and emotionally resonant, extending the "Compassionate Spark" brand identity.</p>
+        </header>
+
+        <section class="icon-section">
+            <h2><svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-awareness" /></svg> Core SEL Competency Icons</h2>
+            <div class="icon-grid">
+                <div class="icon-card"><div class="icon-display"><svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-awareness" /></svg></div><h4 class="icon-name">Self-Awareness</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-self-management" /></svg></div><h4 class="icon-name">Self-Management</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-social-awareness" /></svg></div><h4 class="icon-name">Social Awareness</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-relationship-skills" /></svg></div><h4 class="icon-name">Relationship Skills</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon icon-gradient" aria-hidden="true"><use href="#icon-decision-making" /></svg></div><h4 class="icon-name">Decision-Making</h4></div>
+            </div>
+        </section>
+
+        <section class="icon-section">
+            <h2><svg class="icon icon-category" aria-hidden="true"><use href="#icon-guides-category" /></svg> Guides & Instructions</h2>
+            <div class="icon-grid">
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-quick-start" /></svg></div><h4 class="icon-name">Quick Start Guide</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-prof-dev" /></svg></div><h4 class="icon-name">Professional Development</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-feedback" /></svg></div><h4 class="icon-name">Feedback Form</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-cover-page" /></svg></div><h4 class="icon-name">Cover Page</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-welcome" /></svg></div><h4 class="icon-name">Welcome Guide</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-dice-instructions" /></svg></div><h4 class="icon-name">Dice Instructions</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-exploration" /></svg></div><h4 class="icon-name">Emotion Exploration</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-scenarios" /></svg></div><h4 class="icon-name">Social Scenarios</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-family" /></svg></div><h4 class="icon-name">Family Connections</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-assessment" /></svg></div><h4 class="icon-name">Assessment Tools</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-advanced" /></svg></div><h4 class="icon-name">Advanced Concepts</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-integration" /></svg></div><h4 class="icon-name">Curriculum Integration</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-digital" /></svg></div><h4 class="icon-name">Digital Resources</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-glossary" /></svg></div><h4 class="icon-name">Glossary & Index</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-scenario-instructions" /></svg></div><h4 class="icon-name">Scenario Card Instructions</h4></div>
+            </div>
+        </section>
+        
+        <section class="icon-section">
+            <h2><svg class="icon icon-category" aria-hidden="true"><use href="#icon-printables-category" /></svg> Printable Resources</h2>
+            <div class="icon-grid">
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-blank-template" /></svg></div><h4 class="icon-name">Blank Dice Template</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-blank-template" /></svg></div><h4 class="icon-name">Blank Scenario Cards</h4></div>
+                <div class="icon-card"><div class="icon-display"><svg class="icon" aria-hidden="true"><use href="#icon-cards-category" /></svg></div><h4 class="icon-name">All Scenario Cards (Printable)</h4></div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
