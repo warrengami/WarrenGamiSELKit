@@ -287,6 +287,7 @@
             border: 2px solid var(--soft-blue);
             transition: all 0.3s ease;
             backface-visibility: hidden;
+            overflow: hidden;
         }
         
         .dice .face:hover {
@@ -307,6 +308,44 @@
         .dice.show-4 { transform: rotateY(90deg); }
         .dice.show-5 { transform: rotateX(-90deg); }
         .dice.show-6 { transform: rotateX(90deg); }
+        
+        /* Lottie Animation Container */
+        .lottie-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+        
+        .lottie-container.visible {
+            pointer-events: auto;
+        }
+        
+        /* Prompt Display Inside Cube */
+        .prompt-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.4;
+            font-weight: 600;
+            color: var(--text-dark);
+            z-index: 5;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.1);
+        }
         
         @keyframes enhanced-dice-roll {
             0% { 
@@ -712,6 +751,7 @@
         <div style="font-size: 1rem; margin-top: 10px;">Activity completed</div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <script src="dice-navigation.js"></script>
     <script src="classroom.js"></script>
     <script src="classroom-enhanced-scenarios.js"></script>

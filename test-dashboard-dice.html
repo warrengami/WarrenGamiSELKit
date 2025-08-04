@@ -230,6 +230,7 @@
             border: 2px solid var(--soft-blue);
             transition: all 0.3s ease;
             backface-visibility: hidden;
+            overflow: hidden;
         }
         
         .dice .face:hover {
@@ -251,31 +252,45 @@
         .dice.show-5 { transform: rotateX(-90deg); }
         .dice.show-6 { transform: rotateX(90deg); }
         
-        #prompt-result {
-            margin-top: 1.5rem;
-            font-size: 1.4rem;
-            font-weight: 600;
-            text-align: center;
-            height: 3em;
-            color: var(--text-dark);
-            background: var(--paper-white);
-            padding: 1rem 1.5rem;
-            border-radius: var(--card-border-radius);
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--soft-blue);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        #prompt-result::before {
-            content: '';
+        /* Lottie Animation Container */
+        .lottie-container {
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--section-gradient);
-            opacity: 0.3;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .lottie-container.visible {
+            pointer-events: auto;
+            opacity: 1;
+        }
+        
+        /* Prompt Display Inside Cube */
+        .prompt-display {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            height: 80%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 1.4;
+            font-weight: 600;
+            color: var(--text-dark);
+            z-index: 5;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.1);
         }
         
         @keyframes enhanced-dice-roll {
@@ -588,6 +603,7 @@
         <div style="font-size: 1rem; margin-top: 10px;">Activity completed</div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <script>
         // Sample prompts for testing
         const samplePrompts = [
@@ -624,8 +640,15 @@
                     <div class="dice-scene">
                         <div class="dice" id="dashboard-dice">
                             ${samplePrompts.slice(0, 6).map((prompt, i) => 
-                                `<div class="face face-${i + 1}">${prompt}</div>`
+                                `<div class="face face-${i + 1}">
+                                    <div class="prompt-display">${prompt}</div>
+                                </div>`
                             ).join('')}
+                        </div>
+                        
+                        <!-- Lottie Animation Container -->
+                        <div class="lottie-container" id="lottie-container">
+                            <div id="lottie-animation"></div>
                         </div>
                     </div>
                     
@@ -666,14 +689,55 @@
             const promptText = document.getElementById('dice-prompt-text');
             const resultDiv = document.getElementById('prompt-result');
             const progressTracker = document.getElementById('progress-tracker');
+            const lottieContainer = document.getElementById('lottie-container');
+            const lottieAnimation = document.getElementById('lottie-animation');
             
             if (!dice) return;
             
             // Clear any existing classes
             dice.className = 'dice';
             
-            // Add rolling animation
-            dice.classList.add('rolling');
+            // Show Lottie animation
+            if (lottieContainer) {
+                lottieContainer.classList.add('visible');
+            }
+            
+            // Load and play Lottie animation
+            try {
+                if (lottieAnimation && typeof lottie !== 'undefined') {
+                    // Load the Lottie animation
+                    const animation = lottie.loadAnimation({
+                        container: lottieAnimation,
+                        renderer: 'svg',
+                        loop: false,
+                        autoplay: true,
+                        path: 'icon-3D-cube-rotating.json' // Path to your Lottie file
+                    });
+                    
+                    // Wait for animation to complete
+                    animation.addEventListener('complete', () => {
+                        showDiceResult(dice, promptText, resultDiv, lottieContainer, progressTracker);
+                    });
+                    
+                    // Fallback if animation doesn't load
+                    setTimeout(() => {
+                        showDiceResult(dice, promptText, resultDiv, lottieContainer, progressTracker);
+                    }, 3000);
+                } else {
+                    // Fallback to CSS animation if Lottie fails
+                    dice.classList.add('rolling');
+                    setTimeout(() => {
+                        showDiceResult(dice, promptText, resultDiv, lottieContainer, progressTracker);
+                    }, 2500);
+                }
+            } catch (error) {
+                console.log('Lottie animation failed, using CSS fallback:', error);
+                // Fallback to CSS animation
+                dice.classList.add('rolling');
+                setTimeout(() => {
+                    showDiceResult(dice, promptText, resultDiv, lottieContainer, progressTracker);
+                }, 2500);
+            }
             
             // Show rolling state
             promptText.textContent = 'Rolling...';
@@ -683,7 +747,9 @@
             if (progressTracker) {
                 progressTracker.textContent = `Roll ${rollCount} of ${samplePrompts.length} prompts`;
             }
-            
+        }
+        
+        function showDiceResult(dice, promptText, resultDiv, lottieContainer, progressTracker) {
             // Randomly select a prompt
             const randomIndex = Math.floor(Math.random() * samplePrompts.length);
             const selectedPrompt = samplePrompts[randomIndex];
@@ -691,15 +757,18 @@
             // Calculate which face to show (1-6)
             const faceNumber = (randomIndex % 6) + 1;
             
-            // Stop rolling after animation
-            setTimeout(() => {
-                dice.classList.remove('rolling');
-                dice.className = `dice show-${faceNumber}`;
-                
-                // Show result with fade-in effect
-                fadeInText(promptText, selectedPrompt);
-                fadeInText(resultDiv, selectedPrompt);
-            }, 2500);
+            // Hide Lottie animation
+            if (lottieContainer) {
+                lottieContainer.classList.remove('visible');
+            }
+            
+            // Remove rolling class and show result
+            dice.classList.remove('rolling');
+            dice.className = `dice show-${faceNumber}`;
+            
+            // Show result with fade-in effect
+            fadeInText(promptText, selectedPrompt);
+            fadeInText(resultDiv, selectedPrompt);
         }
 
         // Fade in text with smooth transition

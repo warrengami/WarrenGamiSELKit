@@ -54,8 +54,15 @@ class DashboardDiceInterface {
                 <div class="dice-scene">
                     <div class="dice" id="dashboard-dice">
                         ${this.dicePrompts.slice(0, 6).map((prompt, i) => 
-                            `<div class="face face-${i + 1}">${this.escapeHtml(prompt)}</div>`
+                            `<div class="face face-${i + 1}">
+                                <div class="prompt-display">${this.escapeHtml(prompt)}</div>
+                            </div>`
                         ).join('')}
+                    </div>
+                    
+                    <!-- Lottie Animation Container -->
+                    <div class="lottie-container" id="lottie-container">
+                        <div id="lottie-animation"></div>
                     </div>
                 </div>
                 
@@ -81,7 +88,7 @@ class DashboardDiceInterface {
         window.showHelp = () => this.showHelp();
     }
 
-    // Enhanced dice roll with improved animations
+    // Enhanced dice roll with Lottie animation
     async rollDice() {
         if (this.isRolling) return;
         
@@ -89,18 +96,71 @@ class DashboardDiceInterface {
         const dice = document.getElementById('dashboard-dice');
         const promptText = document.getElementById('dice-prompt-text');
         const resultDiv = document.getElementById('prompt-result');
+        const lottieContainer = document.getElementById('lottie-container');
+        const lottieAnimation = document.getElementById('lottie-animation');
         
         if (!dice || !this.dicePrompts.length) return;
         
         // Clear any existing classes
         dice.className = 'dice';
         
-        // Add rolling animation
-        dice.classList.add('rolling');
+        // Show Lottie animation
+        if (lottieContainer) {
+            lottieContainer.classList.add('visible');
+        }
+        
+        // Load and play Lottie animation
+        try {
+            if (lottieAnimation) {
+                // Load the Lottie animation
+                const animation = lottie.loadAnimation({
+                    container: lottieAnimation,
+                    renderer: 'svg',
+                    loop: false,
+                    autoplay: true,
+                    path: 'icon-3D-cube-rotating.json' // Path to your Lottie file
+                });
+                
+                // Wait for animation to complete
+                animation.addEventListener('complete', () => {
+                    this.showDiceResult(dice, promptText, resultDiv, lottieContainer);
+                });
+                
+                // Fallback if animation doesn't load
+                setTimeout(() => {
+                    if (this.isRolling) {
+                        this.showDiceResult(dice, promptText, resultDiv, lottieContainer);
+                    }
+                }, 3000);
+            } else {
+                // Fallback to CSS animation if Lottie fails
+                dice.classList.add('rolling');
+                setTimeout(() => {
+                    this.showDiceResult(dice, promptText, resultDiv, lottieContainer);
+                }, 2500);
+            }
+        } catch (error) {
+            console.log('Lottie animation failed, using CSS fallback:', error);
+            // Fallback to CSS animation
+            dice.classList.add('rolling');
+            setTimeout(() => {
+                this.showDiceResult(dice, promptText, resultDiv, lottieContainer);
+            }, 2500);
+        }
         
         // Play sound if available
         this.playDiceSound();
         
+        // Show rolling state in prompt box
+        promptText.textContent = 'Rolling...';
+        
+        // Update progress
+        this.rollCount++;
+        this.updateProgressTracker();
+    }
+    
+    // Show dice result after animation
+    showDiceResult(dice, promptText, resultDiv, lottieContainer) {
         // Randomly select a prompt
         const randomIndex = Math.floor(Math.random() * this.dicePrompts.length);
         const selectedPrompt = this.dicePrompts[randomIndex];
@@ -109,36 +169,32 @@ class DashboardDiceInterface {
         // Calculate which face to show (1-6)
         const faceNumber = (randomIndex % 6) + 1;
         
-        // Show rolling state in prompt box
-        promptText.textContent = 'Rolling...';
+        // Hide Lottie animation
+        if (lottieContainer) {
+            lottieContainer.classList.remove('visible');
+        }
         
-        // Update progress
-        this.rollCount++;
-        this.updateProgressTracker();
+        // Remove rolling class and show result
+        dice.classList.remove('rolling');
+        dice.className = `dice show-${faceNumber}`;
         
-        // Stop rolling after animation
+        // Show result in prompt box with fade-in effect
+        this.fadeInText(promptText, selectedPrompt);
+        
+        // Show result in result div
+        this.fadeInText(resultDiv, selectedPrompt);
+        
+        // Add bounce effect
         setTimeout(() => {
-            dice.classList.remove('rolling');
-            dice.className = `dice show-${faceNumber}`;
-            
-            // Show result in prompt box with fade-in effect
-            this.fadeInText(promptText, selectedPrompt);
-            
-            // Show result in result div
-            this.fadeInText(resultDiv, selectedPrompt);
-            
-            // Add bounce effect
+            dice.classList.add('bounce');
             setTimeout(() => {
-                dice.classList.add('bounce');
-                setTimeout(() => {
-                    dice.classList.remove('bounce');
-                    dice.classList.add('settled');
-                    setTimeout(() => dice.classList.remove('settled'), 500);
-                }, 300);
-            }, 100);
-            
-            this.isRolling = false;
-        }, 2500);
+                dice.classList.remove('bounce');
+                dice.classList.add('settled');
+                setTimeout(() => dice.classList.remove('settled'), 500);
+            }, 300);
+        }, 100);
+        
+        this.isRolling = false;
     }
 
     // Fade in text with smooth transition
