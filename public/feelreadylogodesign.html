@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FeelReady Logo - v6 "Ascent" Concept</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* --- NEW: REFINED & TRUSTWORTHY COLOR PALETTE --- */
+        :root {
+            --base-teal: #2C6E7A; /* Deep, stable teal */
+            --apex-green: #A4F57B; /* Bright, successful green */
+            
+            --neutral-bg: #F8F9FA;
+            --neutral-border: #E9ECEF;
+            --neutral-text: #212529; /* Near-black for strong contrast */
+            --neutral-text-light: #6C757D;
+        }
+
+        body {
+            background-color: var(--neutral-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            gap: 4rem;
+            padding: 3rem;
+        }
+
+        /* Main Logo Container */
+        .hero-logo {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            position: relative;
+            padding: 2.5rem 3rem;
+        }
+
+        /* --- NEW: "THE ASCENT" SVG ICON --- */
+        .feelready-ascent-logo {
+            width: 90px;
+            height: 90px;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .hero-logo:hover .feelready-ascent-logo {
+            transform: scale(1.1);
+        }
+
+        /* Logotype */
+        .logo-text-hero {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 5.5rem;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: var(--neutral-text);
+        }
+
+        /* Tagline */
+        .tagline-hero {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--neutral-text-light);
+            text-align: center;
+            letter-spacing: 0.05em;
+            margin-top: -2rem;
+        }
+
+        /* Showcase Grid */
+        .luxury-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .showcase-card {
+            background: #FFFFFF;
+            border-radius: 24px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid var(--neutral-border);
+            box-shadow: 0 10px 30px rgba(44, 110, 122, 0.05);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .showcase-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(44, 110, 122, 0.1);
+        }
+
+        .showcase-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--neutral-text);
+            margin-bottom: 2rem;
+        }
+
+        /* Showcase Variations */
+        .stacked-premium .feelready-ascent-logo { width: 70px; height: 70px; margin-bottom: 1rem;}
+        .stacked-premium .logo-text-hero { font-size: 2.8rem; }
+
+        .app-icon-luxury {
+            width: 120px;
+            height: 120px;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            background-color: var(--neutral-text);
+            box-shadow: 0 15px 30px rgba(44, 110, 122, 0.2);
+            transition: all 0.4s ease;
+        }
+        
+        .app-icon-luxury:hover {
+            transform: scale(1.1);
+        }
+
+        .app-icon-luxury .feelready-ascent-logo { width: 80px; height: 80px; }
+
+        .compact-excellence {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .compact-excellence .feelready-ascent-logo { width: 50px; height: 50px; }
+        .compact-excellence .logo-text-hero { font-size: 2.2rem; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .logo-text-hero { font-size: 4.5rem; }
+        }
+        @media (max-width: 768px) {
+            .hero-logo { flex-direction: column; gap: 1.5rem; text-align: center; }
+            .logo-text-hero { font-size: 3.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SVG Definitions for reuse -->
+    <svg width="0" height="0" style="position:absolute">
+        <defs>
+            <!-- The new "Ascent" symbol -->
+            <symbol id="ascent-symbol" viewBox="0 0 100 100">
+                <path fill="var(--base-teal)" d="M10 90 L 50 10 L 90 90 L 10 90 Z" />
+                <path fill="var(--apex-green)" d="M50 10 L90 90 L70 90 L50 50 L30 90 L10 90 L50 10 Z" />
+            </symbol>
+        </defs>
+    </svg>
+
+    <!-- World-Class Hero Logo -->
+    <div class="hero-logo">
+        <svg class="feelready-ascent-logo">
+            <use href="#ascent-symbol" />
+        </svg>
+        <div class="logo-text-hero">FeelReady</div>
+    </div>
+    <div class="tagline-hero">From Insight to Impact.</div>
+
+    <!-- Luxury Showcase -->
+    <div class="luxury-showcase">
+        <div class="showcase-card">
+            <div class="showcase-title">Stacked</div>
+            <div class="stacked-premium">
+                <svg class="feelready-ascent-logo">
+                    <use href="#ascent-symbol" />
+                </svg>
+                <div class="logo-text-hero">FeelReady</div>
+            </div>
+        </div>
+
+        <div class="showcase-card">
+            <div class="showcase-title">App Icon</div>
+            <div class="app-icon-luxury">
+                 <svg class="feelready-ascent-logo">
+                    <use href="#ascent-symbol" />
+                </svg>
+            </div>
+        </div>
+
+        <div class="showcase-card">
+            <div class="showcase-title">Compact</div>
+            <div class="compact-excellence">
+                <svg class="feelready-ascent-logo">
+                    <use href="#ascent-symbol" />
+                </svg>
+                <div class="logo-text-hero">FeelReady</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
