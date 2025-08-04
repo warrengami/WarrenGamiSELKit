@@ -4,25 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FeelReady - Access</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Atkinson+Hyperlegible:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        /* --- FINAL: AUTHENTIC & SUBSTANTIVE COLOR PALETTE --- */
         :root {
-            --base-teal: #2C6E7A;
-            --apex-green: #A4F57B;
-            --neutral-bg: #F8F9FA;
-            --neutral-border: #E9ECEF;
-            --neutral-text: #212529;
-            --neutral-text-light: #6C757D;
-            --paper-white: #fefefe;
-            --ice-white: #f8fbff;
-            --soft-teal: #b8d4f0;
-            --accent-teal: #2C6E7A;
-            --text-dark: #2c3e50;
+            --grounded-indigo: #4C518C;
+            --empathetic-rose: #D87BAA;
+            --illuminating-marigold: #FFC759;
+            
+            --misty-white: #F9FAFB;
+            --neutral-border: #F0F2F4;
+            --slate-charcoal: #333F48;
+            --slate-charcoal-light: #52606D;
+            
+            /* Legacy colors for backward compatibility */
+            --base-teal: var(--grounded-indigo);
+            --apex-green: var(--illuminating-marigold);
+            --neutral-bg: var(--misty-white);
+            --neutral-text: var(--slate-charcoal);
+            --neutral-text-light: var(--slate-charcoal-light);
+            --paper-white: #FFFFFF;
+            --ice-white: var(--misty-white);
+            --soft-teal: rgba(76, 81, 140, 0.1);
+            --accent-teal: var(--grounded-indigo);
+            --text-dark: var(--slate-charcoal);
             --white: #ffffff;
             --success-green: #28a745;
             --error-red: #dc3545;
-            --shadow-teal: rgba(44, 110, 122, 0.15);
-            --glow-teal: rgba(44, 110, 122, 0.3);
+            --shadow-teal: rgba(76, 81, 140, 0.15);
+            --glow-teal: rgba(76, 81, 140, 0.3);
         }
 
         * {
@@ -32,8 +42,8 @@
         }
 
         body {
-            font-family: 'Atkinson Hyperlegible', sans-serif;
-            background: linear-gradient(135deg, var(--base-teal) 0%, #4a90e2 50%, var(--apex-green) 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--misty-white);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -96,28 +106,29 @@
             margin-bottom: 20px;
         }
 
-        .feelready-ascent-logo {
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        .feelready-spark-logo {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
             filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
         }
 
-        .logo:hover .feelready-ascent-logo {
+        .logo:hover .feelready-spark-logo {
             transform: scale(1.1);
+            filter: drop-shadow(0 16px 32px rgba(216, 123, 170, 0.2));
         }
 
         /* Main Container */
         .container {
             background: var(--paper-white);
-            border-radius: 20px;
+            border-radius: 24px;
             padding: 40px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(51, 63, 72, 0.05);
             text-align: center;
             position: relative;
             z-index: 1;
             max-width: 450px;
             width: 100%;
-            border: 1px solid var(--soft-blue);
-            backdrop-filter: blur(10px);
+            border: 1px solid var(--neutral-border);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         /* Logo/Brand Section */
@@ -136,31 +147,30 @@
 
         /* Typography */
         h1 {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--base-teal);
+            font-weight: 600;
+            color: var(--slate-charcoal);
             margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--base-teal), var(--apex-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            letter-spacing: -0.04em;
         }
 
         .subtitle {
+            font-family: 'Inter', sans-serif;
             font-size: 1.1rem;
-            color: var(--text-dark);
+            color: var(--slate-charcoal-light);
             margin-bottom: 30px;
             opacity: 0.8;
-            font-weight: 400;
+            font-weight: 500;
+            letter-spacing: 0.05em;
         }
 
         /* Form Styling */
         .form-container {
-            background: var(--ice-white);
-            border-radius: 15px;
+            background: var(--misty-white);
+            border-radius: 16px;
             padding: 30px;
-            border: 2px solid var(--neutral-border);
+            border: 1px solid var(--neutral-border);
             margin-bottom: 20px;
         }
 
@@ -172,19 +182,19 @@
         .form-input {
             width: 100%;
             padding: 15px 20px;
-            border: 2px solid var(--border-color);
+            border: 1px solid var(--neutral-border);
             border-radius: 12px;
             font-size: 1.1rem;
-            font-family: inherit;
+            font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
             background: var(--white);
-            color: var(--text-dark);
+            color: var(--slate-charcoal);
         }
 
         .form-input:focus {
             outline: none;
-            border-color: var(--base-teal);
-            box-shadow: 0 0 0 4px var(--glow-teal);
+            border-color: var(--grounded-indigo);
+            box-shadow: 0 0 0 4px rgba(76, 81, 140, 0.1);
             transform: translateY(-2px);
         }
 
@@ -195,7 +205,7 @@
 
         /* Button Styling */
         .submit-btn {
-            background: linear-gradient(135deg, var(--base-teal), var(--apex-green));
+            background: var(--grounded-indigo);
             color: var(--white);
             border: none;
             padding: 15px 30px;
@@ -203,9 +213,9 @@
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             width: 100%;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
             position: relative;
             overflow: hidden;
         }
@@ -226,9 +236,9 @@
         }
 
         .submit-btn:hover {
-            background: linear-gradient(135deg, var(--warren-light-blue), var(--accent-blue));
+            background: var(--empathetic-rose);
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px var(--glow-blue);
+            box-shadow: 0 10px 25px rgba(216, 123, 170, 0.3);
         }
 
         .submit-btn:active {
@@ -351,10 +361,18 @@
     <!-- SVG Definitions for FeelReady Logo -->
     <svg width="0" height="0" style="position:absolute">
         <defs>
-            <!-- The FeelReady "Ascent" symbol -->
-            <symbol id="ascent-symbol" viewBox="0 0 100 100">
-                <path fill="var(--base-teal)" d="M10 90 L 50 10 L 90 90 L 10 90 Z" />
-                <path fill="var(--apex-green)" d="M50 10 L90 90 L70 90 L50 50 L30 90 L10 90 L50 10 Z" />
+            <linearGradient id="spark-gradient-v9" x1="50%" y1="100%" x2="50%" y2="0%">
+                <stop offset="0%" stop-color="var(--grounded-indigo)" />
+                <stop offset="50%" stop-color="var(--empathetic-rose)" />
+                <stop offset="100%" stop-color="var(--illuminating-marigold)" />
+            </linearGradient>
+
+            <!-- Final "Compassionate Spark" Symbol -->
+            <symbol id="spark-symbol-v9" viewBox="0 0 100 100">
+                <!-- The Spark -->
+                <path d="M50 15 C 45 40, 45 40, 50 60 C 55 40, 55 40, 50 15 Z" />
+                <!-- The Foundation/Vessel -->
+                <path d="M20 90 C 20 70, 30 60, 50 60 C 70 60, 80 70, 80 90 Z" />
             </symbol>
         </defs>
     </svg>
@@ -362,12 +380,12 @@
     <div class="container">
         <div class="brand-section">
             <div class="logo">
-                <svg class="feelready-ascent-logo" style="width: 120px; height: 120px;">
-                    <use href="#ascent-symbol" />
+                <svg class="feelready-spark-logo" style="width: 120px; height: 120px;" fill="url(#spark-gradient-v9)">
+                    <use href="#spark-symbol-v9" />
                 </svg>
             </div>
             <h1>FeelReady</h1>
-            <p class="subtitle">Emotional Growth in Every Classroom</p>
+            <p class="subtitle">Clarity. Connection. Courage.</p>
         </div>
 
         <form id="access-form" class="form-container">

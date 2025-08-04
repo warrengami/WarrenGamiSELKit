@@ -4,34 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FeelReady - Teacher Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        /* --- FINAL: AUTHENTIC & SUBSTANTIVE COLOR PALETTE --- */
         :root {
-            --base-teal: #2C6E7A;
-            --apex-green: #A4F57B;
-            --neutral-bg: #F8F9FA;
-            --neutral-border: #E9ECEF;
-            --neutral-text: #212529;
-            --neutral-text-light: #6C757D;
-            --paper-white: #fefefe;
-            --ice-white: #f8fbff;
-            --soft-teal: #b8d4f0;
-            --accent-teal: #2C6E7A;
-            --shadow-teal: rgba(44, 110, 122, 0.15);
-            --glow-teal: rgba(44, 110, 122, 0.3);
-            --text-dark: #2c3e50;
-            --text-muted: #6c757d;
+            --grounded-indigo: #4C518C;
+            --empathetic-rose: #D87BAA;
+            --illuminating-marigold: #FFC759;
+            
+            --misty-white: #F9FAFB;
+            --neutral-border: #F0F2F4;
+            --slate-charcoal: #333F48;
+            --slate-charcoal-light: #52606D;
+            
+            /* Legacy colors for backward compatibility */
+            --base-teal: var(--grounded-indigo);
+            --apex-green: var(--illuminating-marigold);
+            --neutral-bg: var(--misty-white);
+            --neutral-text: var(--slate-charcoal);
+            --neutral-text-light: var(--slate-charcoal-light);
+            --paper-white: #FFFFFF;
+            --ice-white: var(--misty-white);
+            --soft-teal: rgba(76, 81, 140, 0.1);
+            --accent-teal: var(--grounded-indigo);
+            --shadow-teal: rgba(76, 81, 140, 0.15);
+            --glow-teal: rgba(76, 81, 140, 0.3);
+            --text-dark: var(--slate-charcoal);
+            --text-muted: var(--slate-charcoal-light);
             --success-green: #28a745;
             --warning-orange: #fd7e14;
-            --tag-awareness: #ffc107;
+            --tag-awareness: var(--illuminating-marigold);
             --tag-management: #28a745;
-            --tag-social: #17a2b8;
+            --tag-social: var(--empathetic-rose);
             --tag-relationship: #fd7e14;
-            --tag-decision: #6f42c1;
-            --card-shadow: 0 4px 20px rgba(44, 110, 122, 0.1);
-            --card-hover-shadow: 0 8px 30px rgba(44, 110, 122, 0.2);
-            --section-gradient: linear-gradient(135deg, rgba(44, 110, 122, 0.05) 0%, rgba(164, 245, 123, 0.05) 100%);
-            --header-gradient: linear-gradient(135deg, var(--soft-teal), var(--ice-white));
+            --tag-decision: var(--grounded-indigo);
+            --card-shadow: 0 4px 20px rgba(76, 81, 140, 0.1);
+            --card-hover-shadow: 0 8px 30px rgba(76, 81, 140, 0.2);
+            --section-gradient: linear-gradient(135deg, rgba(76, 81, 140, 0.05) 0%, rgba(255, 199, 89, 0.05) 100%);
+            --header-gradient: linear-gradient(135deg, rgba(76, 81, 140, 0.1), var(--misty-white));
             --grid-gutter: 1.5rem;
             --card-border-radius: 16px;
             --section-border-radius: 20px;
@@ -48,9 +58,9 @@
         }
         
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--base-teal) 0%, #4a90e2 50%, var(--apex-green) 100%);
-            color: var(--text-dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--misty-white);
+            color: var(--slate-charcoal);
             min-height: 100vh;
             overflow-x: hidden;
         }
@@ -64,18 +74,18 @@
             height: 100%;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.1;
+            opacity: 0.05;
         }
         
         .paper-crane {
             position: absolute;
             width: 60px;
             height: 40px;
-            background: var(--paper-white);
+            background: var(--grounded-indigo);
             clip-path: polygon(20% 0%, 0% 40%, 30% 70%, 50% 50%, 80% 70%, 100% 40%, 80% 0%, 50% 30%);
             animation: float 15s infinite ease-in-out;
-            opacity: 0.1;
-            filter: drop-shadow(0 2px 10px var(--glow-blue));
+            opacity: 0.05;
+            filter: drop-shadow(0 2px 10px rgba(76, 81, 140, 0.1));
         }
         
         .paper-crane:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
@@ -109,58 +119,55 @@
             text-align: center;
             margin-bottom: 2rem;
             background: var(--paper-white);
-            border-radius: 20px;
-            padding: 2rem;
-            box-shadow: 0 15px 40px var(--shadow-blue);
+            border-radius: 24px;
+            padding: 2.5rem 3rem;
+            box-shadow: 0 10px 30px rgba(51, 63, 72, 0.05);
             position: relative;
             overflow: hidden;
             border: 1px solid var(--neutral-border);
             z-index: 1;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
         
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(44, 110, 122, 0.05) 0%, rgba(164, 245, 123, 0.05) 100%);
-            pointer-events: none;
+        .header:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(51, 63, 72, 0.08);
         }
         
         .brand-logo {
             margin-bottom: 1rem;
         }
         
-        .feelready-ascent-logo {
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        .feelready-spark-logo {
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
         
-        .brand-logo:hover .feelready-ascent-logo {
+        .brand-logo:hover .feelready-spark-logo {
             transform: scale(1.1);
+            filter: drop-shadow(0 16px 32px rgba(216, 123, 170, 0.2));
         }
         
         .header h1 {
-            color: var(--base-teal);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 2.2rem;
-            font-weight: 700;
+            font-weight: 600;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            color: var(--slate-charcoal);
             margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--base-teal), var(--apex-green));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         
         .subtitle {
-            color: var(--base-teal);
+            font-family: 'Inter', sans-serif;
             font-size: 1.1rem;
             font-weight: 500;
+            color: var(--slate-charcoal-light);
             margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
         }
         
         .user-welcome {
-            color: var(--text-dark);
+            color: var(--slate-charcoal);
             font-size: 1rem;
             opacity: 0.8;
         }
@@ -168,11 +175,11 @@
         /* Visual Activity Cards */
         .activity-card {
             background: var(--paper-white);
-            border-radius: var(--card-border-radius);
+            border-radius: 24px;
             padding: 1.5rem;
-            box-shadow: var(--card-shadow);
-            border: 1px solid var(--soft-blue);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(51, 63, 72, 0.05);
+            border: 1px solid var(--neutral-border);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             cursor: pointer;
             position: relative;
             overflow: hidden;
@@ -211,18 +218,14 @@
         }
         
         .activity-card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: var(--card-hover-shadow);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(51, 63, 72, 0.08);
             z-index: 2;
-            border-color: var(--accent-teal);
+            border-color: var(--grounded-indigo);
         }
         
         .activity-card:active {
-            transform: translateY(-4px) scale(1.01);
-        }
-        
-        .activity-card:hover::before {
-            opacity: 1;
+            transform: translateY(-5px);
         }
         
         .card-icon {
@@ -238,16 +241,19 @@
         }
         
         .card-title {
-            color: var(--text-dark);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--slate-charcoal);
             font-size: 1.2rem;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 0.5rem;
             line-height: 1.3;
             flex-grow: 1;
+            letter-spacing: -0.02em;
         }
         
         .card-description {
-            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            color: var(--slate-charcoal-light);
             font-size: 0.9rem;
             line-height: 1.4;
             margin-bottom: 0.5rem;
@@ -263,6 +269,7 @@
             color: white;
             margin-top: auto;
             align-self: flex-start;
+            font-family: 'Inter', sans-serif;
         }
         
         /* Micro-animations for icons */
@@ -312,75 +319,45 @@
         .section-header {
             position: sticky;
             top: 0;
-            background: var(--header-gradient);
+            background: var(--paper-white);
             padding: 1.5rem var(--section-padding);
-            border-radius: var(--section-border-radius) var(--section-border-radius) 0 0;
+            border-radius: 24px 24px 0 0;
             margin-bottom: 0;
-            box-shadow: 0 4px 20px var(--shadow-sky);
-            border: 1px solid var(--soft-blue);
+            box-shadow: 0 10px 30px rgba(51, 63, 72, 0.05);
+            border: 1px solid var(--neutral-border);
             border-bottom: none;
             z-index: 10;
-            backdrop-filter: blur(10px);
-        }
-        
-        .section-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(44, 110, 122, 0.1) 0%, rgba(164, 245, 123, 0.1) 100%);
-            border-radius: 20px 20px 0 0;
-            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
         
         .section-header h2 {
-            color: var(--warren-blue);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--slate-charcoal);
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 600;
             margin: 0;
             display: flex;
             align-items: center;
             gap: 0.75rem;
             position: relative;
             z-index: 1;
-        }
-        
-        .section-header h2::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-teal), var(--apex-green));
-            border-radius: 2px;
+            letter-spacing: -0.02em;
         }
         
         .section-header:hover {
-            background: linear-gradient(135deg, var(--warren-light-blue), var(--accent-blue));
             transform: translateY(-2px);
-            box-shadow: 0 8px 30px var(--glow-teal);
-        }
-        
-        .section-header:hover h2 {
-            color: var(--paper-white);
-        }
-        
-        .section-header:hover h2::after {
-            background: linear-gradient(90deg, var(--paper-white), rgba(255, 255, 255, 0.7));
+            box-shadow: 0 20px 40px rgba(51, 63, 72, 0.08);
         }
         
         /* Hero Banner Section */
         .hero-banner {
             margin-bottom: 0;
             position: relative;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-            border-radius: var(--section-border-radius);
+            background: var(--paper-white);
+            border-radius: 24px;
             padding: 2rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--neutral-border);
+            box-shadow: 0 10px 30px rgba(51, 63, 72, 0.05);
         }
         
 
@@ -399,13 +376,14 @@
         }
         
         .hero-banner h2 {
-            color: var(--text-dark);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--slate-charcoal);
             font-size: 2rem;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 1.5rem;
             text-align: center;
             position: relative;
-            letter-spacing: -0.5px;
+            letter-spacing: -0.04em;
         }
         
         .hero-banner h2::after {
@@ -443,12 +421,12 @@
         }
         
         .hero-card {
-            background: linear-gradient(135deg, var(--paper-white) 0%, rgba(248, 251, 255, 0.8) 100%);
-            border-radius: var(--card-border-radius);
+            background: var(--paper-white);
+            border-radius: 24px;
             padding: 2rem;
-            box-shadow: var(--card-shadow);
+            box-shadow: 0 10px 30px rgba(51, 63, 72, 0.05);
             border: 1px solid var(--neutral-border);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             cursor: pointer;
             position: relative;
             overflow: hidden;
@@ -487,9 +465,9 @@
         }
         
         .hero-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            box-shadow: 0 16px 48px rgba(44, 110, 122, 0.3), 0 4px 12px rgba(164, 245, 123, 0.2);
-            border-color: var(--accent-teal);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(51, 63, 72, 0.08);
+            border-color: var(--grounded-indigo);
         }
         
         .hero-card:hover::before {
@@ -510,7 +488,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, var(--accent-teal), var(--apex-green));
+            background: var(--grounded-indigo);
             border-radius: 16px;
             color: white;
             position: relative;
@@ -529,16 +507,19 @@
         }
         
         .hero-card-title {
-            color: var(--text-dark);
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--slate-charcoal);
             font-size: 1.4rem;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 0.75rem;
             line-height: 1.3;
             flex-grow: 1;
+            letter-spacing: -0.02em;
         }
         
         .hero-card-description {
-            color: var(--text-muted);
+            font-family: 'Inter', sans-serif;
+            color: var(--slate-charcoal-light);
             font-size: 1rem;
             line-height: 1.5;
             opacity: 0.9;
@@ -549,7 +530,7 @@
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--accent-teal);
+            color: var(--grounded-indigo);
             font-weight: 600;
             font-size: 0.9rem;
             text-decoration: none;
@@ -557,7 +538,7 @@
         }
         
         .hero-card-action:hover {
-            color: var(--base-teal);
+            color: var(--empathetic-rose);
             transform: translateX(4px);
         }
         
@@ -566,9 +547,9 @@
         /* Collapsible Sections */
         .collapsible-section {
             background: var(--paper-white);
-            border-radius: var(--section-border-radius);
+            border-radius: 24px;
             margin-bottom: 1.5rem;
-            box-shadow: var(--card-hover-shadow);
+            box-shadow: 0 10px 30px rgba(51, 63, 72, 0.05);
             border: 1px solid var(--neutral-border);
             overflow: hidden;
             position: relative;
@@ -852,10 +833,18 @@
     <!-- SVG Definitions for FeelReady Logo -->
     <svg width="0" height="0" style="position:absolute">
         <defs>
-            <!-- The FeelReady "Ascent" symbol -->
-            <symbol id="ascent-symbol" viewBox="0 0 100 100">
-                <path fill="var(--base-teal)" d="M10 90 L 50 10 L 90 90 L 10 90 Z" />
-                <path fill="var(--apex-green)" d="M50 10 L90 90 L70 90 L50 50 L30 90 L10 90 L50 10 Z" />
+            <linearGradient id="spark-gradient-v9" x1="50%" y1="100%" x2="50%" y2="0%">
+                <stop offset="0%" stop-color="var(--grounded-indigo)" />
+                <stop offset="50%" stop-color="var(--empathetic-rose)" />
+                <stop offset="100%" stop-color="var(--illuminating-marigold)" />
+            </linearGradient>
+
+            <!-- Final "Compassionate Spark" Symbol -->
+            <symbol id="spark-symbol-v9" viewBox="0 0 100 100">
+                <!-- The Spark -->
+                <path d="M50 15 C 45 40, 45 40, 50 60 C 55 40, 55 40, 50 15 Z" />
+                <!-- The Foundation/Vessel -->
+                <path d="M20 90 C 20 70, 30 60, 50 60 C 70 60, 80 70, 80 90 Z" />
             </symbol>
         </defs>
     </svg>
@@ -870,12 +859,12 @@
     <div class="container">
         <header class="header">
             <div class="brand-logo">
-                <svg class="feelready-ascent-logo" style="width: 60px; height: 60px;">
-                    <use href="#ascent-symbol" />
+                <svg class="feelready-spark-logo" style="width: 60px; height: 60px;" fill="url(#spark-gradient-v9)">
+                    <use href="#spark-symbol-v9" />
                 </svg>
             </div>
             <h1>FeelReady</h1>
-            <p class="subtitle">Emotional Growth in Every Classroom</p>
+            <p class="subtitle">Clarity. Connection. Courage.</p>
             <p class="user-welcome">You're ready to guide your students! <span style="font-size: 0.9rem; opacity: 0.8;">You've got this.</span></p>
         </header>
         

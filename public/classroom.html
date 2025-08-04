@@ -4,34 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Classroom Mode - FeelReady</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        /* --- FINAL: AUTHENTIC & SUBSTANTIVE COLOR PALETTE --- */
         :root {
-            --base-teal: #2C6E7A;
-            --apex-green: #A4F57B;
-            --neutral-bg: #F8F9FA;
-            --neutral-border: #E9ECEF;
-            --neutral-text: #212529;
-            --neutral-text-light: #6C757D;
-            --paper-white: #fefefe;
-            --ice-white: #f8fbff;
-            --soft-teal: #b8d4f0;
-            --accent-teal: #2C6E7A;
-            --shadow-teal: rgba(44, 110, 122, 0.15);
-            --glow-teal: rgba(44, 110, 122, 0.3);
-            --text-dark: #2c3e50;
-            --text-muted: #6c757d;
+            --grounded-indigo: #4C518C;
+            --empathetic-rose: #D87BAA;
+            --illuminating-marigold: #FFC759;
+            
+            --misty-white: #F9FAFB;
+            --neutral-border: #F0F2F4;
+            --slate-charcoal: #333F48;
+            --slate-charcoal-light: #52606D;
+            
+            /* Legacy colors for backward compatibility */
+            --base-teal: var(--grounded-indigo);
+            --apex-green: var(--illuminating-marigold);
+            --neutral-bg: var(--misty-white);
+            --neutral-text: var(--slate-charcoal);
+            --neutral-text-light: var(--slate-charcoal-light);
+            --paper-white: #FFFFFF;
+            --ice-white: var(--misty-white);
+            --soft-teal: rgba(76, 81, 140, 0.1);
+            --accent-teal: var(--grounded-indigo);
+            --shadow-teal: rgba(76, 81, 140, 0.15);
+            --glow-teal: rgba(76, 81, 140, 0.3);
+            --text-dark: var(--slate-charcoal);
+            --text-muted: var(--slate-charcoal-light);
             --success-green: #28a745;
             --warning-orange: #fd7e14;
-            --tag-awareness: #ffc107;
+            --tag-awareness: var(--illuminating-marigold);
             --tag-management: #28a745;
-            --tag-social: #17a2b8;
+            --tag-social: var(--empathetic-rose);
             --tag-relationship: #fd7e14;
-            --tag-decision: #6f42c1;
-            --card-shadow: 0 4px 20px rgba(44, 110, 122, 0.1);
-            --card-hover-shadow: 0 8px 30px rgba(44, 110, 122, 0.2);
-            --section-gradient: linear-gradient(135deg, rgba(44, 110, 122, 0.05) 0%, rgba(164, 245, 123, 0.05) 100%);
-            --header-gradient: linear-gradient(135deg, var(--neutral-bg), var(--ice-white));
+            --tag-decision: var(--grounded-indigo);
+            --card-shadow: 0 4px 20px rgba(76, 81, 140, 0.1);
+            --card-hover-shadow: 0 8px 30px rgba(76, 81, 140, 0.2);
+            --section-gradient: linear-gradient(135deg, rgba(76, 81, 140, 0.05) 0%, rgba(255, 199, 89, 0.05) 100%);
+            --header-gradient: linear-gradient(135deg, rgba(76, 81, 140, 0.1), var(--misty-white));
             --grid-gutter: 1.5rem;
             --card-border-radius: 16px;
             --section-border-radius: 20px;
@@ -48,9 +58,9 @@
         }
         
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--base-teal) 0%, #4a90e2 50%, var(--apex-green) 100%);
-            color: var(--text-dark);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--misty-white);
+            color: var(--slate-charcoal);
             min-height: 100vh;
             overflow-x: hidden;
             padding: 2rem;
