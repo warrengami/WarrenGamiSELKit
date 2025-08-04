@@ -246,8 +246,11 @@
             width: 280px;
             height: 280px;
             perspective: 1200px;
-            margin-bottom: 2rem;
+            margin: 0 auto 2rem auto;
             position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .dice {
@@ -257,6 +260,7 @@
             transform-style: preserve-3d;
             transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             border-radius: 20px;
+            margin: 0 auto;
         }
         
         .dice.rolling {
@@ -282,6 +286,7 @@
             box-shadow: 0 8px 25px rgba(30, 58, 95, 0.15);
             border: 2px solid var(--soft-blue);
             transition: all 0.3s ease;
+            backface-visibility: hidden;
         }
         
         .dice .face:hover {

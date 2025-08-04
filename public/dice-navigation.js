@@ -92,6 +92,9 @@ class DashboardDiceInterface {
         
         if (!dice || !this.dicePrompts.length) return;
         
+        // Clear any existing classes
+        dice.className = 'dice';
+        
         // Add rolling animation
         dice.classList.add('rolling');
         
