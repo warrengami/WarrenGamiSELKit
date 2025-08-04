@@ -3,13 +3,16 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Emotions & Feelings Dice (Interactive)</title>
+    <title>FeelReady - Emotions & Feelings Dice</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
     <style>
         :root {
-            --midnight-blue: #002b5c;
-            --sky-blue: #73bdf5;
-            --ice-blue: #cfe9ff;
+            --base-teal: #2C6E7A;
+            --apex-green: #A4F57B;
+            --neutral-bg: #F8F9FA;
+            --neutral-border: #E9ECEF;
+            --neutral-text: #212529;
+            --neutral-text-light: #6C757D;
             --soft-gray: #e0e6ed;
             --white: #ffffff;
             --border-color: #333;
@@ -19,10 +22,10 @@
             --nav-bg: #f8f9fa;
             --nav-border: #dee2e6;
             --nav-text: #212529;
-            --nav-primary-bg: #002b5c;
-            --nav-primary-hover: #00408a;
-            --nav-secondary-text: #002b5c;
-            --nav-secondary-hover: #73bdf5;
+            --nav-primary-bg: var(--base-teal);
+            --nav-primary-hover: var(--apex-green);
+            --nav-secondary-text: var(--base-teal);
+            --nav-secondary-hover: var(--apex-green);
             --nav-shadow: rgba(0, 0, 0, 0.1);
         }
         body {
@@ -43,7 +46,7 @@
         }
         h2, h3 {
             font-family: 'Poppins', sans-serif; margin: 0 0 10px 0;
-            color: var(--midnight-blue); text-align: center;
+            color: var(--neutral-text); text-align: center;
         }
         h2 { font-size: 24px; margin-bottom: 5px; }
         h3 { font-size: 14px; font-weight: normal; color: #555; margin-bottom: 20px; }
@@ -52,12 +55,12 @@
             display: flex; justify-content: center; gap: 10px; margin-bottom: 35px;
         }
         .control-btn {
-            background-color: var(--midnight-blue); color: var(--white);
+            background-color: var(--base-teal); color: var(--white);
             font-family: 'Poppins', sans-serif; border: none; padding: 6px 12px;
             border-radius: 4px; cursor: pointer; transition: background-color 0.3s;
             font-size: 12px;
         }
-        .control-btn:hover { background-color: var(--sky-blue); }
+        .control-btn:hover { background-color: var(--apex-green); }
 
         .dice-template-container {
             display: flex; justify-content: center; align-items: center;

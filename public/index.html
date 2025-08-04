@@ -3,24 +3,26 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WarrenGami SEL Toolkit - Access</title>
+    <title>FeelReady - Access</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Atkinson+Hyperlegible:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --warren-blue: #1e3a5f;
-            --warren-light-blue: #4a90e2;
-            --sky-blue: #73bdf5;
-            --accent-blue: #6bb6ff;
-            --ice-blue: #cfe9ff;
-            --soft-blue: #b8d4f0;
+            --base-teal: #2C6E7A;
+            --apex-green: #A4F57B;
+            --neutral-bg: #F8F9FA;
+            --neutral-border: #E9ECEF;
+            --neutral-text: #212529;
+            --neutral-text-light: #6C757D;
             --paper-white: #fefefe;
             --ice-white: #f8fbff;
+            --soft-teal: #b8d4f0;
+            --accent-teal: #2C6E7A;
             --text-dark: #2c3e50;
             --white: #ffffff;
             --success-green: #28a745;
             --error-red: #dc3545;
-            --shadow-blue: rgba(30, 58, 95, 0.15);
-            --glow-blue: rgba(106, 182, 255, 0.3);
+            --shadow-teal: rgba(44, 110, 122, 0.15);
+            --glow-teal: rgba(44, 110, 122, 0.3);
         }
 
         * {
@@ -31,7 +33,7 @@
 
         body {
             font-family: 'Atkinson Hyperlegible', sans-serif;
-            background: linear-gradient(135deg, var(--warren-blue) 0%, #2c5aa0 50%, var(--warren-light-blue) 100%);
+            background: linear-gradient(135deg, var(--base-teal) 0%, #4a90e2 50%, var(--apex-green) 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -94,17 +96,13 @@
             margin-bottom: 20px;
         }
 
-        .logo-image {
-            max-width: 220px;
-            height: auto;
-            margin: 0 auto;
-            display: block;
+        .feelready-ascent-logo {
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.15));
-            transition: transform 0.3s ease;
         }
 
-        .logo-image:hover {
-            transform: scale(1.05);
+        .logo:hover .feelready-ascent-logo {
+            transform: scale(1.1);
         }
 
         /* Main Container */
@@ -141,9 +139,9 @@
             font-family: 'Poppins', sans-serif;
             font-size: 2.2rem;
             font-weight: 700;
-            color: var(--warren-blue);
+            color: var(--base-teal);
             margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--warren-blue), var(--warren-light-blue));
+            background: linear-gradient(135deg, var(--base-teal), var(--apex-green));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -162,7 +160,7 @@
             background: var(--ice-white);
             border-radius: 15px;
             padding: 30px;
-            border: 2px solid var(--soft-blue);
+            border: 2px solid var(--neutral-border);
             margin-bottom: 20px;
         }
 
@@ -185,8 +183,8 @@
 
         .form-input:focus {
             outline: none;
-            border-color: var(--warren-light-blue);
-            box-shadow: 0 0 0 4px var(--glow-blue);
+            border-color: var(--base-teal);
+            box-shadow: 0 0 0 4px var(--glow-teal);
             transform: translateY(-2px);
         }
 
@@ -197,7 +195,7 @@
 
         /* Button Styling */
         .submit-btn {
-            background: linear-gradient(135deg, var(--warren-blue), var(--warren-light-blue));
+            background: linear-gradient(135deg, var(--base-teal), var(--apex-green));
             color: var(--white);
             border: none;
             padding: 15px 30px;
@@ -332,12 +330,12 @@
 
         /* Accessibility */
         .submit-btn:focus {
-            outline: 2px solid var(--warren-light-blue);
+            outline: 2px solid var(--base-teal);
             outline-offset: 2px;
         }
 
         .form-input:focus {
-            outline: 2px solid var(--warren-light-blue);
+            outline: 2px solid var(--base-teal);
             outline-offset: 2px;
         }
     </style>
@@ -350,13 +348,26 @@
         <div class="floating-shape"></div>
     </div>
 
+    <!-- SVG Definitions for FeelReady Logo -->
+    <svg width="0" height="0" style="position:absolute">
+        <defs>
+            <!-- The FeelReady "Ascent" symbol -->
+            <symbol id="ascent-symbol" viewBox="0 0 100 100">
+                <path fill="var(--base-teal)" d="M10 90 L 50 10 L 90 90 L 10 90 Z" />
+                <path fill="var(--apex-green)" d="M50 10 L90 90 L70 90 L50 50 L30 90 L10 90 L50 10 Z" />
+            </symbol>
+        </defs>
+    </svg>
+
     <div class="container">
         <div class="brand-section">
             <div class="logo">
-                <img src="warrengamilogo.png" alt="WarrenGami Logo" class="logo-image">
+                <svg class="feelready-ascent-logo" style="width: 120px; height: 120px;">
+                    <use href="#ascent-symbol" />
+                </svg>
             </div>
-            <h1>WarrenGami SEL Toolkit</h1>
-            <p class="subtitle">Please enter the access code provided to your school.</p>
+            <h1>FeelReady</h1>
+            <p class="subtitle">Emotional Growth in Every Classroom</p>
         </div>
 
         <form id="access-form" class="form-container">
@@ -385,7 +396,7 @@
         </form>
 
         <div class="footer">
-            <p>Where Play Meets Emotional Growth</p>
+            <p>From Insight to Impact</p>
         </div>
     </div>
 

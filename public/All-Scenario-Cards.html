@@ -3,12 +3,16 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>All Scenario Cards (Interactive)</title>
+    <title>FeelReady - All Scenario Cards</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet"/>
     <style>
         :root {
-            --midnight-blue: #002b5c;
-            --sky-blue: #73bdf5;
+            --base-teal: #2C6E7A;
+            --apex-green: #A4F57B;
+            --neutral-bg: #F8F9FA;
+            --neutral-border: #E9ECEF;
+            --neutral-text: #212529;
+            --neutral-text-light: #6C757D;
             --soft-gray: #e0e6ed;
             --white: #ffffff;
             --border-color: #333;
@@ -22,10 +26,10 @@
             --nav-bg: #f8f9fa;
             --nav-border: #dee2e6;
             --nav-text: #212529;
-            --nav-primary-bg: #002b5c;
-            --nav-primary-hover: #00408a;
-            --nav-secondary-text: #002b5c;
-            --nav-secondary-hover: #73bdf5;
+            --nav-primary-bg: var(--base-teal);
+            --nav-primary-hover: var(--apex-green);
+            --nav-secondary-text: var(--base-teal);
+            --nav-secondary-hover: var(--apex-green);
             --nav-shadow: rgba(0, 0, 0, 0.1);
         }
         body {
@@ -44,7 +48,7 @@
         h2, h3 {
             font-family: 'Poppins', sans-serif;
             margin: 0 0 10px 0;
-            color: var(--midnight-blue);
+            color: var(--neutral-text);
             text-align: center;
         }
         h2 { font-size: 24px; margin-bottom: 5px; }
@@ -57,7 +61,7 @@
             margin-bottom: 25px;
         }
         .control-btn {
-            background-color: var(--midnight-blue);
+            background-color: var(--base-teal);
             color: var(--white);
             font-family: 'Poppins', sans-serif;
             border: none;
@@ -66,7 +70,7 @@
             cursor: pointer;
             transition: background-color 0.3s;
         }
-        .control-btn:hover { background-color: var(--sky-blue); }
+        .control-btn:hover { background-color: var(--apex-green); }
 
         .card-container {
             display: grid;

@@ -1,13 +1,15 @@
-/* WarrenGami SEL Toolkit - Consistent Color Palette */
+/* FeelReady - Consistent Color Palette */
 
 :root {
-    /* Primary Colors - Blue Theme */
-    --warren-blue: #1e3a5f;
-    --warren-light-blue: #4a90e2;
-    --sky-blue: #73bdf5;
-    --accent-blue: #6bb6ff;
-    --ice-blue: #cfe9ff;
-    --soft-blue: #b8d4f0;
+    /* Primary Colors - FeelReady Theme */
+    --base-teal: #2C6E7A;
+    --apex-green: #A4F57B;
+    --neutral-bg: #F8F9FA;
+    --neutral-border: #E9ECEF;
+    --neutral-text: #212529;
+    --neutral-text-light: #6C757D;
+    --soft-teal: #b8d4f0;
+    --accent-teal: #2C6E7A;
     
     /* Neutral Colors */
     --paper-white: #fefefe;
@@ -37,14 +39,14 @@
     --green: #d5f1d5;
     
     /* Effects */
-    --shadow-blue: rgba(30, 58, 95, 0.15);
-    --glow-blue: rgba(106, 182, 255, 0.3);
+    --shadow-teal: rgba(44, 110, 122, 0.15);
+    --glow-teal: rgba(44, 110, 122, 0.3);
     --highlight-yellow: #fffde7;
 }
 
 /* Consistent Button Styles */
 .btn-primary {
-    background: linear-gradient(135deg, var(--warren-blue), var(--warren-light-blue));
+    background: linear-gradient(135deg, var(--base-teal), var(--apex-green));
     color: var(--white);
     border: none;
     padding: 12px 24px;
@@ -57,15 +59,15 @@
 }
 
 .btn-primary:hover {
-    background: linear-gradient(135deg, var(--warren-light-blue), var(--accent-blue));
+    background: linear-gradient(135deg, var(--apex-green), var(--base-teal));
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px var(--glow-blue);
+    box-shadow: 0 5px 15px var(--glow-teal);
 }
 
 .btn-secondary {
-    background: var(--soft-blue);
-    color: var(--warren-blue);
-    border: 2px solid var(--warren-light-blue);
+    background: var(--neutral-bg);
+    color: var(--base-teal);
+    border: 2px solid var(--base-teal);
     padding: 10px 20px;
     border-radius: 8px;
     cursor: pointer;
@@ -74,7 +76,7 @@
 }
 
 .btn-secondary:hover {
-    background: var(--warren-light-blue);
+    background: var(--base-teal);
     color: var(--white);
     transform: translateY(-2px);
 }
