@@ -127,13 +127,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Set active button
         categoryButtons.forEach(btn => {
-            if (btn.dataset.category === currentCategory) {
+            const category = btn.getAttribute('onclick')?.match(/switchCategory\('([^']+)'\)/)?.[1];
+            if (category === currentCategory) {
                 btn.classList.add('active');
             }
             
             btn.addEventListener('click', async () => {
-                const newCategory = btn.dataset.category;
-                if (newCategory !== currentCategory) {
+                const newCategory = btn.getAttribute('onclick')?.match(/switchCategory\('([^']+)'\)/)?.[1];
+                if (newCategory && newCategory !== currentCategory) {
                     currentCategory = newCategory;
                     const newFile = diceCategories[newCategory];
                     
@@ -154,67 +155,53 @@ document.addEventListener('DOMContentLoaded', () => {
         // Store all prompts globally for random selection
         window.allDicePrompts = dicePrompts;
         
-        // Use the dashboard-aligned dice interface
-        if (window.dashboardDice) {
-            window.dashboardDice.initDiceInterface(dicePrompts, 'Emotions & Feelings');
-        } else {
-            // Fallback to original implementation
-            const diceHTML = `
-                <div class="dice-scene">
-                    <div class="dice" id="dice">
-                        <div class="face face-1">${escapeHtml(dicePrompts[0] || 'Prompt 1')}</div>
-                        <div class="face face-2">${escapeHtml(dicePrompts[1] || 'Prompt 2')}</div>
-                        <div class="face face-3">${escapeHtml(dicePrompts[2] || 'Prompt 3')}</div>
-                        <div class="face face-4">${escapeHtml(dicePrompts[3] || 'Prompt 4')}</div>
-                        <div class="face face-5">${escapeHtml(dicePrompts[4] || 'Prompt 5')}</div>
-                        <div class="face face-6">${escapeHtml(dicePrompts[5] || 'Prompt 6')}</div>
-                    </div>
-                </div>
-                <div id="prompt-result"></div>
-            `;
-            
-            mainContentEl.innerHTML = diceHTML;
+        // Update the existing dice faces with the prompts
+        const dice = document.getElementById('dice');
+        if (dice) {
+            const faces = dice.querySelectorAll('.face');
+            dicePrompts.forEach((prompt, index) => {
+                if (faces[index]) {
+                    const promptDisplay = faces[index].querySelector('.prompt-display');
+                    if (promptDisplay) {
+                        promptDisplay.textContent = prompt;
+                    }
+                }
+            });
         }
         
-        // Build control panel with dashboard-aligned design
-        const controlHTML = `
-            <button class="enhanced-btn" onclick="rollDice()">Roll Dice</button>
-            <button class="enhanced-btn timer-btn" onclick="startTimer()">Start Timer</button>
-            <button class="enhanced-btn stop-btn" onclick="stopTimer()">Stop Timer</button>
-        `;
-        controlPanelEl.innerHTML = controlHTML;
+        // Update the prompt result display
+        const resultDiv = document.getElementById('prompt-result');
+        if (resultDiv) {
+            resultDiv.innerHTML = `<span>Roll 0 of ${dicePrompts.length} prompts</span>`;
+        }
         
         // Make rollDice function globally available
         window.rollDice = rollDice;
         window.startTimer = startTimer;
         window.stopTimer = stopTimer;
+        window.switchCategory = switchCategory;
+    }
+
+    function switchCategory(category) {
+        const newFile = diceCategories[category];
+        if (newFile) {
+            window.location.href = `classroom.html?type=dice&file=${encodeURIComponent(newFile)}`;
+        }
     }
 
     function rollDice() {
         console.log('Classroom rollDice called');
-        // Check if we're using the dashboard interface
-        const dashboardDice = document.getElementById('dashboard-dice');
-        const regularDice = document.getElementById('dice');
-        const dice = dashboardDice || regularDice;
+        const dice = document.getElementById('dice');
         const resultDiv = document.getElementById('prompt-result');
         
-        console.log('Dashboard dice element:', dashboardDice);
-        console.log('Regular dice element:', regularDice);
-        console.log('Window dashboardDice:', window.dashboardDice);
+        console.log('Dice element:', dice);
+        console.log('Window allDicePrompts:', window.allDicePrompts);
         
         if (!dice || !window.allDicePrompts) {
             console.log('Missing dice or prompts');
             return;
         }
         
-        // If using dashboard interface, use its roll function
-        if (window.dashboardDice && dashboardDice) {
-            console.log('Using dashboard dice interface');
-            window.dashboardDice.rollDice();
-            return;
-        }
-        
-        // Fallback to original implementation
         // Add rolling animation
         dice.classList.add('rolling', 'physics-roll');
         
@@ -234,7 +221,9 @@ document.addEventListener('DOMContentLoaded', () => {
             dice.className = `dice show-${faceNumber}`;
             
             // Show result
-            resultDiv.textContent = selectedPrompt;
+            if (resultDiv) {
+                resultDiv.innerHTML = `<span>${selectedPrompt}</span>`;
+            }
             
             // Add bounce effect
             setTimeout(() => {
@@ -326,6 +315,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const title = doc.querySelector('title')?.textContent.replace('(Interactive)', '').trim() || 'Scenario Cards';
             titleEl.textContent = title;
             breadcrumbEl.textContent = title;
+
+            // Hide category selector for scenario mode
+            categorySelectorEl.style.display = 'none';
 
             // Extract scenarios from the document
             const scenarios = extractScenariosFromDocument(doc);

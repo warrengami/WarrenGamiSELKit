@@ -536,6 +536,242 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
         
+        /* Timer Section */
+        .timer-section {
+            margin: 1.5rem auto;
+            padding: 1.5rem;
+            background: var(--paper-white);
+            border-radius: var(--card-border-radius);
+            text-align: center;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--neutral-border);
+            overflow: hidden;
+        }
+        
+        .timer-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--section-gradient);
+            opacity: 0.3;
+        }
+        
+        .timer-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Timer Notification */
+        .timer-notification {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--paper-white);
+            color: var(--text-dark);
+            padding: 2rem;
+            border-radius: var(--card-border-radius);
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(76, 81, 140, 0.3);
+            z-index: 1000;
+            display: none;
+            animation: notification-pulse 2s ease-in-out;
+            border: 2px solid var(--grounded-indigo);
+        }
+        
+        @keyframes notification-pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.05); }
+        }
+        
+        /* Scenario Card Styles */
+        .scenario-controls {
+            background: var(--paper-white);
+            padding: 1.5rem;
+            border-radius: var(--card-border-radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--neutral-border);
+        }
+        
+        .search-filter-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .search-input, .filter-select {
+            padding: 0.75rem;
+            border: 1px solid var(--neutral-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .deck-info {
+            text-align: center;
+        }
+        
+        .card-counter {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        .deck-container {
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .card-deck {
+            position: relative;
+            width: 200px;
+            height: 280px;
+        }
+        
+        .card-back-design {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--grounded-indigo), var(--empathetic-rose));
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .card-back-design:nth-child(1) {
+            transform: translateY(-4px) rotate(-2deg);
+        }
+        
+        .card-back-design:nth-child(2) {
+            transform: translateY(-2px) rotate(1deg);
+        }
+        
+        .card-back-design:nth-child(3) {
+            transform: translateY(0px) rotate(-1deg);
+        }
+        
+        .drawn-card-wrapper {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            max-width: 400px;
+            max-height: 280px;
+        }
+        
+        .drawn-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+        
+        .drawn-card.flipped {
+            transform: rotateY(180deg);
+        }
+        
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .card-front {
+            background: linear-gradient(135deg, var(--paper-white) 0%, var(--misty-white) 100%);
+            border: 2px solid var(--neutral-border);
+        }
+        
+        .card-back {
+            background: linear-gradient(135deg, var(--grounded-indigo) 0%, var(--empathetic-rose) 100%);
+            color: var(--white);
+            transform: rotateY(180deg);
+        }
+        
+        .card-title {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+        
+        .card-back .card-title {
+            color: var(--white);
+        }
+        
+        .card-text {
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        
+        .card-back .card-text {
+            color: var(--white);
+        }
+        
+        .guiding-questions {
+            text-align: left;
+            margin: 0;
+            padding-left: 1rem;
+        }
+        
+        .guiding-questions li {
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        
+        .card-history {
+            background: var(--paper-white);
+            padding: 1.5rem;
+            border-radius: var(--card-border-radius);
+            margin-top: 2rem;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--neutral-border);
+        }
+        
+        .card-history h4 {
+            margin: 0 0 1rem 0;
+            color: var(--text-dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        
+        .history-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--neutral-border);
+            font-size: 0.9rem;
+        }
+        
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        
         /* Enhanced Category Tag Badge */
         .category-tag {
             display: inline-block;
@@ -660,31 +896,6 @@
         .help-tooltip:hover {
             transform: scale(1.1);
             background: var(--warren-light-blue);
-        }
-        
-        /* Timer Notification - Dashboard Aligned */
-        .timer-notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--paper-white);
-            color: var(--text-dark);
-            padding: 2rem;
-            border-radius: var(--card-border-radius);
-            font-size: 1.5rem;
-            font-weight: 600;
-            text-align: center;
-            box-shadow: 0 15px 40px rgba(30, 58, 95, 0.3);
-            z-index: 1000;
-            display: none;
-            animation: notification-pulse 2s ease-in-out;
-            border: 2px solid var(--accent-blue);
-        }
-        
-        @keyframes notification-pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.05); }
         }
         
         /* Responsive Design */
@@ -840,7 +1051,7 @@
         <button id="exit-btn" onclick="exitClassroom()">Exit Classroom</button>
     </div>
     
-    <main>
+    <main id="main-content">
         <!-- Enhanced Dice Scene -->
         <div class="dice-scene">
             <div class="dice" id="dice">
@@ -874,7 +1085,7 @@
         </div>
         
         <!-- Enhanced Control Panel -->
-        <div class="control-panel">
+        <div id="control-panel" class="control-panel">
             <button class="enhanced-btn" id="roll-btn" onclick="rollDice()">ROLL DICE</button>
             <button class="enhanced-btn timer-btn" id="timer-btn" onclick="startTimer()">START TIMER</button>
             <button class="enhanced-btn stop-btn" id="stop-btn" onclick="stopTimer()" style="display: none;">STOP TIMER</button>
@@ -882,6 +1093,17 @@
         
         <!-- Enhanced Timer Display -->
         <div id="timer-display"></div>
+        
+        <!-- Timer Section -->
+        <div id="timer-section" class="timer-section" style="display: none;">
+            <div id="timer-display" class="timer-display">00:00</div>
+        </div>
+        
+        <!-- Timer Notification -->
+        <div class="timer-notification" id="timer-notification">
+            <div>Time's Up!</div>
+            <div style="font-size: 1rem; margin-top: 10px;">Activity completed</div>
+        </div>
     </main>
     
     <script src="auth.js"></script>
